@@ -14,6 +14,7 @@ popd
 conan remove "{{module.name|identifier}}" -b -f
 mkdir -p modules/{{module.name|identifier}}_module;
 pushd modules/{{module.name|identifier}}_module;
+<<<<<<< HEAD
 conan source ../../../modules/{{module.name|identifier}}_module &&\
 conan install --build missing ../../../modules/{{module.name|identifier}}_module -g=virtualenv &&\
 conan build ../../../modules/{{module.name|identifier}}_module &&\
@@ -24,6 +25,10 @@ cmake --build . --target check &&\
 source deactivate.sh &&\
 conan install --build missing ../../../modules/{{module.name|identifier}}_module &&\
 conan create ../../../modules/{{module.name|identifier}}_module
+=======
+conan source ../../../modules/{{module.name|identifier}}_module && conan install --build missing ../../../modules/{{module.name|identifier}}_module -g=virtualenv && conan build ../../../modules/{{module.name|identifier}}_module && cmake ../../../modules/{{module.name|identifier}}_module && cmake --build . && source activate.sh && cmake --build . --target check && source deactivate.sh &&\
+conan install --build missing ../../../modules/{{module.name|identifier}}_module && conan create ../../../modules/{{module.name|identifier}}_module
+>>>>>>> ff9465e (BREAKING CHANGE: remove trailing module name from files, change file)
 if [ $? -ne 0 ]; then exit 1; fi;
 popd
 {% endfor %}
