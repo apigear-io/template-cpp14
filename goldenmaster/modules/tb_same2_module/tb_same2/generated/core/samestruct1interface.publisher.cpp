@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "tb_same2/generated/core/samestruct1interface.publisher.h"
-
 #include <algorithm>
 
 

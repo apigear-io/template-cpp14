@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
-
 #include "testbed2/generated/olink/remotemanyparaminterface.h"
 #include "testbed2/generated/core/manyparaminterface.publisher.h"
 #include "testbed2/generated/core/testbed2.json.adapter.h"

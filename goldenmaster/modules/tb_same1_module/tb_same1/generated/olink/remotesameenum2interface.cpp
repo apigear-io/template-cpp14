@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
-
 #include "tb_same1/generated/olink/remotesameenum2interface.h"
 #include "tb_same1/generated/core/sameenum2interface.publisher.h"
 #include "tb_same1/generated/core/tb_same1.json.adapter.h"

@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
-
 #include "testbed2/generated/olink/remotenestedstruct2interface.h"
 #include "testbed2/generated/core/nestedstruct2interface.publisher.h"
 #include "testbed2/generated/core/testbed2.json.adapter.h"

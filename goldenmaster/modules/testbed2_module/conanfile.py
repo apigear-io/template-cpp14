@@ -1,5 +1,6 @@
 from conans import ConanFile, CMake, tools
 from pathlib import os
+import logging
 
 class testbed2Conan(ConanFile):
     name = "testbed2"
