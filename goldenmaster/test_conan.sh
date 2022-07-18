@@ -13,7 +13,6 @@ popd
 conan remove "testbed2" -b -f
 mkdir -p modules/testbed2_module;
 pushd modules/testbed2_module;
-<<<<<<< HEAD
 conan source ../../../modules/testbed2_module &&\
 conan install --build missing ../../../modules/testbed2_module -g=virtualenv &&\
 conan build ../../../modules/testbed2_module &&\
@@ -24,16 +23,11 @@ cmake --build . --target check &&\
 source deactivate.sh &&\
 conan install --build missing ../../../modules/testbed2_module &&\
 conan create ../../../modules/testbed2_module
-=======
-conan source ../../../modules/testbed2_module && conan install --build missing ../../../modules/testbed2_module -g=virtualenv && conan build ../../../modules/testbed2_module && cmake ../../../modules/testbed2_module && cmake --build . && source activate.sh && cmake --build . --target check && source deactivate.sh &&\
-conan install --build missing ../../../modules/testbed2_module && conan create ../../../modules/testbed2_module
->>>>>>> ff9465e (BREAKING CHANGE: remove trailing module name from files, change file)
 if [ $? -ne 0 ]; then exit 1; fi;
 popd
 conan remove "tb_enum" -b -f
 mkdir -p modules/tb_enum_module;
 pushd modules/tb_enum_module;
-<<<<<<< HEAD
 conan source ../../../modules/tb_enum_module &&\
 conan install --build missing ../../../modules/tb_enum_module -g=virtualenv &&\
 conan build ../../../modules/tb_enum_module &&\
@@ -44,16 +38,11 @@ cmake --build . --target check &&\
 source deactivate.sh &&\
 conan install --build missing ../../../modules/tb_enum_module &&\
 conan create ../../../modules/tb_enum_module
-=======
-conan source ../../../modules/tb_enum_module && conan install --build missing ../../../modules/tb_enum_module -g=virtualenv && conan build ../../../modules/tb_enum_module && cmake ../../../modules/tb_enum_module && cmake --build . && source activate.sh && cmake --build . --target check && source deactivate.sh &&\
-conan install --build missing ../../../modules/tb_enum_module && conan create ../../../modules/tb_enum_module
->>>>>>> ff9465e (BREAKING CHANGE: remove trailing module name from files, change file)
 if [ $? -ne 0 ]; then exit 1; fi;
 popd
 conan remove "tb_same1" -b -f
 mkdir -p modules/tb_same1_module;
 pushd modules/tb_same1_module;
-<<<<<<< HEAD
 conan source ../../../modules/tb_same1_module &&\
 conan install --build missing ../../../modules/tb_same1_module -g=virtualenv &&\
 conan build ../../../modules/tb_same1_module &&\
@@ -64,16 +53,11 @@ cmake --build . --target check &&\
 source deactivate.sh &&\
 conan install --build missing ../../../modules/tb_same1_module &&\
 conan create ../../../modules/tb_same1_module
-=======
-conan source ../../../modules/tb_same1_module && conan install --build missing ../../../modules/tb_same1_module -g=virtualenv && conan build ../../../modules/tb_same1_module && cmake ../../../modules/tb_same1_module && cmake --build . && source activate.sh && cmake --build . --target check && source deactivate.sh &&\
-conan install --build missing ../../../modules/tb_same1_module && conan create ../../../modules/tb_same1_module
->>>>>>> ff9465e (BREAKING CHANGE: remove trailing module name from files, change file)
 if [ $? -ne 0 ]; then exit 1; fi;
 popd
 conan remove "tb_same2" -b -f
 mkdir -p modules/tb_same2_module;
 pushd modules/tb_same2_module;
-<<<<<<< HEAD
 conan source ../../../modules/tb_same2_module &&\
 conan install --build missing ../../../modules/tb_same2_module -g=virtualenv &&\
 conan build ../../../modules/tb_same2_module &&\
@@ -84,16 +68,11 @@ cmake --build . --target check &&\
 source deactivate.sh &&\
 conan install --build missing ../../../modules/tb_same2_module &&\
 conan create ../../../modules/tb_same2_module
-=======
-conan source ../../../modules/tb_same2_module && conan install --build missing ../../../modules/tb_same2_module -g=virtualenv && conan build ../../../modules/tb_same2_module && cmake ../../../modules/tb_same2_module && cmake --build . && source activate.sh && cmake --build . --target check && source deactivate.sh &&\
-conan install --build missing ../../../modules/tb_same2_module && conan create ../../../modules/tb_same2_module
->>>>>>> ff9465e (BREAKING CHANGE: remove trailing module name from files, change file)
 if [ $? -ne 0 ]; then exit 1; fi;
 popd
 conan remove "tb_simple" -b -f
 mkdir -p modules/tb_simple_module;
 pushd modules/tb_simple_module;
-<<<<<<< HEAD
 conan source ../../../modules/tb_simple_module &&\
 conan install --build missing ../../../modules/tb_simple_module -g=virtualenv &&\
 conan build ../../../modules/tb_simple_module &&\
@@ -104,16 +83,11 @@ cmake --build . --target check &&\
 source deactivate.sh &&\
 conan install --build missing ../../../modules/tb_simple_module &&\
 conan create ../../../modules/tb_simple_module
-=======
-conan source ../../../modules/tb_simple_module && conan install --build missing ../../../modules/tb_simple_module -g=virtualenv && conan build ../../../modules/tb_simple_module && cmake ../../../modules/tb_simple_module && cmake --build . && source activate.sh && cmake --build . --target check && source deactivate.sh &&\
-conan install --build missing ../../../modules/tb_simple_module && conan create ../../../modules/tb_simple_module
->>>>>>> ff9465e (BREAKING CHANGE: remove trailing module name from files, change file)
 if [ $? -ne 0 ]; then exit 1; fi;
 popd
 conan remove "testbed1" -b -f
 mkdir -p modules/testbed1_module;
 pushd modules/testbed1_module;
-<<<<<<< HEAD
 conan source ../../../modules/testbed1_module &&\
 conan install --build missing ../../../modules/testbed1_module -g=virtualenv &&\
 conan build ../../../modules/testbed1_module &&\
@@ -124,10 +98,6 @@ cmake --build . --target check &&\
 source deactivate.sh &&\
 conan install --build missing ../../../modules/testbed1_module &&\
 conan create ../../../modules/testbed1_module
-=======
-conan source ../../../modules/testbed1_module && conan install --build missing ../../../modules/testbed1_module -g=virtualenv && conan build ../../../modules/testbed1_module && cmake ../../../modules/testbed1_module && cmake --build . && source activate.sh && cmake --build . --target check && source deactivate.sh &&\
-conan install --build missing ../../../modules/testbed1_module && conan create ../../../modules/testbed1_module
->>>>>>> ff9465e (BREAKING CHANGE: remove trailing module name from files, change file)
 if [ $? -ne 0 ]; then exit 1; fi;
 popd
 # examples app
