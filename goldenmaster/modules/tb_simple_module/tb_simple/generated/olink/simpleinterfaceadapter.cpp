@@ -30,14 +30,14 @@ OLinkSimpleInterfaceAdapter::OLinkSimpleInterfaceAdapter(ISimpleInterface* impl,
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToSimpleInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToSimpleInterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkSimpleInterfaceAdapter::~OLinkSimpleInterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromSimpleInterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
 }
 
 nlohmann::json OLinkSimpleInterfaceAdapter::captureState()

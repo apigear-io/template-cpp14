@@ -40,8 +40,8 @@ public:
     EnumInterfacePublisher(EnumInterfacePublisher&& a) = delete;
     EnumInterfacePublisher& operator=(EnumInterfacePublisher&& a) = delete;
 
-    void subscribeToEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber) override;
+    void subscribeToEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) override;
 
     long subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback) override;
     void unsubscribeFromProp0Changed(long handleId) override;

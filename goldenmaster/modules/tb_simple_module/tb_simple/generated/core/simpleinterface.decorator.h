@@ -24,12 +24,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbSimple {
 
-class TEST_TB_SIMPLE_EXPORT AbstractSimpleInterfaceDecorator : public ISimpleInterfaceDecorator
-{
+class TEST_TB_SIMPLE_EXPORT AbstractSimpleInterfaceDecorator : public ISimpleInterface, public ISimpleInterfaceSubscriber {
 public:
     explicit AbstractSimpleInterfaceDecorator(ISimpleInterface* impl);
-    ISimpleInterface* swapUnderlyingImplementation(ISimpleInterface* impl) override;
-    ISimpleInterface* disconnectFromUnderlyingImplementation() override;
+    ISimpleInterface* swapUnderlyingImplementation(ISimpleInterface* impl);
+    ISimpleInterface* disconnectFromUnderlyingImplementation();
     virtual ~AbstractSimpleInterfaceDecorator();
 public:
     // property propBool
@@ -58,7 +57,7 @@ public:
     std::string funcString(const std::string& paramString) override;
     std::future<std::string> funcStringAsync(const std::string& paramString) override;
 
-    ISimpleInterfacePublisher* _getPublisher() const override;
+    ISimpleInterfacePublisher& _getPublisher() const override;
 private:
     ISimpleInterface* m_impl {nullptr};
 };

@@ -193,7 +193,7 @@ bool OLinkSameEnum2Interface::isReady() const
     return m_isReady;
 }
 
-ISameEnum2InterfacePublisher* OLinkSameEnum2Interface::_getPublisher() const
+ISameEnum2InterfacePublisher& OLinkSameEnum2Interface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

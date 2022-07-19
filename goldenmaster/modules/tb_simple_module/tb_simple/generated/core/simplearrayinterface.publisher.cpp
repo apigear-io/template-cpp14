@@ -25,8 +25,8 @@ namespace TbSimple {
 class SimpleArrayInterfacePublisherPimpl : public ISimpleArrayInterfacePublisher
 {
 public:
-    void subscribeToSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    void subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;
@@ -80,12 +80,12 @@ using namespace Test::TbSimple;
 /**
  * Implementation SimpleArrayInterfacePublisherPimpl
  */
-void SimpleArrayInterfacePublisherPimpl::subscribeToSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisherPimpl::subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
     ISimpleArrayInterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void SimpleArrayInterfacePublisherPimpl::unsubscribeFromSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisherPimpl::unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
     ISimpleArrayInterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -323,14 +323,14 @@ SimpleArrayInterfacePublisher::SimpleArrayInterfacePublisher()
 }
 SimpleArrayInterfacePublisher::~SimpleArrayInterfacePublisher() = default;
 
-void SimpleArrayInterfacePublisher::subscribeToSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisher::subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSimpleArrayInterfaceInterface(subscriber);
+    m_impl->subscribeToSimpleArrayInterfaceChanges(subscriber);
 }
 
-void SimpleArrayInterfacePublisher::unsubscribeFromSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisher::unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSimpleArrayInterfaceInterface(subscriber);
+    m_impl->unsubscribeFromSimpleArrayInterfaceChanges(subscriber);
 }
 
 long SimpleArrayInterfacePublisher::subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback)

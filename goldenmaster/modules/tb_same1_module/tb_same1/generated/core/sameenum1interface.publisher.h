@@ -40,8 +40,8 @@ public:
     SameEnum1InterfacePublisher(SameEnum1InterfacePublisher&& a) = delete;
     SameEnum1InterfacePublisher& operator=(SameEnum1InterfacePublisher&& a) = delete;
 
-    void subscribeToSameEnum1InterfaceInterface(ISameEnum1InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameEnum1InterfaceInterface(ISameEnum1InterfaceSubscriber& subscriber) override;
+    void subscribeToSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(SameEnum1InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

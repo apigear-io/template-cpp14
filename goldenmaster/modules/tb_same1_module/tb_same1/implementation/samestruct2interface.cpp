@@ -111,7 +111,7 @@ std::future<Struct1> SameStruct2Interface::func2Async(const Struct1& param1, con
     );
 }
 
-ISameStruct2InterfacePublisher* SameStruct2Interface::_getPublisher() const
+ISameStruct2InterfacePublisher& SameStruct2Interface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

@@ -56,7 +56,7 @@ public:
     std::string funcString(const std::string& paramString) override;
     std::future<std::string> funcStringAsync(const std::string& paramString) override;
 
-    ISimpleInterfacePublisher* _getPublisher() const override;
+    ISimpleInterfacePublisher& _getPublisher() const override;
 private:
     struct SimpleInterfaceData;
     std::unique_ptr<SimpleInterfaceData> d_ptr;

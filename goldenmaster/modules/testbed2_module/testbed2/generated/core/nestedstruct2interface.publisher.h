@@ -40,8 +40,8 @@ public:
     NestedStruct2InterfacePublisher(NestedStruct2InterfacePublisher&& a) = delete;
     NestedStruct2InterfacePublisher& operator=(NestedStruct2InterfacePublisher&& a) = delete;
 
-    void subscribeToNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber) override;
+    void subscribeToNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(NestedStruct2InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

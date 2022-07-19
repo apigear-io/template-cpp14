@@ -135,7 +135,7 @@ bool OLinkSameStruct1Interface::isReady() const
     return m_isReady;
 }
 
-ISameStruct1InterfacePublisher* OLinkSameStruct1Interface::_getPublisher() const
+ISameStruct1InterfacePublisher& OLinkSameStruct1Interface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

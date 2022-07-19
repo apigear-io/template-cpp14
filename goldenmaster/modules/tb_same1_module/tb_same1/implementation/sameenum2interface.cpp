@@ -111,7 +111,7 @@ std::future<Enum1Enum> SameEnum2Interface::func2Async(const Enum1Enum& param1, c
     );
 }
 
-ISameEnum2InterfacePublisher* SameEnum2Interface::_getPublisher() const
+ISameEnum2InterfacePublisher& SameEnum2Interface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

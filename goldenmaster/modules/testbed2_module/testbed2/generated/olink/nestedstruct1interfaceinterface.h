@@ -40,7 +40,7 @@ public:
     NestedStruct1 func1(const NestedStruct1& param1) override;
     std::future<NestedStruct1> func1Async(const NestedStruct1& param1) override;
     bool isReady() const;
-    INestedStruct1InterfacePublisher* _getPublisher() const override;
+    INestedStruct1InterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

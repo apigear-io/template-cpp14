@@ -26,17 +26,17 @@ using namespace Test::Testbed1;
 AbstractStructInterfaceDecorator::AbstractStructInterfaceDecorator(IStructInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToStructInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToStructInterfaceChanges(*this);
 }
 IStructInterface* AbstractStructInterfaceDecorator::swapUnderlyingImplementation(IStructInterface* impl)
 {
     IStructInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromStructInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromStructInterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToStructInterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToStructInterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ IStructInterface* AbstractStructInterfaceDecorator::disconnectFromUnderlyingImpl
 {
     IStructInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromStructInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromStructInterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractStructInterfaceDecorator::~AbstractStructInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromStructInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromStructInterfaceChanges(*this);
     }
 }
 void AbstractStructInterfaceDecorator::setPropbool(const StructBool& propBool)
@@ -137,7 +137,7 @@ std::future<StructString> AbstractStructInterfaceDecorator::funcStringAsync(cons
     return m_impl->funcStringAsync(paramString);
 }
 
-IStructInterfacePublisher* AbstractStructInterfaceDecorator::_getPublisher() const
+IStructInterfacePublisher& AbstractStructInterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

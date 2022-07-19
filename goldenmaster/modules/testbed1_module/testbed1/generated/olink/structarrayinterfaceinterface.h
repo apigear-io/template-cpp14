@@ -55,7 +55,7 @@ public:
     StructBool funcString(const std::list<StructString>& paramString) override;
     std::future<StructBool> funcStringAsync(const std::list<StructString>& paramString) override;
     bool isReady() const;
-    IStructArrayInterfacePublisher* _getPublisher() const override;
+    IStructArrayInterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

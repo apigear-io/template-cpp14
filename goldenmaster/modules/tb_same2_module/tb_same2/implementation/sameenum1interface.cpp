@@ -76,7 +76,7 @@ std::future<Enum1Enum> SameEnum1Interface::func1Async(const Enum1Enum& param1)
     );
 }
 
-ISameEnum1InterfacePublisher* SameEnum1Interface::_getPublisher() const
+ISameEnum1InterfacePublisher& SameEnum1Interface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

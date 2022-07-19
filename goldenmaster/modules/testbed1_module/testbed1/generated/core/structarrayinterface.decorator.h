@@ -24,12 +24,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace Testbed1 {
 
-class TEST_TESTBED1_EXPORT AbstractStructArrayInterfaceDecorator : public IStructArrayInterfaceDecorator
-{
+class TEST_TESTBED1_EXPORT AbstractStructArrayInterfaceDecorator : public IStructArrayInterface, public IStructArrayInterfaceSubscriber {
 public:
     explicit AbstractStructArrayInterfaceDecorator(IStructArrayInterface* impl);
-    IStructArrayInterface* swapUnderlyingImplementation(IStructArrayInterface* impl) override;
-    IStructArrayInterface* disconnectFromUnderlyingImplementation() override;
+    IStructArrayInterface* swapUnderlyingImplementation(IStructArrayInterface* impl);
+    IStructArrayInterface* disconnectFromUnderlyingImplementation();
     virtual ~AbstractStructArrayInterfaceDecorator();
 public:
     // property propBool
@@ -58,7 +57,7 @@ public:
     StructBool funcString(const std::list<StructString>& paramString) override;
     std::future<StructBool> funcStringAsync(const std::list<StructString>& paramString) override;
 
-    IStructArrayInterfacePublisher* _getPublisher() const override;
+    IStructArrayInterfacePublisher& _getPublisher() const override;
 private:
     IStructArrayInterface* m_impl {nullptr};
 };

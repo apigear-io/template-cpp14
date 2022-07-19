@@ -26,17 +26,17 @@ using namespace Test::TbSame2;
 AbstractSameStruct2InterfaceDecorator::AbstractSameStruct2InterfaceDecorator(ISameStruct2Interface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToSameStruct2InterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToSameStruct2InterfaceChanges(*this);
 }
 ISameStruct2Interface* AbstractSameStruct2InterfaceDecorator::swapUnderlyingImplementation(ISameStruct2Interface* impl)
 {
     ISameStruct2Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSameStruct2InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSameStruct2InterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToSameStruct2InterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToSameStruct2InterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ ISameStruct2Interface* AbstractSameStruct2InterfaceDecorator::disconnectFromUnde
 {
     ISameStruct2Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSameStruct2InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSameStruct2InterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractSameStruct2InterfaceDecorator::~AbstractSameStruct2InterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromSameStruct2InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSameStruct2InterfaceChanges(*this);
     }
 }
 void AbstractSameStruct2InterfaceDecorator::setProp1(const Struct2& prop1)
@@ -97,7 +97,7 @@ std::future<Struct1> AbstractSameStruct2InterfaceDecorator::func2Async(const Str
     return m_impl->func2Async(param1,param2);
 }
 
-ISameStruct2InterfacePublisher* AbstractSameStruct2InterfaceDecorator::_getPublisher() const
+ISameStruct2InterfacePublisher& AbstractSameStruct2InterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

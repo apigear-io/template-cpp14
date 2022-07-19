@@ -30,14 +30,14 @@ OLinkSameEnum2InterfaceAdapter::OLinkSameEnum2InterfaceAdapter(ISameEnum2Interfa
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToSameEnum2InterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToSameEnum2InterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkSameEnum2InterfaceAdapter::~OLinkSameEnum2InterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromSameEnum2InterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromSameEnum2InterfaceChanges(*this);
 }
 
 nlohmann::json OLinkSameEnum2InterfaceAdapter::captureState()

@@ -306,7 +306,7 @@ bool OLinkStructArrayInterface::isReady() const
     return m_isReady;
 }
 
-IStructArrayInterfacePublisher* OLinkStructArrayInterface::_getPublisher() const
+IStructArrayInterfacePublisher& OLinkStructArrayInterface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

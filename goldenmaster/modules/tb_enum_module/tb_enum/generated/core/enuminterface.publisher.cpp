@@ -25,8 +25,8 @@ namespace TbEnum {
 class EnumInterfacePublisherPimpl : public IEnumInterfacePublisher
 {
 public:
-    void subscribeToEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber) override;
+    void subscribeToEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) override;
 
     long subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback) override;
     void unsubscribeFromProp0Changed(long handleId) override;
@@ -80,12 +80,12 @@ using namespace Test::TbEnum;
 /**
  * Implementation EnumInterfacePublisherPimpl
  */
-void EnumInterfacePublisherPimpl::subscribeToEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber)
+void EnumInterfacePublisherPimpl::subscribeToEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber)
 {
     IEnumInterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void EnumInterfacePublisherPimpl::unsubscribeFromEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber)
+void EnumInterfacePublisherPimpl::unsubscribeFromEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber)
 {
     IEnumInterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -323,14 +323,14 @@ EnumInterfacePublisher::EnumInterfacePublisher()
 }
 EnumInterfacePublisher::~EnumInterfacePublisher() = default;
 
-void EnumInterfacePublisher::subscribeToEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber)
+void EnumInterfacePublisher::subscribeToEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToEnumInterfaceInterface(subscriber);
+    m_impl->subscribeToEnumInterfaceChanges(subscriber);
 }
 
-void EnumInterfacePublisher::unsubscribeFromEnumInterfaceInterface(IEnumInterfaceSubscriber& subscriber)
+void EnumInterfacePublisher::unsubscribeFromEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromEnumInterfaceInterface(subscriber);
+    m_impl->unsubscribeFromEnumInterfaceChanges(subscriber);
 }
 
 long EnumInterfacePublisher::subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback)

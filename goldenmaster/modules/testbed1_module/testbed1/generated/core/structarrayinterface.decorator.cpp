@@ -26,17 +26,17 @@ using namespace Test::Testbed1;
 AbstractStructArrayInterfaceDecorator::AbstractStructArrayInterfaceDecorator(IStructArrayInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToStructArrayInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToStructArrayInterfaceChanges(*this);
 }
 IStructArrayInterface* AbstractStructArrayInterfaceDecorator::swapUnderlyingImplementation(IStructArrayInterface* impl)
 {
     IStructArrayInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromStructArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromStructArrayInterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToStructArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToStructArrayInterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ IStructArrayInterface* AbstractStructArrayInterfaceDecorator::disconnectFromUnde
 {
     IStructArrayInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromStructArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromStructArrayInterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractStructArrayInterfaceDecorator::~AbstractStructArrayInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromStructArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromStructArrayInterfaceChanges(*this);
     }
 }
 void AbstractStructArrayInterfaceDecorator::setPropbool(const std::list<StructBool>& propBool)
@@ -137,7 +137,7 @@ std::future<StructBool> AbstractStructArrayInterfaceDecorator::funcStringAsync(c
     return m_impl->funcStringAsync(paramString);
 }
 
-IStructArrayInterfacePublisher* AbstractStructArrayInterfaceDecorator::_getPublisher() const
+IStructArrayInterfacePublisher& AbstractStructArrayInterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

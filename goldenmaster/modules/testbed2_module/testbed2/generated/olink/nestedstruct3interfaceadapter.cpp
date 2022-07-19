@@ -30,14 +30,14 @@ OLinkNestedStruct3InterfaceAdapter::OLinkNestedStruct3InterfaceAdapter(INestedSt
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToNestedStruct3InterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToNestedStruct3InterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkNestedStruct3InterfaceAdapter::~OLinkNestedStruct3InterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromNestedStruct3InterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromNestedStruct3InterfaceChanges(*this);
 }
 
 nlohmann::json OLinkNestedStruct3InterfaceAdapter::captureState()

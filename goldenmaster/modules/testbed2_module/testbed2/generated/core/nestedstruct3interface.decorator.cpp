@@ -26,17 +26,17 @@ using namespace Test::Testbed2;
 AbstractNestedStruct3InterfaceDecorator::AbstractNestedStruct3InterfaceDecorator(INestedStruct3Interface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToNestedStruct3InterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToNestedStruct3InterfaceChanges(*this);
 }
 INestedStruct3Interface* AbstractNestedStruct3InterfaceDecorator::swapUnderlyingImplementation(INestedStruct3Interface* impl)
 {
     INestedStruct3Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromNestedStruct3InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromNestedStruct3InterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToNestedStruct3InterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToNestedStruct3InterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ INestedStruct3Interface* AbstractNestedStruct3InterfaceDecorator::disconnectFrom
 {
     INestedStruct3Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromNestedStruct3InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromNestedStruct3InterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractNestedStruct3InterfaceDecorator::~AbstractNestedStruct3InterfaceDecorato
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromNestedStruct3InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromNestedStruct3InterfaceChanges(*this);
     }
 }
 void AbstractNestedStruct3InterfaceDecorator::setProp1(const NestedStruct1& prop1)
@@ -117,7 +117,7 @@ std::future<NestedStruct1> AbstractNestedStruct3InterfaceDecorator::func3Async(c
     return m_impl->func3Async(param1,param2,param3);
 }
 
-INestedStruct3InterfacePublisher* AbstractNestedStruct3InterfaceDecorator::_getPublisher() const
+INestedStruct3InterfacePublisher& AbstractNestedStruct3InterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

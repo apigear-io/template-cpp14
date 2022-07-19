@@ -187,7 +187,7 @@ std::future<int> ManyParamInterface::func4Async(int param1, int param2, int para
     );
 }
 
-IManyParamInterfacePublisher* ManyParamInterface::_getPublisher() const
+IManyParamInterfacePublisher& ManyParamInterface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

@@ -30,14 +30,14 @@ OLinkStructInterfaceAdapter::OLinkStructInterfaceAdapter(IStructInterface* impl,
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToStructInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToStructInterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkStructInterfaceAdapter::~OLinkStructInterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromStructInterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromStructInterfaceChanges(*this);
 }
 
 nlohmann::json OLinkStructInterfaceAdapter::captureState()

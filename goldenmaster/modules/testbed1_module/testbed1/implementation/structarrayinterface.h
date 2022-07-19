@@ -56,7 +56,7 @@ public:
     StructBool funcString(const std::list<StructString>& paramString) override;
     std::future<StructBool> funcStringAsync(const std::list<StructString>& paramString) override;
 
-    IStructArrayInterfacePublisher* _getPublisher() const override;
+    IStructArrayInterfacePublisher& _getPublisher() const override;
 private:
     struct StructArrayInterfaceData;
     std::unique_ptr<StructArrayInterfaceData> d_ptr;

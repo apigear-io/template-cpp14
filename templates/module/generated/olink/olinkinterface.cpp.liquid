@@ -170,7 +170,7 @@ bool {{class}}::isReady() const
     return m_isReady;
 }
 
-{{pub_interface}}* {{class}}::_getPublisher() const
+{{pub_interface}}& {{class}}::_getPublisher() const
 {
-    return m_publisher;
+    return *m_publisher;
 }

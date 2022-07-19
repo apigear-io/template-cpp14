@@ -45,7 +45,7 @@ public:
     Enum1Enum func2(const Enum1Enum& param1, const Enum2Enum& param2) override;
     std::future<Enum1Enum> func2Async(const Enum1Enum& param1, const Enum2Enum& param2) override;
     bool isReady() const;
-    ISameEnum2InterfacePublisher* _getPublisher() const override;
+    ISameEnum2InterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

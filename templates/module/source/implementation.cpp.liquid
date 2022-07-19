@@ -92,7 +92,7 @@ std::future<{{returnType}}> {{class}}::{{operation.name}}Async({{operation|cpp14
 }
 {% endfor %}
 
-{{pub_interface}}* {{class}}::_getPublisher() const
+{{pub_interface}}& {{class}}::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

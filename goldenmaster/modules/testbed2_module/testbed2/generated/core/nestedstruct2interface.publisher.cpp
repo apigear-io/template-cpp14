@@ -25,8 +25,8 @@ namespace Testbed2 {
 class NestedStruct2InterfacePublisherPimpl : public INestedStruct2InterfacePublisher
 {
 public:
-    void subscribeToNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber) override;
+    void subscribeToNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(NestedStruct2InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;
@@ -60,12 +60,12 @@ using namespace Test::Testbed2;
 /**
  * Implementation NestedStruct2InterfacePublisherPimpl
  */
-void NestedStruct2InterfacePublisherPimpl::subscribeToNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber)
+void NestedStruct2InterfacePublisherPimpl::subscribeToNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber)
 {
     INestedStruct2InterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void NestedStruct2InterfacePublisherPimpl::unsubscribeFromNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber)
+void NestedStruct2InterfacePublisherPimpl::unsubscribeFromNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber)
 {
     INestedStruct2InterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -191,14 +191,14 @@ NestedStruct2InterfacePublisher::NestedStruct2InterfacePublisher()
 }
 NestedStruct2InterfacePublisher::~NestedStruct2InterfacePublisher() = default;
 
-void NestedStruct2InterfacePublisher::subscribeToNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber)
+void NestedStruct2InterfacePublisher::subscribeToNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToNestedStruct2InterfaceInterface(subscriber);
+    m_impl->subscribeToNestedStruct2InterfaceChanges(subscriber);
 }
 
-void NestedStruct2InterfacePublisher::unsubscribeFromNestedStruct2InterfaceInterface(INestedStruct2InterfaceSubscriber& subscriber)
+void NestedStruct2InterfacePublisher::unsubscribeFromNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromNestedStruct2InterfaceInterface(subscriber);
+    m_impl->unsubscribeFromNestedStruct2InterfaceChanges(subscriber);
 }
 
 long NestedStruct2InterfacePublisher::subscribeToProp1Changed(NestedStruct2InterfaceProp1PropertyCb callback)

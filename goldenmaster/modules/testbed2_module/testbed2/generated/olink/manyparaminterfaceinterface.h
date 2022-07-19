@@ -55,7 +55,7 @@ public:
     int func4(int param1, int param2, int param3, int param4) override;
     std::future<int> func4Async(int param1, int param2, int param3, int param4) override;
     bool isReady() const;
-    IManyParamInterfacePublisher* _getPublisher() const override;
+    IManyParamInterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

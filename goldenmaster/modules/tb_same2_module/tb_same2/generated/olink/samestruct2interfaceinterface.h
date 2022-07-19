@@ -45,7 +45,7 @@ public:
     Struct1 func2(const Struct1& param1, const Struct2& param2) override;
     std::future<Struct1> func2Async(const Struct1& param1, const Struct2& param2) override;
     bool isReady() const;
-    ISameStruct2InterfacePublisher* _getPublisher() const override;
+    ISameStruct2InterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

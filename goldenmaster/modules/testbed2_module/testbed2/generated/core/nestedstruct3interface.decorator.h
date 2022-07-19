@@ -24,12 +24,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace Testbed2 {
 
-class TEST_TESTBED2_EXPORT AbstractNestedStruct3InterfaceDecorator : public INestedStruct3InterfaceDecorator
-{
+class TEST_TESTBED2_EXPORT AbstractNestedStruct3InterfaceDecorator : public INestedStruct3Interface, public INestedStruct3InterfaceSubscriber {
 public:
     explicit AbstractNestedStruct3InterfaceDecorator(INestedStruct3Interface* impl);
-    INestedStruct3Interface* swapUnderlyingImplementation(INestedStruct3Interface* impl) override;
-    INestedStruct3Interface* disconnectFromUnderlyingImplementation() override;
+    INestedStruct3Interface* swapUnderlyingImplementation(INestedStruct3Interface* impl);
+    INestedStruct3Interface* disconnectFromUnderlyingImplementation();
     virtual ~AbstractNestedStruct3InterfaceDecorator();
 public:
     // property prop1
@@ -52,7 +51,7 @@ public:
     NestedStruct1 func3(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3) override;
     std::future<NestedStruct1> func3Async(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3) override;
 
-    INestedStruct3InterfacePublisher* _getPublisher() const override;
+    INestedStruct3InterfacePublisher& _getPublisher() const override;
 private:
     INestedStruct3Interface* m_impl {nullptr};
 };

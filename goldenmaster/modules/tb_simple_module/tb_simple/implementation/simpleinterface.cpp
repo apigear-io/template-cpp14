@@ -175,7 +175,7 @@ std::future<std::string> SimpleInterface::funcStringAsync(const std::string& par
     );
 }
 
-ISimpleInterfacePublisher* SimpleInterface::_getPublisher() const
+ISimpleInterfacePublisher& SimpleInterface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

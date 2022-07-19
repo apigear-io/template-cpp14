@@ -135,7 +135,7 @@ bool OLinkSameEnum1Interface::isReady() const
     return m_isReady;
 }
 
-ISameEnum1InterfacePublisher* OLinkSameEnum1Interface::_getPublisher() const
+ISameEnum1InterfacePublisher& OLinkSameEnum1Interface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

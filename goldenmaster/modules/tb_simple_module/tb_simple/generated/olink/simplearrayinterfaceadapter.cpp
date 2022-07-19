@@ -30,14 +30,14 @@ OLinkSimpleArrayInterfaceAdapter::OLinkSimpleArrayInterfaceAdapter(ISimpleArrayI
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToSimpleArrayInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToSimpleArrayInterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkSimpleArrayInterfaceAdapter::~OLinkSimpleArrayInterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromSimpleArrayInterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
 }
 
 nlohmann::json OLinkSimpleArrayInterfaceAdapter::captureState()

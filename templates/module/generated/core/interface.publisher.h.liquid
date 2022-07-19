@@ -31,8 +31,8 @@ public:
     {{pub_class}}({{pub_class}}&& a) = delete;
     {{pub_class}}& operator=({{pub_class}}&& a) = delete;
 
-    void subscribeTo{{interface.name | capital}}Interface({{sub_class}}& subscriber) override;
-    void unsubscribeFrom{{interface.name | capital}}Interface({{sub_class}}& subscriber) override;
+    void subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
+    void unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
 {{nl}}
 {% for property in interface.properties %}
     long subscribeTo{{property.name|capital}}Changed({{interface.name | capital}}{{property.name | capital}}PropertyCb callback) override;

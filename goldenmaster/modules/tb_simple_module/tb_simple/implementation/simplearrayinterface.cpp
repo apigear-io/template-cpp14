@@ -175,7 +175,7 @@ std::future<std::list<std::string>> SimpleArrayInterface::funcStringAsync(const 
     );
 }
 
-ISimpleArrayInterfacePublisher* SimpleArrayInterface::_getPublisher() const
+ISimpleArrayInterfacePublisher& SimpleArrayInterface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

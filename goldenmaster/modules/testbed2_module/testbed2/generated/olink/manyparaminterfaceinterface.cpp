@@ -312,7 +312,7 @@ bool OLinkManyParamInterface::isReady() const
     return m_isReady;
 }
 
-IManyParamInterfacePublisher* OLinkManyParamInterface::_getPublisher() const
+IManyParamInterfacePublisher& OLinkManyParamInterface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

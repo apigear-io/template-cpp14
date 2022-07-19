@@ -55,7 +55,7 @@ public:
     Enum3Enum func3(const Enum3Enum& param3) override;
     std::future<Enum3Enum> func3Async(const Enum3Enum& param3) override;
     bool isReady() const;
-    IEnumInterfacePublisher* _getPublisher() const override;
+    IEnumInterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

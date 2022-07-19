@@ -193,7 +193,7 @@ bool OLinkSameStruct2Interface::isReady() const
     return m_isReady;
 }
 
-ISameStruct2InterfacePublisher* OLinkSameStruct2Interface::_getPublisher() const
+ISameStruct2InterfacePublisher& OLinkSameStruct2Interface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

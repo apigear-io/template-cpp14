@@ -25,8 +25,8 @@ namespace TbSame1 {
 class SameStruct1InterfacePublisherPimpl : public ISameStruct1InterfacePublisher
 {
 public:
-    void subscribeToSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber) override;
+    void subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;
@@ -50,12 +50,12 @@ using namespace Test::TbSame1;
 /**
  * Implementation SameStruct1InterfacePublisherPimpl
  */
-void SameStruct1InterfacePublisherPimpl::subscribeToSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber)
+void SameStruct1InterfacePublisherPimpl::subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
     ISameStruct1InterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void SameStruct1InterfacePublisherPimpl::unsubscribeFromSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber)
+void SameStruct1InterfacePublisherPimpl::unsubscribeFromSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
     ISameStruct1InterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -125,14 +125,14 @@ SameStruct1InterfacePublisher::SameStruct1InterfacePublisher()
 }
 SameStruct1InterfacePublisher::~SameStruct1InterfacePublisher() = default;
 
-void SameStruct1InterfacePublisher::subscribeToSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber)
+void SameStruct1InterfacePublisher::subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSameStruct1InterfaceInterface(subscriber);
+    m_impl->subscribeToSameStruct1InterfaceChanges(subscriber);
 }
 
-void SameStruct1InterfacePublisher::unsubscribeFromSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber)
+void SameStruct1InterfacePublisher::unsubscribeFromSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSameStruct1InterfaceInterface(subscriber);
+    m_impl->unsubscribeFromSameStruct1InterfaceChanges(subscriber);
 }
 
 long SameStruct1InterfacePublisher::subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback)

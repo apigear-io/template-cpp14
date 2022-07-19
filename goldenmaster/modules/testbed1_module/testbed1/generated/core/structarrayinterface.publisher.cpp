@@ -25,8 +25,8 @@ namespace Testbed1 {
 class StructArrayInterfacePublisherPimpl : public IStructArrayInterfacePublisher
 {
 public:
-    void subscribeToStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber) override;
+    void subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;
@@ -80,12 +80,12 @@ using namespace Test::Testbed1;
 /**
  * Implementation StructArrayInterfacePublisherPimpl
  */
-void StructArrayInterfacePublisherPimpl::subscribeToStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisherPimpl::subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
     IStructArrayInterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void StructArrayInterfacePublisherPimpl::unsubscribeFromStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisherPimpl::unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
     IStructArrayInterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -323,14 +323,14 @@ StructArrayInterfacePublisher::StructArrayInterfacePublisher()
 }
 StructArrayInterfacePublisher::~StructArrayInterfacePublisher() = default;
 
-void StructArrayInterfacePublisher::subscribeToStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisher::subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToStructArrayInterfaceInterface(subscriber);
+    m_impl->subscribeToStructArrayInterfaceChanges(subscriber);
 }
 
-void StructArrayInterfacePublisher::unsubscribeFromStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisher::unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromStructArrayInterfaceInterface(subscriber);
+    m_impl->unsubscribeFromStructArrayInterfaceChanges(subscriber);
 }
 
 long StructArrayInterfacePublisher::subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback)

@@ -175,7 +175,7 @@ std::future<Enum3Enum> EnumInterface::func3Async(const Enum3Enum& param3)
     );
 }
 
-IEnumInterfacePublisher* EnumInterface::_getPublisher() const
+IEnumInterfacePublisher& EnumInterface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

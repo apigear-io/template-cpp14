@@ -40,8 +40,8 @@ public:
     SimpleInterfacePublisher(SimpleInterfacePublisher&& a) = delete;
     SimpleInterfacePublisher& operator=(SimpleInterfacePublisher&& a) = delete;
 
-    void subscribeToSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber) override;
+    void subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;

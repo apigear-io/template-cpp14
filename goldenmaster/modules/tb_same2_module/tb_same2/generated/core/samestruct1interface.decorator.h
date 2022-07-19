@@ -24,12 +24,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbSame2 {
 
-class TEST_TB_SAME2_EXPORT AbstractSameStruct1InterfaceDecorator : public ISameStruct1InterfaceDecorator
-{
+class TEST_TB_SAME2_EXPORT AbstractSameStruct1InterfaceDecorator : public ISameStruct1Interface, public ISameStruct1InterfaceSubscriber {
 public:
     explicit AbstractSameStruct1InterfaceDecorator(ISameStruct1Interface* impl);
-    ISameStruct1Interface* swapUnderlyingImplementation(ISameStruct1Interface* impl) override;
-    ISameStruct1Interface* disconnectFromUnderlyingImplementation() override;
+    ISameStruct1Interface* swapUnderlyingImplementation(ISameStruct1Interface* impl);
+    ISameStruct1Interface* disconnectFromUnderlyingImplementation();
     virtual ~AbstractSameStruct1InterfaceDecorator();
 public:
     // property prop1
@@ -40,7 +39,7 @@ public:
     Struct1 func1(const Struct1& param1) override;
     std::future<Struct1> func1Async(const Struct1& param1) override;
 
-    ISameStruct1InterfacePublisher* _getPublisher() const override;
+    ISameStruct1InterfacePublisher& _getPublisher() const override;
 private:
     ISameStruct1Interface* m_impl {nullptr};
 };

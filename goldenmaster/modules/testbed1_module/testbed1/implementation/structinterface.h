@@ -56,7 +56,7 @@ public:
     StructString funcString(const StructString& paramString) override;
     std::future<StructString> funcStringAsync(const StructString& paramString) override;
 
-    IStructInterfacePublisher* _getPublisher() const override;
+    IStructInterfacePublisher& _getPublisher() const override;
 private:
     struct StructInterfaceData;
     std::unique_ptr<StructInterfaceData> d_ptr;

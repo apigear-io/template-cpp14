@@ -135,7 +135,7 @@ bool OLinkNestedStruct1Interface::isReady() const
     return m_isReady;
 }
 
-INestedStruct1InterfacePublisher* OLinkNestedStruct1Interface::_getPublisher() const
+INestedStruct1InterfacePublisher& OLinkNestedStruct1Interface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

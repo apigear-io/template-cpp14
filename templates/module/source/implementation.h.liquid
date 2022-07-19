@@ -30,7 +30,7 @@ public:
     std::future<{{operation|cpp14Return}}> {{operation.name}}Async({{operation|cpp14Params}}) override;
 {% endfor %}
 
-    {{pub_interface}}* _getPublisher() const override;
+    {{pub_interface}}& _getPublisher() const override;
 private:
     struct {{interface.name | capital}}Data;
     std::unique_ptr<{{interface.name | capital}}Data> d_ptr;
