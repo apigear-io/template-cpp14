@@ -21,9 +21,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using namespace Test::Testbed1;
 
-/**
- * Implementation StructInterfacePublisher
- */
 void StructInterfacePublisher::subscribeToAllChanges(IStructInterfaceSubscriber& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),

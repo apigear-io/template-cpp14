@@ -77,7 +77,6 @@ public:
     */
     virtual const NestedStruct2& prop2() const = 0;
 
-
     /**
     * Access to a publisher, use it to subscribe for NestedStruct2Interface changes and signal emission.
     * This function name doesn't follow the convention, because it is added to user defined interface,
@@ -173,7 +172,6 @@ public:
     * Use this function to subscribe for prop1 value changes.
     * If your subscriber uses subsrciption with INestedStruct2InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct2InterfaceProp1PropertyCb callback that will be executed on each change of the property.
-    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -191,7 +189,6 @@ public:
     * Use this function to subscribe for prop2 value changes.
     * If your subscriber uses subsrciption with INestedStruct2InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct2InterfaceProp2PropertyCb callback that will be executed on each change of the property.
-    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

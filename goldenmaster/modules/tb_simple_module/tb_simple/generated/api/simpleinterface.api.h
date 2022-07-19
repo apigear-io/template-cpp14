@@ -111,7 +111,6 @@ public:
     */
     virtual std::string propString() const = 0;
 
-
     /**
     * Access to a publisher, use it to subscribe for SimpleInterface changes and signal emission.
     * This function name doesn't follow the convention, because it is added to user defined interface,
@@ -240,7 +239,6 @@ public:
     * Use this function to subscribe for propBool value changes.
     * If your subscriber uses subsrciption with ISimpleInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropBoolPropertyCb callback that will be executed on each change of the property.
-    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -258,7 +256,6 @@ public:
     * Use this function to subscribe for propInt value changes.
     * If your subscriber uses subsrciption with ISimpleInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropIntPropertyCb callback that will be executed on each change of the property.
-    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -276,7 +273,6 @@ public:
     * Use this function to subscribe for propFloat value changes.
     * If your subscriber uses subsrciption with ISimpleInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropFloatPropertyCb callback that will be executed on each change of the property.
-    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -294,7 +290,6 @@ public:
     * Use this function to subscribe for propString value changes.
     * If your subscriber uses subsrciption with ISimpleInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropStringPropertyCb callback that will be executed on each change of the property.
-    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
