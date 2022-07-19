@@ -56,7 +56,7 @@ public:
     int func4(int param1, int param2, int param3, int param4) override;
     std::future<int> func4Async(int param1, int param2, int param3, int param4) override;
 
-    IManyParamInterfacePublisher* _getPublisher() const override;
+    IManyParamInterfacePublisher& _getPublisher() const override;
 private:
     struct ManyParamInterfaceData;
     std::unique_ptr<ManyParamInterfaceData> d_ptr;

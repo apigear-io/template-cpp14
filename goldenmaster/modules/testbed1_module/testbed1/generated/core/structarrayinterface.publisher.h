@@ -40,8 +40,8 @@ public:
     StructArrayInterfacePublisher(StructArrayInterfacePublisher&& a) = delete;
     StructArrayInterfacePublisher& operator=(StructArrayInterfacePublisher&& a) = delete;
 
-    void subscribeToStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructArrayInterfaceInterface(IStructArrayInterfaceSubscriber& subscriber) override;
+    void subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;

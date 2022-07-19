@@ -38,7 +38,7 @@ public:
     Struct1 func1(const Struct1& param1) override;
     std::future<Struct1> func1Async(const Struct1& param1) override;
 
-    ISameStruct1InterfacePublisher* _getPublisher() const override;
+    ISameStruct1InterfacePublisher& _getPublisher() const override;
 private:
     struct SameStruct1InterfaceData;
     std::unique_ptr<SameStruct1InterfaceData> d_ptr;

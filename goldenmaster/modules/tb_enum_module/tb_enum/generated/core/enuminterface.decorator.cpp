@@ -26,17 +26,17 @@ using namespace Test::TbEnum;
 AbstractEnumInterfaceDecorator::AbstractEnumInterfaceDecorator(IEnumInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToEnumInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToEnumInterfaceChanges(*this);
 }
 IEnumInterface* AbstractEnumInterfaceDecorator::swapUnderlyingImplementation(IEnumInterface* impl)
 {
     IEnumInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromEnumInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToEnumInterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToEnumInterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ IEnumInterface* AbstractEnumInterfaceDecorator::disconnectFromUnderlyingImplemen
 {
     IEnumInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromEnumInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractEnumInterfaceDecorator::~AbstractEnumInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromEnumInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
     }
 }
 void AbstractEnumInterfaceDecorator::setProp0(const Enum0Enum& prop0)
@@ -137,7 +137,7 @@ std::future<Enum3Enum> AbstractEnumInterfaceDecorator::func3Async(const Enum3Enu
     return m_impl->func3Async(param3);
 }
 
-IEnumInterfacePublisher* AbstractEnumInterfaceDecorator::_getPublisher() const
+IEnumInterfacePublisher& AbstractEnumInterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

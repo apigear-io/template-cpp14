@@ -30,14 +30,14 @@ OLinkNestedStruct2InterfaceAdapter::OLinkNestedStruct2InterfaceAdapter(INestedSt
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToNestedStruct2InterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToNestedStruct2InterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkNestedStruct2InterfaceAdapter::~OLinkNestedStruct2InterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromNestedStruct2InterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromNestedStruct2InterfaceChanges(*this);
 }
 
 nlohmann::json OLinkNestedStruct2InterfaceAdapter::captureState()

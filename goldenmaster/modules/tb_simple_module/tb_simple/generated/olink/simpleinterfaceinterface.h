@@ -55,7 +55,7 @@ public:
     std::string funcString(const std::string& paramString) override;
     std::future<std::string> funcStringAsync(const std::string& paramString) override;
     bool isReady() const;
-    ISimpleInterfacePublisher* _getPublisher() const override;
+    ISimpleInterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

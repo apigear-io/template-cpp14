@@ -38,7 +38,7 @@ public:
     Enum1Enum func1(const Enum1Enum& param1) override;
     std::future<Enum1Enum> func1Async(const Enum1Enum& param1) override;
 
-    ISameEnum1InterfacePublisher* _getPublisher() const override;
+    ISameEnum1InterfacePublisher& _getPublisher() const override;
 private:
     struct SameEnum1InterfaceData;
     std::unique_ptr<SameEnum1InterfaceData> d_ptr;

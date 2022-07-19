@@ -16,8 +16,8 @@ namespace {{ module.name | capital }} {
 class {{pub_pimpl_class}} : public {{pub_interface}}
 {
 public:
-    void subscribeTo{{interface.name | capital}}Interface({{sub_class}}& subscriber) override;
-    void unsubscribeFrom{{interface.name | capital}}Interface({{sub_class}}& subscriber) override;
+    void subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
+    void unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
 {{nl}}
 {% for property in interface.properties %}
     long subscribeTo{{property.name|capital}}Changed({{interface.name | capital}}{{property.name | capital}}PropertyCb callback) override;
@@ -57,12 +57,12 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }};
 /**
  * Implementation {{pub_pimpl_class}}
  */
-void {{pub_pimpl_class}}::subscribeTo{{interface.name | capital}}Interface({{sub_class}}& subscriber)
+void {{pub_pimpl_class}}::subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber)
 {
     {{class}}InterfaceSubscribers.insert(&subscriber);
 }
 {{nl}}
-void {{pub_pimpl_class}}::unsubscribeFrom{{interface.name | capital}}Interface({{sub_class}}& subscriber)
+void {{pub_pimpl_class}}::unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber)
 {
     {{class}}InterfaceSubscribers.erase(&subscriber);
 }
@@ -151,14 +151,14 @@ void {{pub_pimpl_class}}::publish{{signal.name|capital}}(
 }
 {{pub_class}}::~{{pub_class}}() = default;
 {{nl}}
-void {{pub_class}}::subscribeTo{{interface.name | capital}}Interface({{sub_class}}& subscriber)
+void {{pub_class}}::subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber)
 {
-    m_impl->subscribeTo{{interface.name | capital}}Interface(subscriber);
+    m_impl->subscribeTo{{interface.name | capital}}Changes(subscriber);
 }
 {{nl}}
-void {{pub_class}}::unsubscribeFrom{{interface.name | capital}}Interface({{sub_class}}& subscriber)
+void {{pub_class}}::unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber)
 {
-    m_impl->unsubscribeFrom{{interface.name | capital}}Interface(subscriber);
+    m_impl->unsubscribeFrom{{interface.name | capital}}Changes(subscriber);
 }
 {{nl}}
 {% for property in interface.properties %}

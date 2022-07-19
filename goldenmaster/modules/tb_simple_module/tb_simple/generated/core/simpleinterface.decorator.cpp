@@ -26,17 +26,17 @@ using namespace Test::TbSimple;
 AbstractSimpleInterfaceDecorator::AbstractSimpleInterfaceDecorator(ISimpleInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToSimpleInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToSimpleInterfaceChanges(*this);
 }
 ISimpleInterface* AbstractSimpleInterfaceDecorator::swapUnderlyingImplementation(ISimpleInterface* impl)
 {
     ISimpleInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSimpleInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToSimpleInterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToSimpleInterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ ISimpleInterface* AbstractSimpleInterfaceDecorator::disconnectFromUnderlyingImpl
 {
     ISimpleInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSimpleInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractSimpleInterfaceDecorator::~AbstractSimpleInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromSimpleInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
     }
 }
 void AbstractSimpleInterfaceDecorator::setPropbool(bool propBool)
@@ -137,7 +137,7 @@ std::future<std::string> AbstractSimpleInterfaceDecorator::funcStringAsync(const
     return m_impl->funcStringAsync(paramString);
 }
 
-ISimpleInterfacePublisher* AbstractSimpleInterfaceDecorator::_getPublisher() const
+ISimpleInterfacePublisher& AbstractSimpleInterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

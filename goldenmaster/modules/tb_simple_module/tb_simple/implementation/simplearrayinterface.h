@@ -56,7 +56,7 @@ public:
     std::list<std::string> funcString(const std::list<std::string>& paramString) override;
     std::future<std::list<std::string>> funcStringAsync(const std::list<std::string>& paramString) override;
 
-    ISimpleArrayInterfacePublisher* _getPublisher() const override;
+    ISimpleArrayInterfacePublisher& _getPublisher() const override;
 private:
     struct SimpleArrayInterfaceData;
     std::unique_ptr<SimpleArrayInterfaceData> d_ptr;

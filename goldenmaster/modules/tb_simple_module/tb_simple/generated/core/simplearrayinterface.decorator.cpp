@@ -26,17 +26,17 @@ using namespace Test::TbSimple;
 AbstractSimpleArrayInterfaceDecorator::AbstractSimpleArrayInterfaceDecorator(ISimpleArrayInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToSimpleArrayInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToSimpleArrayInterfaceChanges(*this);
 }
 ISimpleArrayInterface* AbstractSimpleArrayInterfaceDecorator::swapUnderlyingImplementation(ISimpleArrayInterface* impl)
 {
     ISimpleArrayInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSimpleArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToSimpleArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToSimpleArrayInterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ ISimpleArrayInterface* AbstractSimpleArrayInterfaceDecorator::disconnectFromUnde
 {
     ISimpleArrayInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSimpleArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractSimpleArrayInterfaceDecorator::~AbstractSimpleArrayInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromSimpleArrayInterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
     }
 }
 void AbstractSimpleArrayInterfaceDecorator::setPropbool(const std::list<bool>& propBool)
@@ -137,7 +137,7 @@ std::future<std::list<std::string>> AbstractSimpleArrayInterfaceDecorator::funcS
     return m_impl->funcStringAsync(paramString);
 }
 
-ISimpleArrayInterfacePublisher* AbstractSimpleArrayInterfaceDecorator::_getPublisher() const
+ISimpleArrayInterfacePublisher& AbstractSimpleArrayInterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

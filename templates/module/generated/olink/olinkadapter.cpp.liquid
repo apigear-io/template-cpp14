@@ -15,14 +15,14 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }};
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeTo{{interface.name | capital}}Interface(*this);
+    m_impl->_getPublisher().subscribeTo{{interface.name | capital}}Changes(*this);
     m_registry->addObjectSource(this);
 }
 
 {{class}}::~{{class}}()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFrom{{interface.name | capital}}Interface(*this);
+    m_impl->_getPublisher().unsubscribeFrom{{interface.name | capital}}Changes(*this);
 }
 
 nlohmann::json {{class}}::captureState()

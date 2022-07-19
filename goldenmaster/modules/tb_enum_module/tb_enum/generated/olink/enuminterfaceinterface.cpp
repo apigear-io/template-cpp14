@@ -306,7 +306,7 @@ bool OLinkEnumInterface::isReady() const
     return m_isReady;
 }
 
-IEnumInterfacePublisher* OLinkEnumInterface::_getPublisher() const
+IEnumInterfacePublisher& OLinkEnumInterface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

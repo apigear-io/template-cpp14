@@ -44,7 +44,7 @@ public:
     NestedStruct1 func2(const NestedStruct1& param1, const NestedStruct2& param2) override;
     std::future<NestedStruct1> func2Async(const NestedStruct1& param1, const NestedStruct2& param2) override;
 
-    INestedStruct2InterfacePublisher* _getPublisher() const override;
+    INestedStruct2InterfacePublisher& _getPublisher() const override;
 private:
     struct NestedStruct2InterfaceData;
     std::unique_ptr<NestedStruct2InterfaceData> d_ptr;

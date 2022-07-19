@@ -40,8 +40,8 @@ public:
     NestedStruct3InterfacePublisher(NestedStruct3InterfacePublisher&& a) = delete;
     NestedStruct3InterfacePublisher& operator=(NestedStruct3InterfacePublisher&& a) = delete;
 
-    void subscribeToNestedStruct3InterfaceInterface(INestedStruct3InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromNestedStruct3InterfaceInterface(INestedStruct3InterfaceSubscriber& subscriber) override;
+    void subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

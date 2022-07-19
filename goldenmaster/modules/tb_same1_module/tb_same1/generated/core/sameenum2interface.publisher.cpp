@@ -25,8 +25,8 @@ namespace TbSame1 {
 class SameEnum2InterfacePublisherPimpl : public ISameEnum2InterfacePublisher
 {
 public:
-    void subscribeToSameEnum2InterfaceInterface(ISameEnum2InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameEnum2InterfaceInterface(ISameEnum2InterfaceSubscriber& subscriber) override;
+    void subscribeToSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(SameEnum2InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;
@@ -60,12 +60,12 @@ using namespace Test::TbSame1;
 /**
  * Implementation SameEnum2InterfacePublisherPimpl
  */
-void SameEnum2InterfacePublisherPimpl::subscribeToSameEnum2InterfaceInterface(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisherPimpl::subscribeToSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
     ISameEnum2InterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void SameEnum2InterfacePublisherPimpl::unsubscribeFromSameEnum2InterfaceInterface(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisherPimpl::unsubscribeFromSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
     ISameEnum2InterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -191,14 +191,14 @@ SameEnum2InterfacePublisher::SameEnum2InterfacePublisher()
 }
 SameEnum2InterfacePublisher::~SameEnum2InterfacePublisher() = default;
 
-void SameEnum2InterfacePublisher::subscribeToSameEnum2InterfaceInterface(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisher::subscribeToSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSameEnum2InterfaceInterface(subscriber);
+    m_impl->subscribeToSameEnum2InterfaceChanges(subscriber);
 }
 
-void SameEnum2InterfacePublisher::unsubscribeFromSameEnum2InterfaceInterface(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisher::unsubscribeFromSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSameEnum2InterfaceInterface(subscriber);
+    m_impl->unsubscribeFromSameEnum2InterfaceChanges(subscriber);
 }
 
 long SameEnum2InterfacePublisher::subscribeToProp1Changed(SameEnum2InterfaceProp1PropertyCb callback)

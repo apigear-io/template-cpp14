@@ -40,8 +40,8 @@ public:
     ManyParamInterfacePublisher(ManyParamInterfacePublisher&& a) = delete;
     ManyParamInterfacePublisher& operator=(ManyParamInterfacePublisher&& a) = delete;
 
-    void subscribeToManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber) override;
+    void subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

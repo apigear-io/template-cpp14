@@ -25,8 +25,8 @@ namespace Testbed2 {
 class ManyParamInterfacePublisherPimpl : public IManyParamInterfacePublisher
 {
 public:
-    void subscribeToManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber) override;
+    void subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;
@@ -80,12 +80,12 @@ using namespace Test::Testbed2;
 /**
  * Implementation ManyParamInterfacePublisherPimpl
  */
-void ManyParamInterfacePublisherPimpl::subscribeToManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisherPimpl::subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
 {
     IManyParamInterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisherPimpl::unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
 {
     IManyParamInterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -323,14 +323,14 @@ ManyParamInterfacePublisher::ManyParamInterfacePublisher()
 }
 ManyParamInterfacePublisher::~ManyParamInterfacePublisher() = default;
 
-void ManyParamInterfacePublisher::subscribeToManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisher::subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToManyParamInterfaceInterface(subscriber);
+    m_impl->subscribeToManyParamInterfaceChanges(subscriber);
 }
 
-void ManyParamInterfacePublisher::unsubscribeFromManyParamInterfaceInterface(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisher::unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromManyParamInterfaceInterface(subscriber);
+    m_impl->unsubscribeFromManyParamInterfaceChanges(subscriber);
 }
 
 long ManyParamInterfacePublisher::subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback)

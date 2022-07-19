@@ -306,7 +306,7 @@ bool OLinkSimpleArrayInterface::isReady() const
     return m_isReady;
 }
 
-ISimpleArrayInterfacePublisher* OLinkSimpleArrayInterface::_getPublisher() const
+ISimpleArrayInterfacePublisher& OLinkSimpleArrayInterface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

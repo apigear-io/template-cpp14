@@ -24,12 +24,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbEnum {
 
-class TEST_TB_ENUM_EXPORT AbstractEnumInterfaceDecorator : public IEnumInterfaceDecorator
-{
+class TEST_TB_ENUM_EXPORT AbstractEnumInterfaceDecorator : public IEnumInterface, public IEnumInterfaceSubscriber {
 public:
     explicit AbstractEnumInterfaceDecorator(IEnumInterface* impl);
-    IEnumInterface* swapUnderlyingImplementation(IEnumInterface* impl) override;
-    IEnumInterface* disconnectFromUnderlyingImplementation() override;
+    IEnumInterface* swapUnderlyingImplementation(IEnumInterface* impl);
+    IEnumInterface* disconnectFromUnderlyingImplementation();
     virtual ~AbstractEnumInterfaceDecorator();
 public:
     // property prop0
@@ -58,7 +57,7 @@ public:
     Enum3Enum func3(const Enum3Enum& param3) override;
     std::future<Enum3Enum> func3Async(const Enum3Enum& param3) override;
 
-    IEnumInterfacePublisher* _getPublisher() const override;
+    IEnumInterfacePublisher& _getPublisher() const override;
 private:
     IEnumInterface* m_impl {nullptr};
 };

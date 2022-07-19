@@ -26,17 +26,17 @@ using namespace Test::TbSame2;
 AbstractSameEnum1InterfaceDecorator::AbstractSameEnum1InterfaceDecorator(ISameEnum1Interface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher()->subscribeToSameEnum1InterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToSameEnum1InterfaceChanges(*this);
 }
 ISameEnum1Interface* AbstractSameEnum1InterfaceDecorator::swapUnderlyingImplementation(ISameEnum1Interface* impl)
 {
     ISameEnum1Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSameEnum1InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSameEnum1InterfaceChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->subscribeToSameEnum1InterfaceInterface(*this);
+        m_impl->_getPublisher().subscribeToSameEnum1InterfaceChanges(*this);
     }
     return retVal;
 }
@@ -44,7 +44,7 @@ ISameEnum1Interface* AbstractSameEnum1InterfaceDecorator::disconnectFromUnderlyi
 {
     ISameEnum1Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher()->unsubscribeFromSameEnum1InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSameEnum1InterfaceChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -53,7 +53,7 @@ AbstractSameEnum1InterfaceDecorator::~AbstractSameEnum1InterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher()->unsubscribeFromSameEnum1InterfaceInterface(*this);
+        m_impl->_getPublisher().unsubscribeFromSameEnum1InterfaceChanges(*this);
     }
 }
 void AbstractSameEnum1InterfaceDecorator::setProp1(const Enum1Enum& prop1)
@@ -77,7 +77,7 @@ std::future<Enum1Enum> AbstractSameEnum1InterfaceDecorator::func1Async(const Enu
     return m_impl->func1Async(param1);
 }
 
-ISameEnum1InterfacePublisher* AbstractSameEnum1InterfaceDecorator::_getPublisher() const
+ISameEnum1InterfacePublisher& AbstractSameEnum1InterfaceDecorator::_getPublisher() const
 {
     return m_impl->_getPublisher();
 }

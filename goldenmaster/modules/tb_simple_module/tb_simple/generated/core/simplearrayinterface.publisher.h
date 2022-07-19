@@ -40,8 +40,8 @@ public:
     SimpleArrayInterfacePublisher(SimpleArrayInterfacePublisher&& a) = delete;
     SimpleArrayInterfacePublisher& operator=(SimpleArrayInterfacePublisher&& a) = delete;
 
-    void subscribeToSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleArrayInterfaceInterface(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    void subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;

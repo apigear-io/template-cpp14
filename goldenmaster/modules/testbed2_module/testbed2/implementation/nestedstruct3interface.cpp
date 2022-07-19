@@ -148,7 +148,7 @@ std::future<NestedStruct1> NestedStruct3Interface::func3Async(const NestedStruct
     );
 }
 
-INestedStruct3InterfacePublisher* NestedStruct3Interface::_getPublisher() const
+INestedStruct3InterfacePublisher& NestedStruct3Interface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

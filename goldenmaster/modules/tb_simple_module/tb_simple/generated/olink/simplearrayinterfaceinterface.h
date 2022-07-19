@@ -55,7 +55,7 @@ public:
     std::list<std::string> funcString(const std::list<std::string>& paramString) override;
     std::future<std::list<std::string>> funcStringAsync(const std::list<std::string>& paramString) override;
     bool isReady() const;
-    ISimpleArrayInterfacePublisher* _getPublisher() const override;
+    ISimpleArrayInterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

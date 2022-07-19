@@ -25,8 +25,8 @@ namespace Testbed1 {
 class StructInterfacePublisherPimpl : public IStructInterfacePublisher
 {
 public:
-    void subscribeToStructInterfaceInterface(IStructInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructInterfaceInterface(IStructInterfaceSubscriber& subscriber) override;
+    void subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;
@@ -80,12 +80,12 @@ using namespace Test::Testbed1;
 /**
  * Implementation StructInterfacePublisherPimpl
  */
-void StructInterfacePublisherPimpl::subscribeToStructInterfaceInterface(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisherPimpl::subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
 {
     IStructInterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void StructInterfacePublisherPimpl::unsubscribeFromStructInterfaceInterface(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisherPimpl::unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
 {
     IStructInterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -323,14 +323,14 @@ StructInterfacePublisher::StructInterfacePublisher()
 }
 StructInterfacePublisher::~StructInterfacePublisher() = default;
 
-void StructInterfacePublisher::subscribeToStructInterfaceInterface(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisher::subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToStructInterfaceInterface(subscriber);
+    m_impl->subscribeToStructInterfaceChanges(subscriber);
 }
 
-void StructInterfacePublisher::unsubscribeFromStructInterfaceInterface(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisher::unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromStructInterfaceInterface(subscriber);
+    m_impl->unsubscribeFromStructInterfaceChanges(subscriber);
 }
 
 long StructInterfacePublisher::subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback)

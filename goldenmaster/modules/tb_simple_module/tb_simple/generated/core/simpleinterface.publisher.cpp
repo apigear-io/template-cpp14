@@ -25,8 +25,8 @@ namespace TbSimple {
 class SimpleInterfacePublisherPimpl : public ISimpleInterfacePublisher
 {
 public:
-    void subscribeToSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber) override;
+    void subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;
@@ -80,12 +80,12 @@ using namespace Test::TbSimple;
 /**
  * Implementation SimpleInterfacePublisherPimpl
  */
-void SimpleInterfacePublisherPimpl::subscribeToSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisherPimpl::subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
 {
     ISimpleInterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void SimpleInterfacePublisherPimpl::unsubscribeFromSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisherPimpl::unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
 {
     ISimpleInterfaceInterfaceSubscribers.erase(&subscriber);
 }
@@ -323,14 +323,14 @@ SimpleInterfacePublisher::SimpleInterfacePublisher()
 }
 SimpleInterfacePublisher::~SimpleInterfacePublisher() = default;
 
-void SimpleInterfacePublisher::subscribeToSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisher::subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSimpleInterfaceInterface(subscriber);
+    m_impl->subscribeToSimpleInterfaceChanges(subscriber);
 }
 
-void SimpleInterfacePublisher::unsubscribeFromSimpleInterfaceInterface(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisher::unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSimpleInterfaceInterface(subscriber);
+    m_impl->unsubscribeFromSimpleInterfaceChanges(subscriber);
 }
 
 long SimpleInterfacePublisher::subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback)

@@ -40,8 +40,8 @@ public:
     SameStruct1InterfacePublisher(SameStruct1InterfacePublisher&& a) = delete;
     SameStruct1InterfacePublisher& operator=(SameStruct1InterfacePublisher&& a) = delete;
 
-    void subscribeToSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameStruct1InterfaceInterface(ISameStruct1InterfaceSubscriber& subscriber) override;
+    void subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

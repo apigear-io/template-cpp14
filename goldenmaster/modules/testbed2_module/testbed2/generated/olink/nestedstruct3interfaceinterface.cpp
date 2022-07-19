@@ -252,7 +252,7 @@ bool OLinkNestedStruct3Interface::isReady() const
     return m_isReady;
 }
 
-INestedStruct3InterfacePublisher* OLinkNestedStruct3Interface::_getPublisher() const
+INestedStruct3InterfacePublisher& OLinkNestedStruct3Interface::_getPublisher() const
 {
-    return m_publisher;
+    return *_publisher;
 }

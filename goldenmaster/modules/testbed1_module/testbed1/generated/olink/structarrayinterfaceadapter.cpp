@@ -30,14 +30,14 @@ OLinkStructArrayInterfaceAdapter::OLinkStructArrayInterfaceAdapter(IStructArrayI
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToStructArrayInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToStructArrayInterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkStructArrayInterfaceAdapter::~OLinkStructArrayInterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromStructArrayInterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromStructArrayInterfaceChanges(*this);
 }
 
 nlohmann::json OLinkStructArrayInterfaceAdapter::captureState()

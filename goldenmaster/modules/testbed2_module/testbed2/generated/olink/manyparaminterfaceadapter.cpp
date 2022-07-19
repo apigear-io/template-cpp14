@@ -30,14 +30,14 @@ OLinkManyParamInterfaceAdapter::OLinkManyParamInterfaceAdapter(IManyParamInterfa
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToManyParamInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToManyParamInterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkManyParamInterfaceAdapter::~OLinkManyParamInterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromManyParamInterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromManyParamInterfaceChanges(*this);
 }
 
 nlohmann::json OLinkManyParamInterfaceAdapter::captureState()

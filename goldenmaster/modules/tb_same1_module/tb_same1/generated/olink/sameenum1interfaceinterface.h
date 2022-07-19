@@ -40,7 +40,7 @@ public:
     Enum1Enum func1(const Enum1Enum& param1) override;
     std::future<Enum1Enum> func1Async(const Enum1Enum& param1) override;
     bool isReady() const;
-    ISameEnum1InterfacePublisher* _getPublisher() const override;
+    ISameEnum1InterfacePublisher& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

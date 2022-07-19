@@ -35,7 +35,7 @@ public:
     std::future<{{operation|cpp14Return}}> {{operation.name}}Async({{operation|cpp14Params}}) override;
 {% endfor %}
     bool isReady() const;
-    {{pub_interface}}* _getPublisher() const override;
+    {{pub_interface}}& _getPublisher() const override;
 public:
     std::string olinkObjectName() override;
     void olinkOnSignal(std::string name, nlohmann::json args) override;

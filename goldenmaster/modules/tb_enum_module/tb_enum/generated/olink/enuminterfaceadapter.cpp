@@ -30,14 +30,14 @@ OLinkEnumInterfaceAdapter::OLinkEnumInterfaceAdapter(IEnumInterface* impl, ApiGe
     , m_node(nullptr)
     , m_registry(&registry)
 {
-    m_impl->_getPublisher()->subscribeToEnumInterfaceInterface(*this);
+    m_impl->_getPublisher().subscribeToEnumInterfaceChanges(*this);
     m_registry->addObjectSource(this);
 }
 
 OLinkEnumInterfaceAdapter::~OLinkEnumInterfaceAdapter()
 {
     m_registry->removeObjectSource(this);
-    m_impl->_getPublisher()->unsubscribeFromEnumInterfaceInterface(*this);
+    m_impl->_getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
 }
 
 nlohmann::json OLinkEnumInterfaceAdapter::captureState()

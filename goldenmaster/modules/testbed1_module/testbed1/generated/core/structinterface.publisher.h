@@ -40,8 +40,8 @@ public:
     StructInterfacePublisher(StructInterfacePublisher&& a) = delete;
     StructInterfacePublisher& operator=(StructInterfacePublisher&& a) = delete;
 
-    void subscribeToStructInterfaceInterface(IStructInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructInterfaceInterface(IStructInterfaceSubscriber& subscriber) override;
+    void subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;

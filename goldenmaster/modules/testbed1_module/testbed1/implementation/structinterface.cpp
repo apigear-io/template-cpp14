@@ -175,7 +175,7 @@ std::future<StructString> StructInterface::funcStringAsync(const StructString& p
     );
 }
 
-IStructInterfacePublisher* StructInterface::_getPublisher() const
+IStructInterfacePublisher& StructInterface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }

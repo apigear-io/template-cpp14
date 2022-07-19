@@ -175,7 +175,7 @@ std::future<StructBool> StructArrayInterface::funcStringAsync(const std::list<St
     );
 }
 
-IStructArrayInterfacePublisher* StructArrayInterface::_getPublisher() const
+IStructArrayInterfacePublisher& StructArrayInterface::_getPublisher() const
 {
-    return d_ptr->_publisher.get();
+    return *(d_ptr->_publisher.get());
 }
