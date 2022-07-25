@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace Testbed2 {
 /**
- * Implementation NestedStruct3InterfacePublisher
+ * The implementation of a NestedStruct3InterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TESTBED2_EXPORT NestedStruct3InterfacePublisher: public INestedStruct3InterfacePublisher
 {
 public:
     explicit NestedStruct3InterfacePublisher();
-    virtual ~NestedStruct3InterfacePublisher();
+    virtual ~NestedStruct3InterfacePublisher() = default;
 
     // NestedStruct3InterfacePublisher is not copyable
     NestedStruct3InterfacePublisher(const NestedStruct3InterfacePublisher& a) = delete;
@@ -64,12 +68,11 @@ public:
     void publishSig1(const NestedStruct1& param1) const override;
     void publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const override;
     void publishSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) const override;
-protected:
     void publishProp1Changed(const NestedStruct1& prop1) const override;
     void publishProp2Changed(const NestedStruct2& prop2) const override;
     void publishProp3Changed(const NestedStruct3& prop3) const override;
 private:
-    std::shared_ptr<INestedStruct3InterfacePublisher> m_impl;
+    std::unique_ptr<INestedStruct3InterfacePublisher> m_impl;
 };
 
 } // namespace Testbed2

@@ -169,7 +169,8 @@ public:
     virtual void subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the {{interface.name}}.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param {{sub_class}} which subscription for any change of the {{interface.name}} is removed.
     */
     virtual void unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber) = 0;
@@ -178,6 +179,7 @@ public:
     /**
     * Use this function to subscribe for {{property.name}} value changes.
     * @param {{interface.name | capital}}{{property.name | capital}}PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -194,6 +196,7 @@ public:
     /**
     * Use this function to subscribe for {{signal.name}} signal changes.
     * @param {{interface.name | capital}}{{signal.name | capital}}SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace Testbed2 {
 /**
- * Implementation ManyParamInterfacePublisher
+ * The implementation of a ManyParamInterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TESTBED2_EXPORT ManyParamInterfacePublisher: public IManyParamInterfacePublisher
 {
 public:
     explicit ManyParamInterfacePublisher();
-    virtual ~ManyParamInterfacePublisher();
+    virtual ~ManyParamInterfacePublisher() = default;
 
     // ManyParamInterfacePublisher is not copyable
     ManyParamInterfacePublisher(const ManyParamInterfacePublisher& a) = delete;
@@ -71,13 +75,12 @@ public:
     void publishSig2(int param1,int param2) const override;
     void publishSig3(int param1,int param2,int param3) const override;
     void publishSig4(int param1,int param2,int param3,int param4) const override;
-protected:
     void publishProp1Changed(int prop1) const override;
     void publishProp2Changed(int prop2) const override;
     void publishProp3Changed(int prop3) const override;
     void publishProp4Changed(int prop4) const override;
 private:
-    std::shared_ptr<IManyParamInterfacePublisher> m_impl;
+    std::unique_ptr<IManyParamInterfacePublisher> m_impl;
 };
 
 } // namespace Testbed2

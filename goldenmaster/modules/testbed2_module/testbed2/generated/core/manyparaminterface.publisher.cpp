@@ -22,7 +22,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace Testbed2 {
-class ManyParamInterfacePublisherPimpl : public IManyParamInterfacePublisher
+
+/**
+ * The implementation of a ManyParamInterfacePublisher.
+ * Use this class to store clients of the ManyParamInterface and inform them about the change
+ * on call of the  appropriate publish function.
+ */
+class ManyParamInterfacePublisherImpl : public IManyParamInterfacePublisher
 {
 public:
     void subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
@@ -61,14 +67,39 @@ public:
     void publishSig3(int param1,int param2,int param3) const override;
     void publishSig4(int param1,int param2,int param3,int param4) const override;
 private:
+    // ISubscribers informed about any property change or singal emited in ManyParamInterface
     std::set<IManyParamInterfaceSubscriber*> IManyParamInterfaceInterfaceSubscribers;
+    // Next free unique identifier to subscribe for the Prop1 change.
+    long Prop1ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop1 change.
     std::map<long, ManyParamInterfaceProp1PropertyCb> Prop1Callbacks;
+    // Next free unique identifier to subscribe for the Prop2 change.
+    long Prop2ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop2 change.
     std::map<long, ManyParamInterfaceProp2PropertyCb> Prop2Callbacks;
+    // Next free unique identifier to subscribe for the Prop3 change.
+    long Prop3ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop3 change.
     std::map<long, ManyParamInterfaceProp3PropertyCb> Prop3Callbacks;
+    // Next free unique identifier to subscribe for the Prop4 change.
+    long Prop4ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop4 change.
     std::map<long, ManyParamInterfaceProp4PropertyCb> Prop4Callbacks;
+    // Next free unique identifier to subscribe for the Sig1 emision.
+    long Sig1SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig1 emision.
     std::map<long, ManyParamInterfaceSig1SignalCb> Sig1Callbacks;
+    // Next free unique identifier to subscribe for the Sig2 emision.
+    long Sig2SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig2 emision.
     std::map<long, ManyParamInterfaceSig2SignalCb> Sig2Callbacks;
+    // Next free unique identifier to subscribe for the Sig3 emision.
+    long Sig3SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig3 emision.
     std::map<long, ManyParamInterfaceSig3SignalCb> Sig3Callbacks;
+    // Next free unique identifier to subscribe for the Sig4 emision.
+    long Sig4SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig4 emision.
     std::map<long, ManyParamInterfaceSig4SignalCb> Sig4Callbacks;
 };
 
@@ -78,32 +109,31 @@ private:
 using namespace Test::Testbed2;
 
 /**
- * Implementation ManyParamInterfacePublisherPimpl
+ * Implementation ManyParamInterfacePublisherImpl
  */
-void ManyParamInterfacePublisherPimpl::subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisherImpl::subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
 {
     IManyParamInterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisherImpl::unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
 {
     IManyParamInterfaceInterfaceSubscribers.erase(&subscriber);
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop1Callbacks.size());
+    auto handleId = Prop1ChangedCallbackNextId++;
     Prop1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromProp1Changed(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromProp1Changed(long handleId)
 {
     Prop1Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishProp1Changed(int prop1) const
+void ManyParamInterfacePublisherImpl::publishProp1Changed(int prop1) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -118,20 +148,19 @@ void ManyParamInterfacePublisherPimpl::publishProp1Changed(int prop1) const
     }
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToProp2Changed(ManyParamInterfaceProp2PropertyCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToProp2Changed(ManyParamInterfaceProp2PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop2Callbacks.size());
+    auto handleId = Prop2ChangedCallbackNextId++;
     Prop2Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromProp2Changed(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromProp2Changed(long handleId)
 {
     Prop2Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishProp2Changed(int prop2) const
+void ManyParamInterfacePublisherImpl::publishProp2Changed(int prop2) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -146,20 +175,19 @@ void ManyParamInterfacePublisherPimpl::publishProp2Changed(int prop2) const
     }
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToProp3Changed(ManyParamInterfaceProp3PropertyCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToProp3Changed(ManyParamInterfaceProp3PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop3Callbacks.size());
+    auto handleId = Prop3ChangedCallbackNextId++;
     Prop3Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromProp3Changed(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromProp3Changed(long handleId)
 {
     Prop3Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishProp3Changed(int prop3) const
+void ManyParamInterfacePublisherImpl::publishProp3Changed(int prop3) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -174,20 +202,19 @@ void ManyParamInterfacePublisherPimpl::publishProp3Changed(int prop3) const
     }
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToProp4Changed(ManyParamInterfaceProp4PropertyCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToProp4Changed(ManyParamInterfaceProp4PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop4Callbacks.size());
+    auto handleId = Prop4ChangedCallbackNextId++;
     Prop4Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromProp4Changed(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromProp4Changed(long handleId)
 {
     Prop4Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishProp4Changed(int prop4) const
+void ManyParamInterfacePublisherImpl::publishProp4Changed(int prop4) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -202,20 +229,20 @@ void ManyParamInterfacePublisherPimpl::publishProp4Changed(int prop4) const
     }
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToSig1(ManyParamInterfaceSig1SignalCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToSig1(ManyParamInterfaceSig1SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig1Callbacks.size());
+    auto handleId = Sig1SignalCallbackNextId++;
     Sig1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromSig1(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 {
     Sig1Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishSig1(int param1) const
+void ManyParamInterfacePublisherImpl::publishSig1(int param1) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -230,20 +257,20 @@ void ManyParamInterfacePublisherPimpl::publishSig1(int param1) const
     }
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToSig2(ManyParamInterfaceSig2SignalCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToSig2(ManyParamInterfaceSig2SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig2Callbacks.size());
+    auto handleId = Sig2SignalCallbackNextId++;
     Sig2Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromSig2(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromSig2(long handleId)
 {
     Sig2Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishSig2(int param1,int param2) const
+void ManyParamInterfacePublisherImpl::publishSig2(int param1,int param2) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -258,20 +285,20 @@ void ManyParamInterfacePublisherPimpl::publishSig2(int param1,int param2) const
     }
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToSig3(ManyParamInterfaceSig3SignalCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToSig3(ManyParamInterfaceSig3SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig3Callbacks.size());
+    auto handleId = Sig3SignalCallbackNextId++;
     Sig3Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromSig3(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromSig3(long handleId)
 {
     Sig3Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishSig3(int param1,int param2,int param3) const
+void ManyParamInterfacePublisherImpl::publishSig3(int param1,int param2,int param3) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -286,20 +313,20 @@ void ManyParamInterfacePublisherPimpl::publishSig3(int param1,int param2,int par
     }
 }
 
-long ManyParamInterfacePublisherPimpl::subscribeToSig4(ManyParamInterfaceSig4SignalCb callback)
+long ManyParamInterfacePublisherImpl::subscribeToSig4(ManyParamInterfaceSig4SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig4Callbacks.size());
+    auto handleId = Sig4SignalCallbackNextId++;
     Sig4Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ManyParamInterfacePublisherPimpl::unsubscribeFromSig4(long handleId)
+void ManyParamInterfacePublisherImpl::unsubscribeFromSig4(long handleId)
 {
     Sig4Callbacks.erase(handleId);
 }
 
-void ManyParamInterfacePublisherPimpl::publishSig4(int param1,int param2,int param3,int param4) const
+void ManyParamInterfacePublisherImpl::publishSig4(int param1,int param2,int param3,int param4) const
 {
     for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
     {
@@ -318,10 +345,9 @@ void ManyParamInterfacePublisherPimpl::publishSig4(int param1,int param2,int par
  * Implementation ManyParamInterfacePublisher
  */
 ManyParamInterfacePublisher::ManyParamInterfacePublisher()
-    : m_impl(std::make_shared<ManyParamInterfacePublisherPimpl>())
+    : m_impl(std::make_unique<ManyParamInterfacePublisherImpl>())
 {
 }
-ManyParamInterfacePublisher::~ManyParamInterfacePublisher() = default;
 
 void ManyParamInterfacePublisher::subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
 {

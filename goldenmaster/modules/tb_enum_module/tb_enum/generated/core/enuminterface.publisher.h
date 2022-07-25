@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbEnum {
 /**
- * Implementation EnumInterfacePublisher
+ * The implementation of a EnumInterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TB_ENUM_EXPORT EnumInterfacePublisher: public IEnumInterfacePublisher
 {
 public:
     explicit EnumInterfacePublisher();
-    virtual ~EnumInterfacePublisher();
+    virtual ~EnumInterfacePublisher() = default;
 
     // EnumInterfacePublisher is not copyable
     EnumInterfacePublisher(const EnumInterfacePublisher& a) = delete;
@@ -71,13 +75,12 @@ public:
     void publishSig1(const Enum1Enum& param1) const override;
     void publishSig2(const Enum2Enum& param2) const override;
     void publishSig3(const Enum3Enum& param3) const override;
-protected:
     void publishProp0Changed(const Enum0Enum& prop0) const override;
     void publishProp1Changed(const Enum1Enum& prop1) const override;
     void publishProp2Changed(const Enum2Enum& prop2) const override;
     void publishProp3Changed(const Enum3Enum& prop3) const override;
 private:
-    std::shared_ptr<IEnumInterfacePublisher> m_impl;
+    std::unique_ptr<IEnumInterfacePublisher> m_impl;
 };
 
 } // namespace TbEnum

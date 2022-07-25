@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace Testbed1 {
 /**
- * Implementation StructArrayInterfacePublisher
+ * The implementation of a StructArrayInterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TESTBED1_EXPORT StructArrayInterfacePublisher: public IStructArrayInterfacePublisher
 {
 public:
     explicit StructArrayInterfacePublisher();
-    virtual ~StructArrayInterfacePublisher();
+    virtual ~StructArrayInterfacePublisher() = default;
 
     // StructArrayInterfacePublisher is not copyable
     StructArrayInterfacePublisher(const StructArrayInterfacePublisher& a) = delete;
@@ -71,13 +75,12 @@ public:
     void publishSigInt(const std::list<StructInt>& paramInt) const override;
     void publishSigFloat(const std::list<StructFloat>& paramFloat) const override;
     void publishSigString(const std::list<StructString>& paramString) const override;
-protected:
     void publishPropBoolChanged(const std::list<StructBool>& propBool) const override;
     void publishPropIntChanged(const std::list<StructInt>& propInt) const override;
     void publishPropFloatChanged(const std::list<StructFloat>& propFloat) const override;
     void publishPropStringChanged(const std::list<StructString>& propString) const override;
 private:
-    std::shared_ptr<IStructArrayInterfacePublisher> m_impl;
+    std::unique_ptr<IStructArrayInterfacePublisher> m_impl;
 };
 
 } // namespace Testbed1

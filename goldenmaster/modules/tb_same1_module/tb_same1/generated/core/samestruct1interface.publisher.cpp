@@ -22,7 +22,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace TbSame1 {
-class SameStruct1InterfacePublisherPimpl : public ISameStruct1InterfacePublisher
+
+/**
+ * The implementation of a SameStruct1InterfacePublisher.
+ * Use this class to store clients of the SameStruct1Interface and inform them about the change
+ * on call of the  appropriate publish function.
+ */
+class SameStruct1InterfacePublisherImpl : public ISameStruct1InterfacePublisher
 {
 public:
     void subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
@@ -37,8 +43,15 @@ public:
     void publishProp1Changed(const Struct1& prop1) const override;
     void publishSig1(const Struct1& param1) const override;
 private:
+    // ISubscribers informed about any property change or singal emited in SameStruct1Interface
     std::set<ISameStruct1InterfaceSubscriber*> ISameStruct1InterfaceInterfaceSubscribers;
+    // Next free unique identifier to subscribe for the Prop1 change.
+    long Prop1ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop1 change.
     std::map<long, SameStruct1InterfaceProp1PropertyCb> Prop1Callbacks;
+    // Next free unique identifier to subscribe for the Sig1 emision.
+    long Sig1SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig1 emision.
     std::map<long, SameStruct1InterfaceSig1SignalCb> Sig1Callbacks;
 };
 
@@ -48,32 +61,31 @@ private:
 using namespace Test::TbSame1;
 
 /**
- * Implementation SameStruct1InterfacePublisherPimpl
+ * Implementation SameStruct1InterfacePublisherImpl
  */
-void SameStruct1InterfacePublisherPimpl::subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
+void SameStruct1InterfacePublisherImpl::subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
     ISameStruct1InterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void SameStruct1InterfacePublisherPimpl::unsubscribeFromSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
+void SameStruct1InterfacePublisherImpl::unsubscribeFromSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
     ISameStruct1InterfaceInterfaceSubscribers.erase(&subscriber);
 }
 
-long SameStruct1InterfacePublisherPimpl::subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback)
+long SameStruct1InterfacePublisherImpl::subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop1Callbacks.size());
+    auto handleId = Prop1ChangedCallbackNextId++;
     Prop1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void SameStruct1InterfacePublisherPimpl::unsubscribeFromProp1Changed(long handleId)
+void SameStruct1InterfacePublisherImpl::unsubscribeFromProp1Changed(long handleId)
 {
     Prop1Callbacks.erase(handleId);
 }
 
-void SameStruct1InterfacePublisherPimpl::publishProp1Changed(const Struct1& prop1) const
+void SameStruct1InterfacePublisherImpl::publishProp1Changed(const Struct1& prop1) const
 {
     for(const auto& Subscriber: ISameStruct1InterfaceInterfaceSubscribers)
     {
@@ -88,20 +100,20 @@ void SameStruct1InterfacePublisherPimpl::publishProp1Changed(const Struct1& prop
     }
 }
 
-long SameStruct1InterfacePublisherPimpl::subscribeToSig1(SameStruct1InterfaceSig1SignalCb callback)
+long SameStruct1InterfacePublisherImpl::subscribeToSig1(SameStruct1InterfaceSig1SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig1Callbacks.size());
+    auto handleId = Sig1SignalCallbackNextId++;
     Sig1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void SameStruct1InterfacePublisherPimpl::unsubscribeFromSig1(long handleId)
+void SameStruct1InterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 {
     Sig1Callbacks.erase(handleId);
 }
 
-void SameStruct1InterfacePublisherPimpl::publishSig1(const Struct1& param1) const
+void SameStruct1InterfacePublisherImpl::publishSig1(const Struct1& param1) const
 {
     for(const auto& Subscriber: ISameStruct1InterfaceInterfaceSubscribers)
     {
@@ -120,10 +132,9 @@ void SameStruct1InterfacePublisherPimpl::publishSig1(const Struct1& param1) cons
  * Implementation SameStruct1InterfacePublisher
  */
 SameStruct1InterfacePublisher::SameStruct1InterfacePublisher()
-    : m_impl(std::make_shared<SameStruct1InterfacePublisherPimpl>())
+    : m_impl(std::make_unique<SameStruct1InterfacePublisherImpl>())
 {
 }
-SameStruct1InterfacePublisher::~SameStruct1InterfacePublisher() = default;
 
 void SameStruct1InterfacePublisher::subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {

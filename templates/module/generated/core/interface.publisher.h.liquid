@@ -15,14 +15,19 @@ namespace {{ module.name | capital }} {
 {% assign sub_class = class | append: "Subscriber" %}
 {% assign pub_interface =  class | append: "Publisher" %}
 {% assign pub_class = interface.name | capital | append: "Publisher"%}
+{% assign pub_impl_class = interface.name | capital | append: "PublisherImpl" %}
 /**
- * Implementation {{pub_class}}
+ * The implementation of a {{pub_class}}.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class {{ system.name | constant }}_{{ module.name | constant }}_EXPORT {{pub_class}}: public {{pub_interface}}
 {
 public:
     explicit {{pub_class}}();
-    virtual ~{{pub_class}}();
+    virtual ~{{pub_class}}() = default;
 
     // {{pub_class}} is not copyable
     {{pub_class}}(const {{pub_class}}& a) = delete;
@@ -51,12 +56,11 @@ public:
         {%- endfor -%}
     ) const override;
 {% endfor %}
-protected:
 {% for property in interface.properties %}
     void publish{{property.name|capital}}Changed({{property|cpp14Param: true}}) const override;
 {% endfor %}
 private:
-    std::shared_ptr<{{pub_interface}}> m_impl;
+    std::unique_ptr<{{pub_interface}}> m_impl;
 };
 
 } // namespace {{ module.name | capital }}

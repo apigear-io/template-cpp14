@@ -154,7 +154,8 @@ public:
     virtual void subscribeToNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the NestedStruct2Interface.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param INestedStruct2InterfaceSubscriber which subscription for any change of the NestedStruct2Interface is removed.
     */
     virtual void unsubscribeFromNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) = 0;
@@ -162,6 +163,7 @@ public:
     /**
     * Use this function to subscribe for prop1 value changes.
     * @param NestedStruct2InterfaceProp1PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -176,6 +178,7 @@ public:
     /**
     * Use this function to subscribe for prop2 value changes.
     * @param NestedStruct2InterfaceProp2PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -190,6 +193,7 @@ public:
     /**
     * Use this function to subscribe for sig1 signal changes.
     * @param NestedStruct2InterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -204,6 +208,7 @@ public:
     /**
     * Use this function to subscribe for sig2 signal changes.
     * @param NestedStruct2InterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

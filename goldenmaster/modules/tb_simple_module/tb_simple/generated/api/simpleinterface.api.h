@@ -221,7 +221,8 @@ public:
     virtual void subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the SimpleInterface.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param ISimpleInterfaceSubscriber which subscription for any change of the SimpleInterface is removed.
     */
     virtual void unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) = 0;
@@ -229,6 +230,7 @@ public:
     /**
     * Use this function to subscribe for propBool value changes.
     * @param SimpleInterfacePropBoolPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -243,6 +245,7 @@ public:
     /**
     * Use this function to subscribe for propInt value changes.
     * @param SimpleInterfacePropIntPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -257,6 +260,7 @@ public:
     /**
     * Use this function to subscribe for propFloat value changes.
     * @param SimpleInterfacePropFloatPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -271,6 +275,7 @@ public:
     /**
     * Use this function to subscribe for propString value changes.
     * @param SimpleInterfacePropStringPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -285,6 +290,7 @@ public:
     /**
     * Use this function to subscribe for sigBool signal changes.
     * @param SimpleInterfaceSigBoolSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -299,6 +305,7 @@ public:
     /**
     * Use this function to subscribe for sigInt signal changes.
     * @param SimpleInterfaceSigIntSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -313,6 +320,7 @@ public:
     /**
     * Use this function to subscribe for sigFloat signal changes.
     * @param SimpleInterfaceSigFloatSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -327,6 +335,7 @@ public:
     /**
     * Use this function to subscribe for sigString signal changes.
     * @param SimpleInterfaceSigStringSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace Testbed1 {
 /**
- * Implementation StructInterfacePublisher
+ * The implementation of a StructInterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TESTBED1_EXPORT StructInterfacePublisher: public IStructInterfacePublisher
 {
 public:
     explicit StructInterfacePublisher();
-    virtual ~StructInterfacePublisher();
+    virtual ~StructInterfacePublisher() = default;
 
     // StructInterfacePublisher is not copyable
     StructInterfacePublisher(const StructInterfacePublisher& a) = delete;
@@ -71,13 +75,12 @@ public:
     void publishSigInt(const StructInt& paramInt) const override;
     void publishSigFloat(const StructFloat& paramFloat) const override;
     void publishSigString(const StructString& paramString) const override;
-protected:
     void publishPropBoolChanged(const StructBool& propBool) const override;
     void publishPropIntChanged(const StructInt& propInt) const override;
     void publishPropFloatChanged(const StructFloat& propFloat) const override;
     void publishPropStringChanged(const StructString& propString) const override;
 private:
-    std::shared_ptr<IStructInterfacePublisher> m_impl;
+    std::unique_ptr<IStructInterfacePublisher> m_impl;
 };
 
 } // namespace Testbed1

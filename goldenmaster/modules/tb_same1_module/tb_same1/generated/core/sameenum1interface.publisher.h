@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbSame1 {
 /**
- * Implementation SameEnum1InterfacePublisher
+ * The implementation of a SameEnum1InterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TB_SAME1_EXPORT SameEnum1InterfacePublisher: public ISameEnum1InterfacePublisher
 {
 public:
     explicit SameEnum1InterfacePublisher();
-    virtual ~SameEnum1InterfacePublisher();
+    virtual ~SameEnum1InterfacePublisher() = default;
 
     // SameEnum1InterfacePublisher is not copyable
     SameEnum1InterfacePublisher(const SameEnum1InterfacePublisher& a) = delete;
@@ -50,10 +54,9 @@ public:
     void unsubscribeFromSig1(long handleId) override;
 
     void publishSig1(const Enum1Enum& param1) const override;
-protected:
     void publishProp1Changed(const Enum1Enum& prop1) const override;
 private:
-    std::shared_ptr<ISameEnum1InterfacePublisher> m_impl;
+    std::unique_ptr<ISameEnum1InterfacePublisher> m_impl;
 };
 
 } // namespace TbSame1

@@ -119,7 +119,8 @@ public:
     virtual void subscribeToSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the SameEnum1Interface.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param ISameEnum1InterfaceSubscriber which subscription for any change of the SameEnum1Interface is removed.
     */
     virtual void unsubscribeFromSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber) = 0;
@@ -127,6 +128,7 @@ public:
     /**
     * Use this function to subscribe for prop1 value changes.
     * @param SameEnum1InterfaceProp1PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -141,6 +143,7 @@ public:
     /**
     * Use this function to subscribe for sig1 signal changes.
     * @param SameEnum1InterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

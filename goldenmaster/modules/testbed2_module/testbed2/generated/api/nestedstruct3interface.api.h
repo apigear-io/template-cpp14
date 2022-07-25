@@ -190,7 +190,8 @@ public:
     virtual void subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the NestedStruct3Interface.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param INestedStruct3InterfaceSubscriber which subscription for any change of the NestedStruct3Interface is removed.
     */
     virtual void unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) = 0;
@@ -198,6 +199,7 @@ public:
     /**
     * Use this function to subscribe for prop1 value changes.
     * @param NestedStruct3InterfaceProp1PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -212,6 +214,7 @@ public:
     /**
     * Use this function to subscribe for prop2 value changes.
     * @param NestedStruct3InterfaceProp2PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -226,6 +229,7 @@ public:
     /**
     * Use this function to subscribe for prop3 value changes.
     * @param NestedStruct3InterfaceProp3PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -240,6 +244,7 @@ public:
     /**
     * Use this function to subscribe for sig1 signal changes.
     * @param NestedStruct3InterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -254,6 +259,7 @@ public:
     /**
     * Use this function to subscribe for sig2 signal changes.
     * @param NestedStruct3InterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -268,6 +274,7 @@ public:
     /**
     * Use this function to subscribe for sig3 signal changes.
     * @param NestedStruct3InterfaceSig3SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

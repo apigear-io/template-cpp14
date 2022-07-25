@@ -221,7 +221,8 @@ public:
     virtual void subscribeToEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the EnumInterface.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param IEnumInterfaceSubscriber which subscription for any change of the EnumInterface is removed.
     */
     virtual void unsubscribeFromEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) = 0;
@@ -229,6 +230,7 @@ public:
     /**
     * Use this function to subscribe for prop0 value changes.
     * @param EnumInterfaceProp0PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -243,6 +245,7 @@ public:
     /**
     * Use this function to subscribe for prop1 value changes.
     * @param EnumInterfaceProp1PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -257,6 +260,7 @@ public:
     /**
     * Use this function to subscribe for prop2 value changes.
     * @param EnumInterfaceProp2PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -271,6 +275,7 @@ public:
     /**
     * Use this function to subscribe for prop3 value changes.
     * @param EnumInterfaceProp3PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -285,6 +290,7 @@ public:
     /**
     * Use this function to subscribe for sig0 signal changes.
     * @param EnumInterfaceSig0SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -299,6 +305,7 @@ public:
     /**
     * Use this function to subscribe for sig1 signal changes.
     * @param EnumInterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -313,6 +320,7 @@ public:
     /**
     * Use this function to subscribe for sig2 signal changes.
     * @param EnumInterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -327,6 +335,7 @@ public:
     /**
     * Use this function to subscribe for sig3 signal changes.
     * @param EnumInterfaceSig3SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

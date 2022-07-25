@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbSimple {
 /**
- * Implementation SimpleArrayInterfacePublisher
+ * The implementation of a SimpleArrayInterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TB_SIMPLE_EXPORT SimpleArrayInterfacePublisher: public ISimpleArrayInterfacePublisher
 {
 public:
     explicit SimpleArrayInterfacePublisher();
-    virtual ~SimpleArrayInterfacePublisher();
+    virtual ~SimpleArrayInterfacePublisher() = default;
 
     // SimpleArrayInterfacePublisher is not copyable
     SimpleArrayInterfacePublisher(const SimpleArrayInterfacePublisher& a) = delete;
@@ -71,13 +75,12 @@ public:
     void publishSigInt(const std::list<int>& paramInt) const override;
     void publishSigFloat(const std::list<float>& paramFloat) const override;
     void publishSigString(const std::list<std::string>& paramString) const override;
-protected:
     void publishPropBoolChanged(const std::list<bool>& propBool) const override;
     void publishPropIntChanged(const std::list<int>& propInt) const override;
     void publishPropFloatChanged(const std::list<float>& propFloat) const override;
     void publishPropStringChanged(const std::list<std::string>& propString) const override;
 private:
-    std::shared_ptr<ISimpleArrayInterfacePublisher> m_impl;
+    std::unique_ptr<ISimpleArrayInterfacePublisher> m_impl;
 };
 
 } // namespace TbSimple

@@ -22,7 +22,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace TbSame2 {
-class SameEnum1InterfacePublisherPimpl : public ISameEnum1InterfacePublisher
+
+/**
+ * The implementation of a SameEnum1InterfacePublisher.
+ * Use this class to store clients of the SameEnum1Interface and inform them about the change
+ * on call of the  appropriate publish function.
+ */
+class SameEnum1InterfacePublisherImpl : public ISameEnum1InterfacePublisher
 {
 public:
     void subscribeToSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber) override;
@@ -37,8 +43,15 @@ public:
     void publishProp1Changed(const Enum1Enum& prop1) const override;
     void publishSig1(const Enum1Enum& param1) const override;
 private:
+    // ISubscribers informed about any property change or singal emited in SameEnum1Interface
     std::set<ISameEnum1InterfaceSubscriber*> ISameEnum1InterfaceInterfaceSubscribers;
+    // Next free unique identifier to subscribe for the Prop1 change.
+    long Prop1ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop1 change.
     std::map<long, SameEnum1InterfaceProp1PropertyCb> Prop1Callbacks;
+    // Next free unique identifier to subscribe for the Sig1 emision.
+    long Sig1SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig1 emision.
     std::map<long, SameEnum1InterfaceSig1SignalCb> Sig1Callbacks;
 };
 
@@ -48,32 +61,31 @@ private:
 using namespace Test::TbSame2;
 
 /**
- * Implementation SameEnum1InterfacePublisherPimpl
+ * Implementation SameEnum1InterfacePublisherImpl
  */
-void SameEnum1InterfacePublisherPimpl::subscribeToSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber)
+void SameEnum1InterfacePublisherImpl::subscribeToSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber)
 {
     ISameEnum1InterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void SameEnum1InterfacePublisherPimpl::unsubscribeFromSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber)
+void SameEnum1InterfacePublisherImpl::unsubscribeFromSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber)
 {
     ISameEnum1InterfaceInterfaceSubscribers.erase(&subscriber);
 }
 
-long SameEnum1InterfacePublisherPimpl::subscribeToProp1Changed(SameEnum1InterfaceProp1PropertyCb callback)
+long SameEnum1InterfacePublisherImpl::subscribeToProp1Changed(SameEnum1InterfaceProp1PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop1Callbacks.size());
+    auto handleId = Prop1ChangedCallbackNextId++;
     Prop1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void SameEnum1InterfacePublisherPimpl::unsubscribeFromProp1Changed(long handleId)
+void SameEnum1InterfacePublisherImpl::unsubscribeFromProp1Changed(long handleId)
 {
     Prop1Callbacks.erase(handleId);
 }
 
-void SameEnum1InterfacePublisherPimpl::publishProp1Changed(const Enum1Enum& prop1) const
+void SameEnum1InterfacePublisherImpl::publishProp1Changed(const Enum1Enum& prop1) const
 {
     for(const auto& Subscriber: ISameEnum1InterfaceInterfaceSubscribers)
     {
@@ -88,20 +100,20 @@ void SameEnum1InterfacePublisherPimpl::publishProp1Changed(const Enum1Enum& prop
     }
 }
 
-long SameEnum1InterfacePublisherPimpl::subscribeToSig1(SameEnum1InterfaceSig1SignalCb callback)
+long SameEnum1InterfacePublisherImpl::subscribeToSig1(SameEnum1InterfaceSig1SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig1Callbacks.size());
+    auto handleId = Sig1SignalCallbackNextId++;
     Sig1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void SameEnum1InterfacePublisherPimpl::unsubscribeFromSig1(long handleId)
+void SameEnum1InterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 {
     Sig1Callbacks.erase(handleId);
 }
 
-void SameEnum1InterfacePublisherPimpl::publishSig1(const Enum1Enum& param1) const
+void SameEnum1InterfacePublisherImpl::publishSig1(const Enum1Enum& param1) const
 {
     for(const auto& Subscriber: ISameEnum1InterfaceInterfaceSubscribers)
     {
@@ -120,10 +132,9 @@ void SameEnum1InterfacePublisherPimpl::publishSig1(const Enum1Enum& param1) cons
  * Implementation SameEnum1InterfacePublisher
  */
 SameEnum1InterfacePublisher::SameEnum1InterfacePublisher()
-    : m_impl(std::make_shared<SameEnum1InterfacePublisherPimpl>())
+    : m_impl(std::make_unique<SameEnum1InterfacePublisherImpl>())
 {
 }
-SameEnum1InterfacePublisher::~SameEnum1InterfacePublisher() = default;
 
 void SameEnum1InterfacePublisher::subscribeToSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber)
 {
