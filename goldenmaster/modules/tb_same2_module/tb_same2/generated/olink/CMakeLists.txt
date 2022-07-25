@@ -4,13 +4,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(apigear QUIET COMPONENTS poco-olink)
 set (SOURCES_OLINK
     samestruct1interfaceservice.cpp
-    remote_samestruct1interface.cpp
+    remotesamestruct1interface.cpp
     samestruct2interfaceservice.cpp
-    remote_samestruct2interface.cpp
+    remotesamestruct2interface.cpp
     sameenum1interfaceservice.cpp
-    remote_sameenum1interface.cpp
+    remotesameenum1interface.cpp
     sameenum2interfaceservice.cpp
-    remote_sameenum2interface.cpp
+    remotesameenum2interface.cpp
 )
 add_library(tb_same2-olink SHARED ${SOURCES_OLINK})
 add_library(tb_same2::tb_same2-olink ALIAS tb_same2-olink)

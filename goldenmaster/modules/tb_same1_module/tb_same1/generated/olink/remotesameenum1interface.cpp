@@ -18,11 +18,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 
-#include "tb_same2/generated/olink/remote_sameenum1interface.h"
-#include "tb_same2/generated/core/sameenum1interface.publisher.h"
-#include "tb_same2/generated/core/tb_same2.json.adapter.h"
+#include "tb_same1/generated/olink/remotesameenum1interface.h"
+#include "tb_same1/generated/core/sameenum1interface.publisher.h"
+#include "tb_same1/generated/core/tb_same1.json.adapter.h"
 
-using namespace Test::TbSame2;
+using namespace Test::TbSame1;
 
 RemoteSameEnum1Interface::RemoteSameEnum1Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     :
@@ -31,7 +31,7 @@ RemoteSameEnum1Interface::RemoteSameEnum1Interface(ApiGear::ObjectLink::ClientRe
     m_publisher(std::make_unique<SameEnum1InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
-    client.linkObjectSource("tb.same2.SameEnum1Interface");
+    client.linkObjectSource("tb.same1.SameEnum1Interface");
 }
 
 RemoteSameEnum1Interface::~RemoteSameEnum1Interface()
@@ -51,7 +51,7 @@ void RemoteSameEnum1Interface::setProp1(const Enum1Enum& prop1)
     if(m_node == nullptr) {
         return;
     }
-    m_node->setRemoteProperty("tb.same2.SameEnum1Interface/prop1", prop1);
+    m_node->setRemoteProperty("tb.same1.SameEnum1Interface/prop1", prop1);
 }
 
 void RemoteSameEnum1Interface::setProp1Local(const Enum1Enum& prop1)
@@ -85,7 +85,7 @@ std::future<Enum1Enum> RemoteSameEnum1Interface::func1Async(const Enum1Enum& par
                     param1]()
         {
             std::promise<Enum1Enum> resultPromise;
-            m_node->invokeRemote("tb.same2.SameEnum1Interface/func1",
+            m_node->invokeRemote("tb.same1.SameEnum1Interface/func1",
                 nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const Enum1Enum& value = arg.value.get<Enum1Enum>();
                     resultPromise.set_value(value);
@@ -97,7 +97,7 @@ std::future<Enum1Enum> RemoteSameEnum1Interface::func1Async(const Enum1Enum& par
 
 std::string RemoteSameEnum1Interface::olinkObjectName()
 {
-    return "tb.same2.SameEnum1Interface";
+    return "tb.same1.SameEnum1Interface";
 }
 
 void RemoteSameEnum1Interface::olinkOnSignal(std::string name, nlohmann::json args)

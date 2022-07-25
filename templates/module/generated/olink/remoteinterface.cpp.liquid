@@ -6,7 +6,7 @@
 {% assign identifiername = module.name | append: "." | append: interface.name %}
 
 
-#include "{{module.name|identifier}}/generated/olink/remote_{{interface.name|lower}}.h"
+#include "{{module.name|identifier}}/generated/olink/remote{{interface.name|lower}}.h"
 #include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.publisher.h"
 #include "{{module.name|identifier}}/generated/core/{{module.name|identifier}}.json.adapter.h"
 
