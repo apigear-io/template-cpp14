@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 
-#include "tb_same2/generated/olink/remote_samestruct1interface.h"
+#include "tb_same2/generated/olink/remotesamestruct1interface.h"
 #include "tb_same2/generated/core/samestruct1interface.publisher.h"
 #include "tb_same2/generated/core/tb_same2.json.adapter.h"
 

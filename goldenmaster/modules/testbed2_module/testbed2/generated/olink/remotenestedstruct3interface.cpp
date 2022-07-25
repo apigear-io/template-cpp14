@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 
-#include "testbed2/generated/olink/remote_nestedstruct3interface.h"
+#include "testbed2/generated/olink/remotenestedstruct3interface.h"
 #include "testbed2/generated/core/nestedstruct3interface.publisher.h"
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 

@@ -18,55 +18,55 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 
-#include "testbed1/generated/olink/remote_structinterface.h"
-#include "testbed1/generated/core/structinterface.publisher.h"
+#include "testbed1/generated/olink/remotestructarrayinterface.h"
+#include "testbed1/generated/core/structarrayinterface.publisher.h"
 #include "testbed1/generated/core/testbed1.json.adapter.h"
 
 using namespace Test::Testbed1;
 
-RemoteStructInterface::RemoteStructInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
+RemoteStructArrayInterface::RemoteStructArrayInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     :
-    m_propBool(StructBool()),
-    m_propInt(StructInt()),
-    m_propFloat(StructFloat()),
-    m_propString(StructString()),
+    m_propBool(std::list<StructBool>()),
+    m_propInt(std::list<StructInt>()),
+    m_propFloat(std::list<StructFloat>()),
+    m_propString(std::list<StructString>()),
     m_registry(registry),
-    m_publisher(std::make_unique<StructInterfacePublisher>())
+    m_publisher(std::make_unique<StructArrayInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
-    client.linkObjectSource("testbed1.StructInterface");
+    client.linkObjectSource("testbed1.StructArrayInterface");
 }
 
-RemoteStructInterface::~RemoteStructInterface()
+RemoteStructArrayInterface::~RemoteStructArrayInterface()
 {
     m_registry.removeObjectSink(this);
 }
 
-void RemoteStructInterface::applyState(const nlohmann::json& fields) 
+void RemoteStructArrayInterface::applyState(const nlohmann::json& fields) 
 {
     if(fields.contains("propBool")) {
-        setPropboolLocal(fields["propBool"].get<StructBool>());
+        setPropboolLocal(fields["propBool"].get<std::list<StructBool>>());
     }
     if(fields.contains("propInt")) {
-        setPropintLocal(fields["propInt"].get<StructInt>());
+        setPropintLocal(fields["propInt"].get<std::list<StructInt>>());
     }
     if(fields.contains("propFloat")) {
-        setPropfloatLocal(fields["propFloat"].get<StructFloat>());
+        setPropfloatLocal(fields["propFloat"].get<std::list<StructFloat>>());
     }
     if(fields.contains("propString")) {
-        setPropstringLocal(fields["propString"].get<StructString>());
+        setPropstringLocal(fields["propString"].get<std::list<StructString>>());
     }
 }
 
-void RemoteStructInterface::setPropbool(const StructBool& propBool)
+void RemoteStructArrayInterface::setPropbool(const std::list<StructBool>& propBool)
 {
     if(m_node == nullptr) {
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructInterface/propBool", propBool);
+    m_node->setRemoteProperty("testbed1.StructArrayInterface/propBool", propBool);
 }
 
-void RemoteStructInterface::setPropboolLocal(const StructBool& propBool)
+void RemoteStructArrayInterface::setPropboolLocal(const std::list<StructBool>& propBool)
 {
     if (m_propBool != propBool) {
         m_propBool = propBool;
@@ -74,20 +74,20 @@ void RemoteStructInterface::setPropboolLocal(const StructBool& propBool)
     }
 }
 
-const StructBool& RemoteStructInterface::propBool() const
+const std::list<StructBool>& RemoteStructArrayInterface::propBool() const
 {
     return m_propBool;
 }
 
-void RemoteStructInterface::setPropint(const StructInt& propInt)
+void RemoteStructArrayInterface::setPropint(const std::list<StructInt>& propInt)
 {
     if(m_node == nullptr) {
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructInterface/propInt", propInt);
+    m_node->setRemoteProperty("testbed1.StructArrayInterface/propInt", propInt);
 }
 
-void RemoteStructInterface::setPropintLocal(const StructInt& propInt)
+void RemoteStructArrayInterface::setPropintLocal(const std::list<StructInt>& propInt)
 {
     if (m_propInt != propInt) {
         m_propInt = propInt;
@@ -95,20 +95,20 @@ void RemoteStructInterface::setPropintLocal(const StructInt& propInt)
     }
 }
 
-const StructInt& RemoteStructInterface::propInt() const
+const std::list<StructInt>& RemoteStructArrayInterface::propInt() const
 {
     return m_propInt;
 }
 
-void RemoteStructInterface::setPropfloat(const StructFloat& propFloat)
+void RemoteStructArrayInterface::setPropfloat(const std::list<StructFloat>& propFloat)
 {
     if(m_node == nullptr) {
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructInterface/propFloat", propFloat);
+    m_node->setRemoteProperty("testbed1.StructArrayInterface/propFloat", propFloat);
 }
 
-void RemoteStructInterface::setPropfloatLocal(const StructFloat& propFloat)
+void RemoteStructArrayInterface::setPropfloatLocal(const std::list<StructFloat>& propFloat)
 {
     if (m_propFloat != propFloat) {
         m_propFloat = propFloat;
@@ -116,20 +116,20 @@ void RemoteStructInterface::setPropfloatLocal(const StructFloat& propFloat)
     }
 }
 
-const StructFloat& RemoteStructInterface::propFloat() const
+const std::list<StructFloat>& RemoteStructArrayInterface::propFloat() const
 {
     return m_propFloat;
 }
 
-void RemoteStructInterface::setPropstring(const StructString& propString)
+void RemoteStructArrayInterface::setPropstring(const std::list<StructString>& propString)
 {
     if(m_node == nullptr) {
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructInterface/propString", propString);
+    m_node->setRemoteProperty("testbed1.StructArrayInterface/propString", propString);
 }
 
-void RemoteStructInterface::setPropstringLocal(const StructString& propString)
+void RemoteStructArrayInterface::setPropstringLocal(const std::list<StructString>& propString)
 {
     if (m_propString != propString) {
         m_propString = propString;
@@ -137,12 +137,12 @@ void RemoteStructInterface::setPropstringLocal(const StructString& propString)
     }
 }
 
-const StructString& RemoteStructInterface::propString() const
+const std::list<StructString>& RemoteStructArrayInterface::propString() const
 {
     return m_propString;
 }
 
-StructBool RemoteStructInterface::funcBool(const StructBool& paramBool)
+StructBool RemoteStructArrayInterface::funcBool(const std::list<StructBool>& paramBool)
 {
     if(m_node == nullptr) {
         return StructBool();
@@ -151,7 +151,7 @@ StructBool RemoteStructInterface::funcBool(const StructBool& paramBool)
     return value;
 }
 
-std::future<StructBool> RemoteStructInterface::funcBoolAsync(const StructBool& paramBool)
+std::future<StructBool> RemoteStructArrayInterface::funcBoolAsync(const std::list<StructBool>& paramBool)
 {
     if(m_node == nullptr) {
         throw std::runtime_error("Node is not initialized");
@@ -160,7 +160,7 @@ std::future<StructBool> RemoteStructInterface::funcBoolAsync(const StructBool& p
                     paramBool]()
         {
             std::promise<StructBool> resultPromise;
-            m_node->invokeRemote("testbed1.StructInterface/funcBool",
+            m_node->invokeRemote("testbed1.StructArrayInterface/funcBool",
                 nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
@@ -170,7 +170,7 @@ std::future<StructBool> RemoteStructInterface::funcBoolAsync(const StructBool& p
     );
 }
 
-StructBool RemoteStructInterface::funcInt(const StructInt& paramInt)
+StructBool RemoteStructArrayInterface::funcInt(const std::list<StructInt>& paramInt)
 {
     if(m_node == nullptr) {
         return StructBool();
@@ -179,7 +179,7 @@ StructBool RemoteStructInterface::funcInt(const StructInt& paramInt)
     return value;
 }
 
-std::future<StructBool> RemoteStructInterface::funcIntAsync(const StructInt& paramInt)
+std::future<StructBool> RemoteStructArrayInterface::funcIntAsync(const std::list<StructInt>& paramInt)
 {
     if(m_node == nullptr) {
         throw std::runtime_error("Node is not initialized");
@@ -188,7 +188,7 @@ std::future<StructBool> RemoteStructInterface::funcIntAsync(const StructInt& par
                     paramInt]()
         {
             std::promise<StructBool> resultPromise;
-            m_node->invokeRemote("testbed1.StructInterface/funcInt",
+            m_node->invokeRemote("testbed1.StructArrayInterface/funcInt",
                 nlohmann::json::array({paramInt}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
@@ -198,16 +198,16 @@ std::future<StructBool> RemoteStructInterface::funcIntAsync(const StructInt& par
     );
 }
 
-StructFloat RemoteStructInterface::funcFloat(const StructFloat& paramFloat)
+StructBool RemoteStructArrayInterface::funcFloat(const std::list<StructFloat>& paramFloat)
 {
     if(m_node == nullptr) {
-        return StructFloat();
+        return StructBool();
     }
-    StructFloat value(funcFloatAsync(paramFloat).get());
+    StructBool value(funcFloatAsync(paramFloat).get());
     return value;
 }
 
-std::future<StructFloat> RemoteStructInterface::funcFloatAsync(const StructFloat& paramFloat)
+std::future<StructBool> RemoteStructArrayInterface::funcFloatAsync(const std::list<StructFloat>& paramFloat)
 {
     if(m_node == nullptr) {
         throw std::runtime_error("Node is not initialized");
@@ -215,10 +215,10 @@ std::future<StructFloat> RemoteStructInterface::funcFloatAsync(const StructFloat
     return std::async(std::launch::async, [this,
                     paramFloat]()
         {
-            std::promise<StructFloat> resultPromise;
-            m_node->invokeRemote("testbed1.StructInterface/funcFloat",
+            std::promise<StructBool> resultPromise;
+            m_node->invokeRemote("testbed1.StructArrayInterface/funcFloat",
                 nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const StructFloat& value = arg.value.get<StructFloat>();
+                    const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
                 });
             return resultPromise.get_future().get();
@@ -226,16 +226,16 @@ std::future<StructFloat> RemoteStructInterface::funcFloatAsync(const StructFloat
     );
 }
 
-StructString RemoteStructInterface::funcString(const StructString& paramString)
+StructBool RemoteStructArrayInterface::funcString(const std::list<StructString>& paramString)
 {
     if(m_node == nullptr) {
-        return StructString();
+        return StructBool();
     }
-    StructString value(funcStringAsync(paramString).get());
+    StructBool value(funcStringAsync(paramString).get());
     return value;
 }
 
-std::future<StructString> RemoteStructInterface::funcStringAsync(const StructString& paramString)
+std::future<StructBool> RemoteStructArrayInterface::funcStringAsync(const std::list<StructString>& paramString)
 {
     if(m_node == nullptr) {
         throw std::runtime_error("Node is not initialized");
@@ -243,10 +243,10 @@ std::future<StructString> RemoteStructInterface::funcStringAsync(const StructStr
     return std::async(std::launch::async, [this,
                     paramString]()
         {
-            std::promise<StructString> resultPromise;
-            m_node->invokeRemote("testbed1.StructInterface/funcString",
+            std::promise<StructBool> resultPromise;
+            m_node->invokeRemote("testbed1.StructArrayInterface/funcString",
                 nlohmann::json::array({paramString}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const StructString& value = arg.value.get<StructString>();
+                    const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
                 });
             return resultPromise.get_future().get();
@@ -254,54 +254,54 @@ std::future<StructString> RemoteStructInterface::funcStringAsync(const StructStr
     );
 }
 
-std::string RemoteStructInterface::olinkObjectName()
+std::string RemoteStructArrayInterface::olinkObjectName()
 {
-    return "testbed1.StructInterface";
+    return "testbed1.StructArrayInterface";
 }
 
-void RemoteStructInterface::olinkOnSignal(std::string name, nlohmann::json args)
+void RemoteStructArrayInterface::olinkOnSignal(std::string name, nlohmann::json args)
 {
     std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
     if(path == "sigBool") {
-        m_publisher->publishSigBool(args[0].get<StructBool>());   
+        m_publisher->publishSigBool(args[0].get<std::list<StructBool>>());   
         return;
     }
     if(path == "sigInt") {
-        m_publisher->publishSigInt(args[0].get<StructInt>());   
+        m_publisher->publishSigInt(args[0].get<std::list<StructInt>>());   
         return;
     }
     if(path == "sigFloat") {
-        m_publisher->publishSigFloat(args[0].get<StructFloat>());   
+        m_publisher->publishSigFloat(args[0].get<std::list<StructFloat>>());   
         return;
     }
     if(path == "sigString") {
-        m_publisher->publishSigString(args[0].get<StructString>());   
+        m_publisher->publishSigString(args[0].get<std::list<StructString>>());   
         return;
     }
 }
 
-void RemoteStructInterface::olinkOnPropertyChanged(std::string name, nlohmann::json value)
+void RemoteStructArrayInterface::olinkOnPropertyChanged(std::string name, nlohmann::json value)
 {
     std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
     applyState({ {path, value} });
 }
-void RemoteStructInterface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
+void RemoteStructArrayInterface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
     applyState(props);
 }
 
-void RemoteStructInterface::olinkOnRelease()
+void RemoteStructArrayInterface::olinkOnRelease()
 {
     m_node = nullptr;
 }
 
-bool RemoteStructInterface::isReady() const
+bool RemoteStructArrayInterface::isReady() const
 {
     return m_node != nullptr;
 }
 
-IStructInterfacePublisher& RemoteStructInterface::_getPublisher() const
+IStructArrayInterfacePublisher& RemoteStructArrayInterface::_getPublisher() const
 {
     return *m_publisher;
 }

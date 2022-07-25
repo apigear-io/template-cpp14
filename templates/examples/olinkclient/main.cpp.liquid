@@ -1,7 +1,7 @@
 #include <iostream>
 {%- for module in system.modules -%}
 {% for interface in module.interfaces %}
-#include "{{module.name|identifier}}/generated/olink/remote_{{interface.name|lower}}.h"
+#include "{{module.name|identifier}}/generated/olink/remote{{interface.name|lower}}.h"
 #include "{{module.name|identifier}}/generated/monitor/{{interface.name|lower}}.trace.h"
 {% endfor %}
 {% endfor %}

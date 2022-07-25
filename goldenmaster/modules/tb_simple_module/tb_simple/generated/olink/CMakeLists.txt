@@ -4,9 +4,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(apigear QUIET COMPONENTS poco-olink)
 set (SOURCES_OLINK
     simpleinterfaceservice.cpp
-    remote_simpleinterface.cpp
+    remotesimpleinterface.cpp
     simplearrayinterfaceservice.cpp
-    remote_simplearrayinterface.cpp
+    remotesimplearrayinterface.cpp
 )
 add_library(tb_simple-olink SHARED ${SOURCES_OLINK})
 add_library(tb_simple::tb_simple-olink ALIAS tb_simple-olink)
