@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "testbed2/generated/api/testbed2.h"
 #include "testbed2/generated/api/common.h"
-#include "testbed2/generated/core/nestedstruct2interface.publisher.h"
 
 namespace Test {
 namespace Testbed2 {

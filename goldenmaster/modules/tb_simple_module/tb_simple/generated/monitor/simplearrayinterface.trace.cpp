@@ -21,13 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_simple/generated/monitor/simplearrayinterface.tracer.h"
 
 using namespace Test::TbSimple;
-SimpleArrayInterfaceTracerDecorator::SimpleArrayInterfaceTracerDecorator(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+SimpleArrayInterfaceTracerDecorator::SimpleArrayInterfaceTracerDecorator(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
     : AbstractSimpleArrayInterfaceDecorator(impl)
     , m_tracer(std::make_unique<SimpleArrayInterfaceTracer>(tracer))
 {
 }
 SimpleArrayInterfaceTracerDecorator::~SimpleArrayInterfaceTracerDecorator() = default;
-SimpleArrayInterfaceTracerDecorator* SimpleArrayInterfaceTracerDecorator::connect(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+SimpleArrayInterfaceTracerDecorator* SimpleArrayInterfaceTracerDecorator::connect(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new SimpleArrayInterfaceTracerDecorator(impl, tracer);
 }

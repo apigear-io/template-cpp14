@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 #include "tb_same2/generated/core/samestruct1interface.decorator.h"
+#include "tb_same2/generated/core/samestruct1interface.publisher.h"
 
 using namespace Test::TbSame2;
 /**

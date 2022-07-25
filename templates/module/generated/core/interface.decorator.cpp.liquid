@@ -7,6 +7,7 @@
 {% assign pub_interface = "I" | append: interface.name | capital | append: "Publisher"%}
 
 #include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.decorator.h"
+#include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.publisher.h"
 
 using namespace {{ system.name | capital }}::{{ module.name | capital }};
 

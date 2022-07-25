@@ -24,88 +24,78 @@ using namespace Test::Testbed1;
 
 struct StructInterface::StructInterfaceData
 {
-    StructInterfaceData()
-    : _publisher(std::make_unique<StructInterfacePublisher>())
-    , m_propBool(StructBool())
-    , m_propInt(StructInt())
-    , m_propFloat(StructFloat())
-    , m_propString(StructString())
-    {
-    }
-    std::unique_ptr<IStructInterfacePublisher> _publisher;
     StructBool m_propBool;
     StructInt m_propInt;
     StructFloat m_propFloat;
     StructString m_propString;
-
-    ~StructInterfaceData() = default;
 };
-/**
-   \brief 
-*/
+
 StructInterface::StructInterface()
-    : d_ptr(std::make_unique<StructInterface::StructInterfaceData>())
+    : m_publisher(std::make_unique<StructInterfacePublisher>()),
+      m_data(std::make_unique<StructInterface::StructInterfaceData>())
 {
 }
 StructInterface::~StructInterface()
 {
 }
+
 void StructInterface::setPropbool(const StructBool& propBool)
 {
-    if (d_ptr->m_propBool != propBool) {
-        d_ptr->m_propBool = propBool;
-        d_ptr->_publisher->publishPropBoolChanged(propBool);
+    if (m_data->m_propBool != propBool) {
+        m_data->m_propBool = propBool;
+        m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 const StructBool& StructInterface::propBool() const
 {
-    return d_ptr->m_propBool;
+    return m_data->m_propBool;
 }
+
 void StructInterface::setPropint(const StructInt& propInt)
 {
-    if (d_ptr->m_propInt != propInt) {
-        d_ptr->m_propInt = propInt;
-        d_ptr->_publisher->publishPropIntChanged(propInt);
+    if (m_data->m_propInt != propInt) {
+        m_data->m_propInt = propInt;
+        m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 const StructInt& StructInterface::propInt() const
 {
-    return d_ptr->m_propInt;
+    return m_data->m_propInt;
 }
+
 void StructInterface::setPropfloat(const StructFloat& propFloat)
 {
-    if (d_ptr->m_propFloat != propFloat) {
-        d_ptr->m_propFloat = propFloat;
-        d_ptr->_publisher->publishPropFloatChanged(propFloat);
+    if (m_data->m_propFloat != propFloat) {
+        m_data->m_propFloat = propFloat;
+        m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 const StructFloat& StructInterface::propFloat() const
 {
-    return d_ptr->m_propFloat;
+    return m_data->m_propFloat;
 }
+
 void StructInterface::setPropstring(const StructString& propString)
 {
-    if (d_ptr->m_propString != propString) {
-        d_ptr->m_propString = propString;
-        d_ptr->_publisher->publishPropStringChanged(propString);
+    if (m_data->m_propString != propString) {
+        m_data->m_propString = propString;
+        m_publisher->publishPropStringChanged(propString);
     }
 }
 
 const StructString& StructInterface::propString() const
 {
-    return d_ptr->m_propString;
+    return m_data->m_propString;
 }
-/**
-   \brief 
-*/
+
 StructBool StructInterface::funcBool(const StructBool& paramBool)
 {
-    (void) paramBool;
+    (void) paramBool; //Supress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
-    return StructBool();
+    return {};
 }
 
 std::future<StructBool> StructInterface::funcBoolAsync(const StructBool& paramBool)
@@ -117,14 +107,12 @@ std::future<StructBool> StructInterface::funcBoolAsync(const StructBool& paramBo
         }
     );
 }
-/**
-   \brief 
-*/
+
 StructBool StructInterface::funcInt(const StructInt& paramInt)
 {
-    (void) paramInt;
+    (void) paramInt; //Supress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
-    return StructBool();
+    return {};
 }
 
 std::future<StructBool> StructInterface::funcIntAsync(const StructInt& paramInt)
@@ -136,14 +124,12 @@ std::future<StructBool> StructInterface::funcIntAsync(const StructInt& paramInt)
         }
     );
 }
-/**
-   \brief 
-*/
+
 StructFloat StructInterface::funcFloat(const StructFloat& paramFloat)
 {
-    (void) paramFloat;
+    (void) paramFloat; //Supress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
-    return StructFloat();
+    return {};
 }
 
 std::future<StructFloat> StructInterface::funcFloatAsync(const StructFloat& paramFloat)
@@ -155,14 +141,12 @@ std::future<StructFloat> StructInterface::funcFloatAsync(const StructFloat& para
         }
     );
 }
-/**
-   \brief 
-*/
+
 StructString StructInterface::funcString(const StructString& paramString)
 {
-    (void) paramString;
+    (void) paramString; //Supress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
-    return StructString();
+    return {};
 }
 
 std::future<StructString> StructInterface::funcStringAsync(const StructString& paramString)
@@ -177,5 +161,5 @@ std::future<StructString> StructInterface::funcStringAsync(const StructString& p
 
 IStructInterfacePublisher& StructInterface::_getPublisher() const
 {
-    return *(d_ptr->_publisher.get());
+    return *m_publisher;
 }

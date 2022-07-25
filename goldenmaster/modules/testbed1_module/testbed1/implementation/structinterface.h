@@ -17,49 +17,71 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #pragma once
-#include <memory>
 #include "testbed1/generated/api/testbed1.h"
 #include "testbed1/generated/api/common.h"
+#include <memory>
 
 namespace Test {
 namespace Testbed1 {
 
+/**
+* The StructInterface implementation.
+*
+*/
 class TEST_TESTBED1_EXPORT StructInterface : public IStructInterface
 {
 public:
     explicit StructInterface();
     ~StructInterface();
 public:
-    // property propBool
     void setPropbool(const StructBool& propBool) override;
     const StructBool& propBool() const override;
     
-    // property propInt
     void setPropint(const StructInt& propInt) override;
     const StructInt& propInt() const override;
     
-    // property propFloat
     void setPropfloat(const StructFloat& propFloat) override;
     const StructFloat& propFloat() const override;
     
-    // property propString
     void setPropstring(const StructString& propString) override;
     const StructString& propString() const override;
     
-    // operations
+    /**
+    * 
+    */
     StructBool funcBool(const StructBool& paramBool) override;
     std::future<StructBool> funcBoolAsync(const StructBool& paramBool) override;
+        
+    /**
+    * 
+    */
     StructBool funcInt(const StructInt& paramInt) override;
     std::future<StructBool> funcIntAsync(const StructInt& paramInt) override;
+        
+    /**
+    * 
+    */
     StructFloat funcFloat(const StructFloat& paramFloat) override;
     std::future<StructFloat> funcFloatAsync(const StructFloat& paramFloat) override;
+        
+    /**
+    * 
+    */
     StructString funcString(const StructString& paramString) override;
     std::future<StructString> funcStringAsync(const StructString& paramString) override;
+        
 
+    /**
+    * Access to a publisher, use it to subscribe for StructInterface changes and signal emisions.
+    * @return The publisher for StructInterface.
+    */
     IStructInterfacePublisher& _getPublisher() const override;
 private:
+    /* The publisher for the StructInterface. */
+    std::unique_ptr<IStructInterfacePublisher> m_publisher;
+    /**The helper structure to store all the properties for StructInterface. */
     struct StructInterfaceData;
-    std::unique_ptr<StructInterfaceData> d_ptr;
+    std::unique_ptr<StructInterfaceData> m_data;
 };
 } // namespace Testbed1
 } // namespace Test

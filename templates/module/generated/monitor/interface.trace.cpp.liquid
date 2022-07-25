@@ -10,13 +10,13 @@
 #include "{{module.name|identifier}}/generated/monitor/{{interface.name|lower}}.tracer.h"
 
 using namespace {{ system.name | capital }}::{{ module.name | capital }};
-{{class}}::{{class}}({{interface_class}}* impl, ApiGear::PocoImpl::Tracer* tracer)
+{{class}}::{{class}}({{interface_class}}* impl, ApiGear::PocoImpl::Tracer& tracer)
     : {{decorator_class}}(impl)
     , m_tracer(std::make_unique<{{interface.name}}Tracer>(tracer))
 {
 }
 {{class}}::~{{class}}() = default;
-{{class}}* {{class}}::connect({{interface_class}}* impl, ApiGear::PocoImpl::Tracer* tracer)
+{{class}}* {{class}}::connect({{interface_class}}* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new {{class}}(impl, tracer);
 }

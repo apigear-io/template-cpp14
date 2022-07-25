@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "tb_enum/generated/api/tb_enum.h"
 #include "tb_enum/generated/api/common.h"
-#include "tb_enum/generated/core/enuminterface.publisher.h"
 
 namespace Test {
 namespace TbEnum {

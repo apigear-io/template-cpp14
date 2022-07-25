@@ -21,13 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed2/generated/monitor/manyparaminterface.tracer.h"
 
 using namespace Test::Testbed2;
-ManyParamInterfaceTracerDecorator::ManyParamInterfaceTracerDecorator(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+ManyParamInterfaceTracerDecorator::ManyParamInterfaceTracerDecorator(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
     : AbstractManyParamInterfaceDecorator(impl)
     , m_tracer(std::make_unique<ManyParamInterfaceTracer>(tracer))
 {
 }
 ManyParamInterfaceTracerDecorator::~ManyParamInterfaceTracerDecorator() = default;
-ManyParamInterfaceTracerDecorator* ManyParamInterfaceTracerDecorator::connect(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+ManyParamInterfaceTracerDecorator* ManyParamInterfaceTracerDecorator::connect(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new ManyParamInterfaceTracerDecorator(impl, tracer);
 }

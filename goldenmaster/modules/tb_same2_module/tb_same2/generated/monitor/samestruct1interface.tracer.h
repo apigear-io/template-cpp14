@@ -7,16 +7,35 @@ namespace ApiGear { namespace PocoImpl { class Tracer; } }
 namespace Test {
 namespace TbSame2 {
 
+/**
+* A helper class for monitoring.
+* Decorates the to PocoImpl::Tracer calls with information about state and operations specific for SameStruct1Interface.
+*/
 class SameStruct1InterfaceTracer
 {
 public:
-  SameStruct1InterfaceTracer(ApiGear::PocoImpl::Tracer* tracer);
+  /**
+  * ctor
+  * @param tracer A tracer object to which the information about the state and operations is put.
+  */
+  SameStruct1InterfaceTracer(ApiGear::PocoImpl::Tracer& tracer);
+  /** dtor */
   virtual ~SameStruct1InterfaceTracer() = default;
-  
+  /**
+  * Prepares the SameStruct1Interface object state in a nlohmann::json format and puts to a tracer.
+  * @param The SameStruct1Interface object to trace.
+  */
   void capture_state(ISameStruct1Interface* obj);
+  /**
+  * Prepares information about the func1 call in a nlohmann::json format and puts to a tracer.
+  * @param The SameStruct1Interface object to trace.
+  */
   void trace_func1(const Struct1& param1);
 private:
-  ApiGear::PocoImpl::Tracer* m_tracer;
+  /**
+  * A tracer object to which the information about the state and operations is put.
+  */
+  ApiGear::PocoImpl::Tracer& m_tracer;
 };
 
 } // namespace TbSame2

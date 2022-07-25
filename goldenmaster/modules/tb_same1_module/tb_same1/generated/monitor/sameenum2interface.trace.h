@@ -31,9 +31,9 @@ class SameEnum2InterfaceTracer;
 class TEST_TB_SAME1_EXPORT SameEnum2InterfaceTracerDecorator : public AbstractSameEnum2InterfaceDecorator
 {
 protected:
-    explicit SameEnum2InterfaceTracerDecorator(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit SameEnum2InterfaceTracerDecorator(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static SameEnum2InterfaceTracerDecorator* connect(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static SameEnum2InterfaceTracerDecorator* connect(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~SameEnum2InterfaceTracerDecorator();
 
     // operations

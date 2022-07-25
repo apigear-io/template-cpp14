@@ -24,60 +24,50 @@ using namespace Test::TbSame2;
 
 struct SameEnum2Interface::SameEnum2InterfaceData
 {
-    SameEnum2InterfaceData()
-    : _publisher(std::make_unique<SameEnum2InterfacePublisher>())
-    , m_prop1(Enum1Enum::value1)
-    , m_prop2(Enum2Enum::value1)
-    {
-    }
-    std::unique_ptr<ISameEnum2InterfacePublisher> _publisher;
     Enum1Enum m_prop1;
     Enum2Enum m_prop2;
-
-    ~SameEnum2InterfaceData() = default;
 };
-/**
-   \brief 
-*/
+
 SameEnum2Interface::SameEnum2Interface()
-    : d_ptr(std::make_unique<SameEnum2Interface::SameEnum2InterfaceData>())
+    : m_publisher(std::make_unique<SameEnum2InterfacePublisher>()),
+      m_data(std::make_unique<SameEnum2Interface::SameEnum2InterfaceData>())
 {
 }
 SameEnum2Interface::~SameEnum2Interface()
 {
 }
+
 void SameEnum2Interface::setProp1(const Enum1Enum& prop1)
 {
-    if (d_ptr->m_prop1 != prop1) {
-        d_ptr->m_prop1 = prop1;
-        d_ptr->_publisher->publishProp1Changed(prop1);
+    if (m_data->m_prop1 != prop1) {
+        m_data->m_prop1 = prop1;
+        m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const Enum1Enum& SameEnum2Interface::prop1() const
 {
-    return d_ptr->m_prop1;
+    return m_data->m_prop1;
 }
+
 void SameEnum2Interface::setProp2(const Enum2Enum& prop2)
 {
-    if (d_ptr->m_prop2 != prop2) {
-        d_ptr->m_prop2 = prop2;
-        d_ptr->_publisher->publishProp2Changed(prop2);
+    if (m_data->m_prop2 != prop2) {
+        m_data->m_prop2 = prop2;
+        m_publisher->publishProp2Changed(prop2);
     }
 }
 
 const Enum2Enum& SameEnum2Interface::prop2() const
 {
-    return d_ptr->m_prop2;
+    return m_data->m_prop2;
 }
-/**
-   \brief 
-*/
+
 Enum1Enum SameEnum2Interface::func1(const Enum1Enum& param1)
 {
-    (void) param1;
+    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
-    return Enum1Enum::value1;
+    return {};
 }
 
 std::future<Enum1Enum> SameEnum2Interface::func1Async(const Enum1Enum& param1)
@@ -89,15 +79,13 @@ std::future<Enum1Enum> SameEnum2Interface::func1Async(const Enum1Enum& param1)
         }
     );
 }
-/**
-   \brief 
-*/
+
 Enum1Enum SameEnum2Interface::func2(const Enum1Enum& param1, const Enum2Enum& param2)
 {
-    (void) param1;
-    (void) param2;
+    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param2; //Supress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
-    return Enum1Enum::value1;
+    return {};
 }
 
 std::future<Enum1Enum> SameEnum2Interface::func2Async(const Enum1Enum& param1, const Enum2Enum& param2)
@@ -113,5 +101,5 @@ std::future<Enum1Enum> SameEnum2Interface::func2Async(const Enum1Enum& param1, c
 
 ISameEnum2InterfacePublisher& SameEnum2Interface::_getPublisher() const
 {
-    return *(d_ptr->_publisher.get());
+    return *m_publisher;
 }

@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 #include "tb_simple/generated/core/simplearrayinterface.decorator.h"
+#include "tb_simple/generated/core/simplearrayinterface.publisher.h"
 
 using namespace Test::TbSimple;
 /**

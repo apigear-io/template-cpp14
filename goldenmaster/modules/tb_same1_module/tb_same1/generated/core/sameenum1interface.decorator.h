@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "tb_same1/generated/api/tb_same1.h"
 #include "tb_same1/generated/api/common.h"
-#include "tb_same1/generated/core/sameenum1interface.publisher.h"
 
 namespace Test {
 namespace TbSame1 {

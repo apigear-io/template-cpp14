@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 #include "testbed1/generated/core/structarrayinterface.decorator.h"
+#include "testbed1/generated/core/structarrayinterface.publisher.h"
 
 using namespace Test::Testbed1;
 /**

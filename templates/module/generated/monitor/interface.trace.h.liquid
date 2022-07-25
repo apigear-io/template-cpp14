@@ -20,9 +20,9 @@ class {{interface.name}}Tracer;
 class {{ system.name | constant }}_{{ module.name | constant }}_EXPORT {{class}} : public {{decorator_class}}
 {
 protected:
-    explicit {{class}}({{interface_class}}* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit {{class}}({{interface_class}}* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static {{class}}* connect({{interface_class}}* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static {{class}}* connect({{interface_class}}* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~{{class}}();
 {{nl}}
     // operations

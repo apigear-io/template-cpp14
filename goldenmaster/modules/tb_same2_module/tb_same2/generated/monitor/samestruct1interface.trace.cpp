@@ -21,13 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_same2/generated/monitor/samestruct1interface.tracer.h"
 
 using namespace Test::TbSame2;
-SameStruct1InterfaceTracerDecorator::SameStruct1InterfaceTracerDecorator(ISameStruct1Interface* impl, ApiGear::PocoImpl::Tracer* tracer)
+SameStruct1InterfaceTracerDecorator::SameStruct1InterfaceTracerDecorator(ISameStruct1Interface* impl, ApiGear::PocoImpl::Tracer& tracer)
     : AbstractSameStruct1InterfaceDecorator(impl)
     , m_tracer(std::make_unique<SameStruct1InterfaceTracer>(tracer))
 {
 }
 SameStruct1InterfaceTracerDecorator::~SameStruct1InterfaceTracerDecorator() = default;
-SameStruct1InterfaceTracerDecorator* SameStruct1InterfaceTracerDecorator::connect(ISameStruct1Interface* impl, ApiGear::PocoImpl::Tracer* tracer)
+SameStruct1InterfaceTracerDecorator* SameStruct1InterfaceTracerDecorator::connect(ISameStruct1Interface* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new SameStruct1InterfaceTracerDecorator(impl, tracer);
 }

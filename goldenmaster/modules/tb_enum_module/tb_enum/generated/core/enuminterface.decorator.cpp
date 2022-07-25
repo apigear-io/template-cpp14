@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 #include "tb_enum/generated/core/enuminterface.decorator.h"
+#include "tb_enum/generated/core/enuminterface.publisher.h"
 
 using namespace Test::TbEnum;
 /**
