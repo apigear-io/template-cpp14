@@ -22,7 +22,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace Testbed2 {
-class NestedStruct3InterfacePublisherPimpl : public INestedStruct3InterfacePublisher
+
+/**
+ * The implementation of a NestedStruct3InterfacePublisher.
+ * Use this class to store clients of the NestedStruct3Interface and inform them about the change
+ * on call of the  appropriate publish function.
+ */
+class NestedStruct3InterfacePublisherImpl : public INestedStruct3InterfacePublisher
 {
 public:
     void subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
@@ -53,12 +59,31 @@ public:
     void publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const override;
     void publishSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) const override;
 private:
+    // ISubscribers informed about any property change or singal emited in NestedStruct3Interface
     std::set<INestedStruct3InterfaceSubscriber*> INestedStruct3InterfaceInterfaceSubscribers;
+    // Next free unique identifier to subscribe for the Prop1 change.
+    long Prop1ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop1 change.
     std::map<long, NestedStruct3InterfaceProp1PropertyCb> Prop1Callbacks;
+    // Next free unique identifier to subscribe for the Prop2 change.
+    long Prop2ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop2 change.
     std::map<long, NestedStruct3InterfaceProp2PropertyCb> Prop2Callbacks;
+    // Next free unique identifier to subscribe for the Prop3 change.
+    long Prop3ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop3 change.
     std::map<long, NestedStruct3InterfaceProp3PropertyCb> Prop3Callbacks;
+    // Next free unique identifier to subscribe for the Sig1 emision.
+    long Sig1SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig1 emision.
     std::map<long, NestedStruct3InterfaceSig1SignalCb> Sig1Callbacks;
+    // Next free unique identifier to subscribe for the Sig2 emision.
+    long Sig2SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig2 emision.
     std::map<long, NestedStruct3InterfaceSig2SignalCb> Sig2Callbacks;
+    // Next free unique identifier to subscribe for the Sig3 emision.
+    long Sig3SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig3 emision.
     std::map<long, NestedStruct3InterfaceSig3SignalCb> Sig3Callbacks;
 };
 
@@ -68,32 +93,31 @@ private:
 using namespace Test::Testbed2;
 
 /**
- * Implementation NestedStruct3InterfacePublisherPimpl
+ * Implementation NestedStruct3InterfacePublisherImpl
  */
-void NestedStruct3InterfacePublisherPimpl::subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
+void NestedStruct3InterfacePublisherImpl::subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
     INestedStruct3InterfaceInterfaceSubscribers.insert(&subscriber);
 }
 
-void NestedStruct3InterfacePublisherPimpl::unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
     INestedStruct3InterfaceInterfaceSubscribers.erase(&subscriber);
 }
 
-long NestedStruct3InterfacePublisherPimpl::subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback)
+long NestedStruct3InterfacePublisherImpl::subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop1Callbacks.size());
+    auto handleId = Prop1ChangedCallbackNextId++;
     Prop1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void NestedStruct3InterfacePublisherPimpl::unsubscribeFromProp1Changed(long handleId)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromProp1Changed(long handleId)
 {
     Prop1Callbacks.erase(handleId);
 }
 
-void NestedStruct3InterfacePublisherPimpl::publishProp1Changed(const NestedStruct1& prop1) const
+void NestedStruct3InterfacePublisherImpl::publishProp1Changed(const NestedStruct1& prop1) const
 {
     for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
     {
@@ -108,20 +132,19 @@ void NestedStruct3InterfacePublisherPimpl::publishProp1Changed(const NestedStruc
     }
 }
 
-long NestedStruct3InterfacePublisherPimpl::subscribeToProp2Changed(NestedStruct3InterfaceProp2PropertyCb callback)
+long NestedStruct3InterfacePublisherImpl::subscribeToProp2Changed(NestedStruct3InterfaceProp2PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop2Callbacks.size());
+    auto handleId = Prop2ChangedCallbackNextId++;
     Prop2Callbacks[handleId] = callback;
     return handleId;
 }
 
-void NestedStruct3InterfacePublisherPimpl::unsubscribeFromProp2Changed(long handleId)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromProp2Changed(long handleId)
 {
     Prop2Callbacks.erase(handleId);
 }
 
-void NestedStruct3InterfacePublisherPimpl::publishProp2Changed(const NestedStruct2& prop2) const
+void NestedStruct3InterfacePublisherImpl::publishProp2Changed(const NestedStruct2& prop2) const
 {
     for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
     {
@@ -136,20 +159,19 @@ void NestedStruct3InterfacePublisherPimpl::publishProp2Changed(const NestedStruc
     }
 }
 
-long NestedStruct3InterfacePublisherPimpl::subscribeToProp3Changed(NestedStruct3InterfaceProp3PropertyCb callback)
+long NestedStruct3InterfacePublisherImpl::subscribeToProp3Changed(NestedStruct3InterfaceProp3PropertyCb callback)
 {
-    // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Prop3Callbacks.size());
+    auto handleId = Prop3ChangedCallbackNextId++;
     Prop3Callbacks[handleId] = callback;
     return handleId;
 }
 
-void NestedStruct3InterfacePublisherPimpl::unsubscribeFromProp3Changed(long handleId)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromProp3Changed(long handleId)
 {
     Prop3Callbacks.erase(handleId);
 }
 
-void NestedStruct3InterfacePublisherPimpl::publishProp3Changed(const NestedStruct3& prop3) const
+void NestedStruct3InterfacePublisherImpl::publishProp3Changed(const NestedStruct3& prop3) const
 {
     for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
     {
@@ -164,20 +186,20 @@ void NestedStruct3InterfacePublisherPimpl::publishProp3Changed(const NestedStruc
     }
 }
 
-long NestedStruct3InterfacePublisherPimpl::subscribeToSig1(NestedStruct3InterfaceSig1SignalCb callback)
+long NestedStruct3InterfacePublisherImpl::subscribeToSig1(NestedStruct3InterfaceSig1SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig1Callbacks.size());
+    auto handleId = Sig1SignalCallbackNextId++;
     Sig1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void NestedStruct3InterfacePublisherPimpl::unsubscribeFromSig1(long handleId)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 {
     Sig1Callbacks.erase(handleId);
 }
 
-void NestedStruct3InterfacePublisherPimpl::publishSig1(const NestedStruct1& param1) const
+void NestedStruct3InterfacePublisherImpl::publishSig1(const NestedStruct1& param1) const
 {
     for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
     {
@@ -192,20 +214,20 @@ void NestedStruct3InterfacePublisherPimpl::publishSig1(const NestedStruct1& para
     }
 }
 
-long NestedStruct3InterfacePublisherPimpl::subscribeToSig2(NestedStruct3InterfaceSig2SignalCb callback)
+long NestedStruct3InterfacePublisherImpl::subscribeToSig2(NestedStruct3InterfaceSig2SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig2Callbacks.size());
+    auto handleId = Sig2SignalCallbackNextId++;
     Sig2Callbacks[handleId] = callback;
     return handleId;
 }
 
-void NestedStruct3InterfacePublisherPimpl::unsubscribeFromSig2(long handleId)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromSig2(long handleId)
 {
     Sig2Callbacks.erase(handleId);
 }
 
-void NestedStruct3InterfacePublisherPimpl::publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const
+void NestedStruct3InterfacePublisherImpl::publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const
 {
     for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
     {
@@ -220,20 +242,20 @@ void NestedStruct3InterfacePublisherPimpl::publishSig2(const NestedStruct1& para
     }
 }
 
-long NestedStruct3InterfacePublisherPimpl::subscribeToSig3(NestedStruct3InterfaceSig3SignalCb callback)
+long NestedStruct3InterfacePublisherImpl::subscribeToSig3(NestedStruct3InterfaceSig3SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
-    long handleId = static_cast<long>(Sig3Callbacks.size());
+    auto handleId = Sig3SignalCallbackNextId++;
     Sig3Callbacks[handleId] = callback;
     return handleId;
 }
 
-void NestedStruct3InterfacePublisherPimpl::unsubscribeFromSig3(long handleId)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromSig3(long handleId)
 {
     Sig3Callbacks.erase(handleId);
 }
 
-void NestedStruct3InterfacePublisherPimpl::publishSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) const
+void NestedStruct3InterfacePublisherImpl::publishSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) const
 {
     for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
     {
@@ -252,10 +274,9 @@ void NestedStruct3InterfacePublisherPimpl::publishSig3(const NestedStruct1& para
  * Implementation NestedStruct3InterfacePublisher
  */
 NestedStruct3InterfacePublisher::NestedStruct3InterfacePublisher()
-    : m_impl(std::make_shared<NestedStruct3InterfacePublisherPimpl>())
+    : m_impl(std::make_unique<NestedStruct3InterfacePublisherImpl>())
 {
 }
-NestedStruct3InterfacePublisher::~NestedStruct3InterfacePublisher() = default;
 
 void NestedStruct3InterfacePublisher::subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {

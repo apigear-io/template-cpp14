@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbSimple {
 /**
- * Implementation SimpleInterfacePublisher
+ * The implementation of a SimpleInterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TB_SIMPLE_EXPORT SimpleInterfacePublisher: public ISimpleInterfacePublisher
 {
 public:
     explicit SimpleInterfacePublisher();
-    virtual ~SimpleInterfacePublisher();
+    virtual ~SimpleInterfacePublisher() = default;
 
     // SimpleInterfacePublisher is not copyable
     SimpleInterfacePublisher(const SimpleInterfacePublisher& a) = delete;
@@ -71,13 +75,12 @@ public:
     void publishSigInt(int paramInt) const override;
     void publishSigFloat(float paramFloat) const override;
     void publishSigString(const std::string& paramString) const override;
-protected:
     void publishPropBoolChanged(bool propBool) const override;
     void publishPropIntChanged(int propInt) const override;
     void publishPropFloatChanged(float propFloat) const override;
     void publishPropStringChanged(const std::string& propString) const override;
 private:
-    std::shared_ptr<ISimpleInterfacePublisher> m_impl;
+    std::unique_ptr<ISimpleInterfacePublisher> m_impl;
 };
 
 } // namespace TbSimple

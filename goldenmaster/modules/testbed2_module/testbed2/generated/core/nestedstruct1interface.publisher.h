@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace Testbed2 {
 /**
- * Implementation NestedStruct1InterfacePublisher
+ * The implementation of a NestedStruct1InterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TESTBED2_EXPORT NestedStruct1InterfacePublisher: public INestedStruct1InterfacePublisher
 {
 public:
     explicit NestedStruct1InterfacePublisher();
-    virtual ~NestedStruct1InterfacePublisher();
+    virtual ~NestedStruct1InterfacePublisher() = default;
 
     // NestedStruct1InterfacePublisher is not copyable
     NestedStruct1InterfacePublisher(const NestedStruct1InterfacePublisher& a) = delete;
@@ -50,10 +54,9 @@ public:
     void unsubscribeFromSig1(long handleId) override;
 
     void publishSig1(const NestedStruct1& param1) const override;
-protected:
     void publishProp1Changed(const NestedStruct1& prop1) const override;
 private:
-    std::shared_ptr<INestedStruct1InterfacePublisher> m_impl;
+    std::unique_ptr<INestedStruct1InterfacePublisher> m_impl;
 };
 
 } // namespace Testbed2

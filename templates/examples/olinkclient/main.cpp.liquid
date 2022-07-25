@@ -1,7 +1,7 @@
 #include <iostream>
 {%- for module in system.modules -%}
 {% for interface in module.interfaces %}
-#include "{{module.name|identifier}}/generated/olink/{{interface.name|lower}}interface.h"
+#include "{{module.name|identifier}}/generated/olink/remote_{{interface.name|lower}}.h"
 #include "{{module.name|identifier}}/generated/monitor/{{interface.name|lower}}.trace.h"
 {% endfor %}
 {% endfor %}
@@ -19,7 +19,7 @@ int main(){
     {% for interface in module.interfaces %}
     {% assign class = interface.name | capital %}
     {% assign tracer_class = class | append: "TracerDecorator" %}
-    std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{module.name | capital}}{{class}} = std::make_unique<{{ module.name | capital }}::OLink{{interface.name}}>(registry, testClient);
+    std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{module.name | capital}}{{class}} = std::make_unique<{{ module.name | capital }}::Remote{{interface.name}}>(registry, testClient);
     std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{ module.name | capital }}{{tracer_class}}({{ module.name | capital }}::{{tracer_class}}::connect(test{{ module.name | capital }}{{class}}.get(), &tracer));
     {% endfor %}
     {% endfor %}

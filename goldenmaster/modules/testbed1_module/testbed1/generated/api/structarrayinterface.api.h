@@ -221,7 +221,8 @@ public:
     virtual void subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the StructArrayInterface.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param IStructArrayInterfaceSubscriber which subscription for any change of the StructArrayInterface is removed.
     */
     virtual void unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) = 0;
@@ -229,6 +230,7 @@ public:
     /**
     * Use this function to subscribe for propBool value changes.
     * @param StructArrayInterfacePropBoolPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -243,6 +245,7 @@ public:
     /**
     * Use this function to subscribe for propInt value changes.
     * @param StructArrayInterfacePropIntPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -257,6 +260,7 @@ public:
     /**
     * Use this function to subscribe for propFloat value changes.
     * @param StructArrayInterfacePropFloatPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -271,6 +275,7 @@ public:
     /**
     * Use this function to subscribe for propString value changes.
     * @param StructArrayInterfacePropStringPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -285,6 +290,7 @@ public:
     /**
     * Use this function to subscribe for sigBool signal changes.
     * @param StructArrayInterfaceSigBoolSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -299,6 +305,7 @@ public:
     /**
     * Use this function to subscribe for sigInt signal changes.
     * @param StructArrayInterfaceSigIntSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -313,6 +320,7 @@ public:
     /**
     * Use this function to subscribe for sigFloat signal changes.
     * @param StructArrayInterfaceSigFloatSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -327,6 +335,7 @@ public:
     /**
     * Use this function to subscribe for sigString signal changes.
     * @param StructArrayInterfaceSigStringSignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

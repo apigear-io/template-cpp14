@@ -227,7 +227,8 @@ public:
     virtual void subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the ManyParamInterface.
-    * All the subscriptions will be removed, including ones made deparately for single singal or property change.
+    * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
+    * Make sure to remove them.
     * @param IManyParamInterfaceSubscriber which subscription for any change of the ManyParamInterface is removed.
     */
     virtual void unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) = 0;
@@ -235,6 +236,7 @@ public:
     /**
     * Use this function to subscribe for prop1 value changes.
     * @param ManyParamInterfaceProp1PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -249,6 +251,7 @@ public:
     /**
     * Use this function to subscribe for prop2 value changes.
     * @param ManyParamInterfaceProp2PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -263,6 +266,7 @@ public:
     /**
     * Use this function to subscribe for prop3 value changes.
     * @param ManyParamInterfaceProp3PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -277,6 +281,7 @@ public:
     /**
     * Use this function to subscribe for prop4 value changes.
     * @param ManyParamInterfaceProp4PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -291,6 +296,7 @@ public:
     /**
     * Use this function to subscribe for sig1 signal changes.
     * @param ManyParamInterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -305,6 +311,7 @@ public:
     /**
     * Use this function to subscribe for sig2 signal changes.
     * @param ManyParamInterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -319,6 +326,7 @@ public:
     /**
     * Use this function to subscribe for sig3 signal changes.
     * @param ManyParamInterfaceSig3SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -333,6 +341,7 @@ public:
     /**
     * Use this function to subscribe for sig4 signal changes.
     * @param ManyParamInterfaceSig4SignalCb callback that will be executed on each signal emision.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

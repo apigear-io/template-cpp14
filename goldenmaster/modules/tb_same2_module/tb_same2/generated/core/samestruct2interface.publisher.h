@@ -25,13 +25,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace Test {
 namespace TbSame2 {
 /**
- * Implementation SameStruct2InterfacePublisher
+ * The implementation of a SameStruct2InterfacePublisher.
+ * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
+ * and provides only forwarding calls to the actual implementation.
+ * see pub_impl_class for the implementation.
+ * 
  */
 class TEST_TB_SAME2_EXPORT SameStruct2InterfacePublisher: public ISameStruct2InterfacePublisher
 {
 public:
     explicit SameStruct2InterfacePublisher();
-    virtual ~SameStruct2InterfacePublisher();
+    virtual ~SameStruct2InterfacePublisher() = default;
 
     // SameStruct2InterfacePublisher is not copyable
     SameStruct2InterfacePublisher(const SameStruct2InterfacePublisher& a) = delete;
@@ -57,11 +61,10 @@ public:
 
     void publishSig1(const Struct1& param1) const override;
     void publishSig2(const Struct1& param1,const Struct2& param2) const override;
-protected:
     void publishProp1Changed(const Struct2& prop1) const override;
     void publishProp2Changed(const Struct2& prop2) const override;
 private:
-    std::shared_ptr<ISameStruct2InterfacePublisher> m_impl;
+    std::unique_ptr<ISameStruct2InterfacePublisher> m_impl;
 };
 
 } // namespace TbSame2
