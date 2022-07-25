@@ -30,8 +30,7 @@ SameEnum2InterfaceServiceAdapter::SameEnum2InterfaceServiceAdapter(ISameEnum2Int
     , m_registry(registry)
 {
     m_SameEnum2Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
-}
+    m_registry.addObjectSource(this);}
 
 SameEnum2InterfaceServiceAdapter::~SameEnum2InterfaceServiceAdapter()
 {

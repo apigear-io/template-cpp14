@@ -208,6 +208,7 @@ public:
     * Use this function to subscribe for prop1 value changes.
     * If your subscriber uses subsrciption with INestedStruct3InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct3InterfaceProp1PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -225,6 +226,7 @@ public:
     * Use this function to subscribe for prop2 value changes.
     * If your subscriber uses subsrciption with INestedStruct3InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct3InterfaceProp2PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -242,6 +244,7 @@ public:
     * Use this function to subscribe for prop3 value changes.
     * If your subscriber uses subsrciption with INestedStruct3InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct3InterfaceProp3PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

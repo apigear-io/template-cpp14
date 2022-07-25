@@ -14,7 +14,7 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }}::olink;
 
 {{class}}::{{class}}(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<{{pub_class}}>())
+      m_publisher(std::make_unique<{{pub_class}}>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("{{identifiername}}");

@@ -26,7 +26,7 @@ using namespace Test::TbEnum::olink;
 
 RemoteEnumInterface::RemoteEnumInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<EnumInterfacePublisher>())
+      m_publisher(std::make_unique<EnumInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("tb.enum.EnumInterface");

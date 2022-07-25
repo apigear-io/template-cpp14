@@ -30,8 +30,7 @@ NestedStruct1InterfaceServiceAdapter::NestedStruct1InterfaceServiceAdapter(INest
     , m_registry(registry)
 {
     m_NestedStruct1Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
-}
+    m_registry.addObjectSource(this);}
 
 NestedStruct1InterfaceServiceAdapter::~NestedStruct1InterfaceServiceAdapter()
 {

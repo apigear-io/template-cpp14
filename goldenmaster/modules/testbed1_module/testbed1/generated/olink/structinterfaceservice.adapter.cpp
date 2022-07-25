@@ -30,8 +30,7 @@ StructInterfaceServiceAdapter::StructInterfaceServiceAdapter(IStructInterface& S
     , m_registry(registry)
 {
     m_StructInterface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
-}
+    m_registry.addObjectSource(this);}
 
 StructInterfaceServiceAdapter::~StructInterfaceServiceAdapter()
 {

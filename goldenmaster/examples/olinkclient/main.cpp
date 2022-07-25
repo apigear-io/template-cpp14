@@ -1,37 +1,105 @@
 #include <iostream>
+<<<<<<< HEAD
 #include "testbed2/generated/olink/remotemanyparaminterface.h"
+=======
+#include "testbed2/generated/olink/remote_manyparaminterface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "testbed2/generated/monitor/manyparaminterface.trace.h"
+<<<<<<< HEAD
 #include "testbed2/generated/olink/remotenestedstruct1interface.h"
+=======
+#include "testbed2/generated/olink/remote_nestedstruct1interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "testbed2/generated/monitor/nestedstruct1interface.trace.h"
+<<<<<<< HEAD
 #include "testbed2/generated/olink/remotenestedstruct2interface.h"
+=======
+#include "testbed2/generated/olink/remote_nestedstruct2interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "testbed2/generated/monitor/nestedstruct2interface.trace.h"
+<<<<<<< HEAD
 #include "testbed2/generated/olink/remotenestedstruct3interface.h"
+=======
+#include "testbed2/generated/olink/remote_nestedstruct3interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "testbed2/generated/monitor/nestedstruct3interface.trace.h"
+<<<<<<< HEAD
 #include "tb_enum/generated/olink/remoteenuminterface.h"
+=======
+#include "tb_enum/generated/olink/remote_enuminterface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_enum/generated/monitor/enuminterface.trace.h"
+<<<<<<< HEAD
 #include "tb_same1/generated/olink/remotesamestruct1interface.h"
+=======
+#include "tb_same1/generated/olink/remote_samestruct1interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same1/generated/monitor/samestruct1interface.trace.h"
+<<<<<<< HEAD
 #include "tb_same1/generated/olink/remotesamestruct2interface.h"
+=======
+#include "tb_same1/generated/olink/remote_samestruct2interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same1/generated/monitor/samestruct2interface.trace.h"
+<<<<<<< HEAD
 #include "tb_same1/generated/olink/remotesameenum1interface.h"
+=======
+#include "tb_same1/generated/olink/remote_sameenum1interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same1/generated/monitor/sameenum1interface.trace.h"
+<<<<<<< HEAD
 #include "tb_same1/generated/olink/remotesameenum2interface.h"
+=======
+#include "tb_same1/generated/olink/remote_sameenum2interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same1/generated/monitor/sameenum2interface.trace.h"
+<<<<<<< HEAD
 #include "tb_same2/generated/olink/remotesamestruct1interface.h"
+=======
+#include "tb_same2/generated/olink/remote_samestruct1interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same2/generated/monitor/samestruct1interface.trace.h"
+<<<<<<< HEAD
 #include "tb_same2/generated/olink/remotesamestruct2interface.h"
+=======
+#include "tb_same2/generated/olink/remote_samestruct2interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same2/generated/monitor/samestruct2interface.trace.h"
+<<<<<<< HEAD
 #include "tb_same2/generated/olink/remotesameenum1interface.h"
+=======
+#include "tb_same2/generated/olink/remote_sameenum1interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same2/generated/monitor/sameenum1interface.trace.h"
+<<<<<<< HEAD
 #include "tb_same2/generated/olink/remotesameenum2interface.h"
+=======
+#include "tb_same2/generated/olink/remote_sameenum2interface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_same2/generated/monitor/sameenum2interface.trace.h"
+<<<<<<< HEAD
 #include "tb_simple/generated/olink/remotesimpleinterface.h"
+=======
+#include "tb_simple/generated/olink/remote_simpleinterface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_simple/generated/monitor/simpleinterface.trace.h"
+<<<<<<< HEAD
 #include "tb_simple/generated/olink/remotesimplearrayinterface.h"
+=======
+#include "tb_simple/generated/olink/remote_simplearrayinterface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "tb_simple/generated/monitor/simplearrayinterface.trace.h"
+<<<<<<< HEAD
 #include "testbed1/generated/olink/remotestructinterface.h"
+=======
+#include "testbed1/generated/olink/remote_structinterface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "testbed1/generated/monitor/structinterface.trace.h"
+<<<<<<< HEAD
 #include "testbed1/generated/olink/remotestructarrayinterface.h"
+=======
+#include "testbed1/generated/olink/remote_structarrayinterface.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "testbed1/generated/monitor/structarrayinterface.trace.h"
 #include "apigear/olink/olinkclient.h"
 #include "apigear/tracer/tracer.h"

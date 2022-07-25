@@ -26,7 +26,7 @@ using namespace Test::TbSame2::olink;
 
 RemoteSameStruct2Interface::RemoteSameStruct2Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<SameStruct2InterfacePublisher>())
+      m_publisher(std::make_unique<SameStruct2InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("tb.same2.SameStruct2Interface");

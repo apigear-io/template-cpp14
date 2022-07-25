@@ -26,7 +26,7 @@ using namespace Test::Testbed2::olink;
 
 RemoteNestedStruct3Interface::RemoteNestedStruct3Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<NestedStruct3InterfacePublisher>())
+      m_publisher(std::make_unique<NestedStruct3InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("testbed2.NestedStruct3Interface");

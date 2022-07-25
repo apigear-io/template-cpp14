@@ -15,8 +15,7 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }}::olink;
     , m_registry(registry)
 {
     m_{{interface}}._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
-}
+    m_registry.addObjectSource(this);}
 
 {{class}}::~{{class}}()
 {

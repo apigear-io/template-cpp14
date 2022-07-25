@@ -1,7 +1,11 @@
 #include <iostream>
 {%- for module in system.modules -%}
 {% for interface in module.interfaces %}
+<<<<<<< HEAD
 #include "{{module.name|identifier}}/generated/olink/remote{{interface.name|lower}}.h"
+=======
+#include "{{module.name|identifier}}/generated/olink/remote_{{interface.name|lower}}.h"
+>>>>>>> 12d7f80 (add descriptions to olink server and client classes, rename them. add descriptions to publisher class from core and json adapter functions)
 #include "{{module.name|identifier}}/generated/monitor/{{interface.name|lower}}.trace.h"
 {% endfor %}
 {% endfor %}

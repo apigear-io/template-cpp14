@@ -26,7 +26,7 @@ using namespace Test::TbSimple::olink;
 
 RemoteSimpleArrayInterface::RemoteSimpleArrayInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<SimpleArrayInterfacePublisher>())
+      m_publisher(std::make_unique<SimpleArrayInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("tb.simple.SimpleArrayInterface");

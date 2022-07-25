@@ -239,6 +239,7 @@ public:
     * Use this function to subscribe for propBool value changes.
     * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropBoolPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -256,6 +257,7 @@ public:
     * Use this function to subscribe for propInt value changes.
     * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropIntPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -273,6 +275,7 @@ public:
     * Use this function to subscribe for propFloat value changes.
     * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropFloatPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
@@ -290,6 +293,7 @@ public:
     * Use this function to subscribe for propString value changes.
     * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropStringPropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

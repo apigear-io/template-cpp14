@@ -30,8 +30,7 @@ SameStruct1InterfaceServiceAdapter::SameStruct1InterfaceServiceAdapter(ISameStru
     , m_registry(registry)
 {
     m_SameStruct1Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
-}
+    m_registry.addObjectSource(this);}
 
 SameStruct1InterfaceServiceAdapter::~SameStruct1InterfaceServiceAdapter()
 {

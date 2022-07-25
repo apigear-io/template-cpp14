@@ -26,7 +26,7 @@ using namespace Test::Testbed1::olink;
 
 RemoteStructArrayInterface::RemoteStructArrayInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<StructArrayInterfacePublisher>())
+      m_publisher(std::make_unique<StructArrayInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("testbed1.StructArrayInterface");

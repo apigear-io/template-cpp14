@@ -26,7 +26,7 @@ using namespace Test::TbSame2::olink;
 
 RemoteSameEnum2Interface::RemoteSameEnum2Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<SameEnum2InterfacePublisher>())
+      m_publisher(std::make_unique<SameEnum2InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("tb.same2.SameEnum2Interface");

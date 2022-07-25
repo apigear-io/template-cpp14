@@ -188,6 +188,7 @@ public:
     * Use this function to subscribe for {{property.name}} value changes.
     * If your subscriber uses subsrciption with {{sub_class}} interface, you will get two notifications, one for each subscription mechanism.
     * @param {{interface.name | capital}}{{property.name | capital}}PropertyCb callback that will be executed on each change of the property.
+    * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!

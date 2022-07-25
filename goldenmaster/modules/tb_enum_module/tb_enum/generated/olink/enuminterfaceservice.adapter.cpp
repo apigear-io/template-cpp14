@@ -30,8 +30,7 @@ EnumInterfaceServiceAdapter::EnumInterfaceServiceAdapter(IEnumInterface& EnumInt
     , m_registry(registry)
 {
     m_EnumInterface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
-}
+    m_registry.addObjectSource(this);}
 
 EnumInterfaceServiceAdapter::~EnumInterfaceServiceAdapter()
 {

@@ -26,7 +26,7 @@ using namespace Test::Testbed1::olink;
 
 RemoteStructInterface::RemoteStructInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
     : m_registry(registry),
-    m_publisher(std::make_unique<StructInterfacePublisher>())
+      m_publisher(std::make_unique<StructInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
     client.linkObjectSource("testbed1.StructInterface");
