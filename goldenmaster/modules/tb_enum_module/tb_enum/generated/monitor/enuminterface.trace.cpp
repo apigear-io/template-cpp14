@@ -21,13 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_enum/generated/monitor/enuminterface.tracer.h"
 
 using namespace Test::TbEnum;
-EnumInterfaceTracerDecorator::EnumInterfaceTracerDecorator(IEnumInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+EnumInterfaceTracerDecorator::EnumInterfaceTracerDecorator(IEnumInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
     : AbstractEnumInterfaceDecorator(impl)
     , m_tracer(std::make_unique<EnumInterfaceTracer>(tracer))
 {
 }
 EnumInterfaceTracerDecorator::~EnumInterfaceTracerDecorator() = default;
-EnumInterfaceTracerDecorator* EnumInterfaceTracerDecorator::connect(IEnumInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+EnumInterfaceTracerDecorator* EnumInterfaceTracerDecorator::connect(IEnumInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new EnumInterfaceTracerDecorator(impl, tracer);
 }

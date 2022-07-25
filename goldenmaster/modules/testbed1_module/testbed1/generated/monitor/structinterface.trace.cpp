@@ -21,13 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed1/generated/monitor/structinterface.tracer.h"
 
 using namespace Test::Testbed1;
-StructInterfaceTracerDecorator::StructInterfaceTracerDecorator(IStructInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+StructInterfaceTracerDecorator::StructInterfaceTracerDecorator(IStructInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
     : AbstractStructInterfaceDecorator(impl)
     , m_tracer(std::make_unique<StructInterfaceTracer>(tracer))
 {
 }
 StructInterfaceTracerDecorator::~StructInterfaceTracerDecorator() = default;
-StructInterfaceTracerDecorator* StructInterfaceTracerDecorator::connect(IStructInterface* impl, ApiGear::PocoImpl::Tracer* tracer)
+StructInterfaceTracerDecorator* StructInterfaceTracerDecorator::connect(IStructInterface* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new StructInterfaceTracerDecorator(impl, tracer);
 }

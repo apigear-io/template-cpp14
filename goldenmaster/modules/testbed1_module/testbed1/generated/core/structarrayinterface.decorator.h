@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "testbed1/generated/api/testbed1.h"
 #include "testbed1/generated/api/common.h"
-#include "testbed1/generated/core/structarrayinterface.publisher.h"
 
 namespace Test {
 namespace Testbed1 {

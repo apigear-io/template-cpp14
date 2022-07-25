@@ -31,9 +31,9 @@ class SameStruct2InterfaceTracer;
 class TEST_TB_SAME2_EXPORT SameStruct2InterfaceTracerDecorator : public AbstractSameStruct2InterfaceDecorator
 {
 protected:
-    explicit SameStruct2InterfaceTracerDecorator(ISameStruct2Interface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit SameStruct2InterfaceTracerDecorator(ISameStruct2Interface* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static SameStruct2InterfaceTracerDecorator* connect(ISameStruct2Interface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static SameStruct2InterfaceTracerDecorator* connect(ISameStruct2Interface* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~SameStruct2InterfaceTracerDecorator();
 
     // operations

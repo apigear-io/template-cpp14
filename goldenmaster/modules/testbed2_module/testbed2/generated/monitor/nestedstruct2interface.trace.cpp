@@ -21,13 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed2/generated/monitor/nestedstruct2interface.tracer.h"
 
 using namespace Test::Testbed2;
-NestedStruct2InterfaceTracerDecorator::NestedStruct2InterfaceTracerDecorator(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer* tracer)
+NestedStruct2InterfaceTracerDecorator::NestedStruct2InterfaceTracerDecorator(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer& tracer)
     : AbstractNestedStruct2InterfaceDecorator(impl)
     , m_tracer(std::make_unique<NestedStruct2InterfaceTracer>(tracer))
 {
 }
 NestedStruct2InterfaceTracerDecorator::~NestedStruct2InterfaceTracerDecorator() = default;
-NestedStruct2InterfaceTracerDecorator* NestedStruct2InterfaceTracerDecorator::connect(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer* tracer)
+NestedStruct2InterfaceTracerDecorator* NestedStruct2InterfaceTracerDecorator::connect(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new NestedStruct2InterfaceTracerDecorator(impl, tracer);
 }

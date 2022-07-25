@@ -31,9 +31,9 @@ class SimpleArrayInterfaceTracer;
 class TEST_TB_SIMPLE_EXPORT SimpleArrayInterfaceTracerDecorator : public AbstractSimpleArrayInterfaceDecorator
 {
 protected:
-    explicit SimpleArrayInterfaceTracerDecorator(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit SimpleArrayInterfaceTracerDecorator(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static SimpleArrayInterfaceTracerDecorator* connect(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static SimpleArrayInterfaceTracerDecorator* connect(ISimpleArrayInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~SimpleArrayInterfaceTracerDecorator();
 
     // operations

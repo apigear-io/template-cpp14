@@ -31,9 +31,9 @@ class ManyParamInterfaceTracer;
 class TEST_TESTBED2_EXPORT ManyParamInterfaceTracerDecorator : public AbstractManyParamInterfaceDecorator
 {
 protected:
-    explicit ManyParamInterfaceTracerDecorator(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit ManyParamInterfaceTracerDecorator(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static ManyParamInterfaceTracerDecorator* connect(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static ManyParamInterfaceTracerDecorator* connect(IManyParamInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~ManyParamInterfaceTracerDecorator();
 
     // operations

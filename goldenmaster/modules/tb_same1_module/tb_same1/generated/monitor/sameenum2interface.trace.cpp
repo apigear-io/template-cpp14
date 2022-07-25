@@ -21,13 +21,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_same1/generated/monitor/sameenum2interface.tracer.h"
 
 using namespace Test::TbSame1;
-SameEnum2InterfaceTracerDecorator::SameEnum2InterfaceTracerDecorator(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer* tracer)
+SameEnum2InterfaceTracerDecorator::SameEnum2InterfaceTracerDecorator(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer& tracer)
     : AbstractSameEnum2InterfaceDecorator(impl)
     , m_tracer(std::make_unique<SameEnum2InterfaceTracer>(tracer))
 {
 }
 SameEnum2InterfaceTracerDecorator::~SameEnum2InterfaceTracerDecorator() = default;
-SameEnum2InterfaceTracerDecorator* SameEnum2InterfaceTracerDecorator::connect(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer* tracer)
+SameEnum2InterfaceTracerDecorator* SameEnum2InterfaceTracerDecorator::connect(ISameEnum2Interface* impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return new SameEnum2InterfaceTracerDecorator(impl, tracer);
 }

@@ -31,9 +31,9 @@ class NestedStruct2InterfaceTracer;
 class TEST_TESTBED2_EXPORT NestedStruct2InterfaceTracerDecorator : public AbstractNestedStruct2InterfaceDecorator
 {
 protected:
-    explicit NestedStruct2InterfaceTracerDecorator(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit NestedStruct2InterfaceTracerDecorator(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static NestedStruct2InterfaceTracerDecorator* connect(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static NestedStruct2InterfaceTracerDecorator* connect(INestedStruct2Interface* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~NestedStruct2InterfaceTracerDecorator();
 
     // operations

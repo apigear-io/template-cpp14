@@ -31,9 +31,9 @@ class StructArrayInterfaceTracer;
 class TEST_TESTBED1_EXPORT StructArrayInterfaceTracerDecorator : public AbstractStructArrayInterfaceDecorator
 {
 protected:
-    explicit StructArrayInterfaceTracerDecorator(IStructArrayInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit StructArrayInterfaceTracerDecorator(IStructArrayInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static StructArrayInterfaceTracerDecorator* connect(IStructArrayInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static StructArrayInterfaceTracerDecorator* connect(IStructArrayInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~StructArrayInterfaceTracerDecorator();
 
     // operations

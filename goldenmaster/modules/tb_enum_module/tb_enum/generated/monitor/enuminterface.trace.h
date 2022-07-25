@@ -31,9 +31,9 @@ class EnumInterfaceTracer;
 class TEST_TB_ENUM_EXPORT EnumInterfaceTracerDecorator : public AbstractEnumInterfaceDecorator
 {
 protected:
-    explicit EnumInterfaceTracerDecorator(IEnumInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    explicit EnumInterfaceTracerDecorator(IEnumInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
 public:
-    static EnumInterfaceTracerDecorator* connect(IEnumInterface* impl, ApiGear::PocoImpl::Tracer* tracer);
+    static EnumInterfaceTracerDecorator* connect(IEnumInterface* impl, ApiGear::PocoImpl::Tracer& tracer);
     virtual ~EnumInterfaceTracerDecorator();
 
     // operations

@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "tb_simple/generated/api/tb_simple.h"
 #include "tb_simple/generated/api/common.h"
-#include "tb_simple/generated/core/simpleinterface.publisher.h"
 
 namespace Test {
 namespace TbSimple {

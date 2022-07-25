@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 #include "testbed2/generated/core/nestedstruct3interface.decorator.h"
+#include "testbed2/generated/core/nestedstruct3interface.publisher.h"
 
 using namespace Test::Testbed2;
 /**
