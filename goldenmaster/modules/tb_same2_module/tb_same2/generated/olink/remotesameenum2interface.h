@@ -34,7 +34,7 @@ namespace TbSame2 {
 * Remote SameEnum2Interface implemented with OLink. 
 * Handles connnectionn with SameEnum2Interface service.
 * Sends and receives data over the network with ObjectLink protocol. 
-* see https://objectlinkprotocol.net for Object Link Details
+* see https://objectlinkprotocol.net for ObjectLink details.
 * Use on client side to request changes of the SameEnum2Interface on the server side 
 * and to subscribe for the SameEnum2Interface changes.
 */
@@ -42,17 +42,17 @@ class TEST_TB_SAME2_EXPORT RemoteSameEnum2Interface : public ISameEnum2Interface
 {
 public:
 
-/**
-* ctor
-* @param registry The global registry with the sinks and client nodes.
-* @param client that holds the socket, manages the connection and provides ClientNode
-*   which is an abstraction layer between the Client and RemoteSameEnum2Interface.
-*/
+    /**
+    * ctor
+    * @param registry The global registry with the sinks and client nodes.
+    * @param client Holds the socket, manages the connection and provides ClientNode
+    *   which is an abstraction layer between the Client and RemoteSameEnum2Interface.
+    */
     explicit RemoteSameEnum2Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client);
     virtual ~RemoteSameEnum2Interface() override;
     /**
     * Property getter
-    * @return Locally stored value for Prop1.
+    * @return Locally stored locally value for Prop1.
     */
     const Enum1Enum& prop1() const override;
     /**
@@ -62,7 +62,7 @@ public:
     void setProp1(const Enum1Enum& prop1) override;
     /**
     * Property getter
-    * @return Locally stored value for Prop2.
+    * @return Locally stored locally value for Prop2.
     */
     const Enum2Enum& prop2() const override;
     /**
@@ -106,7 +106,7 @@ public:
     std::string olinkObjectName() override;
     
     /**
-    * Forwards information about singal emition to publisher.
+    * Forwards information about singal emission to publisher.
     * @param name The name of the emited signal.
     * @param args The arguments for the signal.
     */

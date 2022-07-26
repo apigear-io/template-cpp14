@@ -28,16 +28,16 @@ using namespace Test::TbSimple;
 SimpleInterfaceService::SimpleInterfaceService(ISimpleInterface& SimpleInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SimpleInterface(SimpleInterface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_SimpleInterface._getPublisher().subscribeToSimpleInterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_SimpleInterface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 SimpleInterfaceService::~SimpleInterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_SimpleInterface._getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_SimpleInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string SimpleInterfaceService::olinkObjectName() {

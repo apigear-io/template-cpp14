@@ -28,16 +28,16 @@ using namespace Test::TbSame2;
 SameEnum2InterfaceService::SameEnum2InterfaceService(ISameEnum2Interface& SameEnum2Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SameEnum2Interface(SameEnum2Interface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_SameEnum2Interface._getPublisher().subscribeToSameEnum2InterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_SameEnum2Interface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 SameEnum2InterfaceService::~SameEnum2InterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_SameEnum2Interface._getPublisher().unsubscribeFromSameEnum2InterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_SameEnum2Interface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string SameEnum2InterfaceService::olinkObjectName() {

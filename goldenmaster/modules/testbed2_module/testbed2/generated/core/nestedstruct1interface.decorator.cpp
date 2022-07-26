@@ -27,17 +27,17 @@ using namespace Test::Testbed2;
 AbstractNestedStruct1InterfaceDecorator::AbstractNestedStruct1InterfaceDecorator(INestedStruct1Interface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToNestedStruct1InterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 INestedStruct1Interface* AbstractNestedStruct1InterfaceDecorator::swapUnderlyingImplementation(INestedStruct1Interface* impl)
 {
     INestedStruct1Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromNestedStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToNestedStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ INestedStruct1Interface* AbstractNestedStruct1InterfaceDecorator::disconnectFrom
 {
     INestedStruct1Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromNestedStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractNestedStruct1InterfaceDecorator::~AbstractNestedStruct1InterfaceDecorato
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromNestedStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractNestedStruct1InterfaceDecorator::setProp1(const NestedStruct1& prop1)

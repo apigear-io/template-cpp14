@@ -121,8 +121,8 @@ public:
 /**
  * The IManyParamInterfaceSubscriber contains functions to allow informing about singals or property changes of the IManyParamInterface implementation.
  * The implementation for IManyParamInterface should provide mechanism for subscibtion of the IManyParamInterfaceSubscriber clients.
- * The implementation for IManyParamInterface should call the IManyParamInterfaceSubscriber interface functions on either singal emit or property change.
  * See IManyParamInterfacePublisher, which provides facititation for this purpose.
+ * The implementation for IManyParamInterface should call the IManyParamInterfaceSubscriber interface functions on either singal emit or property change.
  * You can use IManyParamInterfaceSubscriber class to implement clients of the IManyParamInterface or the network adapter - see Olink Server and Client example.
  */
 class TEST_TESTBED2_EXPORT IManyParamInterfaceSubscriber
@@ -207,12 +207,14 @@ using ManyParamInterfaceSig4SignalCb = std::function<void(int param1,int param2,
 
 
 /**
- * The IManyParamInterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emision 
+ * The IManyParamInterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emission 
  * or a property change.
  * Implement this interface to keep track of clients of your IManyParamInterface implementation.
- * The second part of the IManyParamInterfacePublisher interface is the notification interface.
- * It needs to be called by implementation of the IManyParamInterface on each state changed or signal emited
- * and shall notify all the subscribers about this change.
+ * The publisher provides two independent methods of subscription
+ *  - subscribing with a ITunerSubscriber objects - for all of the changes
+ *  - subscribing any object for signle type of change property or a signal
+ * The publish functions needs to be called by implementation of the ITuner on each state changed or signal emited
+ * to notify all the subscribers about this change.
  */
 class TEST_TESTBED2_EXPORT IManyParamInterfacePublisher
 {
@@ -222,19 +224,22 @@ public:
     /**
     * Use this function to subscribe for any change of the ManyParamInterface.
     * Subscriber will be informed of any emited signal and any property changes.
+    * This is parallel notification system to single subscription. If you will subscribe also for a single change
+    * your subscriber will be informed twice about that change, one for each subscription mechanism.
     * @param IManyParamInterfaceSubscriber which is subscribed in this function to any change of the ManyParamInterface.
     */
-    virtual void subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) = 0;
+    virtual void subscribeToAllChanges(IManyParamInterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the ManyParamInterface.
     * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
     * Make sure to remove them.
     * @param IManyParamInterfaceSubscriber which subscription for any change of the ManyParamInterface is removed.
     */
-    virtual void unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) = 0;
+    virtual void unsubscribeFromAllChanges(IManyParamInterfaceSubscriber& subscriber) = 0;
 
     /**
     * Use this function to subscribe for prop1 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -244,12 +249,15 @@ public:
     virtual long subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp1Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop2 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp2PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -259,12 +267,15 @@ public:
     virtual long subscribeToProp2Changed(ManyParamInterfaceProp2PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop2 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp2Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop3 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp3PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -274,12 +285,15 @@ public:
     virtual long subscribeToProp3Changed(ManyParamInterfaceProp3PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop3 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp3Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop4 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp4PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -289,13 +303,15 @@ public:
     virtual long subscribeToProp4Changed(ManyParamInterfaceProp4PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop4 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp4Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for sig1 signal changes.
-    * @param ManyParamInterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * @param ManyParamInterfaceSig1SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -310,7 +326,7 @@ public:
 
     /**
     * Use this function to subscribe for sig2 signal changes.
-    * @param ManyParamInterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * @param ManyParamInterfaceSig2SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -325,7 +341,7 @@ public:
 
     /**
     * Use this function to subscribe for sig3 signal changes.
-    * @param ManyParamInterfaceSig3SignalCb callback that will be executed on each signal emision.
+    * @param ManyParamInterfaceSig3SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -340,7 +356,7 @@ public:
 
     /**
     * Use this function to subscribe for sig4 signal changes.
-    * @param ManyParamInterfaceSig4SignalCb callback that will be executed on each signal emision.
+    * @param ManyParamInterfaceSig4SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -354,45 +370,53 @@ public:
     virtual void unsubscribeFromSig4(long handleId) = 0;
 
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the ManyParamInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when property prop1 changes.
     * @param The new value of prop1.
     */
     virtual void publishProp1Changed(int prop1) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the ManyParamInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when property prop2 changes.
     * @param The new value of prop2.
     */
     virtual void publishProp2Changed(int prop2) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the ManyParamInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when property prop3 changes.
     * @param The new value of prop3.
     */
     virtual void publishProp3Changed(int prop3) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the ManyParamInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when property prop4 changes.
     * @param The new value of prop4.
     */
     virtual void publishProp4Changed(int prop4) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the ManyParamInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when sig1 is emited.
     * @param param1 
     */
     virtual void publishSig1(int param1) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the ManyParamInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when sig2 is emited.
     * @param param1 
     * @param param2 
     */
     virtual void publishSig2(int param1,int param2) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the ManyParamInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when sig3 is emited.
     * @param param1 
     * @param param2 
     * @param param3 
     */
     virtual void publishSig3(int param1,int param2,int param3) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the ManyParamInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the ManyParamInterface implementation when sig4 is emited.
     * @param param1 
     * @param param2 
     * @param param3 

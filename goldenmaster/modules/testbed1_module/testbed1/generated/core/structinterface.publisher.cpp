@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "testbed1/generated/core/structinterface.publisher.h"
+
 #include <set>
 #include <map>
-#include "testbed1/generated/core/structinterface.publisher.h"
 
 
 namespace Test {
@@ -26,49 +27,127 @@ namespace Testbed1 {
 /**
  * The implementation of a StructInterfacePublisher.
  * Use this class to store clients of the StructInterface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class StructInterfacePublisherImpl : public IStructInterfacePublisher
 {
 public:
-    void subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(IStructInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of IStructInterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(IStructInterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropBoolChanged
+    */
     long subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropBoolChanged
+    */
     void unsubscribeFromPropBoolChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropIntChanged
+    */
     long subscribeToPropIntChanged(StructInterfacePropIntPropertyCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropIntChanged
+    */
     void unsubscribeFromPropIntChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropFloatChanged
+    */
     long subscribeToPropFloatChanged(StructInterfacePropFloatPropertyCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropFloatChanged
+    */
     void unsubscribeFromPropFloatChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropStringChanged
+    */
     long subscribeToPropStringChanged(StructInterfacePropStringPropertyCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToPropStringChanged
+    */
     void unsubscribeFromPropStringChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToSigBool
+    */
     long subscribeToSigBool(StructInterfaceSigBoolSignalCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::unsubscribeFromSigBool
+    */
     void unsubscribeFromSigBool(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToSigInt
+    */
     long subscribeToSigInt(StructInterfaceSigIntSignalCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::unsubscribeFromSigInt
+    */
     void unsubscribeFromSigInt(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToSigFloat
+    */
     long subscribeToSigFloat(StructInterfaceSigFloatSignalCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::unsubscribeFromSigFloat
+    */
     void unsubscribeFromSigFloat(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::subscribeToSigString
+    */
     long subscribeToSigString(StructInterfaceSigStringSignalCb callback) override;
+    /**
+    * Implementation of IStructInterfacePublisher::unsubscribeFromSigString
+    */
     void unsubscribeFromSigString(long handleId) override;
 
+    /**
+    * Implementation of IStructInterfacePublisher::publishPropBoolChanged
+    */
     void publishPropBoolChanged(const StructBool& propBool) const override;
+    /**
+    * Implementation of IStructInterfacePublisher::publishPropIntChanged
+    */
     void publishPropIntChanged(const StructInt& propInt) const override;
+    /**
+    * Implementation of IStructInterfacePublisher::publishPropFloatChanged
+    */
     void publishPropFloatChanged(const StructFloat& propFloat) const override;
+    /**
+    * Implementation of IStructInterfacePublisher::publishPropStringChanged
+    */
     void publishPropStringChanged(const StructString& propString) const override;
+    /**
+    * Implementation of IStructInterfacePublisher::publishSigBool
+    */
     void publishSigBool(const StructBool& paramBool) const override;
+    /**
+    * Implementation of IStructInterfacePublisher::publishSigInt
+    */
     void publishSigInt(const StructInt& paramInt) const override;
+    /**
+    * Implementation of IStructInterfacePublisher::publishSigFloat
+    */
     void publishSigFloat(const StructFloat& paramFloat) const override;
+    /**
+    * Implementation of IStructInterfacePublisher::publishSigString
+    */
     void publishSigString(const StructString& paramString) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in StructInterface
-    std::set<IStructInterfaceSubscriber*> IStructInterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in StructInterface
+    std::set<IStructInterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the PropBool change.
     long PropBoolChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropBool change.
@@ -85,21 +164,21 @@ private:
     long PropStringChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropString change.
     std::map<long, StructInterfacePropStringPropertyCb> PropStringCallbacks;
-    // Next free unique identifier to subscribe for the SigBool emision.
+    // Next free unique identifier to subscribe for the SigBool emission.
     long SigBoolSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigBool emision.
+    // Subscribed callbacks for the SigBool emission.
     std::map<long, StructInterfaceSigBoolSignalCb> SigBoolCallbacks;
-    // Next free unique identifier to subscribe for the SigInt emision.
+    // Next free unique identifier to subscribe for the SigInt emission.
     long SigIntSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigInt emision.
+    // Subscribed callbacks for the SigInt emission.
     std::map<long, StructInterfaceSigIntSignalCb> SigIntCallbacks;
-    // Next free unique identifier to subscribe for the SigFloat emision.
+    // Next free unique identifier to subscribe for the SigFloat emission.
     long SigFloatSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigFloat emision.
+    // Subscribed callbacks for the SigFloat emission.
     std::map<long, StructInterfaceSigFloatSignalCb> SigFloatCallbacks;
-    // Next free unique identifier to subscribe for the SigString emision.
+    // Next free unique identifier to subscribe for the SigString emission.
     long SigStringSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigString emision.
+    // Subscribed callbacks for the SigString emission.
     std::map<long, StructInterfaceSigStringSignalCb> SigStringCallbacks;
 };
 
@@ -111,14 +190,14 @@ using namespace Test::Testbed1;
 /**
  * Implementation StructInterfacePublisherImpl
  */
-void StructInterfacePublisherImpl::subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisherImpl::subscribeToAllChanges(IStructInterfaceSubscriber& subscriber)
 {
-    IStructInterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void StructInterfacePublisherImpl::unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisherImpl::unsubscribeFromAllChanges(IStructInterfaceSubscriber& subscriber)
 {
-    IStructInterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long StructInterfacePublisherImpl::subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback)
@@ -135,7 +214,7 @@ void StructInterfacePublisherImpl::unsubscribeFromPropBoolChanged(long handleId)
 
 void StructInterfacePublisherImpl::publishPropBoolChanged(const StructBool& propBool) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropBoolChanged(propBool);
     }
@@ -162,7 +241,7 @@ void StructInterfacePublisherImpl::unsubscribeFromPropIntChanged(long handleId)
 
 void StructInterfacePublisherImpl::publishPropIntChanged(const StructInt& propInt) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropIntChanged(propInt);
     }
@@ -189,7 +268,7 @@ void StructInterfacePublisherImpl::unsubscribeFromPropFloatChanged(long handleId
 
 void StructInterfacePublisherImpl::publishPropFloatChanged(const StructFloat& propFloat) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropFloatChanged(propFloat);
     }
@@ -216,7 +295,7 @@ void StructInterfacePublisherImpl::unsubscribeFromPropStringChanged(long handleI
 
 void StructInterfacePublisherImpl::publishPropStringChanged(const StructString& propString) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropStringChanged(propString);
     }
@@ -244,7 +323,7 @@ void StructInterfacePublisherImpl::unsubscribeFromSigBool(long handleId)
 
 void StructInterfacePublisherImpl::publishSigBool(const StructBool& paramBool) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigBool(paramBool);
     }
@@ -272,7 +351,7 @@ void StructInterfacePublisherImpl::unsubscribeFromSigInt(long handleId)
 
 void StructInterfacePublisherImpl::publishSigInt(const StructInt& paramInt) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigInt(paramInt);
     }
@@ -300,7 +379,7 @@ void StructInterfacePublisherImpl::unsubscribeFromSigFloat(long handleId)
 
 void StructInterfacePublisherImpl::publishSigFloat(const StructFloat& paramFloat) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigFloat(paramFloat);
     }
@@ -328,7 +407,7 @@ void StructInterfacePublisherImpl::unsubscribeFromSigString(long handleId)
 
 void StructInterfacePublisherImpl::publishSigString(const StructString& paramString) const
 {
-    for(const auto& Subscriber: IStructInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigString(paramString);
     }
@@ -349,14 +428,14 @@ StructInterfacePublisher::StructInterfacePublisher()
 {
 }
 
-void StructInterfacePublisher::subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisher::subscribeToAllChanges(IStructInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToStructInterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void StructInterfacePublisher::unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber)
+void StructInterfacePublisher::unsubscribeFromAllChanges(IStructInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromStructInterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long StructInterfacePublisher::subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback)

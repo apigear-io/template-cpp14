@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "tb_simple/generated/core/simplearrayinterface.publisher.h"
+
 #include <set>
 #include <map>
-#include "tb_simple/generated/core/simplearrayinterface.publisher.h"
 
 
 namespace Test {
@@ -26,49 +27,127 @@ namespace TbSimple {
 /**
  * The implementation of a SimpleArrayInterfacePublisher.
  * Use this class to store clients of the SimpleArrayInterface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class SimpleArrayInterfacePublisherImpl : public ISimpleArrayInterfacePublisher
 {
 public:
-    void subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropBoolChanged
+    */
     long subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropBoolChanged
+    */
     void unsubscribeFromPropBoolChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropIntChanged
+    */
     long subscribeToPropIntChanged(SimpleArrayInterfacePropIntPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropIntChanged
+    */
     void unsubscribeFromPropIntChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropFloatChanged
+    */
     long subscribeToPropFloatChanged(SimpleArrayInterfacePropFloatPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropFloatChanged
+    */
     void unsubscribeFromPropFloatChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropStringChanged
+    */
     long subscribeToPropStringChanged(SimpleArrayInterfacePropStringPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToPropStringChanged
+    */
     void unsubscribeFromPropStringChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToSigBool
+    */
     long subscribeToSigBool(SimpleArrayInterfaceSigBoolSignalCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::unsubscribeFromSigBool
+    */
     void unsubscribeFromSigBool(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToSigInt
+    */
     long subscribeToSigInt(SimpleArrayInterfaceSigIntSignalCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::unsubscribeFromSigInt
+    */
     void unsubscribeFromSigInt(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToSigFloat
+    */
     long subscribeToSigFloat(SimpleArrayInterfaceSigFloatSignalCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::unsubscribeFromSigFloat
+    */
     void unsubscribeFromSigFloat(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::subscribeToSigString
+    */
     long subscribeToSigString(SimpleArrayInterfaceSigStringSignalCb callback) override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::unsubscribeFromSigString
+    */
     void unsubscribeFromSigString(long handleId) override;
 
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishPropBoolChanged
+    */
     void publishPropBoolChanged(const std::list<bool>& propBool) const override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishPropIntChanged
+    */
     void publishPropIntChanged(const std::list<int>& propInt) const override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishPropFloatChanged
+    */
     void publishPropFloatChanged(const std::list<float>& propFloat) const override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishPropStringChanged
+    */
     void publishPropStringChanged(const std::list<std::string>& propString) const override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishSigBool
+    */
     void publishSigBool(const std::list<bool>& paramBool) const override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishSigInt
+    */
     void publishSigInt(const std::list<int>& paramInt) const override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishSigFloat
+    */
     void publishSigFloat(const std::list<float>& paramFloat) const override;
+    /**
+    * Implementation of ISimpleArrayInterfacePublisher::publishSigString
+    */
     void publishSigString(const std::list<std::string>& paramString) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in SimpleArrayInterface
-    std::set<ISimpleArrayInterfaceSubscriber*> ISimpleArrayInterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in SimpleArrayInterface
+    std::set<ISimpleArrayInterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the PropBool change.
     long PropBoolChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropBool change.
@@ -85,21 +164,21 @@ private:
     long PropStringChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropString change.
     std::map<long, SimpleArrayInterfacePropStringPropertyCb> PropStringCallbacks;
-    // Next free unique identifier to subscribe for the SigBool emision.
+    // Next free unique identifier to subscribe for the SigBool emission.
     long SigBoolSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigBool emision.
+    // Subscribed callbacks for the SigBool emission.
     std::map<long, SimpleArrayInterfaceSigBoolSignalCb> SigBoolCallbacks;
-    // Next free unique identifier to subscribe for the SigInt emision.
+    // Next free unique identifier to subscribe for the SigInt emission.
     long SigIntSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigInt emision.
+    // Subscribed callbacks for the SigInt emission.
     std::map<long, SimpleArrayInterfaceSigIntSignalCb> SigIntCallbacks;
-    // Next free unique identifier to subscribe for the SigFloat emision.
+    // Next free unique identifier to subscribe for the SigFloat emission.
     long SigFloatSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigFloat emision.
+    // Subscribed callbacks for the SigFloat emission.
     std::map<long, SimpleArrayInterfaceSigFloatSignalCb> SigFloatCallbacks;
-    // Next free unique identifier to subscribe for the SigString emision.
+    // Next free unique identifier to subscribe for the SigString emission.
     long SigStringSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigString emision.
+    // Subscribed callbacks for the SigString emission.
     std::map<long, SimpleArrayInterfaceSigStringSignalCb> SigStringCallbacks;
 };
 
@@ -111,14 +190,14 @@ using namespace Test::TbSimple;
 /**
  * Implementation SimpleArrayInterfacePublisherImpl
  */
-void SimpleArrayInterfacePublisherImpl::subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisherImpl::subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    ISimpleArrayInterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void SimpleArrayInterfacePublisherImpl::unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisherImpl::unsubscribeFromAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    ISimpleArrayInterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long SimpleArrayInterfacePublisherImpl::subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback)
@@ -135,7 +214,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromPropBoolChanged(long hand
 
 void SimpleArrayInterfacePublisherImpl::publishPropBoolChanged(const std::list<bool>& propBool) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropBoolChanged(propBool);
     }
@@ -162,7 +241,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromPropIntChanged(long handl
 
 void SimpleArrayInterfacePublisherImpl::publishPropIntChanged(const std::list<int>& propInt) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropIntChanged(propInt);
     }
@@ -189,7 +268,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromPropFloatChanged(long han
 
 void SimpleArrayInterfacePublisherImpl::publishPropFloatChanged(const std::list<float>& propFloat) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropFloatChanged(propFloat);
     }
@@ -216,7 +295,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromPropStringChanged(long ha
 
 void SimpleArrayInterfacePublisherImpl::publishPropStringChanged(const std::list<std::string>& propString) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropStringChanged(propString);
     }
@@ -244,7 +323,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromSigBool(long handleId)
 
 void SimpleArrayInterfacePublisherImpl::publishSigBool(const std::list<bool>& paramBool) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigBool(paramBool);
     }
@@ -272,7 +351,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromSigInt(long handleId)
 
 void SimpleArrayInterfacePublisherImpl::publishSigInt(const std::list<int>& paramInt) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigInt(paramInt);
     }
@@ -300,7 +379,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromSigFloat(long handleId)
 
 void SimpleArrayInterfacePublisherImpl::publishSigFloat(const std::list<float>& paramFloat) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigFloat(paramFloat);
     }
@@ -328,7 +407,7 @@ void SimpleArrayInterfacePublisherImpl::unsubscribeFromSigString(long handleId)
 
 void SimpleArrayInterfacePublisherImpl::publishSigString(const std::list<std::string>& paramString) const
 {
-    for(const auto& Subscriber: ISimpleArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigString(paramString);
     }
@@ -349,14 +428,14 @@ SimpleArrayInterfacePublisher::SimpleArrayInterfacePublisher()
 {
 }
 
-void SimpleArrayInterfacePublisher::subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisher::subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSimpleArrayInterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void SimpleArrayInterfacePublisher::unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber)
+void SimpleArrayInterfacePublisher::unsubscribeFromAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSimpleArrayInterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long SimpleArrayInterfacePublisher::subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback)

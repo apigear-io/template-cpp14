@@ -72,7 +72,7 @@ public:
         
 
     /**
-    * Access to a publisher, use it to subscribe for EnumInterface changes and signal emisions.
+    * Access to a publisher, use it to subscribe for EnumInterface changes and signal emission.
     * @return The publisher for EnumInterface.
     */
     IEnumInterfacePublisher& _getPublisher() const override;

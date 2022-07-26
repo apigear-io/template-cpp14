@@ -87,8 +87,8 @@ public:
 /**
  * The INestedStruct2InterfaceSubscriber contains functions to allow informing about singals or property changes of the INestedStruct2Interface implementation.
  * The implementation for INestedStruct2Interface should provide mechanism for subscibtion of the INestedStruct2InterfaceSubscriber clients.
- * The implementation for INestedStruct2Interface should call the INestedStruct2InterfaceSubscriber interface functions on either singal emit or property change.
  * See INestedStruct2InterfacePublisher, which provides facititation for this purpose.
+ * The implementation for INestedStruct2Interface should call the INestedStruct2InterfaceSubscriber interface functions on either singal emit or property change.
  * You can use INestedStruct2InterfaceSubscriber class to implement clients of the INestedStruct2Interface or the network adapter - see Olink Server and Client example.
  */
 class TEST_TESTBED2_EXPORT INestedStruct2InterfaceSubscriber
@@ -134,12 +134,14 @@ using NestedStruct2InterfaceSig2SignalCb = std::function<void(const NestedStruct
 
 
 /**
- * The INestedStruct2InterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emision 
+ * The INestedStruct2InterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emission 
  * or a property change.
  * Implement this interface to keep track of clients of your INestedStruct2Interface implementation.
- * The second part of the INestedStruct2InterfacePublisher interface is the notification interface.
- * It needs to be called by implementation of the INestedStruct2Interface on each state changed or signal emited
- * and shall notify all the subscribers about this change.
+ * The publisher provides two independent methods of subscription
+ *  - subscribing with a ITunerSubscriber objects - for all of the changes
+ *  - subscribing any object for signle type of change property or a signal
+ * The publish functions needs to be called by implementation of the ITuner on each state changed or signal emited
+ * to notify all the subscribers about this change.
  */
 class TEST_TESTBED2_EXPORT INestedStruct2InterfacePublisher
 {
@@ -149,19 +151,22 @@ public:
     /**
     * Use this function to subscribe for any change of the NestedStruct2Interface.
     * Subscriber will be informed of any emited signal and any property changes.
+    * This is parallel notification system to single subscription. If you will subscribe also for a single change
+    * your subscriber will be informed twice about that change, one for each subscription mechanism.
     * @param INestedStruct2InterfaceSubscriber which is subscribed in this function to any change of the NestedStruct2Interface.
     */
-    virtual void subscribeToNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) = 0;
+    virtual void subscribeToAllChanges(INestedStruct2InterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the NestedStruct2Interface.
     * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
     * Make sure to remove them.
     * @param INestedStruct2InterfaceSubscriber which subscription for any change of the NestedStruct2Interface is removed.
     */
-    virtual void unsubscribeFromNestedStruct2InterfaceChanges(INestedStruct2InterfaceSubscriber& subscriber) = 0;
+    virtual void unsubscribeFromAllChanges(INestedStruct2InterfaceSubscriber& subscriber) = 0;
 
     /**
     * Use this function to subscribe for prop1 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct2InterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -171,12 +176,15 @@ public:
     virtual long subscribeToProp1Changed(NestedStruct2InterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp1Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop2 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct2InterfaceProp2PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -186,13 +194,15 @@ public:
     virtual long subscribeToProp2Changed(NestedStruct2InterfaceProp2PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop2 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp2Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for sig1 signal changes.
-    * @param NestedStruct2InterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * @param NestedStruct2InterfaceSig1SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -207,7 +217,7 @@ public:
 
     /**
     * Use this function to subscribe for sig2 signal changes.
-    * @param NestedStruct2InterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * @param NestedStruct2InterfaceSig2SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -221,22 +231,26 @@ public:
     virtual void unsubscribeFromSig2(long handleId) = 0;
 
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the NestedStruct2Interface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the NestedStruct2Interface implementation when property prop1 changes.
     * @param The new value of prop1.
     */
     virtual void publishProp1Changed(const NestedStruct1& prop1) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the NestedStruct2Interface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the NestedStruct2Interface implementation when property prop2 changes.
     * @param The new value of prop2.
     */
     virtual void publishProp2Changed(const NestedStruct2& prop2) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the NestedStruct2Interface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the NestedStruct2Interface implementation when sig1 is emited.
     * @param param1 
     */
     virtual void publishSig1(const NestedStruct1& param1) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the NestedStruct2Interface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the NestedStruct2Interface implementation when sig2 is emited.
     * @param param1 
     * @param param2 
     */

@@ -12,8 +12,8 @@ namespace {{ module.name | capital }} {
 {% assign class = interface.name | append: "Tracer" %}
 
 /**
-* A helper class for monitoring.
-* Decorates the to PocoImpl::Tracer calls with information about state and operations specific for {{interface.name}}.
+* A helper class for tracing.
+* Builds the trace info with state and operations specific for {{interface.name}} and pass to PocoImpl::Tracer.
 */
 class {{class}}
 {

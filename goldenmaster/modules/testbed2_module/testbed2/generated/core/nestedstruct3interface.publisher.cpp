@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "testbed2/generated/core/nestedstruct3interface.publisher.h"
+
 #include <set>
 #include <map>
-#include "testbed2/generated/core/nestedstruct3interface.publisher.h"
 
 
 namespace Test {
@@ -26,41 +27,101 @@ namespace Testbed2 {
 /**
  * The implementation of a NestedStruct3InterfacePublisher.
  * Use this class to store clients of the NestedStruct3Interface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class NestedStruct3InterfacePublisherImpl : public INestedStruct3InterfacePublisher
 {
 public:
-    void subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToProp1Changed
+    */
     long subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToProp1Changed
+    */
     void unsubscribeFromProp1Changed(long handleId) override;
 
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToProp2Changed
+    */
     long subscribeToProp2Changed(NestedStruct3InterfaceProp2PropertyCb callback) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToProp2Changed
+    */
     void unsubscribeFromProp2Changed(long handleId) override;
 
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToProp3Changed
+    */
     long subscribeToProp3Changed(NestedStruct3InterfaceProp3PropertyCb callback) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToProp3Changed
+    */
     void unsubscribeFromProp3Changed(long handleId) override;
 
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToSig1
+    */
     long subscribeToSig1(NestedStruct3InterfaceSig1SignalCb callback) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::unsubscribeFromSig1
+    */
     void unsubscribeFromSig1(long handleId) override;
 
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToSig2
+    */
     long subscribeToSig2(NestedStruct3InterfaceSig2SignalCb callback) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::unsubscribeFromSig2
+    */
     void unsubscribeFromSig2(long handleId) override;
 
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::subscribeToSig3
+    */
     long subscribeToSig3(NestedStruct3InterfaceSig3SignalCb callback) override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::unsubscribeFromSig3
+    */
     void unsubscribeFromSig3(long handleId) override;
 
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::publishProp1Changed
+    */
     void publishProp1Changed(const NestedStruct1& prop1) const override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::publishProp2Changed
+    */
     void publishProp2Changed(const NestedStruct2& prop2) const override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::publishProp3Changed
+    */
     void publishProp3Changed(const NestedStruct3& prop3) const override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::publishSig1
+    */
     void publishSig1(const NestedStruct1& param1) const override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::publishSig2
+    */
     void publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const override;
+    /**
+    * Implementation of INestedStruct3InterfacePublisher::publishSig3
+    */
     void publishSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in NestedStruct3Interface
-    std::set<INestedStruct3InterfaceSubscriber*> INestedStruct3InterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in NestedStruct3Interface
+    std::set<INestedStruct3InterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -73,17 +134,17 @@ private:
     long Prop3ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop3 change.
     std::map<long, NestedStruct3InterfaceProp3PropertyCb> Prop3Callbacks;
-    // Next free unique identifier to subscribe for the Sig1 emision.
+    // Next free unique identifier to subscribe for the Sig1 emission.
     long Sig1SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig1 emision.
+    // Subscribed callbacks for the Sig1 emission.
     std::map<long, NestedStruct3InterfaceSig1SignalCb> Sig1Callbacks;
-    // Next free unique identifier to subscribe for the Sig2 emision.
+    // Next free unique identifier to subscribe for the Sig2 emission.
     long Sig2SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig2 emision.
+    // Subscribed callbacks for the Sig2 emission.
     std::map<long, NestedStruct3InterfaceSig2SignalCb> Sig2Callbacks;
-    // Next free unique identifier to subscribe for the Sig3 emision.
+    // Next free unique identifier to subscribe for the Sig3 emission.
     long Sig3SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig3 emision.
+    // Subscribed callbacks for the Sig3 emission.
     std::map<long, NestedStruct3InterfaceSig3SignalCb> Sig3Callbacks;
 };
 
@@ -95,14 +156,14 @@ using namespace Test::Testbed2;
 /**
  * Implementation NestedStruct3InterfacePublisherImpl
  */
-void NestedStruct3InterfacePublisherImpl::subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
+void NestedStruct3InterfacePublisherImpl::subscribeToAllChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
-    INestedStruct3InterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void NestedStruct3InterfacePublisherImpl::unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
+void NestedStruct3InterfacePublisherImpl::unsubscribeFromAllChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
-    INestedStruct3InterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long NestedStruct3InterfacePublisherImpl::subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback)
@@ -119,7 +180,7 @@ void NestedStruct3InterfacePublisherImpl::unsubscribeFromProp1Changed(long handl
 
 void NestedStruct3InterfacePublisherImpl::publishProp1Changed(const NestedStruct1& prop1) const
 {
-    for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp1Changed(prop1);
     }
@@ -146,7 +207,7 @@ void NestedStruct3InterfacePublisherImpl::unsubscribeFromProp2Changed(long handl
 
 void NestedStruct3InterfacePublisherImpl::publishProp2Changed(const NestedStruct2& prop2) const
 {
-    for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp2Changed(prop2);
     }
@@ -173,7 +234,7 @@ void NestedStruct3InterfacePublisherImpl::unsubscribeFromProp3Changed(long handl
 
 void NestedStruct3InterfacePublisherImpl::publishProp3Changed(const NestedStruct3& prop3) const
 {
-    for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp3Changed(prop3);
     }
@@ -201,7 +262,7 @@ void NestedStruct3InterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 
 void NestedStruct3InterfacePublisherImpl::publishSig1(const NestedStruct1& param1) const
 {
-    for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig1(param1);
     }
@@ -229,7 +290,7 @@ void NestedStruct3InterfacePublisherImpl::unsubscribeFromSig2(long handleId)
 
 void NestedStruct3InterfacePublisherImpl::publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const
 {
-    for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig2(param1,param2);
     }
@@ -257,7 +318,7 @@ void NestedStruct3InterfacePublisherImpl::unsubscribeFromSig3(long handleId)
 
 void NestedStruct3InterfacePublisherImpl::publishSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) const
 {
-    for(const auto& Subscriber: INestedStruct3InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig3(param1,param2,param3);
     }
@@ -278,14 +339,14 @@ NestedStruct3InterfacePublisher::NestedStruct3InterfacePublisher()
 {
 }
 
-void NestedStruct3InterfacePublisher::subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
+void NestedStruct3InterfacePublisher::subscribeToAllChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToNestedStruct3InterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void NestedStruct3InterfacePublisher::unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber)
+void NestedStruct3InterfacePublisher::unsubscribeFromAllChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromNestedStruct3InterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long NestedStruct3InterfacePublisher::subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback)

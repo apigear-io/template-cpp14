@@ -28,7 +28,7 @@ namespace Testbed1 {
  * The implementation of a StructArrayInterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see StructArrayInterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TESTBED1_EXPORT StructArrayInterfacePublisher: public IStructArrayInterfacePublisher
@@ -44,8 +44,8 @@ public:
     StructArrayInterfacePublisher(StructArrayInterfacePublisher&& a) = delete;
     StructArrayInterfacePublisher& operator=(StructArrayInterfacePublisher&& a) = delete;
 
-    void subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(IStructArrayInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(IStructArrayInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;

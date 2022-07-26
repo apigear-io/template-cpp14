@@ -22,8 +22,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_same2/generated/api/common.h"
 #include "olink/remotenode.h"
 
-// using namespace ApiGear;
-// using namespace ApiGear::ObjectLink;
 namespace Test {
 namespace TbSame2 {
 
@@ -36,15 +34,13 @@ namespace TbSame2 {
 class TEST_TB_SAME2_EXPORT SameEnum1InterfaceService : public ApiGear::ObjectLink::IObjectSource, public ISameEnum1InterfaceSubscriber
 {
 public:
-/**
-* ctor
-* @param SameEnum1Interface The service source object, the actual SameEnum1Interface object which is exposed for remote clients with olink.
-* @param registry The global registry that keeps track of the object source services and network nodes.
-*/
+    /**
+    * ctor
+    * @param SameEnum1Interface The service source object, the actual SameEnum1Interface object which is exposed for remote clients with olink.
+    * @param registry The global registry that keeps track of the object source services associated with network nodes.
+    */
     explicit SameEnum1InterfaceService(ISameEnum1Interface& SameEnum1Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~SameEnum1InterfaceService() override;
-    
-public:
 
     /**
     * The name of the object for which this service is created, object on client side has to have the same name.
@@ -53,10 +49,10 @@ public:
     */
     std::string olinkObjectName() override;
     /**
-    * Applies recived method invocation with given arguments on a SameEnum1Interface object.
+    * Applies recived method invocation with given arguments on the SameEnum1Interface object.
     * @param name Path of the method to invoke. Contains object name and the method name.
     * @param args Arguments required to invoke a method in json format.
-    * @return the result of the method invocation( if applicable) that needs to sent to client.
+    * @return the result of the invoked method (if applicable) that needs to be sent back to the clients.
     */
     nlohmann::json olinkInvoke(std::string name, nlohmann::json args) override;
     /**
@@ -98,11 +94,11 @@ private:
     /**
     * The abstraction over the network layer for this object source.
     */
-    ApiGear::ObjectLink::IRemoteNode *m_node;
+    ApiGear::ObjectLink::IRemoteNode* m_node;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */
-    ApiGear::ObjectLink::RemoteRegistry* m_registry;
+    ApiGear::ObjectLink::RemoteRegistry& m_registry;
 };
 } // namespace TbSame2
 } // namespace Test

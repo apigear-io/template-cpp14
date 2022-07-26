@@ -28,16 +28,16 @@ using namespace Test::Testbed1;
 StructInterfaceService::StructInterfaceService(IStructInterface& StructInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_StructInterface(StructInterface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_StructInterface._getPublisher().subscribeToStructInterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_StructInterface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 StructInterfaceService::~StructInterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_StructInterface._getPublisher().unsubscribeFromStructInterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_StructInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string StructInterfaceService::olinkObjectName() {

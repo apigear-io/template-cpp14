@@ -28,7 +28,7 @@ namespace TbSame2 {
  * The implementation of a SameEnum1InterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see SameEnum1InterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TB_SAME2_EXPORT SameEnum1InterfacePublisher: public ISameEnum1InterfacePublisher
@@ -44,8 +44,8 @@ public:
     SameEnum1InterfacePublisher(SameEnum1InterfacePublisher&& a) = delete;
     SameEnum1InterfacePublisher& operator=(SameEnum1InterfacePublisher&& a) = delete;
 
-    void subscribeToSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameEnum1InterfaceChanges(ISameEnum1InterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(ISameEnum1InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(ISameEnum1InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(SameEnum1InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

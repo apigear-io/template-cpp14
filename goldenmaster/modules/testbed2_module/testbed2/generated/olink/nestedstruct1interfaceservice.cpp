@@ -28,16 +28,16 @@ using namespace Test::Testbed2;
 NestedStruct1InterfaceService::NestedStruct1InterfaceService(INestedStruct1Interface& NestedStruct1Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_NestedStruct1Interface(NestedStruct1Interface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_NestedStruct1Interface._getPublisher().subscribeToNestedStruct1InterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_NestedStruct1Interface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 NestedStruct1InterfaceService::~NestedStruct1InterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_NestedStruct1Interface._getPublisher().unsubscribeFromNestedStruct1InterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_NestedStruct1Interface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string NestedStruct1InterfaceService::olinkObjectName() {

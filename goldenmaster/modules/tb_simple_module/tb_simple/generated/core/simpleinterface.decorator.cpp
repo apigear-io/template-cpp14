@@ -27,17 +27,17 @@ using namespace Test::TbSimple;
 AbstractSimpleInterfaceDecorator::AbstractSimpleInterfaceDecorator(ISimpleInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToSimpleInterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 ISimpleInterface* AbstractSimpleInterfaceDecorator::swapUnderlyingImplementation(ISimpleInterface* impl)
 {
     ISimpleInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToSimpleInterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ ISimpleInterface* AbstractSimpleInterfaceDecorator::disconnectFromUnderlyingImpl
 {
     ISimpleInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractSimpleInterfaceDecorator::~AbstractSimpleInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromSimpleInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractSimpleInterfaceDecorator::setPropbool(bool propBool)

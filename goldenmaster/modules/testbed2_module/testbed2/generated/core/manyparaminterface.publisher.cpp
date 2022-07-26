@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "testbed2/generated/core/manyparaminterface.publisher.h"
+
 #include <set>
 #include <map>
-#include "testbed2/generated/core/manyparaminterface.publisher.h"
 
 
 namespace Test {
@@ -26,49 +27,127 @@ namespace Testbed2 {
 /**
  * The implementation of a ManyParamInterfacePublisher.
  * Use this class to store clients of the ManyParamInterface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class ManyParamInterfacePublisherImpl : public IManyParamInterfacePublisher
 {
 public:
-    void subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(IManyParamInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(IManyParamInterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp1Changed
+    */
     long subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp1Changed
+    */
     void unsubscribeFromProp1Changed(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp2Changed
+    */
     long subscribeToProp2Changed(ManyParamInterfaceProp2PropertyCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp2Changed
+    */
     void unsubscribeFromProp2Changed(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp3Changed
+    */
     long subscribeToProp3Changed(ManyParamInterfaceProp3PropertyCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp3Changed
+    */
     void unsubscribeFromProp3Changed(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp4Changed
+    */
     long subscribeToProp4Changed(ManyParamInterfaceProp4PropertyCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToProp4Changed
+    */
     void unsubscribeFromProp4Changed(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToSig1
+    */
     long subscribeToSig1(ManyParamInterfaceSig1SignalCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::unsubscribeFromSig1
+    */
     void unsubscribeFromSig1(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToSig2
+    */
     long subscribeToSig2(ManyParamInterfaceSig2SignalCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::unsubscribeFromSig2
+    */
     void unsubscribeFromSig2(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToSig3
+    */
     long subscribeToSig3(ManyParamInterfaceSig3SignalCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::unsubscribeFromSig3
+    */
     void unsubscribeFromSig3(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::subscribeToSig4
+    */
     long subscribeToSig4(ManyParamInterfaceSig4SignalCb callback) override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::unsubscribeFromSig4
+    */
     void unsubscribeFromSig4(long handleId) override;
 
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishProp1Changed
+    */
     void publishProp1Changed(int prop1) const override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishProp2Changed
+    */
     void publishProp2Changed(int prop2) const override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishProp3Changed
+    */
     void publishProp3Changed(int prop3) const override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishProp4Changed
+    */
     void publishProp4Changed(int prop4) const override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishSig1
+    */
     void publishSig1(int param1) const override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishSig2
+    */
     void publishSig2(int param1,int param2) const override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishSig3
+    */
     void publishSig3(int param1,int param2,int param3) const override;
+    /**
+    * Implementation of IManyParamInterfacePublisher::publishSig4
+    */
     void publishSig4(int param1,int param2,int param3,int param4) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in ManyParamInterface
-    std::set<IManyParamInterfaceSubscriber*> IManyParamInterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in ManyParamInterface
+    std::set<IManyParamInterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -85,21 +164,21 @@ private:
     long Prop4ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop4 change.
     std::map<long, ManyParamInterfaceProp4PropertyCb> Prop4Callbacks;
-    // Next free unique identifier to subscribe for the Sig1 emision.
+    // Next free unique identifier to subscribe for the Sig1 emission.
     long Sig1SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig1 emision.
+    // Subscribed callbacks for the Sig1 emission.
     std::map<long, ManyParamInterfaceSig1SignalCb> Sig1Callbacks;
-    // Next free unique identifier to subscribe for the Sig2 emision.
+    // Next free unique identifier to subscribe for the Sig2 emission.
     long Sig2SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig2 emision.
+    // Subscribed callbacks for the Sig2 emission.
     std::map<long, ManyParamInterfaceSig2SignalCb> Sig2Callbacks;
-    // Next free unique identifier to subscribe for the Sig3 emision.
+    // Next free unique identifier to subscribe for the Sig3 emission.
     long Sig3SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig3 emision.
+    // Subscribed callbacks for the Sig3 emission.
     std::map<long, ManyParamInterfaceSig3SignalCb> Sig3Callbacks;
-    // Next free unique identifier to subscribe for the Sig4 emision.
+    // Next free unique identifier to subscribe for the Sig4 emission.
     long Sig4SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig4 emision.
+    // Subscribed callbacks for the Sig4 emission.
     std::map<long, ManyParamInterfaceSig4SignalCb> Sig4Callbacks;
 };
 
@@ -111,14 +190,14 @@ using namespace Test::Testbed2;
 /**
  * Implementation ManyParamInterfacePublisherImpl
  */
-void ManyParamInterfacePublisherImpl::subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisherImpl::subscribeToAllChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    IManyParamInterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void ManyParamInterfacePublisherImpl::unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisherImpl::unsubscribeFromAllChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    IManyParamInterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long ManyParamInterfacePublisherImpl::subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback)
@@ -135,7 +214,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromProp1Changed(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishProp1Changed(int prop1) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp1Changed(prop1);
     }
@@ -162,7 +241,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromProp2Changed(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishProp2Changed(int prop2) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp2Changed(prop2);
     }
@@ -189,7 +268,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromProp3Changed(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishProp3Changed(int prop3) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp3Changed(prop3);
     }
@@ -216,7 +295,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromProp4Changed(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishProp4Changed(int prop4) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp4Changed(prop4);
     }
@@ -244,7 +323,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishSig1(int param1) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig1(param1);
     }
@@ -272,7 +351,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromSig2(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishSig2(int param1,int param2) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig2(param1,param2);
     }
@@ -300,7 +379,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromSig3(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishSig3(int param1,int param2,int param3) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig3(param1,param2,param3);
     }
@@ -328,7 +407,7 @@ void ManyParamInterfacePublisherImpl::unsubscribeFromSig4(long handleId)
 
 void ManyParamInterfacePublisherImpl::publishSig4(int param1,int param2,int param3,int param4) const
 {
-    for(const auto& Subscriber: IManyParamInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig4(param1,param2,param3,param4);
     }
@@ -349,14 +428,14 @@ ManyParamInterfacePublisher::ManyParamInterfacePublisher()
 {
 }
 
-void ManyParamInterfacePublisher::subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisher::subscribeToAllChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToManyParamInterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void ManyParamInterfacePublisher::unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber)
+void ManyParamInterfacePublisher::unsubscribeFromAllChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromManyParamInterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long ManyParamInterfacePublisher::subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback)

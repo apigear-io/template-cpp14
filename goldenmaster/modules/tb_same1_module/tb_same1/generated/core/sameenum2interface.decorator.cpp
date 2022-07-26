@@ -27,17 +27,17 @@ using namespace Test::TbSame1;
 AbstractSameEnum2InterfaceDecorator::AbstractSameEnum2InterfaceDecorator(ISameEnum2Interface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToSameEnum2InterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 ISameEnum2Interface* AbstractSameEnum2InterfaceDecorator::swapUnderlyingImplementation(ISameEnum2Interface* impl)
 {
     ISameEnum2Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSameEnum2InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToSameEnum2InterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ ISameEnum2Interface* AbstractSameEnum2InterfaceDecorator::disconnectFromUnderlyi
 {
     ISameEnum2Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSameEnum2InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractSameEnum2InterfaceDecorator::~AbstractSameEnum2InterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromSameEnum2InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractSameEnum2InterfaceDecorator::setProp1(const Enum1Enum& prop1)

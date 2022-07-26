@@ -28,16 +28,16 @@ using namespace Test::Testbed2;
 NestedStruct3InterfaceService::NestedStruct3InterfaceService(INestedStruct3Interface& NestedStruct3Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_NestedStruct3Interface(NestedStruct3Interface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_NestedStruct3Interface._getPublisher().subscribeToNestedStruct3InterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_NestedStruct3Interface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 NestedStruct3InterfaceService::~NestedStruct3InterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_NestedStruct3Interface._getPublisher().unsubscribeFromNestedStruct3InterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_NestedStruct3Interface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string NestedStruct3InterfaceService::olinkObjectName() {

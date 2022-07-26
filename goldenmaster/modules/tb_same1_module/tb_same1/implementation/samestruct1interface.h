@@ -45,7 +45,7 @@ public:
         
 
     /**
-    * Access to a publisher, use it to subscribe for SameStruct1Interface changes and signal emisions.
+    * Access to a publisher, use it to subscribe for SameStruct1Interface changes and signal emission.
     * @return The publisher for SameStruct1Interface.
     */
     ISameStruct1InterfacePublisher& _getPublisher() const override;

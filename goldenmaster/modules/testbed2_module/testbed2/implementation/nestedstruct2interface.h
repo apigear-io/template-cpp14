@@ -54,7 +54,7 @@ public:
         
 
     /**
-    * Access to a publisher, use it to subscribe for NestedStruct2Interface changes and signal emisions.
+    * Access to a publisher, use it to subscribe for NestedStruct2Interface changes and signal emission.
     * @return The publisher for NestedStruct2Interface.
     */
     INestedStruct2InterfacePublisher& _getPublisher() const override;

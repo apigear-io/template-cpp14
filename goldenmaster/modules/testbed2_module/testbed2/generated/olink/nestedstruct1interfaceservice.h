@@ -22,8 +22,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed2/generated/api/common.h"
 #include "olink/remotenode.h"
 
-// using namespace ApiGear;
-// using namespace ApiGear::ObjectLink;
 namespace Test {
 namespace Testbed2 {
 
@@ -36,15 +34,13 @@ namespace Testbed2 {
 class TEST_TESTBED2_EXPORT NestedStruct1InterfaceService : public ApiGear::ObjectLink::IObjectSource, public INestedStruct1InterfaceSubscriber
 {
 public:
-/**
-* ctor
-* @param NestedStruct1Interface The service source object, the actual NestedStruct1Interface object which is exposed for remote clients with olink.
-* @param registry The global registry that keeps track of the object source services and network nodes.
-*/
+    /**
+    * ctor
+    * @param NestedStruct1Interface The service source object, the actual NestedStruct1Interface object which is exposed for remote clients with olink.
+    * @param registry The global registry that keeps track of the object source services associated with network nodes.
+    */
     explicit NestedStruct1InterfaceService(INestedStruct1Interface& NestedStruct1Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~NestedStruct1InterfaceService() override;
-    
-public:
 
     /**
     * The name of the object for which this service is created, object on client side has to have the same name.
@@ -53,10 +49,10 @@ public:
     */
     std::string olinkObjectName() override;
     /**
-    * Applies recived method invocation with given arguments on a NestedStruct1Interface object.
+    * Applies recived method invocation with given arguments on the NestedStruct1Interface object.
     * @param name Path of the method to invoke. Contains object name and the method name.
     * @param args Arguments required to invoke a method in json format.
-    * @return the result of the method invocation( if applicable) that needs to sent to client.
+    * @return the result of the invoked method (if applicable) that needs to be sent back to the clients.
     */
     nlohmann::json olinkInvoke(std::string name, nlohmann::json args) override;
     /**
@@ -98,11 +94,11 @@ private:
     /**
     * The abstraction over the network layer for this object source.
     */
-    ApiGear::ObjectLink::IRemoteNode *m_node;
+    ApiGear::ObjectLink::IRemoteNode* m_node;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */
-    ApiGear::ObjectLink::RemoteRegistry* m_registry;
+    ApiGear::ObjectLink::RemoteRegistry& m_registry;
 };
 } // namespace Testbed2
 } // namespace Test

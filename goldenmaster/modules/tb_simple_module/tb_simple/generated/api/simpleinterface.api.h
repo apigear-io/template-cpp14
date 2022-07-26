@@ -121,8 +121,8 @@ public:
 /**
  * The ISimpleInterfaceSubscriber contains functions to allow informing about singals or property changes of the ISimpleInterface implementation.
  * The implementation for ISimpleInterface should provide mechanism for subscibtion of the ISimpleInterfaceSubscriber clients.
- * The implementation for ISimpleInterface should call the ISimpleInterfaceSubscriber interface functions on either singal emit or property change.
  * See ISimpleInterfacePublisher, which provides facititation for this purpose.
+ * The implementation for ISimpleInterface should call the ISimpleInterfaceSubscriber interface functions on either singal emit or property change.
  * You can use ISimpleInterfaceSubscriber class to implement clients of the ISimpleInterface or the network adapter - see Olink Server and Client example.
  */
 class TEST_TB_SIMPLE_EXPORT ISimpleInterfaceSubscriber
@@ -201,12 +201,14 @@ using SimpleInterfaceSigStringSignalCb = std::function<void(const std::string& p
 
 
 /**
- * The ISimpleInterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emision 
+ * The ISimpleInterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emission 
  * or a property change.
  * Implement this interface to keep track of clients of your ISimpleInterface implementation.
- * The second part of the ISimpleInterfacePublisher interface is the notification interface.
- * It needs to be called by implementation of the ISimpleInterface on each state changed or signal emited
- * and shall notify all the subscribers about this change.
+ * The publisher provides two independent methods of subscription
+ *  - subscribing with a ITunerSubscriber objects - for all of the changes
+ *  - subscribing any object for signle type of change property or a signal
+ * The publish functions needs to be called by implementation of the ITuner on each state changed or signal emited
+ * to notify all the subscribers about this change.
  */
 class TEST_TB_SIMPLE_EXPORT ISimpleInterfacePublisher
 {
@@ -216,19 +218,22 @@ public:
     /**
     * Use this function to subscribe for any change of the SimpleInterface.
     * Subscriber will be informed of any emited signal and any property changes.
+    * This is parallel notification system to single subscription. If you will subscribe also for a single change
+    * your subscriber will be informed twice about that change, one for each subscription mechanism.
     * @param ISimpleInterfaceSubscriber which is subscribed in this function to any change of the SimpleInterface.
     */
-    virtual void subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) = 0;
+    virtual void subscribeToAllChanges(ISimpleInterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the SimpleInterface.
     * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
     * Make sure to remove them.
     * @param ISimpleInterfaceSubscriber which subscription for any change of the SimpleInterface is removed.
     */
-    virtual void unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) = 0;
+    virtual void unsubscribeFromAllChanges(ISimpleInterfaceSubscriber& subscriber) = 0;
 
     /**
     * Use this function to subscribe for propBool value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropBoolPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -238,12 +243,15 @@ public:
     virtual long subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propBool property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromPropBoolChanged(long handleId) = 0;
 
     /**
     * Use this function to subscribe for propInt value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropIntPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -253,12 +261,15 @@ public:
     virtual long subscribeToPropIntChanged(SimpleInterfacePropIntPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propInt property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromPropIntChanged(long handleId) = 0;
 
     /**
     * Use this function to subscribe for propFloat value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropFloatPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -268,12 +279,15 @@ public:
     virtual long subscribeToPropFloatChanged(SimpleInterfacePropFloatPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propFloat property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromPropFloatChanged(long handleId) = 0;
 
     /**
     * Use this function to subscribe for propString value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SimpleInterfacePropStringPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -283,13 +297,15 @@ public:
     virtual long subscribeToPropStringChanged(SimpleInterfacePropStringPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propString property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromPropStringChanged(long handleId) = 0;
 
     /**
     * Use this function to subscribe for sigBool signal changes.
-    * @param SimpleInterfaceSigBoolSignalCb callback that will be executed on each signal emision.
+    * @param SimpleInterfaceSigBoolSignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -304,7 +320,7 @@ public:
 
     /**
     * Use this function to subscribe for sigInt signal changes.
-    * @param SimpleInterfaceSigIntSignalCb callback that will be executed on each signal emision.
+    * @param SimpleInterfaceSigIntSignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -319,7 +335,7 @@ public:
 
     /**
     * Use this function to subscribe for sigFloat signal changes.
-    * @param SimpleInterfaceSigFloatSignalCb callback that will be executed on each signal emision.
+    * @param SimpleInterfaceSigFloatSignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -334,7 +350,7 @@ public:
 
     /**
     * Use this function to subscribe for sigString signal changes.
-    * @param SimpleInterfaceSigStringSignalCb callback that will be executed on each signal emision.
+    * @param SimpleInterfaceSigStringSignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -348,42 +364,50 @@ public:
     virtual void unsubscribeFromSigString(long handleId) = 0;
 
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the SimpleInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when property propBool changes.
     * @param The new value of propBool.
     */
     virtual void publishPropBoolChanged(bool propBool) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the SimpleInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when property propInt changes.
     * @param The new value of propInt.
     */
     virtual void publishPropIntChanged(int propInt) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the SimpleInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when property propFloat changes.
     * @param The new value of propFloat.
     */
     virtual void publishPropFloatChanged(float propFloat) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the SimpleInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when property propString changes.
     * @param The new value of propString.
     */
     virtual void publishPropStringChanged(const std::string& propString) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the SimpleInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when sigBool is emited.
     * @param paramBool 
     */
     virtual void publishSigBool(bool paramBool) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the SimpleInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when sigInt is emited.
     * @param paramInt 
     */
     virtual void publishSigInt(int paramInt) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the SimpleInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when sigFloat is emited.
     * @param paramFloat 
     */
     virtual void publishSigFloat(float paramFloat) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the SimpleInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the SimpleInterface implementation when sigString is emited.
     * @param paramString 
     */
     virtual void publishSigString(const std::string& paramString) const = 0;

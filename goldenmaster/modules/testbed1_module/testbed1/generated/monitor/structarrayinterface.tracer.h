@@ -8,8 +8,8 @@ namespace Test {
 namespace Testbed1 {
 
 /**
-* A helper class for monitoring.
-* Decorates the to PocoImpl::Tracer calls with information about state and operations specific for StructArrayInterface.
+* A helper class for tracing.
+* Builds the trace info with state and operations specific for StructArrayInterface and pass to PocoImpl::Tracer.
 */
 class StructArrayInterfaceTracer
 {

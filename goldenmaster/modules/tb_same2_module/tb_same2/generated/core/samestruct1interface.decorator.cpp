@@ -27,17 +27,17 @@ using namespace Test::TbSame2;
 AbstractSameStruct1InterfaceDecorator::AbstractSameStruct1InterfaceDecorator(ISameStruct1Interface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToSameStruct1InterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 ISameStruct1Interface* AbstractSameStruct1InterfaceDecorator::swapUnderlyingImplementation(ISameStruct1Interface* impl)
 {
     ISameStruct1Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSameStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToSameStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ ISameStruct1Interface* AbstractSameStruct1InterfaceDecorator::disconnectFromUnde
 {
     ISameStruct1Interface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSameStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractSameStruct1InterfaceDecorator::~AbstractSameStruct1InterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromSameStruct1InterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractSameStruct1InterfaceDecorator::setProp1(const Struct1& prop1)

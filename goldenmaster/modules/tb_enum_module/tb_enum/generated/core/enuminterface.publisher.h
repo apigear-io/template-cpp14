@@ -28,7 +28,7 @@ namespace TbEnum {
  * The implementation of a EnumInterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see EnumInterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TB_ENUM_EXPORT EnumInterfacePublisher: public IEnumInterfacePublisher
@@ -44,8 +44,8 @@ public:
     EnumInterfacePublisher(EnumInterfacePublisher&& a) = delete;
     EnumInterfacePublisher& operator=(EnumInterfacePublisher&& a) = delete;
 
-    void subscribeToEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(IEnumInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(IEnumInterfaceSubscriber& subscriber) override;
 
     long subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback) override;
     void unsubscribeFromProp0Changed(long handleId) override;

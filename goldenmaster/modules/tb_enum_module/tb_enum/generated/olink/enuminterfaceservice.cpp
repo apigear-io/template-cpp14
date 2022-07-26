@@ -28,16 +28,16 @@ using namespace Test::TbEnum;
 EnumInterfaceService::EnumInterfaceService(IEnumInterface& EnumInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_EnumInterface(EnumInterface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_EnumInterface._getPublisher().subscribeToEnumInterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_EnumInterface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 EnumInterfaceService::~EnumInterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_EnumInterface._getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_EnumInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string EnumInterfaceService::olinkObjectName() {
