@@ -30,7 +30,8 @@ ManyParamInterfaceServiceAdapter::ManyParamInterfaceServiceAdapter(IManyParamInt
     , m_registry(registry)
 {
     m_ManyParamInterface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);}
+    m_registry.addObjectSource(this);
+}
 
 ManyParamInterfaceServiceAdapter::~ManyParamInterfaceServiceAdapter()
 {

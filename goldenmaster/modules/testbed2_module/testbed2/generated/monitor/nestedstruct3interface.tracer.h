@@ -8,8 +8,8 @@ namespace Test {
 namespace Testbed2 {
 
 /**
-* A helper class for monitoring.
-* Decorates the to PocoImpl::Tracer calls with information about state and operations specific for NestedStruct3Interface.
+* A helper class for tracing.
+* Builds the trace info with state and operations specific for NestedStruct3Interface and pass to PocoImpl::Tracer.
 */
 class NestedStruct3InterfaceTracer
 {

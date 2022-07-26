@@ -19,6 +19,101 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <algorithm>
 
 
+namespace Test {
+namespace TbSame1 {
+
+/**
+ * The implementation of a SameStruct2InterfacePublisher.
+ * Use this class to store clients of the SameStruct2Interface and inform them about the change
+ * on call of the appropriate publish function.
+ */
+class SameStruct2InterfacePublisherImpl : public 
+{
+public:
+    /**
+    * Implementation of ::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
+
+    /**
+    * Implementation of ::subscribeToProp1Changed
+    */
+    long subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback) override;
+    /**
+    * Implementation of ::subscribeToProp1Changed
+    */
+    void unsubscribeFromProp1Changed(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToProp2Changed
+    */
+    long subscribeToProp2Changed(SameStruct2InterfaceProp2PropertyCb callback) override;
+    /**
+    * Implementation of ::subscribeToProp2Changed
+    */
+    void unsubscribeFromProp2Changed(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToSig1
+    */
+    long subscribeToSig1(SameStruct2InterfaceSig1SignalCb callback) override;
+    /**
+    * Implementation of ::unsubscribeFromSig1
+    */
+    void unsubscribeFromSig1(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToSig2
+    */
+    long subscribeToSig2(SameStruct2InterfaceSig2SignalCb callback) override;
+    /**
+    * Implementation of ::unsubscribeFromSig2
+    */
+    void unsubscribeFromSig2(long handleId) override;
+
+    /**
+    * Implementation of ::publishProp1Changed
+    */
+    void publishProp1Changed(const Struct2& prop1) const override;
+    /**
+    * Implementation of ::publishProp2Changed
+    */
+    void publishProp2Changed(const Struct2& prop2) const override;
+    /**
+    * Implementation of ::publishSig1
+    */
+    void publishSig1(const Struct1& param1) const override;
+    /**
+    * Implementation of ::publishSig2
+    */
+    void publishSig2(const Struct1& param1,const Struct2& param2) const override;
+private:
+    // Subscribers informed about any property change or singal emited in SameStruct2Interface
+    std::set<ISameStruct2InterfaceSubscriber*> AllChangesSubscribers;
+    // Next free unique identifier to subscribe for the Prop1 change.
+    long Prop1ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop1 change.
+    std::map<long, SameStruct2InterfaceProp1PropertyCb> Prop1Callbacks;
+    // Next free unique identifier to subscribe for the Prop2 change.
+    long Prop2ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop2 change.
+    std::map<long, SameStruct2InterfaceProp2PropertyCb> Prop2Callbacks;
+    // Next free unique identifier to subscribe for the Sig1 emission.
+    long Sig1SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig1 emission.
+    std::map<long, SameStruct2InterfaceSig1SignalCb> Sig1Callbacks;
+    // Next free unique identifier to subscribe for the Sig2 emission.
+    long Sig2SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig2 emission.
+    std::map<long, SameStruct2InterfaceSig2SignalCb> Sig2Callbacks;
+};
+>>>>>>> 6b08db3 (fixes after self review, description fixes, small alignement of code)
+
+
 using namespace Test::TbSame1;
 
 void SameStruct2InterfacePublisher::subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber)

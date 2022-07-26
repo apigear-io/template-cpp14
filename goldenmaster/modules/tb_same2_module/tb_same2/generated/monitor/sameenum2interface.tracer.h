@@ -8,8 +8,8 @@ namespace Test {
 namespace TbSame2 {
 
 /**
-* A helper class for monitoring.
-* Decorates the to PocoImpl::Tracer calls with information about state and operations specific for SameEnum2Interface.
+* A helper class for tracing.
+* Builds the trace info with state and operations specific for SameEnum2Interface and pass to PocoImpl::Tracer.
 */
 class SameEnum2InterfaceTracer
 {

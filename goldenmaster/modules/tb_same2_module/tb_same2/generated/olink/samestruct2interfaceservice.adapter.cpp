@@ -30,7 +30,8 @@ SameStruct2InterfaceServiceAdapter::SameStruct2InterfaceServiceAdapter(ISameStru
     , m_registry(registry)
 {
     m_SameStruct2Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);}
+    m_registry.addObjectSource(this);
+}
 
 SameStruct2InterfaceServiceAdapter::~SameStruct2InterfaceServiceAdapter()
 {

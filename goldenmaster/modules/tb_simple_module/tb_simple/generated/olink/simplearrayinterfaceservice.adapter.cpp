@@ -30,7 +30,8 @@ SimpleArrayInterfaceServiceAdapter::SimpleArrayInterfaceServiceAdapter(ISimpleAr
     , m_registry(registry)
 {
     m_SimpleArrayInterface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);}
+    m_registry.addObjectSource(this);
+}
 
 SimpleArrayInterfaceServiceAdapter::~SimpleArrayInterfaceServiceAdapter()
 {

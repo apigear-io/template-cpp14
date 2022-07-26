@@ -30,7 +30,8 @@ SimpleInterfaceServiceAdapter::SimpleInterfaceServiceAdapter(ISimpleInterface& S
     , m_registry(registry)
 {
     m_SimpleInterface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);}
+    m_registry.addObjectSource(this);
+}
 
 SimpleInterfaceServiceAdapter::~SimpleInterfaceServiceAdapter()
 {

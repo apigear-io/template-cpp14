@@ -19,6 +19,169 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <algorithm>
 
 
+namespace Test {
+namespace TbSimple {
+
+/**
+ * The implementation of a SimpleArrayInterfacePublisher.
+ * Use this class to store clients of the SimpleArrayInterface and inform them about the change
+ * on call of the appropriate publish function.
+ */
+class SimpleArrayInterfacePublisherImpl : public 
+{
+public:
+    /**
+    * Implementation of ::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+
+    /**
+    * Implementation of ::subscribeToPropBoolChanged
+    */
+    long subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback) override;
+    /**
+    * Implementation of ::subscribeToPropBoolChanged
+    */
+    void unsubscribeFromPropBoolChanged(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToPropIntChanged
+    */
+    long subscribeToPropIntChanged(SimpleArrayInterfacePropIntPropertyCb callback) override;
+    /**
+    * Implementation of ::subscribeToPropIntChanged
+    */
+    void unsubscribeFromPropIntChanged(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToPropFloatChanged
+    */
+    long subscribeToPropFloatChanged(SimpleArrayInterfacePropFloatPropertyCb callback) override;
+    /**
+    * Implementation of ::subscribeToPropFloatChanged
+    */
+    void unsubscribeFromPropFloatChanged(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToPropStringChanged
+    */
+    long subscribeToPropStringChanged(SimpleArrayInterfacePropStringPropertyCb callback) override;
+    /**
+    * Implementation of ::subscribeToPropStringChanged
+    */
+    void unsubscribeFromPropStringChanged(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToSigBool
+    */
+    long subscribeToSigBool(SimpleArrayInterfaceSigBoolSignalCb callback) override;
+    /**
+    * Implementation of ::unsubscribeFromSigBool
+    */
+    void unsubscribeFromSigBool(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToSigInt
+    */
+    long subscribeToSigInt(SimpleArrayInterfaceSigIntSignalCb callback) override;
+    /**
+    * Implementation of ::unsubscribeFromSigInt
+    */
+    void unsubscribeFromSigInt(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToSigFloat
+    */
+    long subscribeToSigFloat(SimpleArrayInterfaceSigFloatSignalCb callback) override;
+    /**
+    * Implementation of ::unsubscribeFromSigFloat
+    */
+    void unsubscribeFromSigFloat(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToSigString
+    */
+    long subscribeToSigString(SimpleArrayInterfaceSigStringSignalCb callback) override;
+    /**
+    * Implementation of ::unsubscribeFromSigString
+    */
+    void unsubscribeFromSigString(long handleId) override;
+
+    /**
+    * Implementation of ::publishPropBoolChanged
+    */
+    void publishPropBoolChanged(const std::list<bool>& propBool) const override;
+    /**
+    * Implementation of ::publishPropIntChanged
+    */
+    void publishPropIntChanged(const std::list<int>& propInt) const override;
+    /**
+    * Implementation of ::publishPropFloatChanged
+    */
+    void publishPropFloatChanged(const std::list<float>& propFloat) const override;
+    /**
+    * Implementation of ::publishPropStringChanged
+    */
+    void publishPropStringChanged(const std::list<std::string>& propString) const override;
+    /**
+    * Implementation of ::publishSigBool
+    */
+    void publishSigBool(const std::list<bool>& paramBool) const override;
+    /**
+    * Implementation of ::publishSigInt
+    */
+    void publishSigInt(const std::list<int>& paramInt) const override;
+    /**
+    * Implementation of ::publishSigFloat
+    */
+    void publishSigFloat(const std::list<float>& paramFloat) const override;
+    /**
+    * Implementation of ::publishSigString
+    */
+    void publishSigString(const std::list<std::string>& paramString) const override;
+private:
+    // Subscribers informed about any property change or singal emited in SimpleArrayInterface
+    std::set<ISimpleArrayInterfaceSubscriber*> AllChangesSubscribers;
+    // Next free unique identifier to subscribe for the PropBool change.
+    long PropBoolChangedCallbackNextId = 0;
+    // Subscribed callbacks for the PropBool change.
+    std::map<long, SimpleArrayInterfacePropBoolPropertyCb> PropBoolCallbacks;
+    // Next free unique identifier to subscribe for the PropInt change.
+    long PropIntChangedCallbackNextId = 0;
+    // Subscribed callbacks for the PropInt change.
+    std::map<long, SimpleArrayInterfacePropIntPropertyCb> PropIntCallbacks;
+    // Next free unique identifier to subscribe for the PropFloat change.
+    long PropFloatChangedCallbackNextId = 0;
+    // Subscribed callbacks for the PropFloat change.
+    std::map<long, SimpleArrayInterfacePropFloatPropertyCb> PropFloatCallbacks;
+    // Next free unique identifier to subscribe for the PropString change.
+    long PropStringChangedCallbackNextId = 0;
+    // Subscribed callbacks for the PropString change.
+    std::map<long, SimpleArrayInterfacePropStringPropertyCb> PropStringCallbacks;
+    // Next free unique identifier to subscribe for the SigBool emission.
+    long SigBoolSignalCallbackNextId = 0;
+    // Subscribed callbacks for the SigBool emission.
+    std::map<long, SimpleArrayInterfaceSigBoolSignalCb> SigBoolCallbacks;
+    // Next free unique identifier to subscribe for the SigInt emission.
+    long SigIntSignalCallbackNextId = 0;
+    // Subscribed callbacks for the SigInt emission.
+    std::map<long, SimpleArrayInterfaceSigIntSignalCb> SigIntCallbacks;
+    // Next free unique identifier to subscribe for the SigFloat emission.
+    long SigFloatSignalCallbackNextId = 0;
+    // Subscribed callbacks for the SigFloat emission.
+    std::map<long, SimpleArrayInterfaceSigFloatSignalCb> SigFloatCallbacks;
+    // Next free unique identifier to subscribe for the SigString emission.
+    long SigStringSignalCallbackNextId = 0;
+    // Subscribed callbacks for the SigString emission.
+    std::map<long, SimpleArrayInterfaceSigStringSignalCb> SigStringCallbacks;
+};
+>>>>>>> 6b08db3 (fixes after self review, description fixes, small alignement of code)
+
+
 using namespace Test::TbSimple;
 
 void SimpleArrayInterfacePublisher::subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)

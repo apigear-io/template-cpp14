@@ -19,6 +19,67 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <algorithm>
 
 
+namespace Test {
+namespace TbSame2 {
+
+/**
+ * The implementation of a SameStruct1InterfacePublisher.
+ * Use this class to store clients of the SameStruct1Interface and inform them about the change
+ * on call of the appropriate publish function.
+ */
+class SameStruct1InterfacePublisherImpl : public 
+{
+public:
+    /**
+    * Implementation of ::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
+
+    /**
+    * Implementation of ::subscribeToProp1Changed
+    */
+    long subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback) override;
+    /**
+    * Implementation of ::subscribeToProp1Changed
+    */
+    void unsubscribeFromProp1Changed(long handleId) override;
+
+    /**
+    * Implementation of ::subscribeToSig1
+    */
+    long subscribeToSig1(SameStruct1InterfaceSig1SignalCb callback) override;
+    /**
+    * Implementation of ::unsubscribeFromSig1
+    */
+    void unsubscribeFromSig1(long handleId) override;
+
+    /**
+    * Implementation of ::publishProp1Changed
+    */
+    void publishProp1Changed(const Struct1& prop1) const override;
+    /**
+    * Implementation of ::publishSig1
+    */
+    void publishSig1(const Struct1& param1) const override;
+private:
+    // Subscribers informed about any property change or singal emited in SameStruct1Interface
+    std::set<ISameStruct1InterfaceSubscriber*> AllChangesSubscribers;
+    // Next free unique identifier to subscribe for the Prop1 change.
+    long Prop1ChangedCallbackNextId = 0;
+    // Subscribed callbacks for the Prop1 change.
+    std::map<long, SameStruct1InterfaceProp1PropertyCb> Prop1Callbacks;
+    // Next free unique identifier to subscribe for the Sig1 emission.
+    long Sig1SignalCallbackNextId = 0;
+    // Subscribed callbacks for the Sig1 emission.
+    std::map<long, SameStruct1InterfaceSig1SignalCb> Sig1Callbacks;
+};
+>>>>>>> 6b08db3 (fixes after self review, description fixes, small alignement of code)
+
+
 using namespace Test::TbSame2;
 
 void SameStruct1InterfacePublisher::subscribeToAllChanges(ISameStruct1InterfaceSubscriber& subscriber)
