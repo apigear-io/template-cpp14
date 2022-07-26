@@ -28,16 +28,16 @@ using namespace Test::Testbed1;
 StructArrayInterfaceService::StructArrayInterfaceService(IStructArrayInterface& StructArrayInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_StructArrayInterface(StructArrayInterface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_StructArrayInterface._getPublisher().subscribeToStructArrayInterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_StructArrayInterface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 StructArrayInterfaceService::~StructArrayInterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_StructArrayInterface._getPublisher().unsubscribeFromStructArrayInterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_StructArrayInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string StructArrayInterfaceService::olinkObjectName() {

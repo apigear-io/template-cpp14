@@ -28,7 +28,7 @@ namespace Testbed2 {
  * The implementation of a ManyParamInterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see ManyParamInterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TESTBED2_EXPORT ManyParamInterfacePublisher: public IManyParamInterfacePublisher
@@ -44,8 +44,8 @@ public:
     ManyParamInterfacePublisher(ManyParamInterfacePublisher&& a) = delete;
     ManyParamInterfacePublisher& operator=(ManyParamInterfacePublisher&& a) = delete;
 
-    void subscribeToManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromManyParamInterfaceChanges(IManyParamInterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(IManyParamInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(IManyParamInterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

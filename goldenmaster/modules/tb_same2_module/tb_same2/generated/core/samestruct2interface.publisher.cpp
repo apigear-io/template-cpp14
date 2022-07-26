@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "tb_same2/generated/core/samestruct2interface.publisher.h"
+
 #include <set>
 #include <map>
-#include "tb_same2/generated/core/samestruct2interface.publisher.h"
 
 
 namespace Test {
@@ -26,33 +27,75 @@ namespace TbSame2 {
 /**
  * The implementation of a SameStruct2InterfacePublisher.
  * Use this class to store clients of the SameStruct2Interface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class SameStruct2InterfacePublisherImpl : public ISameStruct2InterfacePublisher
 {
 public:
-    void subscribeToSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::subscribeToProp1Changed
+    */
     long subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback) override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::subscribeToProp1Changed
+    */
     void unsubscribeFromProp1Changed(long handleId) override;
 
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::subscribeToProp2Changed
+    */
     long subscribeToProp2Changed(SameStruct2InterfaceProp2PropertyCb callback) override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::subscribeToProp2Changed
+    */
     void unsubscribeFromProp2Changed(long handleId) override;
 
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::subscribeToSig1
+    */
     long subscribeToSig1(SameStruct2InterfaceSig1SignalCb callback) override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::unsubscribeFromSig1
+    */
     void unsubscribeFromSig1(long handleId) override;
 
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::subscribeToSig2
+    */
     long subscribeToSig2(SameStruct2InterfaceSig2SignalCb callback) override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::unsubscribeFromSig2
+    */
     void unsubscribeFromSig2(long handleId) override;
 
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::publishProp1Changed
+    */
     void publishProp1Changed(const Struct2& prop1) const override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::publishProp2Changed
+    */
     void publishProp2Changed(const Struct2& prop2) const override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::publishSig1
+    */
     void publishSig1(const Struct1& param1) const override;
+    /**
+    * Implementation of ISameStruct2InterfacePublisher::publishSig2
+    */
     void publishSig2(const Struct1& param1,const Struct2& param2) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in SameStruct2Interface
-    std::set<ISameStruct2InterfaceSubscriber*> ISameStruct2InterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in SameStruct2Interface
+    std::set<ISameStruct2InterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -61,13 +104,13 @@ private:
     long Prop2ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop2 change.
     std::map<long, SameStruct2InterfaceProp2PropertyCb> Prop2Callbacks;
-    // Next free unique identifier to subscribe for the Sig1 emision.
+    // Next free unique identifier to subscribe for the Sig1 emission.
     long Sig1SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig1 emision.
+    // Subscribed callbacks for the Sig1 emission.
     std::map<long, SameStruct2InterfaceSig1SignalCb> Sig1Callbacks;
-    // Next free unique identifier to subscribe for the Sig2 emision.
+    // Next free unique identifier to subscribe for the Sig2 emission.
     long Sig2SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig2 emision.
+    // Subscribed callbacks for the Sig2 emission.
     std::map<long, SameStruct2InterfaceSig2SignalCb> Sig2Callbacks;
 };
 
@@ -79,14 +122,14 @@ using namespace Test::TbSame2;
 /**
  * Implementation SameStruct2InterfacePublisherImpl
  */
-void SameStruct2InterfacePublisherImpl::subscribeToSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber)
+void SameStruct2InterfacePublisherImpl::subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
 {
-    ISameStruct2InterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void SameStruct2InterfacePublisherImpl::unsubscribeFromSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber)
+void SameStruct2InterfacePublisherImpl::unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
 {
-    ISameStruct2InterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long SameStruct2InterfacePublisherImpl::subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback)
@@ -103,7 +146,7 @@ void SameStruct2InterfacePublisherImpl::unsubscribeFromProp1Changed(long handleI
 
 void SameStruct2InterfacePublisherImpl::publishProp1Changed(const Struct2& prop1) const
 {
-    for(const auto& Subscriber: ISameStruct2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp1Changed(prop1);
     }
@@ -130,7 +173,7 @@ void SameStruct2InterfacePublisherImpl::unsubscribeFromProp2Changed(long handleI
 
 void SameStruct2InterfacePublisherImpl::publishProp2Changed(const Struct2& prop2) const
 {
-    for(const auto& Subscriber: ISameStruct2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp2Changed(prop2);
     }
@@ -158,7 +201,7 @@ void SameStruct2InterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 
 void SameStruct2InterfacePublisherImpl::publishSig1(const Struct1& param1) const
 {
-    for(const auto& Subscriber: ISameStruct2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig1(param1);
     }
@@ -186,7 +229,7 @@ void SameStruct2InterfacePublisherImpl::unsubscribeFromSig2(long handleId)
 
 void SameStruct2InterfacePublisherImpl::publishSig2(const Struct1& param1,const Struct2& param2) const
 {
-    for(const auto& Subscriber: ISameStruct2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig2(param1,param2);
     }
@@ -207,14 +250,14 @@ SameStruct2InterfacePublisher::SameStruct2InterfacePublisher()
 {
 }
 
-void SameStruct2InterfacePublisher::subscribeToSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber)
+void SameStruct2InterfacePublisher::subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSameStruct2InterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void SameStruct2InterfacePublisher::unsubscribeFromSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber)
+void SameStruct2InterfacePublisher::unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSameStruct2InterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long SameStruct2InterfacePublisher::subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback)

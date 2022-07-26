@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "testbed1/generated/core/structarrayinterface.publisher.h"
+
 #include <set>
 #include <map>
-#include "testbed1/generated/core/structarrayinterface.publisher.h"
 
 
 namespace Test {
@@ -26,49 +27,127 @@ namespace Testbed1 {
 /**
  * The implementation of a StructArrayInterfacePublisher.
  * Use this class to store clients of the StructArrayInterface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class StructArrayInterfacePublisherImpl : public IStructArrayInterfacePublisher
 {
 public:
-    void subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(IStructArrayInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(IStructArrayInterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropBoolChanged
+    */
     long subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropBoolChanged
+    */
     void unsubscribeFromPropBoolChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropIntChanged
+    */
     long subscribeToPropIntChanged(StructArrayInterfacePropIntPropertyCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropIntChanged
+    */
     void unsubscribeFromPropIntChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropFloatChanged
+    */
     long subscribeToPropFloatChanged(StructArrayInterfacePropFloatPropertyCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropFloatChanged
+    */
     void unsubscribeFromPropFloatChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropStringChanged
+    */
     long subscribeToPropStringChanged(StructArrayInterfacePropStringPropertyCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToPropStringChanged
+    */
     void unsubscribeFromPropStringChanged(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToSigBool
+    */
     long subscribeToSigBool(StructArrayInterfaceSigBoolSignalCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::unsubscribeFromSigBool
+    */
     void unsubscribeFromSigBool(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToSigInt
+    */
     long subscribeToSigInt(StructArrayInterfaceSigIntSignalCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::unsubscribeFromSigInt
+    */
     void unsubscribeFromSigInt(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToSigFloat
+    */
     long subscribeToSigFloat(StructArrayInterfaceSigFloatSignalCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::unsubscribeFromSigFloat
+    */
     void unsubscribeFromSigFloat(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::subscribeToSigString
+    */
     long subscribeToSigString(StructArrayInterfaceSigStringSignalCb callback) override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::unsubscribeFromSigString
+    */
     void unsubscribeFromSigString(long handleId) override;
 
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishPropBoolChanged
+    */
     void publishPropBoolChanged(const std::list<StructBool>& propBool) const override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishPropIntChanged
+    */
     void publishPropIntChanged(const std::list<StructInt>& propInt) const override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishPropFloatChanged
+    */
     void publishPropFloatChanged(const std::list<StructFloat>& propFloat) const override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishPropStringChanged
+    */
     void publishPropStringChanged(const std::list<StructString>& propString) const override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishSigBool
+    */
     void publishSigBool(const std::list<StructBool>& paramBool) const override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishSigInt
+    */
     void publishSigInt(const std::list<StructInt>& paramInt) const override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishSigFloat
+    */
     void publishSigFloat(const std::list<StructFloat>& paramFloat) const override;
+    /**
+    * Implementation of IStructArrayInterfacePublisher::publishSigString
+    */
     void publishSigString(const std::list<StructString>& paramString) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in StructArrayInterface
-    std::set<IStructArrayInterfaceSubscriber*> IStructArrayInterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in StructArrayInterface
+    std::set<IStructArrayInterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the PropBool change.
     long PropBoolChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropBool change.
@@ -85,21 +164,21 @@ private:
     long PropStringChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropString change.
     std::map<long, StructArrayInterfacePropStringPropertyCb> PropStringCallbacks;
-    // Next free unique identifier to subscribe for the SigBool emision.
+    // Next free unique identifier to subscribe for the SigBool emission.
     long SigBoolSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigBool emision.
+    // Subscribed callbacks for the SigBool emission.
     std::map<long, StructArrayInterfaceSigBoolSignalCb> SigBoolCallbacks;
-    // Next free unique identifier to subscribe for the SigInt emision.
+    // Next free unique identifier to subscribe for the SigInt emission.
     long SigIntSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigInt emision.
+    // Subscribed callbacks for the SigInt emission.
     std::map<long, StructArrayInterfaceSigIntSignalCb> SigIntCallbacks;
-    // Next free unique identifier to subscribe for the SigFloat emision.
+    // Next free unique identifier to subscribe for the SigFloat emission.
     long SigFloatSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigFloat emision.
+    // Subscribed callbacks for the SigFloat emission.
     std::map<long, StructArrayInterfaceSigFloatSignalCb> SigFloatCallbacks;
-    // Next free unique identifier to subscribe for the SigString emision.
+    // Next free unique identifier to subscribe for the SigString emission.
     long SigStringSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigString emision.
+    // Subscribed callbacks for the SigString emission.
     std::map<long, StructArrayInterfaceSigStringSignalCb> SigStringCallbacks;
 };
 
@@ -111,14 +190,14 @@ using namespace Test::Testbed1;
 /**
  * Implementation StructArrayInterfacePublisherImpl
  */
-void StructArrayInterfacePublisherImpl::subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisherImpl::subscribeToAllChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
-    IStructArrayInterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void StructArrayInterfacePublisherImpl::unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisherImpl::unsubscribeFromAllChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
-    IStructArrayInterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long StructArrayInterfacePublisherImpl::subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback)
@@ -135,7 +214,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromPropBoolChanged(long hand
 
 void StructArrayInterfacePublisherImpl::publishPropBoolChanged(const std::list<StructBool>& propBool) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropBoolChanged(propBool);
     }
@@ -162,7 +241,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromPropIntChanged(long handl
 
 void StructArrayInterfacePublisherImpl::publishPropIntChanged(const std::list<StructInt>& propInt) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropIntChanged(propInt);
     }
@@ -189,7 +268,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromPropFloatChanged(long han
 
 void StructArrayInterfacePublisherImpl::publishPropFloatChanged(const std::list<StructFloat>& propFloat) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropFloatChanged(propFloat);
     }
@@ -216,7 +295,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromPropStringChanged(long ha
 
 void StructArrayInterfacePublisherImpl::publishPropStringChanged(const std::list<StructString>& propString) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropStringChanged(propString);
     }
@@ -244,7 +323,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromSigBool(long handleId)
 
 void StructArrayInterfacePublisherImpl::publishSigBool(const std::list<StructBool>& paramBool) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigBool(paramBool);
     }
@@ -272,7 +351,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromSigInt(long handleId)
 
 void StructArrayInterfacePublisherImpl::publishSigInt(const std::list<StructInt>& paramInt) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigInt(paramInt);
     }
@@ -300,7 +379,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromSigFloat(long handleId)
 
 void StructArrayInterfacePublisherImpl::publishSigFloat(const std::list<StructFloat>& paramFloat) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigFloat(paramFloat);
     }
@@ -328,7 +407,7 @@ void StructArrayInterfacePublisherImpl::unsubscribeFromSigString(long handleId)
 
 void StructArrayInterfacePublisherImpl::publishSigString(const std::list<StructString>& paramString) const
 {
-    for(const auto& Subscriber: IStructArrayInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigString(paramString);
     }
@@ -349,14 +428,14 @@ StructArrayInterfacePublisher::StructArrayInterfacePublisher()
 {
 }
 
-void StructArrayInterfacePublisher::subscribeToStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisher::subscribeToAllChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToStructArrayInterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void StructArrayInterfacePublisher::unsubscribeFromStructArrayInterfaceChanges(IStructArrayInterfaceSubscriber& subscriber)
+void StructArrayInterfacePublisher::unsubscribeFromAllChanges(IStructArrayInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromStructArrayInterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long StructArrayInterfacePublisher::subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback)

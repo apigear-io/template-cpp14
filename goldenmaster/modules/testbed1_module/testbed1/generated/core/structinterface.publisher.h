@@ -28,7 +28,7 @@ namespace Testbed1 {
  * The implementation of a StructInterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see StructInterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TESTBED1_EXPORT StructInterfacePublisher: public IStructInterfacePublisher
@@ -44,8 +44,8 @@ public:
     StructInterfacePublisher(StructInterfacePublisher&& a) = delete;
     StructInterfacePublisher& operator=(StructInterfacePublisher&& a) = delete;
 
-    void subscribeToStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromStructInterfaceChanges(IStructInterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(IStructInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(IStructInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;

@@ -34,7 +34,7 @@ namespace TbSimple {
 * Remote SimpleInterface implemented with OLink. 
 * Handles connnectionn with SimpleInterface service.
 * Sends and receives data over the network with ObjectLink protocol. 
-* see https://objectlinkprotocol.net for Object Link Details
+* see https://objectlinkprotocol.net for ObjectLink details.
 * Use on client side to request changes of the SimpleInterface on the server side 
 * and to subscribe for the SimpleInterface changes.
 */
@@ -42,17 +42,17 @@ class TEST_TB_SIMPLE_EXPORT RemoteSimpleInterface : public ISimpleInterface, pub
 {
 public:
 
-/**
-* ctor
-* @param registry The global registry with the sinks and client nodes.
-* @param client that holds the socket, manages the connection and provides ClientNode
-*   which is an abstraction layer between the Client and RemoteSimpleInterface.
-*/
+    /**
+    * ctor
+    * @param registry The global registry with the sinks and client nodes.
+    * @param client Holds the socket, manages the connection and provides ClientNode
+    *   which is an abstraction layer between the Client and RemoteSimpleInterface.
+    */
     explicit RemoteSimpleInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client);
     virtual ~RemoteSimpleInterface() override;
     /**
     * Property getter
-    * @return Locally stored value for Propbool.
+    * @return Locally stored locally value for Propbool.
     */
     bool propBool() const override;
     /**
@@ -62,7 +62,7 @@ public:
     void setPropbool(bool propBool) override;
     /**
     * Property getter
-    * @return Locally stored value for Propint.
+    * @return Locally stored locally value for Propint.
     */
     int propInt() const override;
     /**
@@ -72,7 +72,7 @@ public:
     void setPropint(int propInt) override;
     /**
     * Property getter
-    * @return Locally stored value for Propfloat.
+    * @return Locally stored locally value for Propfloat.
     */
     float propFloat() const override;
     /**
@@ -82,7 +82,7 @@ public:
     void setPropfloat(float propFloat) override;
     /**
     * Property getter
-    * @return Locally stored value for Propstring.
+    * @return Locally stored locally value for Propstring.
     */
     std::string propString() const override;
     /**
@@ -144,7 +144,7 @@ public:
     std::string olinkObjectName() override;
     
     /**
-    * Forwards information about singal emition to publisher.
+    * Forwards information about singal emission to publisher.
     * @param name The name of the emited signal.
     * @param args The arguments for the signal.
     */

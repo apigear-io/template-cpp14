@@ -23,7 +23,7 @@ namespace {{ module.name | capital }} {
 * Remote {{interface.name}} implemented with OLink. 
 * Handles connnectionn with {{interface.name}} service.
 * Sends and receives data over the network with ObjectLink protocol. 
-* see https://objectlinkprotocol.net for Object Link Details
+* see https://objectlinkprotocol.net for ObjectLink details.
 * Use on client side to request changes of the {{interface.name}} on the server side 
 * and to subscribe for the {{interface.name}} changes.
 */
@@ -31,12 +31,12 @@ class {{ system.name | constant }}_{{ module.name | constant }}_EXPORT {{class}}
 {
 public:
 
-/**
-* ctor
-* @param registry The global registry with the sinks and client nodes.
-* @param client that holds the socket, manages the connection and provides ClientNode
-*   which is an abstraction layer between the Client and {{class}}.
-*/
+    /**
+    * ctor
+    * @param registry The global registry with the sinks and client nodes.
+    * @param client Holds the socket, manages the connection and provides ClientNode
+    *   which is an abstraction layer between the Client and {{class}}.
+    */
     explicit {{class}}(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client);
     virtual ~{{class}}() override;
 
@@ -44,7 +44,7 @@ public:
 {% for property in interface.properties %}
     /**
     * Property getter
-    * @return Locally stored value for {{property.name|capitalize}}.
+    * @return Locally stored locally value for {{property.name|capitalize}}.
     */
     {{property|cpp14Return: true}} {{property.name}}() const override;
     /**
@@ -82,7 +82,7 @@ public:
     std::string olinkObjectName() override;
     
     /**
-    * Forwards information about singal emition to publisher.
+    * Forwards information about singal emission to publisher.
     * @param name The name of the emited signal.
     * @param args The arguments for the signal.
     */

@@ -121,8 +121,8 @@ public:
 /**
  * The IEnumInterfaceSubscriber contains functions to allow informing about singals or property changes of the IEnumInterface implementation.
  * The implementation for IEnumInterface should provide mechanism for subscibtion of the IEnumInterfaceSubscriber clients.
- * The implementation for IEnumInterface should call the IEnumInterfaceSubscriber interface functions on either singal emit or property change.
  * See IEnumInterfacePublisher, which provides facititation for this purpose.
+ * The implementation for IEnumInterface should call the IEnumInterfaceSubscriber interface functions on either singal emit or property change.
  * You can use IEnumInterfaceSubscriber class to implement clients of the IEnumInterface or the network adapter - see Olink Server and Client example.
  */
 class TEST_TB_ENUM_EXPORT IEnumInterfaceSubscriber
@@ -201,12 +201,14 @@ using EnumInterfaceSig3SignalCb = std::function<void(const Enum3Enum& param3)> ;
 
 
 /**
- * The IEnumInterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emision 
+ * The IEnumInterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emission 
  * or a property change.
  * Implement this interface to keep track of clients of your IEnumInterface implementation.
- * The second part of the IEnumInterfacePublisher interface is the notification interface.
- * It needs to be called by implementation of the IEnumInterface on each state changed or signal emited
- * and shall notify all the subscribers about this change.
+ * The publisher provides two independent methods of subscription
+ *  - subscribing with a ITunerSubscriber objects - for all of the changes
+ *  - subscribing any object for signle type of change property or a signal
+ * The publish functions needs to be called by implementation of the ITuner on each state changed or signal emited
+ * to notify all the subscribers about this change.
  */
 class TEST_TB_ENUM_EXPORT IEnumInterfacePublisher
 {
@@ -216,19 +218,22 @@ public:
     /**
     * Use this function to subscribe for any change of the EnumInterface.
     * Subscriber will be informed of any emited signal and any property changes.
+    * This is parallel notification system to single subscription. If you will subscribe also for a single change
+    * your subscriber will be informed twice about that change, one for each subscription mechanism.
     * @param IEnumInterfaceSubscriber which is subscribed in this function to any change of the EnumInterface.
     */
-    virtual void subscribeToEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) = 0;
+    virtual void subscribeToAllChanges(IEnumInterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the EnumInterface.
     * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
     * Make sure to remove them.
     * @param IEnumInterfaceSubscriber which subscription for any change of the EnumInterface is removed.
     */
-    virtual void unsubscribeFromEnumInterfaceChanges(IEnumInterfaceSubscriber& subscriber) = 0;
+    virtual void unsubscribeFromAllChanges(IEnumInterfaceSubscriber& subscriber) = 0;
 
     /**
     * Use this function to subscribe for prop0 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp0PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -238,12 +243,15 @@ public:
     virtual long subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop0 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp0Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop1 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -253,12 +261,15 @@ public:
     virtual long subscribeToProp1Changed(EnumInterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp1Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop2 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp2PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -268,12 +279,15 @@ public:
     virtual long subscribeToProp2Changed(EnumInterfaceProp2PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop2 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp2Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop3 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp3PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -283,13 +297,15 @@ public:
     virtual long subscribeToProp3Changed(EnumInterfaceProp3PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop3 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp3Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for sig0 signal changes.
-    * @param EnumInterfaceSig0SignalCb callback that will be executed on each signal emision.
+    * @param EnumInterfaceSig0SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -304,7 +320,7 @@ public:
 
     /**
     * Use this function to subscribe for sig1 signal changes.
-    * @param EnumInterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * @param EnumInterfaceSig1SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -319,7 +335,7 @@ public:
 
     /**
     * Use this function to subscribe for sig2 signal changes.
-    * @param EnumInterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * @param EnumInterfaceSig2SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -334,7 +350,7 @@ public:
 
     /**
     * Use this function to subscribe for sig3 signal changes.
-    * @param EnumInterfaceSig3SignalCb callback that will be executed on each signal emision.
+    * @param EnumInterfaceSig3SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -348,42 +364,50 @@ public:
     virtual void unsubscribeFromSig3(long handleId) = 0;
 
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the EnumInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when property prop0 changes.
     * @param The new value of prop0.
     */
     virtual void publishProp0Changed(const Enum0Enum& prop0) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the EnumInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when property prop1 changes.
     * @param The new value of prop1.
     */
     virtual void publishProp1Changed(const Enum1Enum& prop1) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the EnumInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when property prop2 changes.
     * @param The new value of prop2.
     */
     virtual void publishProp2Changed(const Enum2Enum& prop2) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the EnumInterface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when property prop3 changes.
     * @param The new value of prop3.
     */
     virtual void publishProp3Changed(const Enum3Enum& prop3) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the EnumInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when sig0 is emited.
     * @param param0 
     */
     virtual void publishSig0(const Enum0Enum& param0) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the EnumInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when sig1 is emited.
     * @param param1 
     */
     virtual void publishSig1(const Enum1Enum& param1) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the EnumInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when sig2 is emited.
     * @param param2 
     */
     virtual void publishSig2(const Enum2Enum& param2) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the EnumInterface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the EnumInterface implementation when sig3 is emited.
     * @param param3 
     */
     virtual void publishSig3(const Enum3Enum& param3) const = 0;

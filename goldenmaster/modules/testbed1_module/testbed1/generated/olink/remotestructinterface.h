@@ -34,7 +34,7 @@ namespace Testbed1 {
 * Remote StructInterface implemented with OLink. 
 * Handles connnectionn with StructInterface service.
 * Sends and receives data over the network with ObjectLink protocol. 
-* see https://objectlinkprotocol.net for Object Link Details
+* see https://objectlinkprotocol.net for ObjectLink details.
 * Use on client side to request changes of the StructInterface on the server side 
 * and to subscribe for the StructInterface changes.
 */
@@ -42,17 +42,17 @@ class TEST_TESTBED1_EXPORT RemoteStructInterface : public IStructInterface, publ
 {
 public:
 
-/**
-* ctor
-* @param registry The global registry with the sinks and client nodes.
-* @param client that holds the socket, manages the connection and provides ClientNode
-*   which is an abstraction layer between the Client and RemoteStructInterface.
-*/
+    /**
+    * ctor
+    * @param registry The global registry with the sinks and client nodes.
+    * @param client Holds the socket, manages the connection and provides ClientNode
+    *   which is an abstraction layer between the Client and RemoteStructInterface.
+    */
     explicit RemoteStructInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client);
     virtual ~RemoteStructInterface() override;
     /**
     * Property getter
-    * @return Locally stored value for Propbool.
+    * @return Locally stored locally value for Propbool.
     */
     const StructBool& propBool() const override;
     /**
@@ -62,7 +62,7 @@ public:
     void setPropbool(const StructBool& propBool) override;
     /**
     * Property getter
-    * @return Locally stored value for Propint.
+    * @return Locally stored locally value for Propint.
     */
     const StructInt& propInt() const override;
     /**
@@ -72,7 +72,7 @@ public:
     void setPropint(const StructInt& propInt) override;
     /**
     * Property getter
-    * @return Locally stored value for Propfloat.
+    * @return Locally stored locally value for Propfloat.
     */
     const StructFloat& propFloat() const override;
     /**
@@ -82,7 +82,7 @@ public:
     void setPropfloat(const StructFloat& propFloat) override;
     /**
     * Property getter
-    * @return Locally stored value for Propstring.
+    * @return Locally stored locally value for Propstring.
     */
     const StructString& propString() const override;
     /**
@@ -144,7 +144,7 @@ public:
     std::string olinkObjectName() override;
     
     /**
-    * Forwards information about singal emition to publisher.
+    * Forwards information about singal emission to publisher.
     * @param name The name of the emited signal.
     * @param args The arguments for the signal.
     */

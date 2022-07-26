@@ -28,7 +28,7 @@ namespace TbSame1 {
  * The implementation of a SameStruct1InterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see SameStruct1InterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TB_SAME1_EXPORT SameStruct1InterfacePublisher: public ISameStruct1InterfacePublisher
@@ -44,8 +44,8 @@ public:
     SameStruct1InterfacePublisher(SameStruct1InterfacePublisher&& a) = delete;
     SameStruct1InterfacePublisher& operator=(SameStruct1InterfacePublisher&& a) = delete;
 
-    void subscribeToSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameStruct1InterfaceChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(ISameStruct1InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

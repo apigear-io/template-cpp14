@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "tb_simple/generated/core/simpleinterface.publisher.h"
+
 #include <set>
 #include <map>
-#include "tb_simple/generated/core/simpleinterface.publisher.h"
 
 
 namespace Test {
@@ -26,49 +27,127 @@ namespace TbSimple {
 /**
  * The implementation of a SimpleInterfacePublisher.
  * Use this class to store clients of the SimpleInterface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class SimpleInterfacePublisherImpl : public ISimpleInterfacePublisher
 {
 public:
-    void subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(ISimpleInterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(ISimpleInterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropBoolChanged
+    */
     long subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropBoolChanged
+    */
     void unsubscribeFromPropBoolChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropIntChanged
+    */
     long subscribeToPropIntChanged(SimpleInterfacePropIntPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropIntChanged
+    */
     void unsubscribeFromPropIntChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropFloatChanged
+    */
     long subscribeToPropFloatChanged(SimpleInterfacePropFloatPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropFloatChanged
+    */
     void unsubscribeFromPropFloatChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropStringChanged
+    */
     long subscribeToPropStringChanged(SimpleInterfacePropStringPropertyCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToPropStringChanged
+    */
     void unsubscribeFromPropStringChanged(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToSigBool
+    */
     long subscribeToSigBool(SimpleInterfaceSigBoolSignalCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::unsubscribeFromSigBool
+    */
     void unsubscribeFromSigBool(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToSigInt
+    */
     long subscribeToSigInt(SimpleInterfaceSigIntSignalCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::unsubscribeFromSigInt
+    */
     void unsubscribeFromSigInt(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToSigFloat
+    */
     long subscribeToSigFloat(SimpleInterfaceSigFloatSignalCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::unsubscribeFromSigFloat
+    */
     void unsubscribeFromSigFloat(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::subscribeToSigString
+    */
     long subscribeToSigString(SimpleInterfaceSigStringSignalCb callback) override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::unsubscribeFromSigString
+    */
     void unsubscribeFromSigString(long handleId) override;
 
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishPropBoolChanged
+    */
     void publishPropBoolChanged(bool propBool) const override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishPropIntChanged
+    */
     void publishPropIntChanged(int propInt) const override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishPropFloatChanged
+    */
     void publishPropFloatChanged(float propFloat) const override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishPropStringChanged
+    */
     void publishPropStringChanged(const std::string& propString) const override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishSigBool
+    */
     void publishSigBool(bool paramBool) const override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishSigInt
+    */
     void publishSigInt(int paramInt) const override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishSigFloat
+    */
     void publishSigFloat(float paramFloat) const override;
+    /**
+    * Implementation of ISimpleInterfacePublisher::publishSigString
+    */
     void publishSigString(const std::string& paramString) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in SimpleInterface
-    std::set<ISimpleInterfaceSubscriber*> ISimpleInterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in SimpleInterface
+    std::set<ISimpleInterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the PropBool change.
     long PropBoolChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropBool change.
@@ -85,21 +164,21 @@ private:
     long PropStringChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropString change.
     std::map<long, SimpleInterfacePropStringPropertyCb> PropStringCallbacks;
-    // Next free unique identifier to subscribe for the SigBool emision.
+    // Next free unique identifier to subscribe for the SigBool emission.
     long SigBoolSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigBool emision.
+    // Subscribed callbacks for the SigBool emission.
     std::map<long, SimpleInterfaceSigBoolSignalCb> SigBoolCallbacks;
-    // Next free unique identifier to subscribe for the SigInt emision.
+    // Next free unique identifier to subscribe for the SigInt emission.
     long SigIntSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigInt emision.
+    // Subscribed callbacks for the SigInt emission.
     std::map<long, SimpleInterfaceSigIntSignalCb> SigIntCallbacks;
-    // Next free unique identifier to subscribe for the SigFloat emision.
+    // Next free unique identifier to subscribe for the SigFloat emission.
     long SigFloatSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigFloat emision.
+    // Subscribed callbacks for the SigFloat emission.
     std::map<long, SimpleInterfaceSigFloatSignalCb> SigFloatCallbacks;
-    // Next free unique identifier to subscribe for the SigString emision.
+    // Next free unique identifier to subscribe for the SigString emission.
     long SigStringSignalCallbackNextId = 0;
-    // Subscribed callbacks for the SigString emision.
+    // Subscribed callbacks for the SigString emission.
     std::map<long, SimpleInterfaceSigStringSignalCb> SigStringCallbacks;
 };
 
@@ -111,14 +190,14 @@ using namespace Test::TbSimple;
 /**
  * Implementation SimpleInterfacePublisherImpl
  */
-void SimpleInterfacePublisherImpl::subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisherImpl::subscribeToAllChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    ISimpleInterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void SimpleInterfacePublisherImpl::unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisherImpl::unsubscribeFromAllChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    ISimpleInterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long SimpleInterfacePublisherImpl::subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback)
@@ -135,7 +214,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromPropBoolChanged(long handleId)
 
 void SimpleInterfacePublisherImpl::publishPropBoolChanged(bool propBool) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropBoolChanged(propBool);
     }
@@ -162,7 +241,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromPropIntChanged(long handleId)
 
 void SimpleInterfacePublisherImpl::publishPropIntChanged(int propInt) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropIntChanged(propInt);
     }
@@ -189,7 +268,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromPropFloatChanged(long handleId
 
 void SimpleInterfacePublisherImpl::publishPropFloatChanged(float propFloat) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropFloatChanged(propFloat);
     }
@@ -216,7 +295,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromPropStringChanged(long handleI
 
 void SimpleInterfacePublisherImpl::publishPropStringChanged(const std::string& propString) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnPropStringChanged(propString);
     }
@@ -244,7 +323,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromSigBool(long handleId)
 
 void SimpleInterfacePublisherImpl::publishSigBool(bool paramBool) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigBool(paramBool);
     }
@@ -272,7 +351,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromSigInt(long handleId)
 
 void SimpleInterfacePublisherImpl::publishSigInt(int paramInt) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigInt(paramInt);
     }
@@ -300,7 +379,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromSigFloat(long handleId)
 
 void SimpleInterfacePublisherImpl::publishSigFloat(float paramFloat) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigFloat(paramFloat);
     }
@@ -328,7 +407,7 @@ void SimpleInterfacePublisherImpl::unsubscribeFromSigString(long handleId)
 
 void SimpleInterfacePublisherImpl::publishSigString(const std::string& paramString) const
 {
-    for(const auto& Subscriber: ISimpleInterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSigString(paramString);
     }
@@ -349,14 +428,14 @@ SimpleInterfacePublisher::SimpleInterfacePublisher()
 {
 }
 
-void SimpleInterfacePublisher::subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisher::subscribeToAllChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSimpleInterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void SimpleInterfacePublisher::unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber)
+void SimpleInterfacePublisher::unsubscribeFromAllChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSimpleInterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long SimpleInterfacePublisher::subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback)

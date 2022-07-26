@@ -72,7 +72,7 @@ public:
         
 
     /**
-    * Access to a publisher, use it to subscribe for StructArrayInterface changes and signal emisions.
+    * Access to a publisher, use it to subscribe for StructArrayInterface changes and signal emission.
     * @return The publisher for StructArrayInterface.
     */
     IStructArrayInterfacePublisher& _getPublisher() const override;

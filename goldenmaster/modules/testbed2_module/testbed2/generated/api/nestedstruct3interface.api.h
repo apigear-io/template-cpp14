@@ -104,8 +104,8 @@ public:
 /**
  * The INestedStruct3InterfaceSubscriber contains functions to allow informing about singals or property changes of the INestedStruct3Interface implementation.
  * The implementation for INestedStruct3Interface should provide mechanism for subscibtion of the INestedStruct3InterfaceSubscriber clients.
- * The implementation for INestedStruct3Interface should call the INestedStruct3InterfaceSubscriber interface functions on either singal emit or property change.
  * See INestedStruct3InterfacePublisher, which provides facititation for this purpose.
+ * The implementation for INestedStruct3Interface should call the INestedStruct3InterfaceSubscriber interface functions on either singal emit or property change.
  * You can use INestedStruct3InterfaceSubscriber class to implement clients of the INestedStruct3Interface or the network adapter - see Olink Server and Client example.
  */
 class TEST_TESTBED2_EXPORT INestedStruct3InterfaceSubscriber
@@ -170,12 +170,14 @@ using NestedStruct3InterfaceSig3SignalCb = std::function<void(const NestedStruct
 
 
 /**
- * The INestedStruct3InterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emision 
+ * The INestedStruct3InterfacePublisher provides an api for clients to subscribe to or unsubscribe from a signal emission 
  * or a property change.
  * Implement this interface to keep track of clients of your INestedStruct3Interface implementation.
- * The second part of the INestedStruct3InterfacePublisher interface is the notification interface.
- * It needs to be called by implementation of the INestedStruct3Interface on each state changed or signal emited
- * and shall notify all the subscribers about this change.
+ * The publisher provides two independent methods of subscription
+ *  - subscribing with a ITunerSubscriber objects - for all of the changes
+ *  - subscribing any object for signle type of change property or a signal
+ * The publish functions needs to be called by implementation of the ITuner on each state changed or signal emited
+ * to notify all the subscribers about this change.
  */
 class TEST_TESTBED2_EXPORT INestedStruct3InterfacePublisher
 {
@@ -185,19 +187,22 @@ public:
     /**
     * Use this function to subscribe for any change of the NestedStruct3Interface.
     * Subscriber will be informed of any emited signal and any property changes.
+    * This is parallel notification system to single subscription. If you will subscribe also for a single change
+    * your subscriber will be informed twice about that change, one for each subscription mechanism.
     * @param INestedStruct3InterfaceSubscriber which is subscribed in this function to any change of the NestedStruct3Interface.
     */
-    virtual void subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) = 0;
+    virtual void subscribeToAllChanges(INestedStruct3InterfaceSubscriber& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the NestedStruct3Interface.
     * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
     * Make sure to remove them.
     * @param INestedStruct3InterfaceSubscriber which subscription for any change of the NestedStruct3Interface is removed.
     */
-    virtual void unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) = 0;
+    virtual void unsubscribeFromAllChanges(INestedStruct3InterfaceSubscriber& subscriber) = 0;
 
     /**
     * Use this function to subscribe for prop1 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct3InterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -207,12 +212,15 @@ public:
     virtual long subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp1Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop2 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct3InterfaceProp2PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -222,12 +230,15 @@ public:
     virtual long subscribeToProp2Changed(NestedStruct3InterfaceProp2PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop2 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp2Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for prop3 value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param NestedStruct3InterfaceProp3PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -237,13 +248,15 @@ public:
     virtual long subscribeToProp3Changed(NestedStruct3InterfaceProp3PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop3 property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFromProp3Changed(long handleId) = 0;
 
     /**
     * Use this function to subscribe for sig1 signal changes.
-    * @param NestedStruct3InterfaceSig1SignalCb callback that will be executed on each signal emision.
+    * @param NestedStruct3InterfaceSig1SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -258,7 +271,7 @@ public:
 
     /**
     * Use this function to subscribe for sig2 signal changes.
-    * @param NestedStruct3InterfaceSig2SignalCb callback that will be executed on each signal emision.
+    * @param NestedStruct3InterfaceSig2SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -273,7 +286,7 @@ public:
 
     /**
     * Use this function to subscribe for sig3 signal changes.
-    * @param NestedStruct3InterfaceSig3SignalCb callback that will be executed on each signal emision.
+    * @param NestedStruct3InterfaceSig3SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -287,33 +300,39 @@ public:
     virtual void unsubscribeFromSig3(long handleId) = 0;
 
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the NestedStruct3Interface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the NestedStruct3Interface implementation when property prop1 changes.
     * @param The new value of prop1.
     */
     virtual void publishProp1Changed(const NestedStruct1& prop1) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the NestedStruct3Interface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the NestedStruct3Interface implementation when property prop2 changes.
     * @param The new value of prop2.
     */
     virtual void publishProp2Changed(const NestedStruct2& prop2) const = 0;
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the NestedStruct3Interface implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the NestedStruct3Interface implementation when property prop3 changes.
     * @param The new value of prop3.
     */
     virtual void publishProp3Changed(const NestedStruct3& prop3) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the NestedStruct3Interface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the NestedStruct3Interface implementation when sig1 is emited.
     * @param param1 
     */
     virtual void publishSig1(const NestedStruct1& param1) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the NestedStruct3Interface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the NestedStruct3Interface implementation when sig2 is emited.
     * @param param1 
     * @param param2 
     */
     virtual void publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const = 0;
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the NestedStruct3Interface implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the NestedStruct3Interface implementation when sig3 is emited.
     * @param param1 
     * @param param2 
     * @param param3 

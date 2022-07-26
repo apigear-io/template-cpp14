@@ -27,17 +27,17 @@ using namespace Test::Testbed2;
 AbstractManyParamInterfaceDecorator::AbstractManyParamInterfaceDecorator(IManyParamInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToManyParamInterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 IManyParamInterface* AbstractManyParamInterfaceDecorator::swapUnderlyingImplementation(IManyParamInterface* impl)
 {
     IManyParamInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromManyParamInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToManyParamInterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ IManyParamInterface* AbstractManyParamInterfaceDecorator::disconnectFromUnderlyi
 {
     IManyParamInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromManyParamInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractManyParamInterfaceDecorator::~AbstractManyParamInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromManyParamInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractManyParamInterfaceDecorator::setProp1(int prop1)

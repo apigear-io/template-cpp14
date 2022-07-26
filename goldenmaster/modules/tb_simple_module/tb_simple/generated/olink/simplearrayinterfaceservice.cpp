@@ -28,16 +28,16 @@ using namespace Test::TbSimple;
 SimpleArrayInterfaceService::SimpleArrayInterfaceService(ISimpleArrayInterface& SimpleArrayInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SimpleArrayInterface(SimpleArrayInterface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_SimpleArrayInterface._getPublisher().subscribeToSimpleArrayInterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_SimpleArrayInterface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 SimpleArrayInterfaceService::~SimpleArrayInterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_SimpleArrayInterface._getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_SimpleArrayInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string SimpleArrayInterfaceService::olinkObjectName() {

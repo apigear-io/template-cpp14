@@ -15,9 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#include "tb_same2/generated/core/sameenum2interface.publisher.h"
+
 #include <set>
 #include <map>
-#include "tb_same2/generated/core/sameenum2interface.publisher.h"
 
 
 namespace Test {
@@ -26,33 +27,75 @@ namespace TbSame2 {
 /**
  * The implementation of a SameEnum2InterfacePublisher.
  * Use this class to store clients of the SameEnum2Interface and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class SameEnum2InterfacePublisherImpl : public ISameEnum2InterfacePublisher
 {
 public:
-    void subscribeToSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::subscribeToAllChanges
+    */
+    void subscribeToAllChanges(ISameEnum2InterfaceSubscriber& subscriber) override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges(ISameEnum2InterfaceSubscriber& subscriber) override;
 
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::subscribeToProp1Changed
+    */
     long subscribeToProp1Changed(SameEnum2InterfaceProp1PropertyCb callback) override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::subscribeToProp1Changed
+    */
     void unsubscribeFromProp1Changed(long handleId) override;
 
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::subscribeToProp2Changed
+    */
     long subscribeToProp2Changed(SameEnum2InterfaceProp2PropertyCb callback) override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::subscribeToProp2Changed
+    */
     void unsubscribeFromProp2Changed(long handleId) override;
 
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::subscribeToSig1
+    */
     long subscribeToSig1(SameEnum2InterfaceSig1SignalCb callback) override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::unsubscribeFromSig1
+    */
     void unsubscribeFromSig1(long handleId) override;
 
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::subscribeToSig2
+    */
     long subscribeToSig2(SameEnum2InterfaceSig2SignalCb callback) override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::unsubscribeFromSig2
+    */
     void unsubscribeFromSig2(long handleId) override;
 
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::publishProp1Changed
+    */
     void publishProp1Changed(const Enum1Enum& prop1) const override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::publishProp2Changed
+    */
     void publishProp2Changed(const Enum2Enum& prop2) const override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::publishSig1
+    */
     void publishSig1(const Enum1Enum& param1) const override;
+    /**
+    * Implementation of ISameEnum2InterfacePublisher::publishSig2
+    */
     void publishSig2(const Enum1Enum& param1,const Enum2Enum& param2) const override;
 private:
-    // ISubscribers informed about any property change or singal emited in SameEnum2Interface
-    std::set<ISameEnum2InterfaceSubscriber*> ISameEnum2InterfaceInterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in SameEnum2Interface
+    std::set<ISameEnum2InterfaceSubscriber*> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -61,13 +104,13 @@ private:
     long Prop2ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop2 change.
     std::map<long, SameEnum2InterfaceProp2PropertyCb> Prop2Callbacks;
-    // Next free unique identifier to subscribe for the Sig1 emision.
+    // Next free unique identifier to subscribe for the Sig1 emission.
     long Sig1SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig1 emision.
+    // Subscribed callbacks for the Sig1 emission.
     std::map<long, SameEnum2InterfaceSig1SignalCb> Sig1Callbacks;
-    // Next free unique identifier to subscribe for the Sig2 emision.
+    // Next free unique identifier to subscribe for the Sig2 emission.
     long Sig2SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig2 emision.
+    // Subscribed callbacks for the Sig2 emission.
     std::map<long, SameEnum2InterfaceSig2SignalCb> Sig2Callbacks;
 };
 
@@ -79,14 +122,14 @@ using namespace Test::TbSame2;
 /**
  * Implementation SameEnum2InterfacePublisherImpl
  */
-void SameEnum2InterfacePublisherImpl::subscribeToSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisherImpl::subscribeToAllChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    ISameEnum2InterfaceInterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 
-void SameEnum2InterfacePublisherImpl::unsubscribeFromSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisherImpl::unsubscribeFromAllChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    ISameEnum2InterfaceInterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 
 long SameEnum2InterfacePublisherImpl::subscribeToProp1Changed(SameEnum2InterfaceProp1PropertyCb callback)
@@ -103,7 +146,7 @@ void SameEnum2InterfacePublisherImpl::unsubscribeFromProp1Changed(long handleId)
 
 void SameEnum2InterfacePublisherImpl::publishProp1Changed(const Enum1Enum& prop1) const
 {
-    for(const auto& Subscriber: ISameEnum2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp1Changed(prop1);
     }
@@ -130,7 +173,7 @@ void SameEnum2InterfacePublisherImpl::unsubscribeFromProp2Changed(long handleId)
 
 void SameEnum2InterfacePublisherImpl::publishProp2Changed(const Enum2Enum& prop2) const
 {
-    for(const auto& Subscriber: ISameEnum2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnProp2Changed(prop2);
     }
@@ -158,7 +201,7 @@ void SameEnum2InterfacePublisherImpl::unsubscribeFromSig1(long handleId)
 
 void SameEnum2InterfacePublisherImpl::publishSig1(const Enum1Enum& param1) const
 {
-    for(const auto& Subscriber: ISameEnum2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig1(param1);
     }
@@ -186,7 +229,7 @@ void SameEnum2InterfacePublisherImpl::unsubscribeFromSig2(long handleId)
 
 void SameEnum2InterfacePublisherImpl::publishSig2(const Enum1Enum& param1,const Enum2Enum& param2) const
 {
-    for(const auto& Subscriber: ISameEnum2InterfaceInterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->OnSig2(param1,param2);
     }
@@ -207,14 +250,14 @@ SameEnum2InterfacePublisher::SameEnum2InterfacePublisher()
 {
 }
 
-void SameEnum2InterfacePublisher::subscribeToSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisher::subscribeToAllChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    m_impl->subscribeToSameEnum2InterfaceChanges(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 
-void SameEnum2InterfacePublisher::unsubscribeFromSameEnum2InterfaceChanges(ISameEnum2InterfaceSubscriber& subscriber)
+void SameEnum2InterfacePublisher::unsubscribeFromAllChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    m_impl->unsubscribeFromSameEnum2InterfaceChanges(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 
 long SameEnum2InterfacePublisher::subscribeToProp1Changed(SameEnum2InterfaceProp1PropertyCb callback)

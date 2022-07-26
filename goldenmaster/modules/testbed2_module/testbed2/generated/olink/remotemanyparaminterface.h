@@ -34,7 +34,7 @@ namespace Testbed2 {
 * Remote ManyParamInterface implemented with OLink. 
 * Handles connnectionn with ManyParamInterface service.
 * Sends and receives data over the network with ObjectLink protocol. 
-* see https://objectlinkprotocol.net for Object Link Details
+* see https://objectlinkprotocol.net for ObjectLink details.
 * Use on client side to request changes of the ManyParamInterface on the server side 
 * and to subscribe for the ManyParamInterface changes.
 */
@@ -42,17 +42,17 @@ class TEST_TESTBED2_EXPORT RemoteManyParamInterface : public IManyParamInterface
 {
 public:
 
-/**
-* ctor
-* @param registry The global registry with the sinks and client nodes.
-* @param client that holds the socket, manages the connection and provides ClientNode
-*   which is an abstraction layer between the Client and RemoteManyParamInterface.
-*/
+    /**
+    * ctor
+    * @param registry The global registry with the sinks and client nodes.
+    * @param client Holds the socket, manages the connection and provides ClientNode
+    *   which is an abstraction layer between the Client and RemoteManyParamInterface.
+    */
     explicit RemoteManyParamInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client);
     virtual ~RemoteManyParamInterface() override;
     /**
     * Property getter
-    * @return Locally stored value for Prop1.
+    * @return Locally stored locally value for Prop1.
     */
     int prop1() const override;
     /**
@@ -62,7 +62,7 @@ public:
     void setProp1(int prop1) override;
     /**
     * Property getter
-    * @return Locally stored value for Prop2.
+    * @return Locally stored locally value for Prop2.
     */
     int prop2() const override;
     /**
@@ -72,7 +72,7 @@ public:
     void setProp2(int prop2) override;
     /**
     * Property getter
-    * @return Locally stored value for Prop3.
+    * @return Locally stored locally value for Prop3.
     */
     int prop3() const override;
     /**
@@ -82,7 +82,7 @@ public:
     void setProp3(int prop3) override;
     /**
     * Property getter
-    * @return Locally stored value for Prop4.
+    * @return Locally stored locally value for Prop4.
     */
     int prop4() const override;
     /**
@@ -144,7 +144,7 @@ public:
     std::string olinkObjectName() override;
     
     /**
-    * Forwards information about singal emition to publisher.
+    * Forwards information about singal emission to publisher.
     * @param name The name of the emited signal.
     * @param args The arguments for the signal.
     */

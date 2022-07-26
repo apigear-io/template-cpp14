@@ -28,7 +28,7 @@ namespace Testbed2 {
  * The implementation of a NestedStruct3InterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see NestedStruct3InterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TESTBED2_EXPORT NestedStruct3InterfacePublisher: public INestedStruct3InterfacePublisher
@@ -44,8 +44,8 @@ public:
     NestedStruct3InterfacePublisher(NestedStruct3InterfacePublisher&& a) = delete;
     NestedStruct3InterfacePublisher& operator=(NestedStruct3InterfacePublisher&& a) = delete;
 
-    void subscribeToNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromNestedStruct3InterfaceChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(INestedStruct3InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

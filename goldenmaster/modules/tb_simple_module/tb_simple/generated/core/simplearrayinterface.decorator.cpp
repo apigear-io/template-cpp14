@@ -27,17 +27,17 @@ using namespace Test::TbSimple;
 AbstractSimpleArrayInterfaceDecorator::AbstractSimpleArrayInterfaceDecorator(ISimpleArrayInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToSimpleArrayInterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 ISimpleArrayInterface* AbstractSimpleArrayInterfaceDecorator::swapUnderlyingImplementation(ISimpleArrayInterface* impl)
 {
     ISimpleArrayInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToSimpleArrayInterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ ISimpleArrayInterface* AbstractSimpleArrayInterfaceDecorator::disconnectFromUnde
 {
     ISimpleArrayInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractSimpleArrayInterfaceDecorator::~AbstractSimpleArrayInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromSimpleArrayInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractSimpleArrayInterfaceDecorator::setPropbool(const std::list<bool>& propBool)

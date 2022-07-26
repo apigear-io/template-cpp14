@@ -28,16 +28,16 @@ using namespace Test::Testbed2;
 ManyParamInterfaceService::ManyParamInterfaceService(IManyParamInterface& ManyParamInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_ManyParamInterface(ManyParamInterface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_ManyParamInterface._getPublisher().subscribeToManyParamInterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_ManyParamInterface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 ManyParamInterfaceService::~ManyParamInterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_ManyParamInterface._getPublisher().unsubscribeFromManyParamInterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_ManyParamInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string ManyParamInterfaceService::olinkObjectName() {

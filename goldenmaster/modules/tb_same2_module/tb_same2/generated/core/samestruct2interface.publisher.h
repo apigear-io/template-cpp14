@@ -28,7 +28,7 @@ namespace TbSame2 {
  * The implementation of a SameStruct2InterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see SameStruct2InterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TB_SAME2_EXPORT SameStruct2InterfacePublisher: public ISameStruct2InterfacePublisher
@@ -44,8 +44,8 @@ public:
     SameStruct2InterfacePublisher(SameStruct2InterfacePublisher&& a) = delete;
     SameStruct2InterfacePublisher& operator=(SameStruct2InterfacePublisher&& a) = delete;
 
-    void subscribeToSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSameStruct2InterfaceChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
 
     long subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback) override;
     void unsubscribeFromProp1Changed(long handleId) override;

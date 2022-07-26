@@ -72,7 +72,7 @@ public:
         
 
     /**
-    * Access to a publisher, use it to subscribe for StructInterface changes and signal emisions.
+    * Access to a publisher, use it to subscribe for StructInterface changes and signal emission.
     * @return The publisher for StructInterface.
     */
     IStructInterfacePublisher& _getPublisher() const override;

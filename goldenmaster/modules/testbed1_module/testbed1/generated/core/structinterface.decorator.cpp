@@ -27,17 +27,17 @@ using namespace Test::Testbed1;
 AbstractStructInterfaceDecorator::AbstractStructInterfaceDecorator(IStructInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToStructInterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 IStructInterface* AbstractStructInterfaceDecorator::swapUnderlyingImplementation(IStructInterface* impl)
 {
     IStructInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromStructInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToStructInterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ IStructInterface* AbstractStructInterfaceDecorator::disconnectFromUnderlyingImpl
 {
     IStructInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromStructInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractStructInterfaceDecorator::~AbstractStructInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromStructInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractStructInterfaceDecorator::setPropbool(const StructBool& propBool)

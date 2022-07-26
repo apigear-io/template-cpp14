@@ -13,16 +13,16 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }};
 {{class}}::{{class}}(I{{interface}}& {{interface}}, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_{{interface}}({{interface}})
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_{{interface}}._getPublisher().subscribeTo{{interface.name | capital}}Changes(*this);
-    m_registry->addObjectSource(this);
+    m_{{interface}}._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 {{class}}::~{{class}}()
 {
-    m_registry->removeObjectSource(this);
-    m_{{interface}}._getPublisher().unsubscribeFrom{{interface.name | capital}}Changes(*this);
+    m_registry.removeObjectSource(this);
+    m_{{interface}}._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string {{class}}::olinkObjectName() {

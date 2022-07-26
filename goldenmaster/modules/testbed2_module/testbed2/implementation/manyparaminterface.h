@@ -72,7 +72,7 @@ public:
         
 
     /**
-    * Access to a publisher, use it to subscribe for ManyParamInterface changes and signal emisions.
+    * Access to a publisher, use it to subscribe for ManyParamInterface changes and signal emission.
     * @return The publisher for ManyParamInterface.
     */
     IManyParamInterfacePublisher& _getPublisher() const override;

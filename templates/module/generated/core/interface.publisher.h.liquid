@@ -20,7 +20,7 @@ namespace {{ module.name | capital }} {
  * The implementation of a {{pub_class}}.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see {{pub_impl_class}} for the implementation.
  * 
  */
 class {{ system.name | constant }}_{{ module.name | constant }}_EXPORT {{pub_class}}: public {{pub_interface}}
@@ -36,8 +36,8 @@ public:
     {{pub_class}}({{pub_class}}&& a) = delete;
     {{pub_class}}& operator=({{pub_class}}&& a) = delete;
 
-    void subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
-    void unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
+    void subscribeToAllChanges({{sub_class}}& subscriber) override;
+    void unsubscribeFromAllChanges({{sub_class}}& subscriber) override;
 {{nl}}
 {% for property in interface.properties %}
     long subscribeTo{{property.name|capital}}Changed({{interface.name | capital}}{{property.name | capital}}PropertyCb callback) override;

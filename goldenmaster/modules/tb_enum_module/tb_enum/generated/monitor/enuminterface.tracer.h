@@ -8,8 +8,8 @@ namespace Test {
 namespace TbEnum {
 
 /**
-* A helper class for monitoring.
-* Decorates the to PocoImpl::Tracer calls with information about state and operations specific for EnumInterface.
+* A helper class for tracing.
+* Builds the trace info with state and operations specific for EnumInterface and pass to PocoImpl::Tracer.
 */
 class EnumInterfaceTracer
 {

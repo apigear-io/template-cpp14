@@ -27,17 +27,17 @@ using namespace Test::TbEnum;
 AbstractEnumInterfaceDecorator::AbstractEnumInterfaceDecorator(IEnumInterface* impl)
     : m_impl(impl)
 {
-    m_impl->_getPublisher().subscribeToEnumInterfaceChanges(*this);
+    m_impl->_getPublisher().subscribeToAllChanges(*this);
 }
 IEnumInterface* AbstractEnumInterfaceDecorator::swapUnderlyingImplementation(IEnumInterface* impl)
 {
     IEnumInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
     m_impl = impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().subscribeToEnumInterfaceChanges(*this);
+        m_impl->_getPublisher().subscribeToAllChanges(*this);
     }
     return retVal;
 }
@@ -45,7 +45,7 @@ IEnumInterface* AbstractEnumInterfaceDecorator::disconnectFromUnderlyingImplemen
 {
     IEnumInterface* retVal = m_impl;
     if (m_impl != nullptr) {
-        m_impl->_getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
         m_impl = nullptr;
     }
     return retVal;
@@ -54,7 +54,7 @@ AbstractEnumInterfaceDecorator::~AbstractEnumInterfaceDecorator()
 {
     if (m_impl != nullptr)
     {
-        m_impl->_getPublisher().unsubscribeFromEnumInterfaceChanges(*this);
+        m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
 void AbstractEnumInterfaceDecorator::setProp0(const Enum0Enum& prop0)

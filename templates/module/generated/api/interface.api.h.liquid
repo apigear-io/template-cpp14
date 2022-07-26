@@ -98,8 +98,8 @@ public:
 /**
  * The {{sub_class}} contains functions to allow informing about singals or property changes of the {{class}} implementation.
  * The implementation for {{class}} should provide mechanism for subscibtion of the {{sub_class}} clients.
- * The implementation for {{class}} should call the {{sub_class}} interface functions on either singal emit or property change.
  * See {{pub_class}}, which provides facititation for this purpose.
+ * The implementation for {{class}} should call the {{sub_class}} interface functions on either singal emit or property change.
  * You can use {{sub_class}} class to implement clients of the {{class}} or the network adapter - see Olink Server and Client example.
  */
 class {{ system.name | constant }}_{{ module.name | constant }}_EXPORT {{sub_class}}
@@ -149,12 +149,14 @@ using {{interface.name | capital}}{{signal.name | capital}}SignalCb = std::funct
 
 
 /**
- * The {{pub_class}} provides an api for clients to subscribe to or unsubscribe from a signal emision 
+ * The {{pub_class}} provides an api for clients to subscribe to or unsubscribe from a signal emission 
  * or a property change.
  * Implement this interface to keep track of clients of your {{class}} implementation.
- * The second part of the {{pub_class}} interface is the notification interface.
- * It needs to be called by implementation of the {{class}} on each state changed or signal emited
- * and shall notify all the subscribers about this change.
+ * The publisher provides two independent methods of subscription
+ *  - subscribing with a ITunerSubscriber objects - for all of the changes
+ *  - subscribing any object for signle type of change property or a signal
+ * The publish functions needs to be called by implementation of the ITuner on each state changed or signal emited
+ * to notify all the subscribers about this change.
  */
 class {{ system.name | constant }}_{{ module.name | constant }}_EXPORT {{pub_class}}
 {
@@ -164,20 +166,23 @@ public:
     /**
     * Use this function to subscribe for any change of the {{interface.name}}.
     * Subscriber will be informed of any emited signal and any property changes.
+    * This is parallel notification system to single subscription. If you will subscribe also for a single change
+    * your subscriber will be informed twice about that change, one for each subscription mechanism.
     * @param {{sub_class}} which is subscribed in this function to any change of the {{interface.name}}.
     */
-    virtual void subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber) = 0;
+    virtual void subscribeToAllChanges({{sub_class}}& subscriber) = 0;
     /**
     * Use this function to remove subscription to all of the changes of the {{interface.name}}.
     * Not all subscriptions will be removed, the ones made separately for single singal or property change stay intact.
     * Make sure to remove them.
     * @param {{sub_class}} which subscription for any change of the {{interface.name}} is removed.
     */
-    virtual void unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber) = 0;
+    virtual void unsubscribeFromAllChanges({{sub_class}}& subscriber) = 0;
 {{nl}}
 {% for property in interface.properties %}
     /**
     * Use this function to subscribe for {{property.name}} value changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param {{interface.name | capital}}{{property.name | capital}}PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -187,6 +192,8 @@ public:
     virtual long subscribeTo{{property.name|capital}}Changed({{interface.name | capital}}{{property.name | capital}}PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from {{property.name}} property changes.
+    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
     virtual void unsubscribeFrom{{property.name | capital}}Changed(long handleId) = 0;
@@ -195,7 +202,7 @@ public:
 {% for signal in interface.signals %}
     /**
     * Use this function to subscribe for {{signal.name}} signal changes.
-    * @param {{interface.name | capital}}{{signal.name | capital}}SignalCb callback that will be executed on each signal emision.
+    * @param {{interface.name | capital}}{{signal.name | capital}}SignalCb callback that will be executed on each signal emission.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
     *
@@ -212,7 +219,8 @@ public:
 
 {% for property in interface.properties %}
     /**
-    * Publishes the property changed to all subscribed clients.Invoked by the {{interface.name}} implementation.
+    * Publishes the property changed to all subscribed clients.
+    * Needs to be invoked by the {{interface.name}} implementation when property {{property.name}} changes.
     * @param The new value of {{property.name}}.
     {% unless property.description == blank %}
     * {{property.description}}
@@ -222,7 +230,8 @@ public:
 {% endfor %}
 {% for signal in interface.signals %}
     /**
-    * Publishes the emited singal to all subscribed clients. Invoked by the {{interface.name}} implementation.
+    * Publishes the emited singal to all subscribed clients.
+    * Needs to be invoked by the {{interface.name}} implementation when {{signal.name}} is emited.
     {% unless property.description == blank %}
     * Signal {{signal.description}}
     {% endunless %}

@@ -63,7 +63,7 @@ public:
         
 
     /**
-    * Access to a publisher, use it to subscribe for NestedStruct3Interface changes and signal emisions.
+    * Access to a publisher, use it to subscribe for NestedStruct3Interface changes and signal emission.
     * @return The publisher for NestedStruct3Interface.
     */
     INestedStruct3InterfacePublisher& _getPublisher() const override;

@@ -1,8 +1,10 @@
 {% comment %} // Copyright (c) ApiGear UG 2020 {% endcomment -%}
 {{ module | licGPLcpp -}}
+
+#include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.publisher.h"
+
 #include <set>
 #include <map>
-#include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.publisher.h"
 
 {% assign class = "I" | append: interface.name | capital %}
 {% assign sub_class = "I" | append: interface.name | capital | append: "Subscriber" %}
@@ -17,28 +19,52 @@ namespace {{ module.name | capital }} {
 /**
  * The implementation of a {{pub_class}}.
  * Use this class to store clients of the {{interface.name}} and inform them about the change
- * on call of the  appropriate publish function.
+ * on call of the appropriate publish function.
  */
 class {{pub_impl_class}} : public {{pub_interface}}
 {
 public:
-    void subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
-    void unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber) override;
+    /**
+    * Implementation of {{pub_interface}}::subscribeToAllChanges
+    */
+    void subscribeToAllChanges({{sub_class}}& subscriber) override;
+    /**
+    * Implementation of {{pub_interface}}::unsubscribeFromAllChanges
+    */
+    void unsubscribeFromAllChanges({{sub_class}}& subscriber) override;
 {{nl}}
 {% for property in interface.properties %}
+    /**
+    * Implementation of {{pub_interface}}::subscribeTo{{property.name|capital}}Changed
+    */
     long subscribeTo{{property.name|capital}}Changed({{interface.name | capital}}{{property.name | capital}}PropertyCb callback) override;
+    /**
+    * Implementation of {{pub_interface}}::subscribeTo{{property.name|capital}}Changed
+    */
     void unsubscribeFrom{{property.name | capital}}Changed(long handleId) override;
 {{nl}}
 {% endfor %}
 {% for signal in interface.signals %}
+    /**
+    * Implementation of {{pub_interface}}::subscribeTo{{signal.name | capital}}
+    */
     long subscribeTo{{signal.name | capital}}({{interface.name | capital}}{{signal.name | capital}}SignalCb callback) override;
+    /**
+    * Implementation of {{pub_interface}}::unsubscribeFrom{{signal.name | capital}}
+    */
     void unsubscribeFrom{{signal.name | capital}}(long handleId) override;
 {{nl}}
 {% endfor %}
 {% for property in interface.properties %}
+    /**
+    * Implementation of {{pub_interface}}::publish{{property.name|capital}}Changed
+    */
     void publish{{property.name|capital}}Changed({{property|cpp14Param: true}}) const override;
 {% endfor %}
 {% for signal in interface.signals %}
+    /**
+    * Implementation of {{pub_interface}}::publish{{signal.name|capital}}
+    */
     void publish{{signal.name|capital}}(
         {%- for param in signal.params -%}
             {{param|cpp14Param: true}}{% unless forloop.last %},{% endunless -%}
@@ -46,8 +72,8 @@ public:
     ) const override;
 {% endfor %}
 private:
-    // ISubscribers informed about any property change or singal emited in {{interface.name}}
-    std::set<{{sub_class}}*> {{class}}InterfaceSubscribers;
+    // Subscribers informed about any property change or singal emited in {{interface.name}}
+    std::set<{{sub_class}}*> AllChangesSubscribers;
 {% for property in interface.properties %}
     // Next free unique identifier to subscribe for the {{property.name | capital}} change.
     long {{property.name | capital}}ChangedCallbackNextId = 0;
@@ -55,9 +81,9 @@ private:
     std::map<long, {{interface.name | capital}}{{property.name | capital}}PropertyCb> {{property.name|capital}}Callbacks;
 {% endfor %}
 {% for signal in interface.signals %}
-    // Next free unique identifier to subscribe for the {{signal.name | capital}} emision.
+    // Next free unique identifier to subscribe for the {{signal.name | capital}} emission.
     long {{signal.name | capital}}SignalCallbackNextId = 0;
-    // Subscribed callbacks for the {{signal.name | capital}} emision.
+    // Subscribed callbacks for the {{signal.name | capital}} emission.
     std::map<long, {{interface.name | capital}}{{signal.name | capital}}SignalCb> {{signal.name|capital}}Callbacks;
 {% endfor %}
 };
@@ -70,14 +96,14 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }};
 /**
  * Implementation {{pub_impl_class}}
  */
-void {{pub_impl_class}}::subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber)
+void {{pub_impl_class}}::subscribeToAllChanges({{sub_class}}& subscriber)
 {
-    {{class}}InterfaceSubscribers.insert(&subscriber);
+    AllChangesSubscribers.insert(&subscriber);
 }
 {{nl}}
-void {{pub_impl_class}}::unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber)
+void {{pub_impl_class}}::unsubscribeFromAllChanges({{sub_class}}& subscriber)
 {
-    {{class}}InterfaceSubscribers.erase(&subscriber);
+    AllChangesSubscribers.erase(&subscriber);
 }
 {{nl}}
 {% for property in interface.properties %}
@@ -95,7 +121,7 @@ void {{pub_impl_class}}::unsubscribeFrom{{property.name | capital}}Changed(long 
 {{nl}}
 void {{pub_impl_class}}::publish{{property.name|capital}}Changed({{property|cpp14Param: true}}) const
 {
-    for(const auto& Subscriber: {{class}}InterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->On{{property.name|capital}}Changed({{property.name}});
     }
@@ -131,7 +157,7 @@ void {{pub_impl_class}}::publish{{signal.name|capital}}(
     {%- endfor -%}
 ) const
 {
-    for(const auto& Subscriber: {{class}}InterfaceSubscribers)
+    for(const auto& Subscriber: AllChangesSubscribers)
     {
         Subscriber->On{{signal.name | capital}}(
         {%- for param in signal.params -%}
@@ -162,14 +188,14 @@ void {{pub_impl_class}}::publish{{signal.name|capital}}(
 {
 }
 
-void {{pub_class}}::subscribeTo{{interface.name | capital}}Changes({{sub_class}}& subscriber)
+void {{pub_class}}::subscribeToAllChanges({{sub_class}}& subscriber)
 {
-    m_impl->subscribeTo{{interface.name | capital}}Changes(subscriber);
+    m_impl->subscribeToAllChanges(subscriber);
 }
 {{nl}}
-void {{pub_class}}::unsubscribeFrom{{interface.name | capital}}Changes({{sub_class}}& subscriber)
+void {{pub_class}}::unsubscribeFromAllChanges({{sub_class}}& subscriber)
 {
-    m_impl->unsubscribeFrom{{interface.name | capital}}Changes(subscriber);
+    m_impl->unsubscribeFromAllChanges(subscriber);
 }
 {{nl}}
 {% for property in interface.properties %}

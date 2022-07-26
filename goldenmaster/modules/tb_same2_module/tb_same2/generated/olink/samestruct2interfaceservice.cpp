@@ -28,16 +28,16 @@ using namespace Test::TbSame2;
 SameStruct2InterfaceService::SameStruct2InterfaceService(ISameStruct2Interface& SameStruct2Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SameStruct2Interface(SameStruct2Interface)
     , m_node(nullptr)
-    , m_registry(&registry)
+    , m_registry(registry)
 {
-    m_SameStruct2Interface._getPublisher().subscribeToSameStruct2InterfaceChanges(*this);
-    m_registry->addObjectSource(this);
+    m_SameStruct2Interface._getPublisher().subscribeToAllChanges(*this);
+    m_registry.addObjectSource(this);
 }
 
 SameStruct2InterfaceService::~SameStruct2InterfaceService()
 {
-    m_registry->removeObjectSource(this);
-    m_SameStruct2Interface._getPublisher().unsubscribeFromSameStruct2InterfaceChanges(*this);
+    m_registry.removeObjectSource(this);
+    m_SameStruct2Interface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string SameStruct2InterfaceService::olinkObjectName() {

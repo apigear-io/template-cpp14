@@ -28,7 +28,7 @@ namespace TbSimple {
  * The implementation of a SimpleInterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see SimpleInterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TB_SIMPLE_EXPORT SimpleInterfacePublisher: public ISimpleInterfacePublisher
@@ -44,8 +44,8 @@ public:
     SimpleInterfacePublisher(SimpleInterfacePublisher&& a) = delete;
     SimpleInterfacePublisher& operator=(SimpleInterfacePublisher&& a) = delete;
 
-    void subscribeToSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleInterfaceChanges(ISimpleInterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(ISimpleInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(ISimpleInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;

@@ -28,7 +28,7 @@ namespace TbSimple {
  * The implementation of a SimpleArrayInterfacePublisher.
  * The class uses pointer to implementation as a member to reduce compile time in case of the implementation changes.
  * and provides only forwarding calls to the actual implementation.
- * see pub_impl_class for the implementation.
+ * see SimpleArrayInterfacePublisherImpl for the implementation.
  * 
  */
 class TEST_TB_SIMPLE_EXPORT SimpleArrayInterfacePublisher: public ISimpleArrayInterfacePublisher
@@ -44,8 +44,8 @@ public:
     SimpleArrayInterfacePublisher(SimpleArrayInterfacePublisher&& a) = delete;
     SimpleArrayInterfacePublisher& operator=(SimpleArrayInterfacePublisher&& a) = delete;
 
-    void subscribeToSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
-    void unsubscribeFromSimpleArrayInterfaceChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    void subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
+    void unsubscribeFromAllChanges(ISimpleArrayInterfaceSubscriber& subscriber) override;
 
     long subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback) override;
     void unsubscribeFromPropBoolChanged(long handleId) override;
