@@ -19,114 +19,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <algorithm>
 
 
-namespace Test {
-namespace TbSame1 {
-
-/**
- * The implementation of a SameStruct2InterfacePublisher.
- * Use this class to store clients of the SameStruct2Interface and inform them about the change
- * on call of the appropriate publish function.
- */
-class SameStruct2InterfacePublisherImpl : public 
-{
-public:
-    /**
-    * Implementation of ::subscribeToAllChanges
-    */
-    void subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
-    /**
-    * Implementation of ::unsubscribeFromAllChanges
-    */
-    void unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber) override;
-
-    /**
-    * Implementation of ::subscribeToProp1Changed
-    */
-    long subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback) override;
-    /**
-    * Implementation of ::subscribeToProp1Changed
-    */
-    void unsubscribeFromProp1Changed(long handleId) override;
-
-    /**
-    * Implementation of ::subscribeToProp2Changed
-    */
-    long subscribeToProp2Changed(SameStruct2InterfaceProp2PropertyCb callback) override;
-    /**
-    * Implementation of ::subscribeToProp2Changed
-    */
-    void unsubscribeFromProp2Changed(long handleId) override;
-
-    /**
-    * Implementation of ::subscribeToSig1
-    */
-    long subscribeToSig1(SameStruct2InterfaceSig1SignalCb callback) override;
-    /**
-    * Implementation of ::unsubscribeFromSig1
-    */
-    void unsubscribeFromSig1(long handleId) override;
-
-    /**
-    * Implementation of ::subscribeToSig2
-    */
-    long subscribeToSig2(SameStruct2InterfaceSig2SignalCb callback) override;
-    /**
-    * Implementation of ::unsubscribeFromSig2
-    */
-    void unsubscribeFromSig2(long handleId) override;
-
-    /**
-    * Implementation of ::publishProp1Changed
-    */
-    void publishProp1Changed(const Struct2& prop1) const override;
-    /**
-    * Implementation of ::publishProp2Changed
-    */
-    void publishProp2Changed(const Struct2& prop2) const override;
-    /**
-    * Implementation of ::publishSig1
-    */
-    void publishSig1(const Struct1& param1) const override;
-    /**
-    * Implementation of ::publishSig2
-    */
-    void publishSig2(const Struct1& param1,const Struct2& param2) const override;
-private:
-    // Subscribers informed about any property change or singal emited in SameStruct2Interface
-    std::set<ISameStruct2InterfaceSubscriber*> AllChangesSubscribers;
-    // Next free unique identifier to subscribe for the Prop1 change.
-    long Prop1ChangedCallbackNextId = 0;
-    // Subscribed callbacks for the Prop1 change.
-    std::map<long, SameStruct2InterfaceProp1PropertyCb> Prop1Callbacks;
-    // Next free unique identifier to subscribe for the Prop2 change.
-    long Prop2ChangedCallbackNextId = 0;
-    // Subscribed callbacks for the Prop2 change.
-    std::map<long, SameStruct2InterfaceProp2PropertyCb> Prop2Callbacks;
-    // Next free unique identifier to subscribe for the Sig1 emission.
-    long Sig1SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig1 emission.
-    std::map<long, SameStruct2InterfaceSig1SignalCb> Sig1Callbacks;
-    // Next free unique identifier to subscribe for the Sig2 emission.
-    long Sig2SignalCallbackNextId = 0;
-    // Subscribed callbacks for the Sig2 emission.
-    std::map<long, SameStruct2InterfaceSig2SignalCb> Sig2Callbacks;
-};
->>>>>>> 6b08db3 (fixes after self review, description fixes, small alignement of code)
-
-
 using namespace Test::TbSame1;
 
-void SameStruct2InterfacePublisher::subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
+void ::subscribeToAllChanges(& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
     if (found == m_allChangesSubscribers.end())
     {
-        m_allChangesSubscribers.push_back(std::reference_wrapper<ISameStruct2InterfaceSubscriber>(subscriber));
+        m_allChangesSubscribers.push_back(std::reference_wrapper<>(subscriber));
     }
 }
 
-void SameStruct2InterfacePublisher::unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
+void ::unsubscribeFromAllChanges(& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
@@ -136,19 +41,19 @@ void SameStruct2InterfacePublisher::unsubscribeFromAllChanges(ISameStruct2Interf
     }
 }
 
-long SameStruct2InterfacePublisher::subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback)
+long ::subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback)
 {
     auto handleId = m_prop1ChangedCallbackNextId++;
     m_prop1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void SameStruct2InterfacePublisher::unsubscribeFromProp1Changed(long handleId)
+void ::unsubscribeFromProp1Changed(long handleId)
 {
     m_prop1Callbacks.erase(handleId);
 }
 
-void SameStruct2InterfacePublisher::publishProp1Changed(const Struct2& prop1) const
+void ::publishProp1Changed(const Struct2& prop1) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -163,19 +68,19 @@ void SameStruct2InterfacePublisher::publishProp1Changed(const Struct2& prop1) co
     }
 }
 
-long SameStruct2InterfacePublisher::subscribeToProp2Changed(SameStruct2InterfaceProp2PropertyCb callback)
+long ::subscribeToProp2Changed(SameStruct2InterfaceProp2PropertyCb callback)
 {
     auto handleId = m_prop2ChangedCallbackNextId++;
     m_prop2Callbacks[handleId] = callback;
     return handleId;
 }
 
-void SameStruct2InterfacePublisher::unsubscribeFromProp2Changed(long handleId)
+void ::unsubscribeFromProp2Changed(long handleId)
 {
     m_prop2Callbacks.erase(handleId);
 }
 
-void SameStruct2InterfacePublisher::publishProp2Changed(const Struct2& prop2) const
+void ::publishProp2Changed(const Struct2& prop2) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -190,7 +95,7 @@ void SameStruct2InterfacePublisher::publishProp2Changed(const Struct2& prop2) co
     }
 }
 
-long SameStruct2InterfacePublisher::subscribeToSig1(SameStruct2InterfaceSig1SignalCb callback)
+long ::subscribeToSig1(SameStruct2InterfaceSig1SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sig1SignalCallbackNextId++;
@@ -198,12 +103,12 @@ long SameStruct2InterfacePublisher::subscribeToSig1(SameStruct2InterfaceSig1Sign
     return handleId;
 }
 
-void SameStruct2InterfacePublisher::unsubscribeFromSig1(long handleId)
+void ::unsubscribeFromSig1(long handleId)
 {
     m_sig1Callbacks.erase(handleId);
 }
 
-void SameStruct2InterfacePublisher::publishSig1(const Struct1& param1) const
+void ::publishSig1(const Struct1& param1) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -218,7 +123,7 @@ void SameStruct2InterfacePublisher::publishSig1(const Struct1& param1) const
     }
 }
 
-long SameStruct2InterfacePublisher::subscribeToSig2(SameStruct2InterfaceSig2SignalCb callback)
+long ::subscribeToSig2(SameStruct2InterfaceSig2SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sig2SignalCallbackNextId++;
@@ -226,12 +131,12 @@ long SameStruct2InterfacePublisher::subscribeToSig2(SameStruct2InterfaceSig2Sign
     return handleId;
 }
 
-void SameStruct2InterfacePublisher::unsubscribeFromSig2(long handleId)
+void ::unsubscribeFromSig2(long handleId)
 {
     m_sig2Callbacks.erase(handleId);
 }
 
-void SameStruct2InterfacePublisher::publishSig2(const Struct1& param1,const Struct2& param2) const
+void ::publishSig2(const Struct1& param1,const Struct2& param2) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
