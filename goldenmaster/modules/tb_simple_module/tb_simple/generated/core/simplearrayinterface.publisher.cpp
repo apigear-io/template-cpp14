@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "tb_simple/generated/core/simplearrayinterface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -147,7 +148,7 @@ public:
     void publishSigString(const std::list<std::string>& paramString) const override;
 private:
     // Subscribers informed about any property change or singal emited in SimpleArrayInterface
-    std::set<ISimpleArrayInterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<ISimpleArrayInterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the PropBool change.
     long PropBoolChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropBool change.
@@ -192,12 +193,22 @@ using namespace Test::TbSimple;
  */
 void SimpleArrayInterfacePublisherImpl::subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<ISimpleArrayInterfaceSubscriber>(subscriber));
+    }
 }
 
 void SimpleArrayInterfacePublisherImpl::unsubscribeFromAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long SimpleArrayInterfacePublisherImpl::subscribeToPropBoolChanged(SimpleArrayInterfacePropBoolPropertyCb callback)
@@ -216,7 +227,7 @@ void SimpleArrayInterfacePublisherImpl::publishPropBoolChanged(const std::list<b
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropBoolChanged(propBool);
+        Subscriber.get().OnPropBoolChanged(propBool);
     }
     for(const auto& callbackEntry: PropBoolCallbacks)
     {
@@ -243,7 +254,7 @@ void SimpleArrayInterfacePublisherImpl::publishPropIntChanged(const std::list<in
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropIntChanged(propInt);
+        Subscriber.get().OnPropIntChanged(propInt);
     }
     for(const auto& callbackEntry: PropIntCallbacks)
     {
@@ -270,7 +281,7 @@ void SimpleArrayInterfacePublisherImpl::publishPropFloatChanged(const std::list<
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropFloatChanged(propFloat);
+        Subscriber.get().OnPropFloatChanged(propFloat);
     }
     for(const auto& callbackEntry: PropFloatCallbacks)
     {
@@ -297,7 +308,7 @@ void SimpleArrayInterfacePublisherImpl::publishPropStringChanged(const std::list
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropStringChanged(propString);
+        Subscriber.get().OnPropStringChanged(propString);
     }
     for(const auto& callbackEntry: PropStringCallbacks)
     {
@@ -325,7 +336,7 @@ void SimpleArrayInterfacePublisherImpl::publishSigBool(const std::list<bool>& pa
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigBool(paramBool);
+        Subscriber.get().OnSigBool(paramBool);
     }
     for(const auto& callbackEntry: SigBoolCallbacks)
     {
@@ -353,7 +364,7 @@ void SimpleArrayInterfacePublisherImpl::publishSigInt(const std::list<int>& para
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigInt(paramInt);
+        Subscriber.get().OnSigInt(paramInt);
     }
     for(const auto& callbackEntry: SigIntCallbacks)
     {
@@ -381,7 +392,7 @@ void SimpleArrayInterfacePublisherImpl::publishSigFloat(const std::list<float>& 
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigFloat(paramFloat);
+        Subscriber.get().OnSigFloat(paramFloat);
     }
     for(const auto& callbackEntry: SigFloatCallbacks)
     {
@@ -409,7 +420,7 @@ void SimpleArrayInterfacePublisherImpl::publishSigString(const std::list<std::st
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigString(paramString);
+        Subscriber.get().OnSigString(paramString);
     }
     for(const auto& callbackEntry: SigStringCallbacks)
     {

@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "tb_same1/generated/core/sameenum2interface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -95,7 +96,7 @@ public:
     void publishSig2(const Enum1Enum& param1,const Enum2Enum& param2) const override;
 private:
     // Subscribers informed about any property change or singal emited in SameEnum2Interface
-    std::set<ISameEnum2InterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<ISameEnum2InterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -124,12 +125,22 @@ using namespace Test::TbSame1;
  */
 void SameEnum2InterfacePublisherImpl::subscribeToAllChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<ISameEnum2InterfaceSubscriber>(subscriber));
+    }
 }
 
 void SameEnum2InterfacePublisherImpl::unsubscribeFromAllChanges(ISameEnum2InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long SameEnum2InterfacePublisherImpl::subscribeToProp1Changed(SameEnum2InterfaceProp1PropertyCb callback)
@@ -148,7 +159,7 @@ void SameEnum2InterfacePublisherImpl::publishProp1Changed(const Enum1Enum& prop1
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp1Changed(prop1);
+        Subscriber.get().OnProp1Changed(prop1);
     }
     for(const auto& callbackEntry: Prop1Callbacks)
     {
@@ -175,7 +186,7 @@ void SameEnum2InterfacePublisherImpl::publishProp2Changed(const Enum2Enum& prop2
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp2Changed(prop2);
+        Subscriber.get().OnProp2Changed(prop2);
     }
     for(const auto& callbackEntry: Prop2Callbacks)
     {
@@ -203,7 +214,7 @@ void SameEnum2InterfacePublisherImpl::publishSig1(const Enum1Enum& param1) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig1(param1);
+        Subscriber.get().OnSig1(param1);
     }
     for(const auto& callbackEntry: Sig1Callbacks)
     {
@@ -231,7 +242,7 @@ void SameEnum2InterfacePublisherImpl::publishSig2(const Enum1Enum& param1,const 
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig2(param1,param2);
+        Subscriber.get().OnSig2(param1,param2);
     }
     for(const auto& callbackEntry: Sig2Callbacks)
     {

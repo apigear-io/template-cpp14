@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "tb_enum/generated/core/enuminterface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -147,7 +148,7 @@ public:
     void publishSig3(const Enum3Enum& param3) const override;
 private:
     // Subscribers informed about any property change or singal emited in EnumInterface
-    std::set<IEnumInterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<IEnumInterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop0 change.
     long Prop0ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop0 change.
@@ -192,12 +193,22 @@ using namespace Test::TbEnum;
  */
 void EnumInterfacePublisherImpl::subscribeToAllChanges(IEnumInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<IEnumInterfaceSubscriber>(subscriber));
+    }
 }
 
 void EnumInterfacePublisherImpl::unsubscribeFromAllChanges(IEnumInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long EnumInterfacePublisherImpl::subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback)
@@ -216,7 +227,7 @@ void EnumInterfacePublisherImpl::publishProp0Changed(const Enum0Enum& prop0) con
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp0Changed(prop0);
+        Subscriber.get().OnProp0Changed(prop0);
     }
     for(const auto& callbackEntry: Prop0Callbacks)
     {
@@ -243,7 +254,7 @@ void EnumInterfacePublisherImpl::publishProp1Changed(const Enum1Enum& prop1) con
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp1Changed(prop1);
+        Subscriber.get().OnProp1Changed(prop1);
     }
     for(const auto& callbackEntry: Prop1Callbacks)
     {
@@ -270,7 +281,7 @@ void EnumInterfacePublisherImpl::publishProp2Changed(const Enum2Enum& prop2) con
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp2Changed(prop2);
+        Subscriber.get().OnProp2Changed(prop2);
     }
     for(const auto& callbackEntry: Prop2Callbacks)
     {
@@ -297,7 +308,7 @@ void EnumInterfacePublisherImpl::publishProp3Changed(const Enum3Enum& prop3) con
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp3Changed(prop3);
+        Subscriber.get().OnProp3Changed(prop3);
     }
     for(const auto& callbackEntry: Prop3Callbacks)
     {
@@ -325,7 +336,7 @@ void EnumInterfacePublisherImpl::publishSig0(const Enum0Enum& param0) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig0(param0);
+        Subscriber.get().OnSig0(param0);
     }
     for(const auto& callbackEntry: Sig0Callbacks)
     {
@@ -353,7 +364,7 @@ void EnumInterfacePublisherImpl::publishSig1(const Enum1Enum& param1) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig1(param1);
+        Subscriber.get().OnSig1(param1);
     }
     for(const auto& callbackEntry: Sig1Callbacks)
     {
@@ -381,7 +392,7 @@ void EnumInterfacePublisherImpl::publishSig2(const Enum2Enum& param2) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig2(param2);
+        Subscriber.get().OnSig2(param2);
     }
     for(const auto& callbackEntry: Sig2Callbacks)
     {
@@ -409,7 +420,7 @@ void EnumInterfacePublisherImpl::publishSig3(const Enum3Enum& param3) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig3(param3);
+        Subscriber.get().OnSig3(param3);
     }
     for(const auto& callbackEntry: Sig3Callbacks)
     {

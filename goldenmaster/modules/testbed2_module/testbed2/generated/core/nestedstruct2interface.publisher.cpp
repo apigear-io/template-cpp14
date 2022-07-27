@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "testbed2/generated/core/nestedstruct2interface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -95,7 +96,7 @@ public:
     void publishSig2(const NestedStruct1& param1,const NestedStruct2& param2) const override;
 private:
     // Subscribers informed about any property change or singal emited in NestedStruct2Interface
-    std::set<INestedStruct2InterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<INestedStruct2InterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -124,12 +125,22 @@ using namespace Test::Testbed2;
  */
 void NestedStruct2InterfacePublisherImpl::subscribeToAllChanges(INestedStruct2InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<INestedStruct2InterfaceSubscriber>(subscriber));
+    }
 }
 
 void NestedStruct2InterfacePublisherImpl::unsubscribeFromAllChanges(INestedStruct2InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long NestedStruct2InterfacePublisherImpl::subscribeToProp1Changed(NestedStruct2InterfaceProp1PropertyCb callback)
@@ -148,7 +159,7 @@ void NestedStruct2InterfacePublisherImpl::publishProp1Changed(const NestedStruct
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp1Changed(prop1);
+        Subscriber.get().OnProp1Changed(prop1);
     }
     for(const auto& callbackEntry: Prop1Callbacks)
     {
@@ -175,7 +186,7 @@ void NestedStruct2InterfacePublisherImpl::publishProp2Changed(const NestedStruct
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp2Changed(prop2);
+        Subscriber.get().OnProp2Changed(prop2);
     }
     for(const auto& callbackEntry: Prop2Callbacks)
     {
@@ -203,7 +214,7 @@ void NestedStruct2InterfacePublisherImpl::publishSig1(const NestedStruct1& param
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig1(param1);
+        Subscriber.get().OnSig1(param1);
     }
     for(const auto& callbackEntry: Sig1Callbacks)
     {
@@ -231,7 +242,7 @@ void NestedStruct2InterfacePublisherImpl::publishSig2(const NestedStruct1& param
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig2(param1,param2);
+        Subscriber.get().OnSig2(param1,param2);
     }
     for(const auto& callbackEntry: Sig2Callbacks)
     {
