@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "testbed2/generated/core/manyparaminterface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -147,7 +148,7 @@ public:
     void publishSig4(int param1,int param2,int param3,int param4) const override;
 private:
     // Subscribers informed about any property change or singal emited in ManyParamInterface
-    std::set<IManyParamInterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<IManyParamInterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -192,12 +193,22 @@ using namespace Test::Testbed2;
  */
 void ManyParamInterfacePublisherImpl::subscribeToAllChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<IManyParamInterfaceSubscriber>(subscriber));
+    }
 }
 
 void ManyParamInterfacePublisherImpl::unsubscribeFromAllChanges(IManyParamInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long ManyParamInterfacePublisherImpl::subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback)
@@ -216,7 +227,7 @@ void ManyParamInterfacePublisherImpl::publishProp1Changed(int prop1) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp1Changed(prop1);
+        Subscriber.get().OnProp1Changed(prop1);
     }
     for(const auto& callbackEntry: Prop1Callbacks)
     {
@@ -243,7 +254,7 @@ void ManyParamInterfacePublisherImpl::publishProp2Changed(int prop2) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp2Changed(prop2);
+        Subscriber.get().OnProp2Changed(prop2);
     }
     for(const auto& callbackEntry: Prop2Callbacks)
     {
@@ -270,7 +281,7 @@ void ManyParamInterfacePublisherImpl::publishProp3Changed(int prop3) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp3Changed(prop3);
+        Subscriber.get().OnProp3Changed(prop3);
     }
     for(const auto& callbackEntry: Prop3Callbacks)
     {
@@ -297,7 +308,7 @@ void ManyParamInterfacePublisherImpl::publishProp4Changed(int prop4) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp4Changed(prop4);
+        Subscriber.get().OnProp4Changed(prop4);
     }
     for(const auto& callbackEntry: Prop4Callbacks)
     {
@@ -325,7 +336,7 @@ void ManyParamInterfacePublisherImpl::publishSig1(int param1) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig1(param1);
+        Subscriber.get().OnSig1(param1);
     }
     for(const auto& callbackEntry: Sig1Callbacks)
     {
@@ -353,7 +364,7 @@ void ManyParamInterfacePublisherImpl::publishSig2(int param1,int param2) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig2(param1,param2);
+        Subscriber.get().OnSig2(param1,param2);
     }
     for(const auto& callbackEntry: Sig2Callbacks)
     {
@@ -381,7 +392,7 @@ void ManyParamInterfacePublisherImpl::publishSig3(int param1,int param2,int para
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig3(param1,param2,param3);
+        Subscriber.get().OnSig3(param1,param2,param3);
     }
     for(const auto& callbackEntry: Sig3Callbacks)
     {
@@ -409,7 +420,7 @@ void ManyParamInterfacePublisherImpl::publishSig4(int param1,int param2,int para
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig4(param1,param2,param3,param4);
+        Subscriber.get().OnSig4(param1,param2,param3,param4);
     }
     for(const auto& callbackEntry: Sig4Callbacks)
     {

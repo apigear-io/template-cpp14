@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "testbed2/generated/core/nestedstruct3interface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -121,7 +122,7 @@ public:
     void publishSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) const override;
 private:
     // Subscribers informed about any property change or singal emited in NestedStruct3Interface
-    std::set<INestedStruct3InterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<INestedStruct3InterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -158,12 +159,22 @@ using namespace Test::Testbed2;
  */
 void NestedStruct3InterfacePublisherImpl::subscribeToAllChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<INestedStruct3InterfaceSubscriber>(subscriber));
+    }
 }
 
 void NestedStruct3InterfacePublisherImpl::unsubscribeFromAllChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long NestedStruct3InterfacePublisherImpl::subscribeToProp1Changed(NestedStruct3InterfaceProp1PropertyCb callback)
@@ -182,7 +193,7 @@ void NestedStruct3InterfacePublisherImpl::publishProp1Changed(const NestedStruct
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp1Changed(prop1);
+        Subscriber.get().OnProp1Changed(prop1);
     }
     for(const auto& callbackEntry: Prop1Callbacks)
     {
@@ -209,7 +220,7 @@ void NestedStruct3InterfacePublisherImpl::publishProp2Changed(const NestedStruct
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp2Changed(prop2);
+        Subscriber.get().OnProp2Changed(prop2);
     }
     for(const auto& callbackEntry: Prop2Callbacks)
     {
@@ -236,7 +247,7 @@ void NestedStruct3InterfacePublisherImpl::publishProp3Changed(const NestedStruct
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp3Changed(prop3);
+        Subscriber.get().OnProp3Changed(prop3);
     }
     for(const auto& callbackEntry: Prop3Callbacks)
     {
@@ -264,7 +275,7 @@ void NestedStruct3InterfacePublisherImpl::publishSig1(const NestedStruct1& param
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig1(param1);
+        Subscriber.get().OnSig1(param1);
     }
     for(const auto& callbackEntry: Sig1Callbacks)
     {
@@ -292,7 +303,7 @@ void NestedStruct3InterfacePublisherImpl::publishSig2(const NestedStruct1& param
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig2(param1,param2);
+        Subscriber.get().OnSig2(param1,param2);
     }
     for(const auto& callbackEntry: Sig2Callbacks)
     {
@@ -320,7 +331,7 @@ void NestedStruct3InterfacePublisherImpl::publishSig3(const NestedStruct1& param
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig3(param1,param2,param3);
+        Subscriber.get().OnSig3(param1,param2,param3);
     }
     for(const auto& callbackEntry: Sig3Callbacks)
     {

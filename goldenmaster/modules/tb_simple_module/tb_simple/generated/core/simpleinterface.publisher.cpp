@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "tb_simple/generated/core/simpleinterface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -147,7 +148,7 @@ public:
     void publishSigString(const std::string& paramString) const override;
 private:
     // Subscribers informed about any property change or singal emited in SimpleInterface
-    std::set<ISimpleInterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<ISimpleInterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the PropBool change.
     long PropBoolChangedCallbackNextId = 0;
     // Subscribed callbacks for the PropBool change.
@@ -192,12 +193,22 @@ using namespace Test::TbSimple;
  */
 void SimpleInterfacePublisherImpl::subscribeToAllChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<ISimpleInterfaceSubscriber>(subscriber));
+    }
 }
 
 void SimpleInterfacePublisherImpl::unsubscribeFromAllChanges(ISimpleInterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long SimpleInterfacePublisherImpl::subscribeToPropBoolChanged(SimpleInterfacePropBoolPropertyCb callback)
@@ -216,7 +227,7 @@ void SimpleInterfacePublisherImpl::publishPropBoolChanged(bool propBool) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropBoolChanged(propBool);
+        Subscriber.get().OnPropBoolChanged(propBool);
     }
     for(const auto& callbackEntry: PropBoolCallbacks)
     {
@@ -243,7 +254,7 @@ void SimpleInterfacePublisherImpl::publishPropIntChanged(int propInt) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropIntChanged(propInt);
+        Subscriber.get().OnPropIntChanged(propInt);
     }
     for(const auto& callbackEntry: PropIntCallbacks)
     {
@@ -270,7 +281,7 @@ void SimpleInterfacePublisherImpl::publishPropFloatChanged(float propFloat) cons
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropFloatChanged(propFloat);
+        Subscriber.get().OnPropFloatChanged(propFloat);
     }
     for(const auto& callbackEntry: PropFloatCallbacks)
     {
@@ -297,7 +308,7 @@ void SimpleInterfacePublisherImpl::publishPropStringChanged(const std::string& p
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnPropStringChanged(propString);
+        Subscriber.get().OnPropStringChanged(propString);
     }
     for(const auto& callbackEntry: PropStringCallbacks)
     {
@@ -325,7 +336,7 @@ void SimpleInterfacePublisherImpl::publishSigBool(bool paramBool) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigBool(paramBool);
+        Subscriber.get().OnSigBool(paramBool);
     }
     for(const auto& callbackEntry: SigBoolCallbacks)
     {
@@ -353,7 +364,7 @@ void SimpleInterfacePublisherImpl::publishSigInt(int paramInt) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigInt(paramInt);
+        Subscriber.get().OnSigInt(paramInt);
     }
     for(const auto& callbackEntry: SigIntCallbacks)
     {
@@ -381,7 +392,7 @@ void SimpleInterfacePublisherImpl::publishSigFloat(float paramFloat) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigFloat(paramFloat);
+        Subscriber.get().OnSigFloat(paramFloat);
     }
     for(const auto& callbackEntry: SigFloatCallbacks)
     {
@@ -409,7 +420,7 @@ void SimpleInterfacePublisherImpl::publishSigString(const std::string& paramStri
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSigString(paramString);
+        Subscriber.get().OnSigString(paramString);
     }
     for(const auto& callbackEntry: SigStringCallbacks)
     {

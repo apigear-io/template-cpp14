@@ -17,8 +17,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 #include "tb_same2/generated/core/samestruct2interface.publisher.h"
 
-#include <set>
+#include <vector>
 #include <map>
+#include <functional>
 
 
 namespace Test {
@@ -95,7 +96,7 @@ public:
     void publishSig2(const Struct1& param1,const Struct2& param2) const override;
 private:
     // Subscribers informed about any property change or singal emited in SameStruct2Interface
-    std::set<ISameStruct2InterfaceSubscriber*> AllChangesSubscribers;
+    std::vector<std::reference_wrapper<ISameStruct2InterfaceSubscriber>> AllChangesSubscribers;
     // Next free unique identifier to subscribe for the Prop1 change.
     long Prop1ChangedCallbackNextId = 0;
     // Subscribed callbacks for the Prop1 change.
@@ -124,12 +125,22 @@ using namespace Test::TbSame2;
  */
 void SameStruct2InterfacePublisherImpl::subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.insert(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found == AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.push_back(std::reference_wrapper<ISameStruct2InterfaceSubscriber>(subscriber));
+    }
 }
 
 void SameStruct2InterfacePublisherImpl::unsubscribeFromAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
 {
-    AllChangesSubscribers.erase(&subscriber);
+    auto found = std::find_if(AllChangesSubscribers.begin(), AllChangesSubscribers.end(),
+                        [&subscriber](const auto element){return &(element.get()) == &subscriber;});
+    if (found != AllChangesSubscribers.end())
+    {
+        AllChangesSubscribers.erase(found);
+    }
 }
 
 long SameStruct2InterfacePublisherImpl::subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback)
@@ -148,7 +159,7 @@ void SameStruct2InterfacePublisherImpl::publishProp1Changed(const Struct2& prop1
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp1Changed(prop1);
+        Subscriber.get().OnProp1Changed(prop1);
     }
     for(const auto& callbackEntry: Prop1Callbacks)
     {
@@ -175,7 +186,7 @@ void SameStruct2InterfacePublisherImpl::publishProp2Changed(const Struct2& prop2
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnProp2Changed(prop2);
+        Subscriber.get().OnProp2Changed(prop2);
     }
     for(const auto& callbackEntry: Prop2Callbacks)
     {
@@ -203,7 +214,7 @@ void SameStruct2InterfacePublisherImpl::publishSig1(const Struct1& param1) const
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig1(param1);
+        Subscriber.get().OnSig1(param1);
     }
     for(const auto& callbackEntry: Sig1Callbacks)
     {
@@ -231,7 +242,7 @@ void SameStruct2InterfacePublisherImpl::publishSig2(const Struct1& param1,const 
 {
     for(const auto& Subscriber: AllChangesSubscribers)
     {
-        Subscriber->OnSig2(param1,param2);
+        Subscriber.get().OnSig2(param1,param2);
     }
     for(const auto& callbackEntry: Sig2Callbacks)
     {
