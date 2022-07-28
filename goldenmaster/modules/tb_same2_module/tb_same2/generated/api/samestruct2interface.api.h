@@ -77,8 +77,10 @@ public:
     */
     virtual const Struct2& prop2() const = 0;
 
+
     /**
-    * @return Publisher class ISameStruct2InterfacePublisher responsible for clients subscribtion and notification.
+    * Access to a publisher, use it to subscribe for SameStruct2Interface changes and signal emission.
+    * @return The publisher for SameStruct2Interface.
     */
     virtual ISameStruct2InterfacePublisher& _getPublisher() const = 0;
 };
@@ -94,6 +96,7 @@ public:
 class TEST_TB_SAME2_EXPORT ISameStruct2InterfaceSubscriber
 {
 public:
+    virtual ~ISameStruct2InterfaceSubscriber() = default;
     /**
     * Called by the ISameStruct2InterfacePublisher when the SameStruct2Interface emits sig1, if subscribed for the sig1.
     * @param param1 
@@ -166,7 +169,7 @@ public:
 
     /**
     * Use this function to subscribe for prop1 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with ISameStruct2InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SameStruct2InterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -176,7 +179,7 @@ public:
     virtual long subscribeToProp1Changed(SameStruct2InterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with ISameStruct2InterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -184,7 +187,7 @@ public:
 
     /**
     * Use this function to subscribe for prop2 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with ISameStruct2InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SameStruct2InterfaceProp2PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -194,7 +197,7 @@ public:
     virtual long subscribeToProp2Changed(SameStruct2InterfaceProp2PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop2 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with ISameStruct2InterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */

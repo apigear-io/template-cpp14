@@ -111,8 +111,10 @@ public:
     */
     virtual int prop4() const = 0;
 
+
     /**
-    * @return Publisher class IManyParamInterfacePublisher responsible for clients subscribtion and notification.
+    * Access to a publisher, use it to subscribe for ManyParamInterface changes and signal emission.
+    * @return The publisher for ManyParamInterface.
     */
     virtual IManyParamInterfacePublisher& _getPublisher() const = 0;
 };
@@ -128,6 +130,7 @@ public:
 class TEST_TESTBED2_EXPORT IManyParamInterfaceSubscriber
 {
 public:
+    virtual ~IManyParamInterfaceSubscriber() = default;
     /**
     * Called by the IManyParamInterfacePublisher when the ManyParamInterface emits sig1, if subscribed for the sig1.
     * @param param1 
@@ -239,7 +242,7 @@ public:
 
     /**
     * Use this function to subscribe for prop1 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -249,7 +252,7 @@ public:
     virtual long subscribeToProp1Changed(ManyParamInterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -257,7 +260,7 @@ public:
 
     /**
     * Use this function to subscribe for prop2 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp2PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -267,7 +270,7 @@ public:
     virtual long subscribeToProp2Changed(ManyParamInterfaceProp2PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop2 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -275,7 +278,7 @@ public:
 
     /**
     * Use this function to subscribe for prop3 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp3PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -285,7 +288,7 @@ public:
     virtual long subscribeToProp3Changed(ManyParamInterfaceProp3PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop3 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -293,7 +296,7 @@ public:
 
     /**
     * Use this function to subscribe for prop4 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param ManyParamInterfaceProp4PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -303,7 +306,7 @@ public:
     virtual long subscribeToProp4Changed(ManyParamInterfaceProp4PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop4 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IManyParamInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */

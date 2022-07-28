@@ -88,8 +88,10 @@ public:
 {{nl}}
 {% endfor %}
 {% endunless %}
+
     /**
-    * @return Publisher class {{pub_class}} responsible for clients subscribtion and notification.
+    * Access to a publisher, use it to subscribe for {{interface.name}} changes and signal emission.
+    * @return The publisher for {{interface.name}}.
     */
     virtual {{pub_class}}& _getPublisher() const = 0;
 };
@@ -105,6 +107,7 @@ public:
 class {{ system.name | constant }}_{{ module.name | constant }}_EXPORT {{sub_class}}
 {
 public:
+    virtual ~{{sub_class}}() = default;
 {% for signal in interface.signals %}
     /**
     * Called by the {{pub_class}} when the {{interface.name}} emits {{signal.name}}, if subscribed for the {{signal.name}}.
@@ -182,7 +185,7 @@ public:
 {% for property in interface.properties %}
     /**
     * Use this function to subscribe for {{property.name}} value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with {{sub_class}} interface, you will get two notifications, one for each subscription mechanism.
     * @param {{interface.name | capital}}{{property.name | capital}}PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -192,7 +195,7 @@ public:
     virtual long subscribeTo{{property.name|capital}}Changed({{interface.name | capital}}{{property.name | capital}}PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from {{property.name}} property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with {{sub_class}} interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */

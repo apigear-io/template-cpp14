@@ -111,8 +111,10 @@ public:
     */
     virtual const Enum3Enum& prop3() const = 0;
 
+
     /**
-    * @return Publisher class IEnumInterfacePublisher responsible for clients subscribtion and notification.
+    * Access to a publisher, use it to subscribe for EnumInterface changes and signal emission.
+    * @return The publisher for EnumInterface.
     */
     virtual IEnumInterfacePublisher& _getPublisher() const = 0;
 };
@@ -128,6 +130,7 @@ public:
 class TEST_TB_ENUM_EXPORT IEnumInterfaceSubscriber
 {
 public:
+    virtual ~IEnumInterfaceSubscriber() = default;
     /**
     * Called by the IEnumInterfacePublisher when the EnumInterface emits sig0, if subscribed for the sig0.
     * @param param0 
@@ -233,7 +236,7 @@ public:
 
     /**
     * Use this function to subscribe for prop0 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp0PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -243,7 +246,7 @@ public:
     virtual long subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop0 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -251,7 +254,7 @@ public:
 
     /**
     * Use this function to subscribe for prop1 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -261,7 +264,7 @@ public:
     virtual long subscribeToProp1Changed(EnumInterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -269,7 +272,7 @@ public:
 
     /**
     * Use this function to subscribe for prop2 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp2PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -279,7 +282,7 @@ public:
     virtual long subscribeToProp2Changed(EnumInterfaceProp2PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop2 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -287,7 +290,7 @@ public:
 
     /**
     * Use this function to subscribe for prop3 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param EnumInterfaceProp3PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -297,7 +300,7 @@ public:
     virtual long subscribeToProp3Changed(EnumInterfaceProp3PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop3 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IEnumInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */

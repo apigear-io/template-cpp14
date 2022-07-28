@@ -60,8 +60,10 @@ public:
     */
     virtual const Struct1& prop1() const = 0;
 
+
     /**
-    * @return Publisher class ISameStruct1InterfacePublisher responsible for clients subscribtion and notification.
+    * Access to a publisher, use it to subscribe for SameStruct1Interface changes and signal emission.
+    * @return The publisher for SameStruct1Interface.
     */
     virtual ISameStruct1InterfacePublisher& _getPublisher() const = 0;
 };
@@ -77,6 +79,7 @@ public:
 class TEST_TB_SAME2_EXPORT ISameStruct1InterfaceSubscriber
 {
 public:
+    virtual ~ISameStruct1InterfaceSubscriber() = default;
     /**
     * Called by the ISameStruct1InterfacePublisher when the SameStruct1Interface emits sig1, if subscribed for the sig1.
     * @param param1 
@@ -131,7 +134,7 @@ public:
 
     /**
     * Use this function to subscribe for prop1 value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with ISameStruct1InterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param SameStruct1InterfaceProp1PropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -141,7 +144,7 @@ public:
     virtual long subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from prop1 property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with ISameStruct1InterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */

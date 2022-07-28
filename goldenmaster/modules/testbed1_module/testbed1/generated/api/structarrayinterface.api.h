@@ -111,8 +111,10 @@ public:
     */
     virtual const std::list<StructString>& propString() const = 0;
 
+
     /**
-    * @return Publisher class IStructArrayInterfacePublisher responsible for clients subscribtion and notification.
+    * Access to a publisher, use it to subscribe for StructArrayInterface changes and signal emission.
+    * @return The publisher for StructArrayInterface.
     */
     virtual IStructArrayInterfacePublisher& _getPublisher() const = 0;
 };
@@ -128,6 +130,7 @@ public:
 class TEST_TESTBED1_EXPORT IStructArrayInterfaceSubscriber
 {
 public:
+    virtual ~IStructArrayInterfaceSubscriber() = default;
     /**
     * Called by the IStructArrayInterfacePublisher when the StructArrayInterface emits sigBool, if subscribed for the sigBool.
     * @param paramBool 
@@ -233,7 +236,7 @@ public:
 
     /**
     * Use this function to subscribe for propBool value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropBoolPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -243,7 +246,7 @@ public:
     virtual long subscribeToPropBoolChanged(StructArrayInterfacePropBoolPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propBool property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -251,7 +254,7 @@ public:
 
     /**
     * Use this function to subscribe for propInt value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropIntPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -261,7 +264,7 @@ public:
     virtual long subscribeToPropIntChanged(StructArrayInterfacePropIntPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propInt property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -269,7 +272,7 @@ public:
 
     /**
     * Use this function to subscribe for propFloat value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropFloatPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -279,7 +282,7 @@ public:
     virtual long subscribeToPropFloatChanged(StructArrayInterfacePropFloatPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propFloat property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
@@ -287,7 +290,7 @@ public:
 
     /**
     * Use this function to subscribe for propString value changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will get two notifications, one for each subscription mechanism.
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will get two notifications, one for each subscription mechanism.
     * @param StructArrayInterfacePropStringPropertyCb callback that will be executed on each change of the property.
     * Make sure to remove subscription before the callback becomes invalid.
     * @return subscription token for the subscription removal.
@@ -297,7 +300,7 @@ public:
     virtual long subscribeToPropStringChanged(StructArrayInterfacePropStringPropertyCb callback) = 0;
     /**
     * Use this function to unsubscribe from propString property changes.
-    * If your subscriber uses subsrciption with ISubscriber interface, you will be still informed about this change,
+    * If your subscriber uses subsrciption with IStructArrayInterfaceSubscriber interface, you will be still informed about this change,
     * as those are two independent subscription mechanisms.
     * @param subscription token received on subscription.
     */
