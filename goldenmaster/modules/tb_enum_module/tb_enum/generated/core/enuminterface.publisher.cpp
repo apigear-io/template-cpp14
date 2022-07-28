@@ -15,23 +15,25 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+
 #include "tb_enum/generated/core/enuminterface.publisher.h"
 #include <algorithm>
 
 
 using namespace Test::TbEnum;
 
-void ::subscribeToAllChanges(& subscriber)
+void EnumInterfacePublisher::subscribeToAllChanges(IEnumInterfaceSubscriber& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
     if (found == m_allChangesSubscribers.end())
     {
-        m_allChangesSubscribers.push_back(std::reference_wrapper<>(subscriber));
+        m_allChangesSubscribers.push_back(std::reference_wrapper<IEnumInterfaceSubscriber>(subscriber));
     }
 }
 
-void ::unsubscribeFromAllChanges(& subscriber)
+void EnumInterfacePublisher::unsubscribeFromAllChanges(IEnumInterfaceSubscriber& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
@@ -41,19 +43,19 @@ void ::unsubscribeFromAllChanges(& subscriber)
     }
 }
 
-long ::subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback)
+long EnumInterfacePublisher::subscribeToProp0Changed(EnumInterfaceProp0PropertyCb callback)
 {
     auto handleId = m_prop0ChangedCallbackNextId++;
     m_prop0Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromProp0Changed(long handleId)
+void EnumInterfacePublisher::unsubscribeFromProp0Changed(long handleId)
 {
     m_prop0Callbacks.erase(handleId);
 }
 
-void ::publishProp0Changed(const Enum0Enum& prop0) const
+void EnumInterfacePublisher::publishProp0Changed(const Enum0Enum& prop0) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -68,19 +70,19 @@ void ::publishProp0Changed(const Enum0Enum& prop0) const
     }
 }
 
-long ::subscribeToProp1Changed(EnumInterfaceProp1PropertyCb callback)
+long EnumInterfacePublisher::subscribeToProp1Changed(EnumInterfaceProp1PropertyCb callback)
 {
     auto handleId = m_prop1ChangedCallbackNextId++;
     m_prop1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromProp1Changed(long handleId)
+void EnumInterfacePublisher::unsubscribeFromProp1Changed(long handleId)
 {
     m_prop1Callbacks.erase(handleId);
 }
 
-void ::publishProp1Changed(const Enum1Enum& prop1) const
+void EnumInterfacePublisher::publishProp1Changed(const Enum1Enum& prop1) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -95,19 +97,19 @@ void ::publishProp1Changed(const Enum1Enum& prop1) const
     }
 }
 
-long ::subscribeToProp2Changed(EnumInterfaceProp2PropertyCb callback)
+long EnumInterfacePublisher::subscribeToProp2Changed(EnumInterfaceProp2PropertyCb callback)
 {
     auto handleId = m_prop2ChangedCallbackNextId++;
     m_prop2Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromProp2Changed(long handleId)
+void EnumInterfacePublisher::unsubscribeFromProp2Changed(long handleId)
 {
     m_prop2Callbacks.erase(handleId);
 }
 
-void ::publishProp2Changed(const Enum2Enum& prop2) const
+void EnumInterfacePublisher::publishProp2Changed(const Enum2Enum& prop2) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -122,19 +124,19 @@ void ::publishProp2Changed(const Enum2Enum& prop2) const
     }
 }
 
-long ::subscribeToProp3Changed(EnumInterfaceProp3PropertyCb callback)
+long EnumInterfacePublisher::subscribeToProp3Changed(EnumInterfaceProp3PropertyCb callback)
 {
     auto handleId = m_prop3ChangedCallbackNextId++;
     m_prop3Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromProp3Changed(long handleId)
+void EnumInterfacePublisher::unsubscribeFromProp3Changed(long handleId)
 {
     m_prop3Callbacks.erase(handleId);
 }
 
-void ::publishProp3Changed(const Enum3Enum& prop3) const
+void EnumInterfacePublisher::publishProp3Changed(const Enum3Enum& prop3) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -149,7 +151,7 @@ void ::publishProp3Changed(const Enum3Enum& prop3) const
     }
 }
 
-long ::subscribeToSig0(EnumInterfaceSig0SignalCb callback)
+long EnumInterfacePublisher::subscribeToSig0(EnumInterfaceSig0SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sig0SignalCallbackNextId++;
@@ -157,12 +159,12 @@ long ::subscribeToSig0(EnumInterfaceSig0SignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSig0(long handleId)
+void EnumInterfacePublisher::unsubscribeFromSig0(long handleId)
 {
     m_sig0Callbacks.erase(handleId);
 }
 
-void ::publishSig0(const Enum0Enum& param0) const
+void EnumInterfacePublisher::publishSig0(const Enum0Enum& param0) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -177,7 +179,7 @@ void ::publishSig0(const Enum0Enum& param0) const
     }
 }
 
-long ::subscribeToSig1(EnumInterfaceSig1SignalCb callback)
+long EnumInterfacePublisher::subscribeToSig1(EnumInterfaceSig1SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sig1SignalCallbackNextId++;
@@ -185,12 +187,12 @@ long ::subscribeToSig1(EnumInterfaceSig1SignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSig1(long handleId)
+void EnumInterfacePublisher::unsubscribeFromSig1(long handleId)
 {
     m_sig1Callbacks.erase(handleId);
 }
 
-void ::publishSig1(const Enum1Enum& param1) const
+void EnumInterfacePublisher::publishSig1(const Enum1Enum& param1) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -205,7 +207,7 @@ void ::publishSig1(const Enum1Enum& param1) const
     }
 }
 
-long ::subscribeToSig2(EnumInterfaceSig2SignalCb callback)
+long EnumInterfacePublisher::subscribeToSig2(EnumInterfaceSig2SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sig2SignalCallbackNextId++;
@@ -213,12 +215,12 @@ long ::subscribeToSig2(EnumInterfaceSig2SignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSig2(long handleId)
+void EnumInterfacePublisher::unsubscribeFromSig2(long handleId)
 {
     m_sig2Callbacks.erase(handleId);
 }
 
-void ::publishSig2(const Enum2Enum& param2) const
+void EnumInterfacePublisher::publishSig2(const Enum2Enum& param2) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -233,7 +235,7 @@ void ::publishSig2(const Enum2Enum& param2) const
     }
 }
 
-long ::subscribeToSig3(EnumInterfaceSig3SignalCb callback)
+long EnumInterfacePublisher::subscribeToSig3(EnumInterfaceSig3SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sig3SignalCallbackNextId++;
@@ -241,12 +243,12 @@ long ::subscribeToSig3(EnumInterfaceSig3SignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSig3(long handleId)
+void EnumInterfacePublisher::unsubscribeFromSig3(long handleId)
 {
     m_sig3Callbacks.erase(handleId);
 }
 
-void ::publishSig3(const Enum3Enum& param3) const
+void EnumInterfacePublisher::publishSig3(const Enum3Enum& param3) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {

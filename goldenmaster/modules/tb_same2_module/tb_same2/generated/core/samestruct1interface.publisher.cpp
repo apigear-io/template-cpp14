@@ -15,23 +15,25 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+
 #include "tb_same2/generated/core/samestruct1interface.publisher.h"
 #include <algorithm>
 
 
 using namespace Test::TbSame2;
 
-void ::subscribeToAllChanges(& subscriber)
+void SameStruct1InterfacePublisher::subscribeToAllChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
     if (found == m_allChangesSubscribers.end())
     {
-        m_allChangesSubscribers.push_back(std::reference_wrapper<>(subscriber));
+        m_allChangesSubscribers.push_back(std::reference_wrapper<ISameStruct1InterfaceSubscriber>(subscriber));
     }
 }
 
-void ::unsubscribeFromAllChanges(& subscriber)
+void SameStruct1InterfacePublisher::unsubscribeFromAllChanges(ISameStruct1InterfaceSubscriber& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
@@ -41,19 +43,19 @@ void ::unsubscribeFromAllChanges(& subscriber)
     }
 }
 
-long ::subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback)
+long SameStruct1InterfacePublisher::subscribeToProp1Changed(SameStruct1InterfaceProp1PropertyCb callback)
 {
     auto handleId = m_prop1ChangedCallbackNextId++;
     m_prop1Callbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromProp1Changed(long handleId)
+void SameStruct1InterfacePublisher::unsubscribeFromProp1Changed(long handleId)
 {
     m_prop1Callbacks.erase(handleId);
 }
 
-void ::publishProp1Changed(const Struct1& prop1) const
+void SameStruct1InterfacePublisher::publishProp1Changed(const Struct1& prop1) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -68,7 +70,7 @@ void ::publishProp1Changed(const Struct1& prop1) const
     }
 }
 
-long ::subscribeToSig1(SameStruct1InterfaceSig1SignalCb callback)
+long SameStruct1InterfacePublisher::subscribeToSig1(SameStruct1InterfaceSig1SignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sig1SignalCallbackNextId++;
@@ -76,12 +78,12 @@ long ::subscribeToSig1(SameStruct1InterfaceSig1SignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSig1(long handleId)
+void SameStruct1InterfacePublisher::unsubscribeFromSig1(long handleId)
 {
     m_sig1Callbacks.erase(handleId);
 }
 
-void ::publishSig1(const Struct1& param1) const
+void SameStruct1InterfacePublisher::publishSig1(const Struct1& param1) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {

@@ -15,23 +15,25 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
+
 #include "testbed1/generated/core/structinterface.publisher.h"
 #include <algorithm>
 
 
 using namespace Test::Testbed1;
 
-void ::subscribeToAllChanges(& subscriber)
+void StructInterfacePublisher::subscribeToAllChanges(IStructInterfaceSubscriber& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
     if (found == m_allChangesSubscribers.end())
     {
-        m_allChangesSubscribers.push_back(std::reference_wrapper<>(subscriber));
+        m_allChangesSubscribers.push_back(std::reference_wrapper<IStructInterfaceSubscriber>(subscriber));
     }
 }
 
-void ::unsubscribeFromAllChanges(& subscriber)
+void StructInterfacePublisher::unsubscribeFromAllChanges(IStructInterfaceSubscriber& subscriber)
 {
     auto found = std::find_if(m_allChangesSubscribers.begin(), m_allChangesSubscribers.end(),
                         [&subscriber](const auto element){return &(element.get()) == &subscriber;});
@@ -41,19 +43,19 @@ void ::unsubscribeFromAllChanges(& subscriber)
     }
 }
 
-long ::subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback)
+long StructInterfacePublisher::subscribeToPropBoolChanged(StructInterfacePropBoolPropertyCb callback)
 {
     auto handleId = m_propBoolChangedCallbackNextId++;
     m_propBoolCallbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromPropBoolChanged(long handleId)
+void StructInterfacePublisher::unsubscribeFromPropBoolChanged(long handleId)
 {
     m_propBoolCallbacks.erase(handleId);
 }
 
-void ::publishPropBoolChanged(const StructBool& propBool) const
+void StructInterfacePublisher::publishPropBoolChanged(const StructBool& propBool) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -68,19 +70,19 @@ void ::publishPropBoolChanged(const StructBool& propBool) const
     }
 }
 
-long ::subscribeToPropIntChanged(StructInterfacePropIntPropertyCb callback)
+long StructInterfacePublisher::subscribeToPropIntChanged(StructInterfacePropIntPropertyCb callback)
 {
     auto handleId = m_propIntChangedCallbackNextId++;
     m_propIntCallbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromPropIntChanged(long handleId)
+void StructInterfacePublisher::unsubscribeFromPropIntChanged(long handleId)
 {
     m_propIntCallbacks.erase(handleId);
 }
 
-void ::publishPropIntChanged(const StructInt& propInt) const
+void StructInterfacePublisher::publishPropIntChanged(const StructInt& propInt) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -95,19 +97,19 @@ void ::publishPropIntChanged(const StructInt& propInt) const
     }
 }
 
-long ::subscribeToPropFloatChanged(StructInterfacePropFloatPropertyCb callback)
+long StructInterfacePublisher::subscribeToPropFloatChanged(StructInterfacePropFloatPropertyCb callback)
 {
     auto handleId = m_propFloatChangedCallbackNextId++;
     m_propFloatCallbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromPropFloatChanged(long handleId)
+void StructInterfacePublisher::unsubscribeFromPropFloatChanged(long handleId)
 {
     m_propFloatCallbacks.erase(handleId);
 }
 
-void ::publishPropFloatChanged(const StructFloat& propFloat) const
+void StructInterfacePublisher::publishPropFloatChanged(const StructFloat& propFloat) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -122,19 +124,19 @@ void ::publishPropFloatChanged(const StructFloat& propFloat) const
     }
 }
 
-long ::subscribeToPropStringChanged(StructInterfacePropStringPropertyCb callback)
+long StructInterfacePublisher::subscribeToPropStringChanged(StructInterfacePropStringPropertyCb callback)
 {
     auto handleId = m_propStringChangedCallbackNextId++;
     m_propStringCallbacks[handleId] = callback;
     return handleId;
 }
 
-void ::unsubscribeFromPropStringChanged(long handleId)
+void StructInterfacePublisher::unsubscribeFromPropStringChanged(long handleId)
 {
     m_propStringCallbacks.erase(handleId);
 }
 
-void ::publishPropStringChanged(const StructString& propString) const
+void StructInterfacePublisher::publishPropStringChanged(const StructString& propString) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -149,7 +151,7 @@ void ::publishPropStringChanged(const StructString& propString) const
     }
 }
 
-long ::subscribeToSigBool(StructInterfaceSigBoolSignalCb callback)
+long StructInterfacePublisher::subscribeToSigBool(StructInterfaceSigBoolSignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sigBoolSignalCallbackNextId++;
@@ -157,12 +159,12 @@ long ::subscribeToSigBool(StructInterfaceSigBoolSignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSigBool(long handleId)
+void StructInterfacePublisher::unsubscribeFromSigBool(long handleId)
 {
     m_sigBoolCallbacks.erase(handleId);
 }
 
-void ::publishSigBool(const StructBool& paramBool) const
+void StructInterfacePublisher::publishSigBool(const StructBool& paramBool) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -177,7 +179,7 @@ void ::publishSigBool(const StructBool& paramBool) const
     }
 }
 
-long ::subscribeToSigInt(StructInterfaceSigIntSignalCb callback)
+long StructInterfacePublisher::subscribeToSigInt(StructInterfaceSigIntSignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sigIntSignalCallbackNextId++;
@@ -185,12 +187,12 @@ long ::subscribeToSigInt(StructInterfaceSigIntSignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSigInt(long handleId)
+void StructInterfacePublisher::unsubscribeFromSigInt(long handleId)
 {
     m_sigIntCallbacks.erase(handleId);
 }
 
-void ::publishSigInt(const StructInt& paramInt) const
+void StructInterfacePublisher::publishSigInt(const StructInt& paramInt) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -205,7 +207,7 @@ void ::publishSigInt(const StructInt& paramInt) const
     }
 }
 
-long ::subscribeToSigFloat(StructInterfaceSigFloatSignalCb callback)
+long StructInterfacePublisher::subscribeToSigFloat(StructInterfaceSigFloatSignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sigFloatSignalCallbackNextId++;
@@ -213,12 +215,12 @@ long ::subscribeToSigFloat(StructInterfaceSigFloatSignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSigFloat(long handleId)
+void StructInterfacePublisher::unsubscribeFromSigFloat(long handleId)
 {
     m_sigFloatCallbacks.erase(handleId);
 }
 
-void ::publishSigFloat(const StructFloat& paramFloat) const
+void StructInterfacePublisher::publishSigFloat(const StructFloat& paramFloat) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {
@@ -233,7 +235,7 @@ void ::publishSigFloat(const StructFloat& paramFloat) const
     }
 }
 
-long ::subscribeToSigString(StructInterfaceSigStringSignalCb callback)
+long StructInterfacePublisher::subscribeToSigString(StructInterfaceSigStringSignalCb callback)
 {
     // this is a short term workaround - we need a better solution for unique handle identifiers
     auto handleId = m_sigStringSignalCallbackNextId++;
@@ -241,12 +243,12 @@ long ::subscribeToSigString(StructInterfaceSigStringSignalCb callback)
     return handleId;
 }
 
-void ::unsubscribeFromSigString(long handleId)
+void StructInterfacePublisher::unsubscribeFromSigString(long handleId)
 {
     m_sigStringCallbacks.erase(handleId);
 }
 
-void ::publishSigString(const StructString& paramString) const
+void StructInterfacePublisher::publishSigString(const StructString& paramString) const
 {
     for(const auto& subscriber: m_allChangesSubscribers)
     {

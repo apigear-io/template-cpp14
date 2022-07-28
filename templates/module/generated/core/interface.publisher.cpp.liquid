@@ -1,6 +1,10 @@
 {% comment %} // Copyright (c) ApiGear UG 2020 {% endcomment -%}
 {{ module | licGPLcpp -}}
 
+{% assign class = "I" | append: interface.name | capital %}
+{% assign sub_class = class | append: "Subscriber" %}
+{% assign pub_class = interface.name | capital | append: "Publisher"%}
+
 #include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.publisher.h"
 #include <algorithm>
 
