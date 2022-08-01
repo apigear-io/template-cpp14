@@ -40,40 +40,57 @@ using namespace Test;
 int main(){
     ApiGear::ObjectLink::RemoteRegistry registry;
     ApiGear::PocoImpl::OLinkHost testserver(registry);
-    std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterface = std::make_unique<Testbed2::ManyParamInterface>();
-    Testbed2::ManyParamInterfaceService testTestbed2ManyParamInterfaceService(*testTestbed2ManyParamInterface, registry);
-    std::unique_ptr<Testbed2::INestedStruct1Interface> testTestbed2NestedStruct1Interface = std::make_unique<Testbed2::NestedStruct1Interface>();
-    Testbed2::NestedStruct1InterfaceService testTestbed2NestedStruct1InterfaceService(*testTestbed2NestedStruct1Interface, registry);
-    std::unique_ptr<Testbed2::INestedStruct2Interface> testTestbed2NestedStruct2Interface = std::make_unique<Testbed2::NestedStruct2Interface>();
-    Testbed2::NestedStruct2InterfaceService testTestbed2NestedStruct2InterfaceService(*testTestbed2NestedStruct2Interface, registry);
-    std::unique_ptr<Testbed2::INestedStruct3Interface> testTestbed2NestedStruct3Interface = std::make_unique<Testbed2::NestedStruct3Interface>();
-    Testbed2::NestedStruct3InterfaceService testTestbed2NestedStruct3InterfaceService(*testTestbed2NestedStruct3Interface, registry);
-    std::unique_ptr<TbEnum::IEnumInterface> testTbEnumEnumInterface = std::make_unique<TbEnum::EnumInterface>();
-    TbEnum::EnumInterfaceService testTbEnumEnumInterfaceService(*testTbEnumEnumInterface, registry);
-    std::unique_ptr<TbSame1::ISameStruct1Interface> testTbSame1SameStruct1Interface = std::make_unique<TbSame1::SameStruct1Interface>();
-    TbSame1::SameStruct1InterfaceService testTbSame1SameStruct1InterfaceService(*testTbSame1SameStruct1Interface, registry);
-    std::unique_ptr<TbSame1::ISameStruct2Interface> testTbSame1SameStruct2Interface = std::make_unique<TbSame1::SameStruct2Interface>();
-    TbSame1::SameStruct2InterfaceService testTbSame1SameStruct2InterfaceService(*testTbSame1SameStruct2Interface, registry);
-    std::unique_ptr<TbSame1::ISameEnum1Interface> testTbSame1SameEnum1Interface = std::make_unique<TbSame1::SameEnum1Interface>();
-    TbSame1::SameEnum1InterfaceService testTbSame1SameEnum1InterfaceService(*testTbSame1SameEnum1Interface, registry);
-    std::unique_ptr<TbSame1::ISameEnum2Interface> testTbSame1SameEnum2Interface = std::make_unique<TbSame1::SameEnum2Interface>();
-    TbSame1::SameEnum2InterfaceService testTbSame1SameEnum2InterfaceService(*testTbSame1SameEnum2Interface, registry);
-    std::unique_ptr<TbSame2::ISameStruct1Interface> testTbSame2SameStruct1Interface = std::make_unique<TbSame2::SameStruct1Interface>();
-    TbSame2::SameStruct1InterfaceService testTbSame2SameStruct1InterfaceService(*testTbSame2SameStruct1Interface, registry);
-    std::unique_ptr<TbSame2::ISameStruct2Interface> testTbSame2SameStruct2Interface = std::make_unique<TbSame2::SameStruct2Interface>();
-    TbSame2::SameStruct2InterfaceService testTbSame2SameStruct2InterfaceService(*testTbSame2SameStruct2Interface, registry);
-    std::unique_ptr<TbSame2::ISameEnum1Interface> testTbSame2SameEnum1Interface = std::make_unique<TbSame2::SameEnum1Interface>();
-    TbSame2::SameEnum1InterfaceService testTbSame2SameEnum1InterfaceService(*testTbSame2SameEnum1Interface, registry);
-    std::unique_ptr<TbSame2::ISameEnum2Interface> testTbSame2SameEnum2Interface = std::make_unique<TbSame2::SameEnum2Interface>();
-    TbSame2::SameEnum2InterfaceService testTbSame2SameEnum2InterfaceService(*testTbSame2SameEnum2Interface, registry);
-    std::unique_ptr<TbSimple::ISimpleInterface> testTbSimpleSimpleInterface = std::make_unique<TbSimple::SimpleInterface>();
-    TbSimple::SimpleInterfaceService testTbSimpleSimpleInterfaceService(*testTbSimpleSimpleInterface, registry);
-    std::unique_ptr<TbSimple::ISimpleArrayInterface> testTbSimpleSimpleArrayInterface = std::make_unique<TbSimple::SimpleArrayInterface>();
-    TbSimple::SimpleArrayInterfaceService testTbSimpleSimpleArrayInterfaceService(*testTbSimpleSimpleArrayInterface, registry);
-    std::unique_ptr<Testbed1::IStructInterface> testTestbed1StructInterface = std::make_unique<Testbed1::StructInterface>();
-    Testbed1::StructInterfaceService testTestbed1StructInterfaceService(*testTestbed1StructInterface, registry);
-    std::unique_ptr<Testbed1::IStructArrayInterface> testTestbed1StructArrayInterface = std::make_unique<Testbed1::StructArrayInterface>();
-    Testbed1::StructArrayInterfaceService testTestbed1StructArrayInterfaceService(*testTestbed1StructArrayInterface, registry);
+    
+    auto testbed2ManyParamInterface = std::make_unique<Testbed2::ManyParamInterface>();
+    Testbed2::ManyParamInterfaceService testbed2ManyParamInterfaceService(*testbed2ManyParamInterface, registry);
+    
+    auto testbed2NestedStruct1Interface = std::make_unique<Testbed2::NestedStruct1Interface>();
+    Testbed2::NestedStruct1InterfaceService testbed2NestedStruct1InterfaceService(*testbed2NestedStruct1Interface, registry);
+    
+    auto testbed2NestedStruct2Interface = std::make_unique<Testbed2::NestedStruct2Interface>();
+    Testbed2::NestedStruct2InterfaceService testbed2NestedStruct2InterfaceService(*testbed2NestedStruct2Interface, registry);
+    
+    auto testbed2NestedStruct3Interface = std::make_unique<Testbed2::NestedStruct3Interface>();
+    Testbed2::NestedStruct3InterfaceService testbed2NestedStruct3InterfaceService(*testbed2NestedStruct3Interface, registry);
+    
+    auto tbEnumEnumInterface = std::make_unique<TbEnum::EnumInterface>();
+    TbEnum::EnumInterfaceService tbEnumEnumInterfaceService(*tbEnumEnumInterface, registry);
+    
+    auto tbSame1SameStruct1Interface = std::make_unique<TbSame1::SameStruct1Interface>();
+    TbSame1::SameStruct1InterfaceService tbSame1SameStruct1InterfaceService(*tbSame1SameStruct1Interface, registry);
+    
+    auto tbSame1SameStruct2Interface = std::make_unique<TbSame1::SameStruct2Interface>();
+    TbSame1::SameStruct2InterfaceService tbSame1SameStruct2InterfaceService(*tbSame1SameStruct2Interface, registry);
+    
+    auto tbSame1SameEnum1Interface = std::make_unique<TbSame1::SameEnum1Interface>();
+    TbSame1::SameEnum1InterfaceService tbSame1SameEnum1InterfaceService(*tbSame1SameEnum1Interface, registry);
+    
+    auto tbSame1SameEnum2Interface = std::make_unique<TbSame1::SameEnum2Interface>();
+    TbSame1::SameEnum2InterfaceService tbSame1SameEnum2InterfaceService(*tbSame1SameEnum2Interface, registry);
+    
+    auto tbSame2SameStruct1Interface = std::make_unique<TbSame2::SameStruct1Interface>();
+    TbSame2::SameStruct1InterfaceService tbSame2SameStruct1InterfaceService(*tbSame2SameStruct1Interface, registry);
+    
+    auto tbSame2SameStruct2Interface = std::make_unique<TbSame2::SameStruct2Interface>();
+    TbSame2::SameStruct2InterfaceService tbSame2SameStruct2InterfaceService(*tbSame2SameStruct2Interface, registry);
+    
+    auto tbSame2SameEnum1Interface = std::make_unique<TbSame2::SameEnum1Interface>();
+    TbSame2::SameEnum1InterfaceService tbSame2SameEnum1InterfaceService(*tbSame2SameEnum1Interface, registry);
+    
+    auto tbSame2SameEnum2Interface = std::make_unique<TbSame2::SameEnum2Interface>();
+    TbSame2::SameEnum2InterfaceService tbSame2SameEnum2InterfaceService(*tbSame2SameEnum2Interface, registry);
+    
+    auto tbSimpleSimpleInterface = std::make_unique<TbSimple::SimpleInterface>();
+    TbSimple::SimpleInterfaceService tbSimpleSimpleInterfaceService(*tbSimpleSimpleInterface, registry);
+    
+    auto tbSimpleSimpleArrayInterface = std::make_unique<TbSimple::SimpleArrayInterface>();
+    TbSimple::SimpleArrayInterfaceService tbSimpleSimpleArrayInterfaceService(*tbSimpleSimpleArrayInterface, registry);
+    
+    auto testbed1StructInterface = std::make_unique<Testbed1::StructInterface>();
+    Testbed1::StructInterfaceService testbed1StructInterfaceService(*testbed1StructInterface, registry);
+    
+    auto testbed1StructArrayInterface = std::make_unique<Testbed1::StructArrayInterface>();
+    Testbed1::StructArrayInterfaceService testbed1StructArrayInterfaceService(*testbed1StructArrayInterface, registry);
 
     testserver.listen(8000);
 

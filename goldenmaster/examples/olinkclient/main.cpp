@@ -43,40 +43,57 @@ int main(){
     tracer.connect("http://localhost:5555", "testExampleOLinkApp");
     ApiGear::ObjectLink::ClientRegistry registry;
     ApiGear::PocoImpl::OLinkClient testClient(registry);
-    std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterface = std::make_unique<Testbed2::RemoteManyParamInterface>(registry, testClient);
-    std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterfaceTraceDecorator = Testbed2::ManyParamInterfaceTraceDecorator::connect(*testTestbed2ManyParamInterface, tracer);
-    std::unique_ptr<Testbed2::INestedStruct1Interface> testTestbed2NestedStruct1Interface = std::make_unique<Testbed2::RemoteNestedStruct1Interface>(registry, testClient);
-    std::unique_ptr<Testbed2::INestedStruct1Interface> testTestbed2NestedStruct1InterfaceTraceDecorator = Testbed2::NestedStruct1InterfaceTraceDecorator::connect(*testTestbed2NestedStruct1Interface, tracer);
-    std::unique_ptr<Testbed2::INestedStruct2Interface> testTestbed2NestedStruct2Interface = std::make_unique<Testbed2::RemoteNestedStruct2Interface>(registry, testClient);
-    std::unique_ptr<Testbed2::INestedStruct2Interface> testTestbed2NestedStruct2InterfaceTraceDecorator = Testbed2::NestedStruct2InterfaceTraceDecorator::connect(*testTestbed2NestedStruct2Interface, tracer);
-    std::unique_ptr<Testbed2::INestedStruct3Interface> testTestbed2NestedStruct3Interface = std::make_unique<Testbed2::RemoteNestedStruct3Interface>(registry, testClient);
-    std::unique_ptr<Testbed2::INestedStruct3Interface> testTestbed2NestedStruct3InterfaceTraceDecorator = Testbed2::NestedStruct3InterfaceTraceDecorator::connect(*testTestbed2NestedStruct3Interface, tracer);
-    std::unique_ptr<TbEnum::IEnumInterface> testTbEnumEnumInterface = std::make_unique<TbEnum::RemoteEnumInterface>(registry, testClient);
-    std::unique_ptr<TbEnum::IEnumInterface> testTbEnumEnumInterfaceTraceDecorator = TbEnum::EnumInterfaceTraceDecorator::connect(*testTbEnumEnumInterface, tracer);
-    std::unique_ptr<TbSame1::ISameStruct1Interface> testTbSame1SameStruct1Interface = std::make_unique<TbSame1::RemoteSameStruct1Interface>(registry, testClient);
-    std::unique_ptr<TbSame1::ISameStruct1Interface> testTbSame1SameStruct1InterfaceTraceDecorator = TbSame1::SameStruct1InterfaceTraceDecorator::connect(*testTbSame1SameStruct1Interface, tracer);
-    std::unique_ptr<TbSame1::ISameStruct2Interface> testTbSame1SameStruct2Interface = std::make_unique<TbSame1::RemoteSameStruct2Interface>(registry, testClient);
-    std::unique_ptr<TbSame1::ISameStruct2Interface> testTbSame1SameStruct2InterfaceTraceDecorator = TbSame1::SameStruct2InterfaceTraceDecorator::connect(*testTbSame1SameStruct2Interface, tracer);
-    std::unique_ptr<TbSame1::ISameEnum1Interface> testTbSame1SameEnum1Interface = std::make_unique<TbSame1::RemoteSameEnum1Interface>(registry, testClient);
-    std::unique_ptr<TbSame1::ISameEnum1Interface> testTbSame1SameEnum1InterfaceTraceDecorator = TbSame1::SameEnum1InterfaceTraceDecorator::connect(*testTbSame1SameEnum1Interface, tracer);
-    std::unique_ptr<TbSame1::ISameEnum2Interface> testTbSame1SameEnum2Interface = std::make_unique<TbSame1::RemoteSameEnum2Interface>(registry, testClient);
-    std::unique_ptr<TbSame1::ISameEnum2Interface> testTbSame1SameEnum2InterfaceTraceDecorator = TbSame1::SameEnum2InterfaceTraceDecorator::connect(*testTbSame1SameEnum2Interface, tracer);
-    std::unique_ptr<TbSame2::ISameStruct1Interface> testTbSame2SameStruct1Interface = std::make_unique<TbSame2::RemoteSameStruct1Interface>(registry, testClient);
-    std::unique_ptr<TbSame2::ISameStruct1Interface> testTbSame2SameStruct1InterfaceTraceDecorator = TbSame2::SameStruct1InterfaceTraceDecorator::connect(*testTbSame2SameStruct1Interface, tracer);
-    std::unique_ptr<TbSame2::ISameStruct2Interface> testTbSame2SameStruct2Interface = std::make_unique<TbSame2::RemoteSameStruct2Interface>(registry, testClient);
-    std::unique_ptr<TbSame2::ISameStruct2Interface> testTbSame2SameStruct2InterfaceTraceDecorator = TbSame2::SameStruct2InterfaceTraceDecorator::connect(*testTbSame2SameStruct2Interface, tracer);
-    std::unique_ptr<TbSame2::ISameEnum1Interface> testTbSame2SameEnum1Interface = std::make_unique<TbSame2::RemoteSameEnum1Interface>(registry, testClient);
-    std::unique_ptr<TbSame2::ISameEnum1Interface> testTbSame2SameEnum1InterfaceTraceDecorator = TbSame2::SameEnum1InterfaceTraceDecorator::connect(*testTbSame2SameEnum1Interface, tracer);
-    std::unique_ptr<TbSame2::ISameEnum2Interface> testTbSame2SameEnum2Interface = std::make_unique<TbSame2::RemoteSameEnum2Interface>(registry, testClient);
-    std::unique_ptr<TbSame2::ISameEnum2Interface> testTbSame2SameEnum2InterfaceTraceDecorator = TbSame2::SameEnum2InterfaceTraceDecorator::connect(*testTbSame2SameEnum2Interface, tracer);
-    std::unique_ptr<TbSimple::ISimpleInterface> testTbSimpleSimpleInterface = std::make_unique<TbSimple::RemoteSimpleInterface>(registry, testClient);
-    std::unique_ptr<TbSimple::ISimpleInterface> testTbSimpleSimpleInterfaceTraceDecorator = TbSimple::SimpleInterfaceTraceDecorator::connect(*testTbSimpleSimpleInterface, tracer);
-    std::unique_ptr<TbSimple::ISimpleArrayInterface> testTbSimpleSimpleArrayInterface = std::make_unique<TbSimple::RemoteSimpleArrayInterface>(registry, testClient);
-    std::unique_ptr<TbSimple::ISimpleArrayInterface> testTbSimpleSimpleArrayInterfaceTraceDecorator = TbSimple::SimpleArrayInterfaceTraceDecorator::connect(*testTbSimpleSimpleArrayInterface, tracer);
-    std::unique_ptr<Testbed1::IStructInterface> testTestbed1StructInterface = std::make_unique<Testbed1::RemoteStructInterface>(registry, testClient);
-    std::unique_ptr<Testbed1::IStructInterface> testTestbed1StructInterfaceTraceDecorator = Testbed1::StructInterfaceTraceDecorator::connect(*testTestbed1StructInterface, tracer);
-    std::unique_ptr<Testbed1::IStructArrayInterface> testTestbed1StructArrayInterface = std::make_unique<Testbed1::RemoteStructArrayInterface>(registry, testClient);
-    std::unique_ptr<Testbed1::IStructArrayInterface> testTestbed1StructArrayInterfaceTraceDecorator = Testbed1::StructArrayInterfaceTraceDecorator::connect(*testTestbed1StructArrayInterface, tracer);
+    
+    auto remoteTestbed2ManyParamInterface = std::make_unique<Testbed2::RemoteManyParamInterface>(registry, testClient);
+    auto testbed2ManyParamInterfaceTraced = Testbed2::ManyParamInterfaceTraceDecorator::connect(*remoteTestbed2ManyParamInterface, tracer);
+    
+    auto remoteTestbed2NestedStruct1Interface = std::make_unique<Testbed2::RemoteNestedStruct1Interface>(registry, testClient);
+    auto testbed2NestedStruct1InterfaceTraced = Testbed2::NestedStruct1InterfaceTraceDecorator::connect(*remoteTestbed2NestedStruct1Interface, tracer);
+    
+    auto remoteTestbed2NestedStruct2Interface = std::make_unique<Testbed2::RemoteNestedStruct2Interface>(registry, testClient);
+    auto testbed2NestedStruct2InterfaceTraced = Testbed2::NestedStruct2InterfaceTraceDecorator::connect(*remoteTestbed2NestedStruct2Interface, tracer);
+    
+    auto remoteTestbed2NestedStruct3Interface = std::make_unique<Testbed2::RemoteNestedStruct3Interface>(registry, testClient);
+    auto testbed2NestedStruct3InterfaceTraced = Testbed2::NestedStruct3InterfaceTraceDecorator::connect(*remoteTestbed2NestedStruct3Interface, tracer);
+    
+    auto remoteTbEnumEnumInterface = std::make_unique<TbEnum::RemoteEnumInterface>(registry, testClient);
+    auto tbEnumEnumInterfaceTraced = TbEnum::EnumInterfaceTraceDecorator::connect(*remoteTbEnumEnumInterface, tracer);
+    
+    auto remoteTbSame1SameStruct1Interface = std::make_unique<TbSame1::RemoteSameStruct1Interface>(registry, testClient);
+    auto tbSame1SameStruct1InterfaceTraced = TbSame1::SameStruct1InterfaceTraceDecorator::connect(*remoteTbSame1SameStruct1Interface, tracer);
+    
+    auto remoteTbSame1SameStruct2Interface = std::make_unique<TbSame1::RemoteSameStruct2Interface>(registry, testClient);
+    auto tbSame1SameStruct2InterfaceTraced = TbSame1::SameStruct2InterfaceTraceDecorator::connect(*remoteTbSame1SameStruct2Interface, tracer);
+    
+    auto remoteTbSame1SameEnum1Interface = std::make_unique<TbSame1::RemoteSameEnum1Interface>(registry, testClient);
+    auto tbSame1SameEnum1InterfaceTraced = TbSame1::SameEnum1InterfaceTraceDecorator::connect(*remoteTbSame1SameEnum1Interface, tracer);
+    
+    auto remoteTbSame1SameEnum2Interface = std::make_unique<TbSame1::RemoteSameEnum2Interface>(registry, testClient);
+    auto tbSame1SameEnum2InterfaceTraced = TbSame1::SameEnum2InterfaceTraceDecorator::connect(*remoteTbSame1SameEnum2Interface, tracer);
+    
+    auto remoteTbSame2SameStruct1Interface = std::make_unique<TbSame2::RemoteSameStruct1Interface>(registry, testClient);
+    auto tbSame2SameStruct1InterfaceTraced = TbSame2::SameStruct1InterfaceTraceDecorator::connect(*remoteTbSame2SameStruct1Interface, tracer);
+    
+    auto remoteTbSame2SameStruct2Interface = std::make_unique<TbSame2::RemoteSameStruct2Interface>(registry, testClient);
+    auto tbSame2SameStruct2InterfaceTraced = TbSame2::SameStruct2InterfaceTraceDecorator::connect(*remoteTbSame2SameStruct2Interface, tracer);
+    
+    auto remoteTbSame2SameEnum1Interface = std::make_unique<TbSame2::RemoteSameEnum1Interface>(registry, testClient);
+    auto tbSame2SameEnum1InterfaceTraced = TbSame2::SameEnum1InterfaceTraceDecorator::connect(*remoteTbSame2SameEnum1Interface, tracer);
+    
+    auto remoteTbSame2SameEnum2Interface = std::make_unique<TbSame2::RemoteSameEnum2Interface>(registry, testClient);
+    auto tbSame2SameEnum2InterfaceTraced = TbSame2::SameEnum2InterfaceTraceDecorator::connect(*remoteTbSame2SameEnum2Interface, tracer);
+    
+    auto remoteTbSimpleSimpleInterface = std::make_unique<TbSimple::RemoteSimpleInterface>(registry, testClient);
+    auto tbSimpleSimpleInterfaceTraced = TbSimple::SimpleInterfaceTraceDecorator::connect(*remoteTbSimpleSimpleInterface, tracer);
+    
+    auto remoteTbSimpleSimpleArrayInterface = std::make_unique<TbSimple::RemoteSimpleArrayInterface>(registry, testClient);
+    auto tbSimpleSimpleArrayInterfaceTraced = TbSimple::SimpleArrayInterfaceTraceDecorator::connect(*remoteTbSimpleSimpleArrayInterface, tracer);
+    
+    auto remoteTestbed1StructInterface = std::make_unique<Testbed1::RemoteStructInterface>(registry, testClient);
+    auto testbed1StructInterfaceTraced = Testbed1::StructInterfaceTraceDecorator::connect(*remoteTestbed1StructInterface, tracer);
+    
+    auto remoteTestbed1StructArrayInterface = std::make_unique<Testbed1::RemoteStructArrayInterface>(registry, testClient);
+    auto testbed1StructArrayInterfaceTraced = Testbed1::StructArrayInterfaceTraceDecorator::connect(*remoteTestbed1StructArrayInterface, tracer);
     
     testClient.connectToHost(Poco::URI("ws://localhost:8000"));
 

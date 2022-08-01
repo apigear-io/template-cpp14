@@ -15,8 +15,15 @@ int main(){
     {% for interface in module.interfaces %}
     {% assign class = interface.name | capital %}
     {% assign tracer_class = class | append: "TraceDecorator" %}
-    std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{module.name | capital}}{{class}} = std::make_unique<{{ module.name | capital }}::{{class}}>();
-    std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{ module.name | capital }}{{tracer_class}} = {{ module.name | capital }}::{{tracer_class}}::connect(*test{{module.name | capital}}{{class}}, tracer);
+    {% assign module_name_first_capital = module.name | slice: 0 | capital %}
+    {% assign module_name_rest = module.name | capital | remove_first: module_name_first_capital %}
+    {% assign module_name_first_lower = module_name_first_capital | downcase %}
+    {% assign module_name = module_name_first_lower | append: module_name_rest %}
+    {% assign class_instance_name = interface.name | capital | prepend: module_name  %}
+    {% assign tracer_name = class_instance_name | append: "Traced" %}
+    {{nl}}
+    auto {{class_instance_name}} = std::make_unique<{{ module.name | capital }}::{{class}}>();
+    auto {{ tracer_name }} = {{ module.name | capital }}::{{tracer_class}}::connect(*{{class_instance_name}} , tracer);
     {% endfor %}
     {% endfor %}
 
