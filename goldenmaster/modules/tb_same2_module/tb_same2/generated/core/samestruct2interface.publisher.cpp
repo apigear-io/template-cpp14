@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <vector>
 #include <map>
 #include <functional>
+#include <algorithm>
 
 
 namespace Test {
