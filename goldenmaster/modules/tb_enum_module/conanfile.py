@@ -1,6 +1,5 @@
 from conans import ConanFile, CMake, tools
 from pathlib import os
-import logging
 
 class tb_enumConan(ConanFile):
     name = "tb_enum"

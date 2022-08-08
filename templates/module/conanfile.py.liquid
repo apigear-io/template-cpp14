@@ -3,7 +3,6 @@
 {% assign module_id = module.name|identifier -%}
 from conans import ConanFile, CMake, tools
 from pathlib import os
-import logging
 
 class {{module_id}}Conan(ConanFile):
     name = "{{module_id}}"
