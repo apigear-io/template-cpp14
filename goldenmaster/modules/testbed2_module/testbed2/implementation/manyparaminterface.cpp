@@ -93,7 +93,7 @@ int ManyParamInterface::prop4() const
 
 int ManyParamInterface::func1(int param1)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -110,8 +110,8 @@ std::future<int> ManyParamInterface::func1Async(int param1)
 
 int ManyParamInterface::func2(int param1, int param2)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param2; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param2; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -129,9 +129,9 @@ std::future<int> ManyParamInterface::func2Async(int param1, int param2)
 
 int ManyParamInterface::func3(int param1, int param2, int param3)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param2; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param3; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param2; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param3; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -150,10 +150,10 @@ std::future<int> ManyParamInterface::func3Async(int param1, int param2, int para
 
 int ManyParamInterface::func4(int param1, int param2, int param3, int param4)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param2; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param3; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param4; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param2; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param3; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param4; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }

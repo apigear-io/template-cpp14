@@ -65,7 +65,7 @@ const NestedStruct2& NestedStruct2Interface::prop2() const
 
 NestedStruct1 NestedStruct2Interface::func1(const NestedStruct1& param1)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -82,8 +82,8 @@ std::future<NestedStruct1> NestedStruct2Interface::func1Async(const NestedStruct
 
 NestedStruct1 NestedStruct2Interface::func2(const NestedStruct1& param1, const NestedStruct2& param2)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param2; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param2; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }

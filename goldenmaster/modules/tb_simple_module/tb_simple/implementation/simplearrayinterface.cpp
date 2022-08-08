@@ -93,7 +93,7 @@ const std::list<std::string>& SimpleArrayInterface::propString() const
 
 std::list<bool> SimpleArrayInterface::funcBool(const std::list<bool>& paramBool)
 {
-    (void) paramBool; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramBool; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -110,7 +110,7 @@ std::future<std::list<bool>> SimpleArrayInterface::funcBoolAsync(const std::list
 
 std::list<int> SimpleArrayInterface::funcInt(const std::list<int>& paramInt)
 {
-    (void) paramInt; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramInt; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -127,7 +127,7 @@ std::future<std::list<int>> SimpleArrayInterface::funcIntAsync(const std::list<i
 
 std::list<float> SimpleArrayInterface::funcFloat(const std::list<float>& paramFloat)
 {
-    (void) paramFloat; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramFloat; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -144,7 +144,7 @@ std::future<std::list<float>> SimpleArrayInterface::funcFloatAsync(const std::li
 
 std::list<std::string> SimpleArrayInterface::funcString(const std::list<std::string>& paramString)
 {
-    (void) paramString; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramString; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }

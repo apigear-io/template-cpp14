@@ -287,6 +287,7 @@ void RemoteSimpleInterface::olinkOnPropertyChanged(std::string name, nlohmann::j
 }
 void RemoteSimpleInterface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
 {
+    (void) name; //suppress the 'Unreferenced Formal Parameter' warning.
     m_node = node;
     applyState(props);
 }

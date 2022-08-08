@@ -93,7 +93,7 @@ const std::list<StructString>& StructArrayInterface::propString() const
 
 StructBool StructArrayInterface::funcBool(const std::list<StructBool>& paramBool)
 {
-    (void) paramBool; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramBool; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -110,7 +110,7 @@ std::future<StructBool> StructArrayInterface::funcBoolAsync(const std::list<Stru
 
 StructBool StructArrayInterface::funcInt(const std::list<StructInt>& paramInt)
 {
-    (void) paramInt; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramInt; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -127,7 +127,7 @@ std::future<StructBool> StructArrayInterface::funcIntAsync(const std::list<Struc
 
 StructBool StructArrayInterface::funcFloat(const std::list<StructFloat>& paramFloat)
 {
-    (void) paramFloat; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramFloat; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -144,7 +144,7 @@ std::future<StructBool> StructArrayInterface::funcFloatAsync(const std::list<Str
 
 StructBool StructArrayInterface::funcString(const std::list<StructString>& paramString)
 {
-    (void) paramString; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramString; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }

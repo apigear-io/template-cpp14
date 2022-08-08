@@ -93,7 +93,7 @@ const StructString& StructInterface::propString() const
 
 StructBool StructInterface::funcBool(const StructBool& paramBool)
 {
-    (void) paramBool; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramBool; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -110,7 +110,7 @@ std::future<StructBool> StructInterface::funcBoolAsync(const StructBool& paramBo
 
 StructBool StructInterface::funcInt(const StructInt& paramInt)
 {
-    (void) paramInt; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramInt; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -127,7 +127,7 @@ std::future<StructBool> StructInterface::funcIntAsync(const StructInt& paramInt)
 
 StructFloat StructInterface::funcFloat(const StructFloat& paramFloat)
 {
-    (void) paramFloat; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramFloat; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -144,7 +144,7 @@ std::future<StructFloat> StructInterface::funcFloatAsync(const StructFloat& para
 
 StructString StructInterface::funcString(const StructString& paramString)
 {
-    (void) paramString; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) paramString; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }

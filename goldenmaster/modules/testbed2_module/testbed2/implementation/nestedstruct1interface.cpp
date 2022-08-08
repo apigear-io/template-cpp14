@@ -51,7 +51,7 @@ const NestedStruct1& NestedStruct1Interface::prop1() const
 
 NestedStruct1 NestedStruct1Interface::func1(const NestedStruct1& param1)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }

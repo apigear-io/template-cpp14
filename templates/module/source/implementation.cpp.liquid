@@ -46,7 +46,7 @@ void {{class}}::set{{property.name|capitalize}}({{ property|cpp14Param }})
 {{operation|cpp14Return}} {{class}}::{{operation.name}}({{operation|cpp14Params}})
 {
     {% for parameter in operation.params %}
-    (void) {{parameter.name}}; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) {{parameter.name}}; //suppress the 'Unreferenced Formal Parameter' warning.
     {% endfor %}
     // do business logic here
     return {};

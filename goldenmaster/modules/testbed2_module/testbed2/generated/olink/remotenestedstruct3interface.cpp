@@ -233,6 +233,7 @@ void RemoteNestedStruct3Interface::olinkOnPropertyChanged(std::string name, nloh
 }
 void RemoteNestedStruct3Interface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
 {
+    (void) name; //suppress the 'Unreferenced Formal Parameter' warning.
     m_node = node;
     applyState(props);
 }

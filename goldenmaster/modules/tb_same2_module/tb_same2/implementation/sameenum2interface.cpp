@@ -65,7 +65,7 @@ const Enum2Enum& SameEnum2Interface::prop2() const
 
 Enum1Enum SameEnum2Interface::func1(const Enum1Enum& param1)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
@@ -82,8 +82,8 @@ std::future<Enum1Enum> SameEnum2Interface::func1Async(const Enum1Enum& param1)
 
 Enum1Enum SameEnum2Interface::func2(const Enum1Enum& param1, const Enum2Enum& param2)
 {
-    (void) param1; //Supress the 'Unreferenced Formal Parameter' warning.
-    (void) param2; //Supress the 'Unreferenced Formal Parameter' warning.
+    (void) param1; //suppress the 'Unreferenced Formal Parameter' warning.
+    (void) param2; //suppress the 'Unreferenced Formal Parameter' warning.
     // do business logic here
     return {};
 }
