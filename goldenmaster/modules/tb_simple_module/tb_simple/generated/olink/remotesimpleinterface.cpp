@@ -23,14 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
 using namespace Test::TbSimple;
+using namespace Test::TbSimple::olink;
 
 RemoteSimpleInterface::RemoteSimpleInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_propBool(false),
-    m_propInt(0),
-    m_propFloat(0.0f),
-    m_propString(std::string()),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<SimpleInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -45,20 +41,20 @@ RemoteSimpleInterface::~RemoteSimpleInterface()
 void RemoteSimpleInterface::applyState(const nlohmann::json& fields) 
 {
     if(fields.contains("propBool")) {
-        setPropboolLocal(fields["propBool"].get<bool>());
+        setPropBoolLocal(fields["propBool"].get<bool>());
     }
     if(fields.contains("propInt")) {
-        setPropintLocal(fields["propInt"].get<int>());
+        setPropIntLocal(fields["propInt"].get<int>());
     }
     if(fields.contains("propFloat")) {
-        setPropfloatLocal(fields["propFloat"].get<float>());
+        setPropFloatLocal(fields["propFloat"].get<float>());
     }
     if(fields.contains("propString")) {
-        setPropstringLocal(fields["propString"].get<std::string>());
+        setPropStringLocal(fields["propString"].get<std::string>());
     }
 }
 
-void RemoteSimpleInterface::setPropbool(bool propBool)
+void RemoteSimpleInterface::setPropBool(bool propBool)
 {
     if(m_node == nullptr) {
         return;
@@ -66,20 +62,20 @@ void RemoteSimpleInterface::setPropbool(bool propBool)
     m_node->setRemoteProperty("tb.simple.SimpleInterface/propBool", propBool);
 }
 
-void RemoteSimpleInterface::setPropboolLocal(bool propBool)
+void RemoteSimpleInterface::setPropBoolLocal(bool propBool)
 {
-    if (m_propBool != propBool) {
-        m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 bool RemoteSimpleInterface::propBool() const
 {
-    return m_propBool;
+    return m_data.m_propBool;
 }
 
-void RemoteSimpleInterface::setPropint(int propInt)
+void RemoteSimpleInterface::setPropInt(int propInt)
 {
     if(m_node == nullptr) {
         return;
@@ -87,20 +83,20 @@ void RemoteSimpleInterface::setPropint(int propInt)
     m_node->setRemoteProperty("tb.simple.SimpleInterface/propInt", propInt);
 }
 
-void RemoteSimpleInterface::setPropintLocal(int propInt)
+void RemoteSimpleInterface::setPropIntLocal(int propInt)
 {
-    if (m_propInt != propInt) {
-        m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 int RemoteSimpleInterface::propInt() const
 {
-    return m_propInt;
+    return m_data.m_propInt;
 }
 
-void RemoteSimpleInterface::setPropfloat(float propFloat)
+void RemoteSimpleInterface::setPropFloat(float propFloat)
 {
     if(m_node == nullptr) {
         return;
@@ -108,20 +104,20 @@ void RemoteSimpleInterface::setPropfloat(float propFloat)
     m_node->setRemoteProperty("tb.simple.SimpleInterface/propFloat", propFloat);
 }
 
-void RemoteSimpleInterface::setPropfloatLocal(float propFloat)
+void RemoteSimpleInterface::setPropFloatLocal(float propFloat)
 {
-    if (m_propFloat != propFloat) {
-        m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 float RemoteSimpleInterface::propFloat() const
 {
-    return m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void RemoteSimpleInterface::setPropstring(const std::string& propString)
+void RemoteSimpleInterface::setPropString(const std::string& propString)
 {
     if(m_node == nullptr) {
         return;
@@ -129,17 +125,17 @@ void RemoteSimpleInterface::setPropstring(const std::string& propString)
     m_node->setRemoteProperty("tb.simple.SimpleInterface/propString", propString);
 }
 
-void RemoteSimpleInterface::setPropstringLocal(const std::string& propString)
+void RemoteSimpleInterface::setPropStringLocal(const std::string& propString)
 {
-    if (m_propString != propString) {
-        m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 std::string RemoteSimpleInterface::propString() const
 {
-    return m_propString;
+    return m_data.m_propString;
 }
 
 bool RemoteSimpleInterface::funcBool(bool paramBool)

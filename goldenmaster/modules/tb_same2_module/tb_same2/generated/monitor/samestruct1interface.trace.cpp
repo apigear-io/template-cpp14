@@ -44,12 +44,12 @@ std::future<Struct1> SameStruct1InterfaceTracerDecorator::func1Async(const Struc
     m_tracer->trace_func1(param1);
     return AbstractSameStruct1InterfaceDecorator::func1Async(param1);
 }
-void SameStruct1InterfaceTracerDecorator::OnSig1(const Struct1& param1)
+void SameStruct1InterfaceTracerDecorator::onSig1(const Struct1& param1)
 {
     (void) param1;
     //m_tracer->trace_Sig1(param1);
 }
-void SameStruct1InterfaceTracerDecorator::OnProp1Changed(const Struct1&)
+void SameStruct1InterfaceTracerDecorator::onProp1Changed(const Struct1&)
 {
     m_tracer->capture_state(this);
 }

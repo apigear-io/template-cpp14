@@ -83,39 +83,39 @@ std::future<std::list<std::string>> SimpleArrayInterfaceTracerDecorator::funcStr
     m_tracer->trace_funcString(paramString);
     return AbstractSimpleArrayInterfaceDecorator::funcStringAsync(paramString);
 }
-void SimpleArrayInterfaceTracerDecorator::OnSigBool(const std::list<bool>& paramBool)
+void SimpleArrayInterfaceTracerDecorator::onSigBool(const std::list<bool>& paramBool)
 {
     (void) paramBool;
     //m_tracer->trace_SigBool(paramBool);
 }
-void SimpleArrayInterfaceTracerDecorator::OnSigInt(const std::list<int>& paramInt)
+void SimpleArrayInterfaceTracerDecorator::onSigInt(const std::list<int>& paramInt)
 {
     (void) paramInt;
     //m_tracer->trace_SigInt(paramInt);
 }
-void SimpleArrayInterfaceTracerDecorator::OnSigFloat(const std::list<float>& paramFloat)
+void SimpleArrayInterfaceTracerDecorator::onSigFloat(const std::list<float>& paramFloat)
 {
     (void) paramFloat;
     //m_tracer->trace_SigFloat(paramFloat);
 }
-void SimpleArrayInterfaceTracerDecorator::OnSigString(const std::list<std::string>& paramString)
+void SimpleArrayInterfaceTracerDecorator::onSigString(const std::list<std::string>& paramString)
 {
     (void) paramString;
     //m_tracer->trace_SigString(paramString);
 }
-void SimpleArrayInterfaceTracerDecorator::OnPropBoolChanged(const std::list<bool>&)
+void SimpleArrayInterfaceTracerDecorator::onPropBoolChanged(const std::list<bool>&)
 {
     m_tracer->capture_state(this);
 }
-void SimpleArrayInterfaceTracerDecorator::OnPropIntChanged(const std::list<int>&)
+void SimpleArrayInterfaceTracerDecorator::onPropIntChanged(const std::list<int>&)
 {
     m_tracer->capture_state(this);
 }
-void SimpleArrayInterfaceTracerDecorator::OnPropFloatChanged(const std::list<float>&)
+void SimpleArrayInterfaceTracerDecorator::onPropFloatChanged(const std::list<float>&)
 {
     m_tracer->capture_state(this);
 }
-void SimpleArrayInterfaceTracerDecorator::OnPropStringChanged(const std::list<std::string>&)
+void SimpleArrayInterfaceTracerDecorator::onPropStringChanged(const std::list<std::string>&)
 {
     m_tracer->capture_state(this);
 }

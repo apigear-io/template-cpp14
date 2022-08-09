@@ -46,3 +46,27 @@ void StructInterfaceTracer::trace_funcString(const StructString& paramString)
     fields_["paramString"] = paramString;
     m_tracer.call("testbed1.StructInterface#funcString", fields_);
 }
+void StructInterfaceTracer::trace_sigBool(const StructBool& paramBool)
+{
+    nlohmann::json fields_;
+    fields_["paramBool"] = paramBool;
+    m_tracer.signal("testbed1.StructInterface#sigBool", fields_);
+}
+void StructInterfaceTracer::trace_sigInt(const StructInt& paramInt)
+{
+    nlohmann::json fields_;
+    fields_["paramInt"] = paramInt;
+    m_tracer.signal("testbed1.StructInterface#sigInt", fields_);
+}
+void StructInterfaceTracer::trace_sigFloat(const StructFloat& paramFloat)
+{
+    nlohmann::json fields_;
+    fields_["paramFloat"] = paramFloat;
+    m_tracer.signal("testbed1.StructInterface#sigFloat", fields_);
+}
+void StructInterfaceTracer::trace_sigString(const StructString& paramString)
+{
+    nlohmann::json fields_;
+    fields_["paramString"] = paramString;
+    m_tracer.signal("testbed1.StructInterface#sigString", fields_);
+}

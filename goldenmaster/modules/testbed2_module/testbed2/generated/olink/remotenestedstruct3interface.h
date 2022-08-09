@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed2/generated/api/testbed2.h"
 #include "testbed2/generated/api/common.h"
+#include "testbed2/generated/core/nestedstruct3interface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace Testbed2 {
-
+namespace olink {
 /**
 * Remote NestedStruct3Interface implemented with OLink. 
 * Handles connnectionn with NestedStruct3Interface service.
@@ -162,9 +163,10 @@ private:
     void setProp2Local(const NestedStruct2& prop2);
     /**  Updates local value for Prop3 and informs subscriber about the change*/
     void setProp3Local(const NestedStruct3& prop3);
-    NestedStruct1 m_prop1;
-    NestedStruct2 m_prop2;
-    NestedStruct3 m_prop3;
+    
+    /** Local storage for properties values. */
+    NestedStruct3InterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink NestedStruct3Interface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteNestedStruct3Interface.
@@ -180,5 +182,6 @@ private:
     /** The publisher for NestedStruct3Interface */
     std::unique_ptr<INestedStruct3InterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace Testbed2
 } // namespace Test

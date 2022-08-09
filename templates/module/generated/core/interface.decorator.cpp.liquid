@@ -55,9 +55,9 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }};
    \brief property {{property.description}}
 */
 {% endif %}
-void {{class}}::set{{property.name|capitalize}}({{ property|cpp14Param }})
+void {{class}}::set{{property.name|capital}}({{ property|cpp14Param }})
 {
-    m_impl->set{{property.name|capitalize}}({{property.name}});
+    m_impl->set{{property.name|capital}}({{property.name}});
 }
 
 {{property|cpp14Return: true}} {{class}}::{{property.name}}() const

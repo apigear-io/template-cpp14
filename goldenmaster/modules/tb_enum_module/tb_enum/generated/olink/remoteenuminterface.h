@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_enum/generated/api/tb_enum.h"
 #include "tb_enum/generated/api/common.h"
+#include "tb_enum/generated/core/enuminterface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace TbEnum {
-
+namespace olink {
 /**
 * Remote EnumInterface implemented with OLink. 
 * Handles connnectionn with EnumInterface service.
@@ -183,10 +184,10 @@ private:
     void setProp2Local(const Enum2Enum& prop2);
     /**  Updates local value for Prop3 and informs subscriber about the change*/
     void setProp3Local(const Enum3Enum& prop3);
-    Enum0Enum m_prop0;
-    Enum1Enum m_prop1;
-    Enum2Enum m_prop2;
-    Enum3Enum m_prop3;
+    
+    /** Local storage for properties values. */
+    EnumInterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink EnumInterface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteEnumInterface.
@@ -202,5 +203,6 @@ private:
     /** The publisher for EnumInterface */
     std::unique_ptr<IEnumInterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace TbEnum
 } // namespace Test

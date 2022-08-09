@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_simple/generated/api/tb_simple.h"
 #include "tb_simple/generated/api/common.h"
+#include "tb_simple/generated/core/simpleinterface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace TbSimple {
-
+namespace olink {
 /**
 * Remote SimpleInterface implemented with OLink. 
 * Handles connnectionn with SimpleInterface service.
@@ -52,44 +53,44 @@ public:
     virtual ~RemoteSimpleInterface() override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propbool.
+    * @return Locally stored locally value for PropBool.
     */
     bool propBool() const override;
     /**
     * Request setting a property on the SimpleInterface service.
-    * @param The value to which set request is send for the Propbool.
+    * @param The value to which set request is send for the PropBool.
     */
-    void setPropbool(bool propBool) override;
+    void setPropBool(bool propBool) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propint.
+    * @return Locally stored locally value for PropInt.
     */
     int propInt() const override;
     /**
     * Request setting a property on the SimpleInterface service.
-    * @param The value to which set request is send for the Propint.
+    * @param The value to which set request is send for the PropInt.
     */
-    void setPropint(int propInt) override;
+    void setPropInt(int propInt) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propfloat.
+    * @return Locally stored locally value for PropFloat.
     */
     float propFloat() const override;
     /**
     * Request setting a property on the SimpleInterface service.
-    * @param The value to which set request is send for the Propfloat.
+    * @param The value to which set request is send for the PropFloat.
     */
-    void setPropfloat(float propFloat) override;
+    void setPropFloat(float propFloat) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propstring.
+    * @return Locally stored locally value for PropString.
     */
     std::string propString() const override;
     /**
     * Request setting a property on the SimpleInterface service.
-    * @param The value to which set request is send for the Propstring.
+    * @param The value to which set request is send for the PropString.
     */
-    void setPropstring(const std::string& propString) override;
+    void setPropString(const std::string& propString) override;
     /**
     * Remote call of ISimpleInterface::funcBool on the SimpleInterface service.
     * Uses funcBoolAsync
@@ -175,18 +176,18 @@ private:
     * @param the data recived from SimpleInterface service.
     */
     void applyState(const nlohmann::json& fields);
-    /**  Updates local value for Propbool and informs subscriber about the change*/
-    void setPropboolLocal(bool propBool);
-    /**  Updates local value for Propint and informs subscriber about the change*/
-    void setPropintLocal(int propInt);
-    /**  Updates local value for Propfloat and informs subscriber about the change*/
-    void setPropfloatLocal(float propFloat);
-    /**  Updates local value for Propstring and informs subscriber about the change*/
-    void setPropstringLocal(const std::string& propString);
-    bool m_propBool;
-    int m_propInt;
-    float m_propFloat;
-    std::string m_propString;
+    /**  Updates local value for PropBool and informs subscriber about the change*/
+    void setPropBoolLocal(bool propBool);
+    /**  Updates local value for PropInt and informs subscriber about the change*/
+    void setPropIntLocal(int propInt);
+    /**  Updates local value for PropFloat and informs subscriber about the change*/
+    void setPropFloatLocal(float propFloat);
+    /**  Updates local value for PropString and informs subscriber about the change*/
+    void setPropStringLocal(const std::string& propString);
+    
+    /** Local storage for properties values. */
+    SimpleInterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink SimpleInterface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteSimpleInterface.
@@ -202,5 +203,6 @@ private:
     /** The publisher for SimpleInterface */
     std::unique_ptr<ISimpleInterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace TbSimple
 } // namespace Test

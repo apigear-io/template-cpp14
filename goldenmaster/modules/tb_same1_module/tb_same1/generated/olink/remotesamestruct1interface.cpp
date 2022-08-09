@@ -23,11 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_same1/generated/core/tb_same1.json.adapter.h"
 
 using namespace Test::TbSame1;
+using namespace Test::TbSame1::olink;
 
 RemoteSameStruct1Interface::RemoteSameStruct1Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_prop1(Struct1()),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<SameStruct1InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -56,15 +55,15 @@ void RemoteSameStruct1Interface::setProp1(const Struct1& prop1)
 
 void RemoteSameStruct1Interface::setProp1Local(const Struct1& prop1)
 {
-    if (m_prop1 != prop1) {
-        m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const Struct1& RemoteSameStruct1Interface::prop1() const
 {
-    return m_prop1;
+    return m_data.m_prop1;
 }
 
 Struct1 RemoteSameStruct1Interface::func1(const Struct1& param1)

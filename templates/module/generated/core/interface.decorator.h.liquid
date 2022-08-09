@@ -20,7 +20,7 @@ public:
 public:
 {% for property in interface.properties %}
     // property {{property.name}}
-    void set{{property.name|capitalize}}({{ property|cpp14Param }}) override;
+    void set{{property.name|capital}}({{ property|cpp14Param }}) override;
     {{property|cpp14Return: true}} {{property.name}}() const override;
     {{nl}}    
 {% endfor %}

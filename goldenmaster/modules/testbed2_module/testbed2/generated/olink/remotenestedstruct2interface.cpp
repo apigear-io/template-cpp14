@@ -23,12 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 
 using namespace Test::Testbed2;
+using namespace Test::Testbed2::olink;
 
 RemoteNestedStruct2Interface::RemoteNestedStruct2Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_prop1(NestedStruct1()),
-    m_prop2(NestedStruct2()),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<NestedStruct2InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -60,15 +58,15 @@ void RemoteNestedStruct2Interface::setProp1(const NestedStruct1& prop1)
 
 void RemoteNestedStruct2Interface::setProp1Local(const NestedStruct1& prop1)
 {
-    if (m_prop1 != prop1) {
-        m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const NestedStruct1& RemoteNestedStruct2Interface::prop1() const
 {
-    return m_prop1;
+    return m_data.m_prop1;
 }
 
 void RemoteNestedStruct2Interface::setProp2(const NestedStruct2& prop2)
@@ -81,15 +79,15 @@ void RemoteNestedStruct2Interface::setProp2(const NestedStruct2& prop2)
 
 void RemoteNestedStruct2Interface::setProp2Local(const NestedStruct2& prop2)
 {
-    if (m_prop2 != prop2) {
-        m_prop2 = prop2;
+    if (m_data.m_prop2 != prop2) {
+        m_data.m_prop2 = prop2;
         m_publisher->publishProp2Changed(prop2);
     }
 }
 
 const NestedStruct2& RemoteNestedStruct2Interface::prop2() const
 {
-    return m_prop2;
+    return m_data.m_prop2;
 }
 
 NestedStruct1 RemoteNestedStruct2Interface::func1(const NestedStruct1& param1)

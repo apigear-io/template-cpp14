@@ -19,20 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_enum/implementation/enuminterface.h"
 #include "tb_enum/generated/core/enuminterface.publisher.h"
+#include "tb_enum/generated/core/enuminterface.data.h"
 
 using namespace Test::TbEnum;
 
-struct EnumInterface::EnumInterfaceData
-{
-    Enum0Enum m_prop0;
-    Enum1Enum m_prop1;
-    Enum2Enum m_prop2;
-    Enum3Enum m_prop3;
-};
-
 EnumInterface::EnumInterface()
-    : m_publisher(std::make_unique<EnumInterfacePublisher>()),
-      m_data(std::make_unique<EnumInterface::EnumInterfaceData>())
+    : m_publisher(std::make_unique<EnumInterfacePublisher>()) 
 {
 }
 EnumInterface::~EnumInterface()
@@ -41,54 +33,54 @@ EnumInterface::~EnumInterface()
 
 void EnumInterface::setProp0(const Enum0Enum& prop0)
 {
-    if (m_data->m_prop0 != prop0) {
-        m_data->m_prop0 = prop0;
+    if (m_data.m_prop0 != prop0) {
+        m_data.m_prop0 = prop0;
         m_publisher->publishProp0Changed(prop0);
     }
 }
 
 const Enum0Enum& EnumInterface::prop0() const
 {
-    return m_data->m_prop0;
+    return m_data.m_prop0;
 }
 
 void EnumInterface::setProp1(const Enum1Enum& prop1)
 {
-    if (m_data->m_prop1 != prop1) {
-        m_data->m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const Enum1Enum& EnumInterface::prop1() const
 {
-    return m_data->m_prop1;
+    return m_data.m_prop1;
 }
 
 void EnumInterface::setProp2(const Enum2Enum& prop2)
 {
-    if (m_data->m_prop2 != prop2) {
-        m_data->m_prop2 = prop2;
+    if (m_data.m_prop2 != prop2) {
+        m_data.m_prop2 = prop2;
         m_publisher->publishProp2Changed(prop2);
     }
 }
 
 const Enum2Enum& EnumInterface::prop2() const
 {
-    return m_data->m_prop2;
+    return m_data.m_prop2;
 }
 
 void EnumInterface::setProp3(const Enum3Enum& prop3)
 {
-    if (m_data->m_prop3 != prop3) {
-        m_data->m_prop3 = prop3;
+    if (m_data.m_prop3 != prop3) {
+        m_data.m_prop3 = prop3;
         m_publisher->publishProp3Changed(prop3);
     }
 }
 
 const Enum3Enum& EnumInterface::prop3() const
 {
-    return m_data->m_prop3;
+    return m_data.m_prop3;
 }
 
 Enum0Enum EnumInterface::func0(const Enum0Enum& param0)

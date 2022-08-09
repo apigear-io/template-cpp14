@@ -83,39 +83,39 @@ std::future<StructBool> StructArrayInterfaceTracerDecorator::funcStringAsync(con
     m_tracer->trace_funcString(paramString);
     return AbstractStructArrayInterfaceDecorator::funcStringAsync(paramString);
 }
-void StructArrayInterfaceTracerDecorator::OnSigBool(const std::list<StructBool>& paramBool)
+void StructArrayInterfaceTracerDecorator::onSigBool(const std::list<StructBool>& paramBool)
 {
     (void) paramBool;
     //m_tracer->trace_SigBool(paramBool);
 }
-void StructArrayInterfaceTracerDecorator::OnSigInt(const std::list<StructInt>& paramInt)
+void StructArrayInterfaceTracerDecorator::onSigInt(const std::list<StructInt>& paramInt)
 {
     (void) paramInt;
     //m_tracer->trace_SigInt(paramInt);
 }
-void StructArrayInterfaceTracerDecorator::OnSigFloat(const std::list<StructFloat>& paramFloat)
+void StructArrayInterfaceTracerDecorator::onSigFloat(const std::list<StructFloat>& paramFloat)
 {
     (void) paramFloat;
     //m_tracer->trace_SigFloat(paramFloat);
 }
-void StructArrayInterfaceTracerDecorator::OnSigString(const std::list<StructString>& paramString)
+void StructArrayInterfaceTracerDecorator::onSigString(const std::list<StructString>& paramString)
 {
     (void) paramString;
     //m_tracer->trace_SigString(paramString);
 }
-void StructArrayInterfaceTracerDecorator::OnPropBoolChanged(const std::list<StructBool>&)
+void StructArrayInterfaceTracerDecorator::onPropBoolChanged(const std::list<StructBool>&)
 {
     m_tracer->capture_state(this);
 }
-void StructArrayInterfaceTracerDecorator::OnPropIntChanged(const std::list<StructInt>&)
+void StructArrayInterfaceTracerDecorator::onPropIntChanged(const std::list<StructInt>&)
 {
     m_tracer->capture_state(this);
 }
-void StructArrayInterfaceTracerDecorator::OnPropFloatChanged(const std::list<StructFloat>&)
+void StructArrayInterfaceTracerDecorator::onPropFloatChanged(const std::list<StructFloat>&)
 {
     m_tracer->capture_state(this);
 }
-void StructArrayInterfaceTracerDecorator::OnPropStringChanged(const std::list<StructString>&)
+void StructArrayInterfaceTracerDecorator::onPropStringChanged(const std::list<StructString>&)
 {
     m_tracer->capture_state(this);
 }

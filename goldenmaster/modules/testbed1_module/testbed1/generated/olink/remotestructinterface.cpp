@@ -23,14 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed1/generated/core/testbed1.json.adapter.h"
 
 using namespace Test::Testbed1;
+using namespace Test::Testbed1::olink;
 
 RemoteStructInterface::RemoteStructInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_propBool(StructBool()),
-    m_propInt(StructInt()),
-    m_propFloat(StructFloat()),
-    m_propString(StructString()),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<StructInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -45,20 +41,20 @@ RemoteStructInterface::~RemoteStructInterface()
 void RemoteStructInterface::applyState(const nlohmann::json& fields) 
 {
     if(fields.contains("propBool")) {
-        setPropboolLocal(fields["propBool"].get<StructBool>());
+        setPropBoolLocal(fields["propBool"].get<StructBool>());
     }
     if(fields.contains("propInt")) {
-        setPropintLocal(fields["propInt"].get<StructInt>());
+        setPropIntLocal(fields["propInt"].get<StructInt>());
     }
     if(fields.contains("propFloat")) {
-        setPropfloatLocal(fields["propFloat"].get<StructFloat>());
+        setPropFloatLocal(fields["propFloat"].get<StructFloat>());
     }
     if(fields.contains("propString")) {
-        setPropstringLocal(fields["propString"].get<StructString>());
+        setPropStringLocal(fields["propString"].get<StructString>());
     }
 }
 
-void RemoteStructInterface::setPropbool(const StructBool& propBool)
+void RemoteStructInterface::setPropBool(const StructBool& propBool)
 {
     if(m_node == nullptr) {
         return;
@@ -66,20 +62,20 @@ void RemoteStructInterface::setPropbool(const StructBool& propBool)
     m_node->setRemoteProperty("testbed1.StructInterface/propBool", propBool);
 }
 
-void RemoteStructInterface::setPropboolLocal(const StructBool& propBool)
+void RemoteStructInterface::setPropBoolLocal(const StructBool& propBool)
 {
-    if (m_propBool != propBool) {
-        m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 const StructBool& RemoteStructInterface::propBool() const
 {
-    return m_propBool;
+    return m_data.m_propBool;
 }
 
-void RemoteStructInterface::setPropint(const StructInt& propInt)
+void RemoteStructInterface::setPropInt(const StructInt& propInt)
 {
     if(m_node == nullptr) {
         return;
@@ -87,20 +83,20 @@ void RemoteStructInterface::setPropint(const StructInt& propInt)
     m_node->setRemoteProperty("testbed1.StructInterface/propInt", propInt);
 }
 
-void RemoteStructInterface::setPropintLocal(const StructInt& propInt)
+void RemoteStructInterface::setPropIntLocal(const StructInt& propInt)
 {
-    if (m_propInt != propInt) {
-        m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 const StructInt& RemoteStructInterface::propInt() const
 {
-    return m_propInt;
+    return m_data.m_propInt;
 }
 
-void RemoteStructInterface::setPropfloat(const StructFloat& propFloat)
+void RemoteStructInterface::setPropFloat(const StructFloat& propFloat)
 {
     if(m_node == nullptr) {
         return;
@@ -108,20 +104,20 @@ void RemoteStructInterface::setPropfloat(const StructFloat& propFloat)
     m_node->setRemoteProperty("testbed1.StructInterface/propFloat", propFloat);
 }
 
-void RemoteStructInterface::setPropfloatLocal(const StructFloat& propFloat)
+void RemoteStructInterface::setPropFloatLocal(const StructFloat& propFloat)
 {
-    if (m_propFloat != propFloat) {
-        m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 const StructFloat& RemoteStructInterface::propFloat() const
 {
-    return m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void RemoteStructInterface::setPropstring(const StructString& propString)
+void RemoteStructInterface::setPropString(const StructString& propString)
 {
     if(m_node == nullptr) {
         return;
@@ -129,17 +125,17 @@ void RemoteStructInterface::setPropstring(const StructString& propString)
     m_node->setRemoteProperty("testbed1.StructInterface/propString", propString);
 }
 
-void RemoteStructInterface::setPropstringLocal(const StructString& propString)
+void RemoteStructInterface::setPropStringLocal(const StructString& propString)
 {
-    if (m_propString != propString) {
-        m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 const StructString& RemoteStructInterface::propString() const
 {
-    return m_propString;
+    return m_data.m_propString;
 }
 
 StructBool RemoteStructInterface::funcBool(const StructBool& paramBool)

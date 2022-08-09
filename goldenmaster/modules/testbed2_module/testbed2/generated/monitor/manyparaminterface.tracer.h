@@ -46,6 +46,26 @@ public:
   * @param The ManyParamInterface object to trace.
   */
   void trace_func4(int param1, int param2, int param3, int param4);
+  /**
+  * Prepares information about the sig1 call in a nlohmann::json format and puts to a tracer.
+  * @param The ManyParamInterface object to trace.
+  */
+  void trace_sig1(int param1);
+  /**
+  * Prepares information about the sig2 call in a nlohmann::json format and puts to a tracer.
+  * @param The ManyParamInterface object to trace.
+  */
+  void trace_sig2(int param1,int param2);
+  /**
+  * Prepares information about the sig3 call in a nlohmann::json format and puts to a tracer.
+  * @param The ManyParamInterface object to trace.
+  */
+  void trace_sig3(int param1,int param2,int param3);
+  /**
+  * Prepares information about the sig4 call in a nlohmann::json format and puts to a tracer.
+  * @param The ManyParamInterface object to trace.
+  */
+  void trace_sig4(int param1,int param2,int param3,int param4);
 private:
   /**
   * A tracer object to which the information about the state and operations is put.

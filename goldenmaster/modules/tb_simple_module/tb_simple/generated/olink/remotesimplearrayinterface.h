@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_simple/generated/api/tb_simple.h"
 #include "tb_simple/generated/api/common.h"
+#include "tb_simple/generated/core/simplearrayinterface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace TbSimple {
-
+namespace olink {
 /**
 * Remote SimpleArrayInterface implemented with OLink. 
 * Handles connnectionn with SimpleArrayInterface service.
@@ -52,44 +53,44 @@ public:
     virtual ~RemoteSimpleArrayInterface() override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propbool.
+    * @return Locally stored locally value for PropBool.
     */
     const std::list<bool>& propBool() const override;
     /**
     * Request setting a property on the SimpleArrayInterface service.
-    * @param The value to which set request is send for the Propbool.
+    * @param The value to which set request is send for the PropBool.
     */
-    void setPropbool(const std::list<bool>& propBool) override;
+    void setPropBool(const std::list<bool>& propBool) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propint.
+    * @return Locally stored locally value for PropInt.
     */
     const std::list<int>& propInt() const override;
     /**
     * Request setting a property on the SimpleArrayInterface service.
-    * @param The value to which set request is send for the Propint.
+    * @param The value to which set request is send for the PropInt.
     */
-    void setPropint(const std::list<int>& propInt) override;
+    void setPropInt(const std::list<int>& propInt) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propfloat.
+    * @return Locally stored locally value for PropFloat.
     */
     const std::list<float>& propFloat() const override;
     /**
     * Request setting a property on the SimpleArrayInterface service.
-    * @param The value to which set request is send for the Propfloat.
+    * @param The value to which set request is send for the PropFloat.
     */
-    void setPropfloat(const std::list<float>& propFloat) override;
+    void setPropFloat(const std::list<float>& propFloat) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propstring.
+    * @return Locally stored locally value for PropString.
     */
     const std::list<std::string>& propString() const override;
     /**
     * Request setting a property on the SimpleArrayInterface service.
-    * @param The value to which set request is send for the Propstring.
+    * @param The value to which set request is send for the PropString.
     */
-    void setPropstring(const std::list<std::string>& propString) override;
+    void setPropString(const std::list<std::string>& propString) override;
     /**
     * Remote call of ISimpleArrayInterface::funcBool on the SimpleArrayInterface service.
     * Uses funcBoolAsync
@@ -175,18 +176,18 @@ private:
     * @param the data recived from SimpleArrayInterface service.
     */
     void applyState(const nlohmann::json& fields);
-    /**  Updates local value for Propbool and informs subscriber about the change*/
-    void setPropboolLocal(const std::list<bool>& propBool);
-    /**  Updates local value for Propint and informs subscriber about the change*/
-    void setPropintLocal(const std::list<int>& propInt);
-    /**  Updates local value for Propfloat and informs subscriber about the change*/
-    void setPropfloatLocal(const std::list<float>& propFloat);
-    /**  Updates local value for Propstring and informs subscriber about the change*/
-    void setPropstringLocal(const std::list<std::string>& propString);
-    std::list<bool> m_propBool;
-    std::list<int> m_propInt;
-    std::list<float> m_propFloat;
-    std::list<std::string> m_propString;
+    /**  Updates local value for PropBool and informs subscriber about the change*/
+    void setPropBoolLocal(const std::list<bool>& propBool);
+    /**  Updates local value for PropInt and informs subscriber about the change*/
+    void setPropIntLocal(const std::list<int>& propInt);
+    /**  Updates local value for PropFloat and informs subscriber about the change*/
+    void setPropFloatLocal(const std::list<float>& propFloat);
+    /**  Updates local value for PropString and informs subscriber about the change*/
+    void setPropStringLocal(const std::list<std::string>& propString);
+    
+    /** Local storage for properties values. */
+    SimpleArrayInterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink SimpleArrayInterface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteSimpleArrayInterface.
@@ -202,5 +203,6 @@ private:
     /** The publisher for SimpleArrayInterface */
     std::unique_ptr<ISimpleArrayInterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace TbSimple
 } // namespace Test

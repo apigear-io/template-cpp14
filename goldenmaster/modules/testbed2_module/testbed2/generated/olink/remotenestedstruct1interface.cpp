@@ -23,11 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 
 using namespace Test::Testbed2;
+using namespace Test::Testbed2::olink;
 
 RemoteNestedStruct1Interface::RemoteNestedStruct1Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_prop1(NestedStruct1()),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<NestedStruct1InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -56,15 +55,15 @@ void RemoteNestedStruct1Interface::setProp1(const NestedStruct1& prop1)
 
 void RemoteNestedStruct1Interface::setProp1Local(const NestedStruct1& prop1)
 {
-    if (m_prop1 != prop1) {
-        m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const NestedStruct1& RemoteNestedStruct1Interface::prop1() const
 {
-    return m_prop1;
+    return m_data.m_prop1;
 }
 
 NestedStruct1 RemoteNestedStruct1Interface::func1(const NestedStruct1& param1)

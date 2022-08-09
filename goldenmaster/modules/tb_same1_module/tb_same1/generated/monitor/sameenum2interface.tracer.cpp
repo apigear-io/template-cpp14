@@ -31,3 +31,16 @@ void SameEnum2InterfaceTracer::trace_func2(const Enum1Enum& param1, const Enum2E
     fields_["param2"] = param2;
     m_tracer.call("tb.same1.SameEnum2Interface#func2", fields_);
 }
+void SameEnum2InterfaceTracer::trace_sig1(const Enum1Enum& param1)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    m_tracer.signal("tb.same1.SameEnum2Interface#sig1", fields_);
+}
+void SameEnum2InterfaceTracer::trace_sig2(const Enum1Enum& param1,const Enum2Enum& param2)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    fields_["param2"] = param2;
+    m_tracer.signal("tb.same1.SameEnum2Interface#sig2", fields_);
+}

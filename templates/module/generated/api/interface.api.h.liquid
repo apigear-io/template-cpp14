@@ -77,7 +77,7 @@ public:
     * @param {{property.name}} {{property.description}}
     {% endunless %}
     */
-    virtual void set{{property.name|capitalize}}({{ property|cpp14Param }}) = 0;
+    virtual void set{{property.name|capital}}({{ property|cpp14Param }}) = 0;
     /**
     * Gets the value of the {{property.name}} property.
     {% unless property.description == blank %}
@@ -91,6 +91,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for {{interface.name}} changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for {{interface.name}}.
     */
     virtual {{pub_class}}& _getPublisher() const = 0;
@@ -120,7 +122,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void On{{signal.name | capital}}(
+    virtual void on{{signal.name | capital}}(
         {%- for param in signal.params -%}
           {{param|cpp14Param}}{% unless forloop.last %},{% endunless -%}
         {%- endfor -%}
@@ -135,7 +137,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void On{{property.name|capital}}Changed({{property|cpp14Return: true}} {{property.name}}) = 0;
+    virtual void on{{property.name|capital}}Changed({{property|cpp14Return: true}} {{property.name}}) = 0;
 {% endfor %}
 };
 {{nl}}

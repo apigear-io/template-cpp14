@@ -57,36 +57,36 @@ AbstractStructArrayInterfaceDecorator::~AbstractStructArrayInterfaceDecorator()
         m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
-void AbstractStructArrayInterfaceDecorator::setPropbool(const std::list<StructBool>& propBool)
+void AbstractStructArrayInterfaceDecorator::setPropBool(const std::list<StructBool>& propBool)
 {
-    m_impl->setPropbool(propBool);
+    m_impl->setPropBool(propBool);
 }
 
 const std::list<StructBool>& AbstractStructArrayInterfaceDecorator::propBool() const
 {
     return m_impl->propBool();
 }
-void AbstractStructArrayInterfaceDecorator::setPropint(const std::list<StructInt>& propInt)
+void AbstractStructArrayInterfaceDecorator::setPropInt(const std::list<StructInt>& propInt)
 {
-    m_impl->setPropint(propInt);
+    m_impl->setPropInt(propInt);
 }
 
 const std::list<StructInt>& AbstractStructArrayInterfaceDecorator::propInt() const
 {
     return m_impl->propInt();
 }
-void AbstractStructArrayInterfaceDecorator::setPropfloat(const std::list<StructFloat>& propFloat)
+void AbstractStructArrayInterfaceDecorator::setPropFloat(const std::list<StructFloat>& propFloat)
 {
-    m_impl->setPropfloat(propFloat);
+    m_impl->setPropFloat(propFloat);
 }
 
 const std::list<StructFloat>& AbstractStructArrayInterfaceDecorator::propFloat() const
 {
     return m_impl->propFloat();
 }
-void AbstractStructArrayInterfaceDecorator::setPropstring(const std::list<StructString>& propString)
+void AbstractStructArrayInterfaceDecorator::setPropString(const std::list<StructString>& propString)
 {
-    m_impl->setPropstring(propString);
+    m_impl->setPropString(propString);
 }
 
 const std::list<StructString>& AbstractStructArrayInterfaceDecorator::propString() const

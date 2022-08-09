@@ -78,7 +78,7 @@ public:
     /**
     * Sets the value of the propBool property.
     */
-    virtual void setPropbool(bool propBool) = 0;
+    virtual void setPropBool(bool propBool) = 0;
     /**
     * Gets the value of the propBool property.
     */
@@ -87,7 +87,7 @@ public:
     /**
     * Sets the value of the propInt property.
     */
-    virtual void setPropint(int propInt) = 0;
+    virtual void setPropInt(int propInt) = 0;
     /**
     * Gets the value of the propInt property.
     */
@@ -96,7 +96,7 @@ public:
     /**
     * Sets the value of the propFloat property.
     */
-    virtual void setPropfloat(float propFloat) = 0;
+    virtual void setPropFloat(float propFloat) = 0;
     /**
     * Gets the value of the propFloat property.
     */
@@ -105,7 +105,7 @@ public:
     /**
     * Sets the value of the propString property.
     */
-    virtual void setPropstring(const std::string& propString) = 0;
+    virtual void setPropString(const std::string& propString) = 0;
     /**
     * Gets the value of the propString property.
     */
@@ -114,6 +114,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for SimpleInterface changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for SimpleInterface.
     */
     virtual ISimpleInterfacePublisher& _getPublisher() const = 0;
@@ -137,52 +139,52 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigBool(bool paramBool) = 0;
+    virtual void onSigBool(bool paramBool) = 0;
     /**
     * Called by the ISimpleInterfacePublisher when the SimpleInterface emits sigInt, if subscribed for the sigInt.
     * @param paramInt 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigInt(int paramInt) = 0;
+    virtual void onSigInt(int paramInt) = 0;
     /**
     * Called by the ISimpleInterfacePublisher when the SimpleInterface emits sigFloat, if subscribed for the sigFloat.
     * @param paramFloat 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigFloat(float paramFloat) = 0;
+    virtual void onSigFloat(float paramFloat) = 0;
     /**
     * Called by the ISimpleInterfacePublisher when the SimpleInterface emits sigString, if subscribed for the sigString.
     * @param paramString 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigString(const std::string& paramString) = 0;
+    virtual void onSigString(const std::string& paramString) = 0;
     /**
     * Called by the ISimpleInterfacePublisher when propBool value has changed if subscribed for the propBool change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropBoolChanged(bool propBool) = 0;
+    virtual void onPropBoolChanged(bool propBool) = 0;
     /**
     * Called by the ISimpleInterfacePublisher when propInt value has changed if subscribed for the propInt change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropIntChanged(int propInt) = 0;
+    virtual void onPropIntChanged(int propInt) = 0;
     /**
     * Called by the ISimpleInterfacePublisher when propFloat value has changed if subscribed for the propFloat change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropFloatChanged(float propFloat) = 0;
+    virtual void onPropFloatChanged(float propFloat) = 0;
     /**
     * Called by the ISimpleInterfacePublisher when propString value has changed if subscribed for the propString change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropStringChanged(std::string propString) = 0;
+    virtual void onPropStringChanged(std::string propString) = 0;
 };
 
 /** Callback for changes of propBool */

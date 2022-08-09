@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed1/generated/api/testbed1.h"
 #include "testbed1/generated/api/common.h"
+#include "testbed1/generated/core/structinterface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace Testbed1 {
-
+namespace olink {
 /**
 * Remote StructInterface implemented with OLink. 
 * Handles connnectionn with StructInterface service.
@@ -52,44 +53,44 @@ public:
     virtual ~RemoteStructInterface() override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propbool.
+    * @return Locally stored locally value for PropBool.
     */
     const StructBool& propBool() const override;
     /**
     * Request setting a property on the StructInterface service.
-    * @param The value to which set request is send for the Propbool.
+    * @param The value to which set request is send for the PropBool.
     */
-    void setPropbool(const StructBool& propBool) override;
+    void setPropBool(const StructBool& propBool) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propint.
+    * @return Locally stored locally value for PropInt.
     */
     const StructInt& propInt() const override;
     /**
     * Request setting a property on the StructInterface service.
-    * @param The value to which set request is send for the Propint.
+    * @param The value to which set request is send for the PropInt.
     */
-    void setPropint(const StructInt& propInt) override;
+    void setPropInt(const StructInt& propInt) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propfloat.
+    * @return Locally stored locally value for PropFloat.
     */
     const StructFloat& propFloat() const override;
     /**
     * Request setting a property on the StructInterface service.
-    * @param The value to which set request is send for the Propfloat.
+    * @param The value to which set request is send for the PropFloat.
     */
-    void setPropfloat(const StructFloat& propFloat) override;
+    void setPropFloat(const StructFloat& propFloat) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propstring.
+    * @return Locally stored locally value for PropString.
     */
     const StructString& propString() const override;
     /**
     * Request setting a property on the StructInterface service.
-    * @param The value to which set request is send for the Propstring.
+    * @param The value to which set request is send for the PropString.
     */
-    void setPropstring(const StructString& propString) override;
+    void setPropString(const StructString& propString) override;
     /**
     * Remote call of IStructInterface::funcBool on the StructInterface service.
     * Uses funcBoolAsync
@@ -175,18 +176,18 @@ private:
     * @param the data recived from StructInterface service.
     */
     void applyState(const nlohmann::json& fields);
-    /**  Updates local value for Propbool and informs subscriber about the change*/
-    void setPropboolLocal(const StructBool& propBool);
-    /**  Updates local value for Propint and informs subscriber about the change*/
-    void setPropintLocal(const StructInt& propInt);
-    /**  Updates local value for Propfloat and informs subscriber about the change*/
-    void setPropfloatLocal(const StructFloat& propFloat);
-    /**  Updates local value for Propstring and informs subscriber about the change*/
-    void setPropstringLocal(const StructString& propString);
-    StructBool m_propBool;
-    StructInt m_propInt;
-    StructFloat m_propFloat;
-    StructString m_propString;
+    /**  Updates local value for PropBool and informs subscriber about the change*/
+    void setPropBoolLocal(const StructBool& propBool);
+    /**  Updates local value for PropInt and informs subscriber about the change*/
+    void setPropIntLocal(const StructInt& propInt);
+    /**  Updates local value for PropFloat and informs subscriber about the change*/
+    void setPropFloatLocal(const StructFloat& propFloat);
+    /**  Updates local value for PropString and informs subscriber about the change*/
+    void setPropStringLocal(const StructString& propString);
+    
+    /** Local storage for properties values. */
+    StructInterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink StructInterface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteStructInterface.
@@ -202,5 +203,6 @@ private:
     /** The publisher for StructInterface */
     std::unique_ptr<IStructInterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace Testbed1
 } // namespace Test

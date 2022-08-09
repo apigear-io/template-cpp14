@@ -46,6 +46,26 @@ public:
   * @param The StructInterface object to trace.
   */
   void trace_funcString(const StructString& paramString);
+  /**
+  * Prepares information about the sigBool call in a nlohmann::json format and puts to a tracer.
+  * @param The StructInterface object to trace.
+  */
+  void trace_sigBool(const StructBool& paramBool);
+  /**
+  * Prepares information about the sigInt call in a nlohmann::json format and puts to a tracer.
+  * @param The StructInterface object to trace.
+  */
+  void trace_sigInt(const StructInt& paramInt);
+  /**
+  * Prepares information about the sigFloat call in a nlohmann::json format and puts to a tracer.
+  * @param The StructInterface object to trace.
+  */
+  void trace_sigFloat(const StructFloat& paramFloat);
+  /**
+  * Prepares information about the sigString call in a nlohmann::json format and puts to a tracer.
+  * @param The StructInterface object to trace.
+  */
+  void trace_sigString(const StructString& paramString);
 private:
   /**
   * A tracer object to which the information about the state and operations is put.

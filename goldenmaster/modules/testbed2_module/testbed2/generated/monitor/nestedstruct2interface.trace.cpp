@@ -57,22 +57,22 @@ std::future<NestedStruct1> NestedStruct2InterfaceTracerDecorator::func2Async(con
     m_tracer->trace_func2(param1,param2);
     return AbstractNestedStruct2InterfaceDecorator::func2Async(param1,param2);
 }
-void NestedStruct2InterfaceTracerDecorator::OnSig1(const NestedStruct1& param1)
+void NestedStruct2InterfaceTracerDecorator::onSig1(const NestedStruct1& param1)
 {
     (void) param1;
     //m_tracer->trace_Sig1(param1);
 }
-void NestedStruct2InterfaceTracerDecorator::OnSig2(const NestedStruct1& param1,const NestedStruct2& param2)
+void NestedStruct2InterfaceTracerDecorator::onSig2(const NestedStruct1& param1,const NestedStruct2& param2)
 {
     (void) param1;
     (void) param2;
     //m_tracer->trace_Sig2(param1,param2);
 }
-void NestedStruct2InterfaceTracerDecorator::OnProp1Changed(const NestedStruct1&)
+void NestedStruct2InterfaceTracerDecorator::onProp1Changed(const NestedStruct1&)
 {
     m_tracer->capture_state(this);
 }
-void NestedStruct2InterfaceTracerDecorator::OnProp2Changed(const NestedStruct2&)
+void NestedStruct2InterfaceTracerDecorator::onProp2Changed(const NestedStruct2&)
 {
     m_tracer->capture_state(this);
 }

@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_same2/generated/api/tb_same2.h"
 #include "tb_same2/generated/api/common.h"
+#include "tb_same2/generated/core/samestruct1interface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace TbSame2 {
-
+namespace olink {
 /**
 * Remote SameStruct1Interface implemented with OLink. 
 * Handles connnectionn with SameStruct1Interface service.
@@ -120,7 +121,10 @@ private:
     void applyState(const nlohmann::json& fields);
     /**  Updates local value for Prop1 and informs subscriber about the change*/
     void setProp1Local(const Struct1& prop1);
-    Struct1 m_prop1;
+    
+    /** Local storage for properties values. */
+    SameStruct1InterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink SameStruct1Interface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteSameStruct1Interface.
@@ -136,5 +140,6 @@ private:
     /** The publisher for SameStruct1Interface */
     std::unique_ptr<ISameStruct1InterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace TbSame2
 } // namespace Test

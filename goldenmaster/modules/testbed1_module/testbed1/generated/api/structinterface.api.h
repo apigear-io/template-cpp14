@@ -78,7 +78,7 @@ public:
     /**
     * Sets the value of the propBool property.
     */
-    virtual void setPropbool(const StructBool& propBool) = 0;
+    virtual void setPropBool(const StructBool& propBool) = 0;
     /**
     * Gets the value of the propBool property.
     */
@@ -87,7 +87,7 @@ public:
     /**
     * Sets the value of the propInt property.
     */
-    virtual void setPropint(const StructInt& propInt) = 0;
+    virtual void setPropInt(const StructInt& propInt) = 0;
     /**
     * Gets the value of the propInt property.
     */
@@ -96,7 +96,7 @@ public:
     /**
     * Sets the value of the propFloat property.
     */
-    virtual void setPropfloat(const StructFloat& propFloat) = 0;
+    virtual void setPropFloat(const StructFloat& propFloat) = 0;
     /**
     * Gets the value of the propFloat property.
     */
@@ -105,7 +105,7 @@ public:
     /**
     * Sets the value of the propString property.
     */
-    virtual void setPropstring(const StructString& propString) = 0;
+    virtual void setPropString(const StructString& propString) = 0;
     /**
     * Gets the value of the propString property.
     */
@@ -114,6 +114,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for StructInterface changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for StructInterface.
     */
     virtual IStructInterfacePublisher& _getPublisher() const = 0;
@@ -137,52 +139,52 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigBool(const StructBool& paramBool) = 0;
+    virtual void onSigBool(const StructBool& paramBool) = 0;
     /**
     * Called by the IStructInterfacePublisher when the StructInterface emits sigInt, if subscribed for the sigInt.
     * @param paramInt 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigInt(const StructInt& paramInt) = 0;
+    virtual void onSigInt(const StructInt& paramInt) = 0;
     /**
     * Called by the IStructInterfacePublisher when the StructInterface emits sigFloat, if subscribed for the sigFloat.
     * @param paramFloat 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigFloat(const StructFloat& paramFloat) = 0;
+    virtual void onSigFloat(const StructFloat& paramFloat) = 0;
     /**
     * Called by the IStructInterfacePublisher when the StructInterface emits sigString, if subscribed for the sigString.
     * @param paramString 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigString(const StructString& paramString) = 0;
+    virtual void onSigString(const StructString& paramString) = 0;
     /**
     * Called by the IStructInterfacePublisher when propBool value has changed if subscribed for the propBool change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropBoolChanged(const StructBool& propBool) = 0;
+    virtual void onPropBoolChanged(const StructBool& propBool) = 0;
     /**
     * Called by the IStructInterfacePublisher when propInt value has changed if subscribed for the propInt change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropIntChanged(const StructInt& propInt) = 0;
+    virtual void onPropIntChanged(const StructInt& propInt) = 0;
     /**
     * Called by the IStructInterfacePublisher when propFloat value has changed if subscribed for the propFloat change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropFloatChanged(const StructFloat& propFloat) = 0;
+    virtual void onPropFloatChanged(const StructFloat& propFloat) = 0;
     /**
     * Called by the IStructInterfacePublisher when propString value has changed if subscribed for the propString change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropStringChanged(const StructString& propString) = 0;
+    virtual void onPropStringChanged(const StructString& propString) = 0;
 };
 
 /** Callback for changes of propBool */

@@ -114,6 +114,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for ManyParamInterface changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for ManyParamInterface.
     */
     virtual IManyParamInterfacePublisher& _getPublisher() const = 0;
@@ -137,7 +139,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig1(int param1) = 0;
+    virtual void onSig1(int param1) = 0;
     /**
     * Called by the IManyParamInterfacePublisher when the ManyParamInterface emits sig2, if subscribed for the sig2.
     * @param param1 
@@ -145,7 +147,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig2(int param1,int param2) = 0;
+    virtual void onSig2(int param1,int param2) = 0;
     /**
     * Called by the IManyParamInterfacePublisher when the ManyParamInterface emits sig3, if subscribed for the sig3.
     * @param param1 
@@ -154,7 +156,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig3(int param1,int param2,int param3) = 0;
+    virtual void onSig3(int param1,int param2,int param3) = 0;
     /**
     * Called by the IManyParamInterfacePublisher when the ManyParamInterface emits sig4, if subscribed for the sig4.
     * @param param1 
@@ -164,31 +166,31 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig4(int param1,int param2,int param3,int param4) = 0;
+    virtual void onSig4(int param1,int param2,int param3,int param4) = 0;
     /**
     * Called by the IManyParamInterfacePublisher when prop1 value has changed if subscribed for the prop1 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp1Changed(int prop1) = 0;
+    virtual void onProp1Changed(int prop1) = 0;
     /**
     * Called by the IManyParamInterfacePublisher when prop2 value has changed if subscribed for the prop2 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp2Changed(int prop2) = 0;
+    virtual void onProp2Changed(int prop2) = 0;
     /**
     * Called by the IManyParamInterfacePublisher when prop3 value has changed if subscribed for the prop3 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp3Changed(int prop3) = 0;
+    virtual void onProp3Changed(int prop3) = 0;
     /**
     * Called by the IManyParamInterfacePublisher when prop4 value has changed if subscribed for the prop4 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp4Changed(int prop4) = 0;
+    virtual void onProp4Changed(int prop4) = 0;
 };
 
 /** Callback for changes of prop1 */

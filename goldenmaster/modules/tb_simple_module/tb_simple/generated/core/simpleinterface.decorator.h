@@ -31,19 +31,19 @@ public:
     virtual ~AbstractSimpleInterfaceDecorator();
 public:
     // property propBool
-    void setPropbool(bool propBool) override;
+    void setPropBool(bool propBool) override;
     bool propBool() const override;
     
     // property propInt
-    void setPropint(int propInt) override;
+    void setPropInt(int propInt) override;
     int propInt() const override;
     
     // property propFloat
-    void setPropfloat(float propFloat) override;
+    void setPropFloat(float propFloat) override;
     float propFloat() const override;
     
     // property propString
-    void setPropstring(const std::string& propString) override;
+    void setPropString(const std::string& propString) override;
     std::string propString() const override;
     
     // operations

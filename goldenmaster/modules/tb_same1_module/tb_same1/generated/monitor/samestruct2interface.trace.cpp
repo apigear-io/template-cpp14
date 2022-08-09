@@ -57,22 +57,22 @@ std::future<Struct1> SameStruct2InterfaceTracerDecorator::func2Async(const Struc
     m_tracer->trace_func2(param1,param2);
     return AbstractSameStruct2InterfaceDecorator::func2Async(param1,param2);
 }
-void SameStruct2InterfaceTracerDecorator::OnSig1(const Struct1& param1)
+void SameStruct2InterfaceTracerDecorator::onSig1(const Struct1& param1)
 {
     (void) param1;
     //m_tracer->trace_Sig1(param1);
 }
-void SameStruct2InterfaceTracerDecorator::OnSig2(const Struct1& param1,const Struct2& param2)
+void SameStruct2InterfaceTracerDecorator::onSig2(const Struct1& param1,const Struct2& param2)
 {
     (void) param1;
     (void) param2;
     //m_tracer->trace_Sig2(param1,param2);
 }
-void SameStruct2InterfaceTracerDecorator::OnProp1Changed(const Struct2&)
+void SameStruct2InterfaceTracerDecorator::onProp1Changed(const Struct2&)
 {
     m_tracer->capture_state(this);
 }
-void SameStruct2InterfaceTracerDecorator::OnProp2Changed(const Struct2&)
+void SameStruct2InterfaceTracerDecorator::onProp2Changed(const Struct2&)
 {
     m_tracer->capture_state(this);
 }

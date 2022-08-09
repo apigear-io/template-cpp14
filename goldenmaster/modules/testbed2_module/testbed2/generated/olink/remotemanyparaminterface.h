@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed2/generated/api/testbed2.h"
 #include "testbed2/generated/api/common.h"
+#include "testbed2/generated/core/manyparaminterface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace Testbed2 {
-
+namespace olink {
 /**
 * Remote ManyParamInterface implemented with OLink. 
 * Handles connnectionn with ManyParamInterface service.
@@ -183,10 +184,10 @@ private:
     void setProp3Local(int prop3);
     /**  Updates local value for Prop4 and informs subscriber about the change*/
     void setProp4Local(int prop4);
-    int m_prop1;
-    int m_prop2;
-    int m_prop3;
-    int m_prop4;
+    
+    /** Local storage for properties values. */
+    ManyParamInterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink ManyParamInterface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteManyParamInterface.
@@ -202,5 +203,6 @@ private:
     /** The publisher for ManyParamInterface */
     std::unique_ptr<IManyParamInterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace Testbed2
 } // namespace Test

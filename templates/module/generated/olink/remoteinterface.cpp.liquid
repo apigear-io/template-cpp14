@@ -11,13 +11,10 @@
 #include "{{module.name|identifier}}/generated/core/{{module.name|identifier}}.json.adapter.h"
 
 using namespace {{ system.name | capital }}::{{ module.name | capital }};
+using namespace {{ system.name | capital }}::{{ module.name | capital }}::olink;
 
 {{class}}::{{class}}(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-{% for property in interface.properties %}
-    m_{{property.name}}({{property|cpp14Default}}),
-{% endfor %}
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<{{pub_class}}>())
 {
     m_registry.addObjectSink(this);
@@ -33,7 +30,7 @@ void {{class}}::applyState(const nlohmann::json& fields)
 {
 {% for property in interface.properties %}
     if(fields.contains("{{property.name}}")) {
-        set{{property.name|capitalize}}Local(fields["{{property.name}}"].get<{{property | cpp14Return}}>());
+        set{{property.name|capital}}Local(fields["{{property.name}}"].get<{{property | cpp14Return}}>());
     }
 {% else %}
     // no properties to apply state {% comment %} we generate anyway for consistency {% endcomment %}
@@ -44,7 +41,7 @@ void {{class}}::applyState(const nlohmann::json& fields)
 {% for property in interface.properties %}
 {% assign name = property.name %}
 
-void {{class}}::set{{name|capitalize}}({{property|cpp14Param}})
+void {{class}}::set{{name|capital}}({{property|cpp14Param}})
 {
     if(m_node == nullptr) {
         return;
@@ -52,17 +49,17 @@ void {{class}}::set{{name|capitalize}}({{property|cpp14Param}})
     m_node->setRemoteProperty("{{module}}.{{interface}}/{{property}}", {{property}});
 }
 
-void {{class}}::set{{name|capitalize}}Local({{property|cpp14Param}})
+void {{class}}::set{{name|capital}}Local({{property|cpp14Param}})
 {
-    if (m_{{name}} != {{name}}) {
-        m_{{name}} = {{name}};
+    if (m_data.m_{{name}} != {{name}}) {
+        m_data.m_{{name}} = {{name}};
         m_publisher->publish{{name | capital}}Changed({{name}});
     }
 }
 
 {{property|cpp14Return: true}} {{class}}::{{name}}() const
 {
-    return m_{{name}};
+    return m_data.m_{{name}};
 }
 
 {% endfor %}

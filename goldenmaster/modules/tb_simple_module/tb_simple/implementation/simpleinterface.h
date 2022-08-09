@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "tb_simple/generated/api/tb_simple.h"
 #include "tb_simple/generated/api/common.h"
+#include "tb_simple/generated/core/simpleinterface.data.h"
 #include <memory>
 
 namespace Test {
@@ -34,16 +35,16 @@ public:
     explicit SimpleInterface();
     ~SimpleInterface();
 public:
-    void setPropbool(bool propBool) override;
+    void setPropBool(bool propBool) override;
     bool propBool() const override;
     
-    void setPropint(int propInt) override;
+    void setPropInt(int propInt) override;
     int propInt() const override;
     
-    void setPropfloat(float propFloat) override;
+    void setPropFloat(float propFloat) override;
     float propFloat() const override;
     
-    void setPropstring(const std::string& propString) override;
+    void setPropString(const std::string& propString) override;
     std::string propString() const override;
     
     /**
@@ -80,8 +81,7 @@ private:
     /* The publisher for the SimpleInterface. */
     std::unique_ptr<ISimpleInterfacePublisher> m_publisher;
     /**The helper structure to store all the properties for SimpleInterface. */
-    struct SimpleInterfaceData;
-    std::unique_ptr<SimpleInterfaceData> m_data;
+    SimpleInterfaceData m_data;
 };
 } // namespace TbSimple
 } // namespace Test

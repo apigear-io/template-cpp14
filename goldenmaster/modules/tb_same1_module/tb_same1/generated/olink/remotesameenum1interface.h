@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_same1/generated/api/tb_same1.h"
 #include "tb_same1/generated/api/common.h"
+#include "tb_same1/generated/core/sameenum1interface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace TbSame1 {
-
+namespace olink {
 /**
 * Remote SameEnum1Interface implemented with OLink. 
 * Handles connnectionn with SameEnum1Interface service.
@@ -120,7 +121,10 @@ private:
     void applyState(const nlohmann::json& fields);
     /**  Updates local value for Prop1 and informs subscriber about the change*/
     void setProp1Local(const Enum1Enum& prop1);
-    Enum1Enum m_prop1;
+    
+    /** Local storage for properties values. */
+    SameEnum1InterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink SameEnum1Interface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteSameEnum1Interface.
@@ -136,5 +140,6 @@ private:
     /** The publisher for SameEnum1Interface */
     std::unique_ptr<ISameEnum1InterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace TbSame1
 } // namespace Test

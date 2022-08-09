@@ -40,8 +40,8 @@ public:
     Enum1Enum func1(const Enum1Enum& param1) override;
     std::future<Enum1Enum> func1Async(const Enum1Enum& param1) override;
 public: // ISameEnum1InterfaceSubscriber interface
-    void OnSig1(const Enum1Enum& param1) override;
-    void OnProp1Changed(const Enum1Enum& Value) override;
+    void onSig1(const Enum1Enum& param1) override;
+    void onProp1Changed(const Enum1Enum& Value) override;
 private:
     std::unique_ptr<SameEnum1InterfaceTracer> m_tracer;
 };

@@ -23,14 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 
 using namespace Test::Testbed2;
+using namespace Test::Testbed2::olink;
 
 RemoteManyParamInterface::RemoteManyParamInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_prop1(0),
-    m_prop2(0),
-    m_prop3(0),
-    m_prop4(0),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<ManyParamInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -68,15 +64,15 @@ void RemoteManyParamInterface::setProp1(int prop1)
 
 void RemoteManyParamInterface::setProp1Local(int prop1)
 {
-    if (m_prop1 != prop1) {
-        m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 int RemoteManyParamInterface::prop1() const
 {
-    return m_prop1;
+    return m_data.m_prop1;
 }
 
 void RemoteManyParamInterface::setProp2(int prop2)
@@ -89,15 +85,15 @@ void RemoteManyParamInterface::setProp2(int prop2)
 
 void RemoteManyParamInterface::setProp2Local(int prop2)
 {
-    if (m_prop2 != prop2) {
-        m_prop2 = prop2;
+    if (m_data.m_prop2 != prop2) {
+        m_data.m_prop2 = prop2;
         m_publisher->publishProp2Changed(prop2);
     }
 }
 
 int RemoteManyParamInterface::prop2() const
 {
-    return m_prop2;
+    return m_data.m_prop2;
 }
 
 void RemoteManyParamInterface::setProp3(int prop3)
@@ -110,15 +106,15 @@ void RemoteManyParamInterface::setProp3(int prop3)
 
 void RemoteManyParamInterface::setProp3Local(int prop3)
 {
-    if (m_prop3 != prop3) {
-        m_prop3 = prop3;
+    if (m_data.m_prop3 != prop3) {
+        m_data.m_prop3 = prop3;
         m_publisher->publishProp3Changed(prop3);
     }
 }
 
 int RemoteManyParamInterface::prop3() const
 {
-    return m_prop3;
+    return m_data.m_prop3;
 }
 
 void RemoteManyParamInterface::setProp4(int prop4)
@@ -131,15 +127,15 @@ void RemoteManyParamInterface::setProp4(int prop4)
 
 void RemoteManyParamInterface::setProp4Local(int prop4)
 {
-    if (m_prop4 != prop4) {
-        m_prop4 = prop4;
+    if (m_data.m_prop4 != prop4) {
+        m_data.m_prop4 = prop4;
         m_publisher->publishProp4Changed(prop4);
     }
 }
 
 int RemoteManyParamInterface::prop4() const
 {
-    return m_prop4;
+    return m_data.m_prop4;
 }
 
 int RemoteManyParamInterface::func1(int param1)

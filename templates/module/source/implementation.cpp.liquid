@@ -7,19 +7,12 @@
 
 #include "{{module.name|identifier}}/implementation/{{class|lower}}.h"
 #include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.publisher.h"
+#include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.data.h"
 
 using namespace {{ system.name | capital }}::{{ module.name | capital }};
 
-struct {{class}}::{{class}}Data
-{
-{% for property in interface.properties %}
-    {{property|cpp14Return}} m_{{property.name}};
-{% endfor %}
-};
-
 {{class}}::{{class}}()
-    : m_publisher(std::make_unique<{{pub_class}}>()),
-      m_data(std::make_unique<{{class}}::{{interface.name | capital}}Data>())
+    : m_publisher(std::make_unique<{{pub_class}}>()) 
 {
 }
 {{class}}::~{{class}}()
@@ -27,17 +20,17 @@ struct {{class}}::{{class}}Data
 }
 {% for property in interface.properties %}
 
-void {{class}}::set{{property.name|capitalize}}({{ property|cpp14Param }})
+void {{class}}::set{{property.name|capital}}({{ property|cpp14Param }})
 {
-    if (m_data->m_{{property.name}} != {{property.name}}) {
-        m_data->m_{{property.name}} = {{property.name}};
+    if (m_data.m_{{property.name}} != {{property.name}}) {
+        m_data.m_{{property.name}} = {{property.name}};
         m_publisher->publish{{property.name|capital}}Changed({{property.name}});
     }
 }
 
 {{property|cpp14Return: true}} {{class}}::{{property.name}}() const
 {
-    return m_data->m_{{property.name}};
+    return m_data.m_{{property.name}};
 }
 {% endfor %}
 

@@ -40,8 +40,8 @@ public:
     Struct1 func1(const Struct1& param1) override;
     std::future<Struct1> func1Async(const Struct1& param1) override;
 public: // ISameStruct1InterfaceSubscriber interface
-    void OnSig1(const Struct1& param1) override;
-    void OnProp1Changed(const Struct1& Value) override;
+    void onSig1(const Struct1& param1) override;
+    void onProp1Changed(const Struct1& Value) override;
 private:
     std::unique_ptr<SameStruct1InterfaceTracer> m_tracer;
 };

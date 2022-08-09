@@ -42,10 +42,10 @@ public:
     Enum1Enum func2(const Enum1Enum& param1, const Enum2Enum& param2) override;
     std::future<Enum1Enum> func2Async(const Enum1Enum& param1, const Enum2Enum& param2) override;
 public: // ISameEnum2InterfaceSubscriber interface
-    void OnSig1(const Enum1Enum& param1) override;
-    void OnSig2(const Enum1Enum& param1,const Enum2Enum& param2) override;
-    void OnProp1Changed(const Enum1Enum& Value) override;
-    void OnProp2Changed(const Enum2Enum& Value) override;
+    void onSig1(const Enum1Enum& param1) override;
+    void onSig2(const Enum1Enum& param1,const Enum2Enum& param2) override;
+    void onProp1Changed(const Enum1Enum& Value) override;
+    void onProp2Changed(const Enum2Enum& Value) override;
 private:
     std::unique_ptr<SameEnum2InterfaceTracer> m_tracer;
 };

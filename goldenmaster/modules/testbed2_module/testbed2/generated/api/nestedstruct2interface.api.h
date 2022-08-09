@@ -80,6 +80,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for NestedStruct2Interface changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for NestedStruct2Interface.
     */
     virtual INestedStruct2InterfacePublisher& _getPublisher() const = 0;
@@ -103,7 +105,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig1(const NestedStruct1& param1) = 0;
+    virtual void onSig1(const NestedStruct1& param1) = 0;
     /**
     * Called by the INestedStruct2InterfacePublisher when the NestedStruct2Interface emits sig2, if subscribed for the sig2.
     * @param param1 
@@ -111,19 +113,19 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig2(const NestedStruct1& param1,const NestedStruct2& param2) = 0;
+    virtual void onSig2(const NestedStruct1& param1,const NestedStruct2& param2) = 0;
     /**
     * Called by the INestedStruct2InterfacePublisher when prop1 value has changed if subscribed for the prop1 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp1Changed(const NestedStruct1& prop1) = 0;
+    virtual void onProp1Changed(const NestedStruct1& prop1) = 0;
     /**
     * Called by the INestedStruct2InterfacePublisher when prop2 value has changed if subscribed for the prop2 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp2Changed(const NestedStruct2& prop2) = 0;
+    virtual void onProp2Changed(const NestedStruct2& prop2) = 0;
 };
 
 /** Callback for changes of prop1 */

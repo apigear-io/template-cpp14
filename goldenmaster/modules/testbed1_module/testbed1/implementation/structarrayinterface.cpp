@@ -19,76 +19,68 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed1/implementation/structarrayinterface.h"
 #include "testbed1/generated/core/structarrayinterface.publisher.h"
+#include "testbed1/generated/core/structarrayinterface.data.h"
 
 using namespace Test::Testbed1;
 
-struct StructArrayInterface::StructArrayInterfaceData
-{
-    std::list<StructBool> m_propBool;
-    std::list<StructInt> m_propInt;
-    std::list<StructFloat> m_propFloat;
-    std::list<StructString> m_propString;
-};
-
 StructArrayInterface::StructArrayInterface()
-    : m_publisher(std::make_unique<StructArrayInterfacePublisher>()),
-      m_data(std::make_unique<StructArrayInterface::StructArrayInterfaceData>())
+    : m_publisher(std::make_unique<StructArrayInterfacePublisher>()) 
 {
 }
 StructArrayInterface::~StructArrayInterface()
 {
 }
 
-void StructArrayInterface::setPropbool(const std::list<StructBool>& propBool)
+void StructArrayInterface::setPropBool(const std::list<StructBool>& propBool)
 {
-    if (m_data->m_propBool != propBool) {
-        m_data->m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 const std::list<StructBool>& StructArrayInterface::propBool() const
 {
-    return m_data->m_propBool;
+    return m_data.m_propBool;
 }
 
-void StructArrayInterface::setPropint(const std::list<StructInt>& propInt)
+void StructArrayInterface::setPropInt(const std::list<StructInt>& propInt)
 {
-    if (m_data->m_propInt != propInt) {
-        m_data->m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 const std::list<StructInt>& StructArrayInterface::propInt() const
 {
-    return m_data->m_propInt;
+    return m_data.m_propInt;
 }
 
-void StructArrayInterface::setPropfloat(const std::list<StructFloat>& propFloat)
+void StructArrayInterface::setPropFloat(const std::list<StructFloat>& propFloat)
 {
-    if (m_data->m_propFloat != propFloat) {
-        m_data->m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 const std::list<StructFloat>& StructArrayInterface::propFloat() const
 {
-    return m_data->m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void StructArrayInterface::setPropstring(const std::list<StructString>& propString)
+void StructArrayInterface::setPropString(const std::list<StructString>& propString)
 {
-    if (m_data->m_propString != propString) {
-        m_data->m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 const std::list<StructString>& StructArrayInterface::propString() const
 {
-    return m_data->m_propString;
+    return m_data.m_propString;
 }
 
 StructBool StructArrayInterface::funcBool(const std::list<StructBool>& paramBool)

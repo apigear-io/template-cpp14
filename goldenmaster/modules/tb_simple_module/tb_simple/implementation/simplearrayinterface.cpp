@@ -19,76 +19,68 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_simple/implementation/simplearrayinterface.h"
 #include "tb_simple/generated/core/simplearrayinterface.publisher.h"
+#include "tb_simple/generated/core/simplearrayinterface.data.h"
 
 using namespace Test::TbSimple;
 
-struct SimpleArrayInterface::SimpleArrayInterfaceData
-{
-    std::list<bool> m_propBool;
-    std::list<int> m_propInt;
-    std::list<float> m_propFloat;
-    std::list<std::string> m_propString;
-};
-
 SimpleArrayInterface::SimpleArrayInterface()
-    : m_publisher(std::make_unique<SimpleArrayInterfacePublisher>()),
-      m_data(std::make_unique<SimpleArrayInterface::SimpleArrayInterfaceData>())
+    : m_publisher(std::make_unique<SimpleArrayInterfacePublisher>()) 
 {
 }
 SimpleArrayInterface::~SimpleArrayInterface()
 {
 }
 
-void SimpleArrayInterface::setPropbool(const std::list<bool>& propBool)
+void SimpleArrayInterface::setPropBool(const std::list<bool>& propBool)
 {
-    if (m_data->m_propBool != propBool) {
-        m_data->m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 const std::list<bool>& SimpleArrayInterface::propBool() const
 {
-    return m_data->m_propBool;
+    return m_data.m_propBool;
 }
 
-void SimpleArrayInterface::setPropint(const std::list<int>& propInt)
+void SimpleArrayInterface::setPropInt(const std::list<int>& propInt)
 {
-    if (m_data->m_propInt != propInt) {
-        m_data->m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 const std::list<int>& SimpleArrayInterface::propInt() const
 {
-    return m_data->m_propInt;
+    return m_data.m_propInt;
 }
 
-void SimpleArrayInterface::setPropfloat(const std::list<float>& propFloat)
+void SimpleArrayInterface::setPropFloat(const std::list<float>& propFloat)
 {
-    if (m_data->m_propFloat != propFloat) {
-        m_data->m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 const std::list<float>& SimpleArrayInterface::propFloat() const
 {
-    return m_data->m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void SimpleArrayInterface::setPropstring(const std::list<std::string>& propString)
+void SimpleArrayInterface::setPropString(const std::list<std::string>& propString)
 {
-    if (m_data->m_propString != propString) {
-        m_data->m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 const std::list<std::string>& SimpleArrayInterface::propString() const
 {
-    return m_data->m_propString;
+    return m_data.m_propString;
 }
 
 std::list<bool> SimpleArrayInterface::funcBool(const std::list<bool>& paramBool)

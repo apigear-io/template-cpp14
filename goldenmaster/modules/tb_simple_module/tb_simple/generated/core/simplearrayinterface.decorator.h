@@ -31,19 +31,19 @@ public:
     virtual ~AbstractSimpleArrayInterfaceDecorator();
 public:
     // property propBool
-    void setPropbool(const std::list<bool>& propBool) override;
+    void setPropBool(const std::list<bool>& propBool) override;
     const std::list<bool>& propBool() const override;
     
     // property propInt
-    void setPropint(const std::list<int>& propInt) override;
+    void setPropInt(const std::list<int>& propInt) override;
     const std::list<int>& propInt() const override;
     
     // property propFloat
-    void setPropfloat(const std::list<float>& propFloat) override;
+    void setPropFloat(const std::list<float>& propFloat) override;
     const std::list<float>& propFloat() const override;
     
     // property propString
-    void setPropstring(const std::list<std::string>& propString) override;
+    void setPropString(const std::list<std::string>& propString) override;
     const std::list<std::string>& propString() const override;
     
     // operations

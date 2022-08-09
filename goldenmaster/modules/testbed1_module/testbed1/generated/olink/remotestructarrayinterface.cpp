@@ -23,14 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed1/generated/core/testbed1.json.adapter.h"
 
 using namespace Test::Testbed1;
+using namespace Test::Testbed1::olink;
 
 RemoteStructArrayInterface::RemoteStructArrayInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_propBool(std::list<StructBool>()),
-    m_propInt(std::list<StructInt>()),
-    m_propFloat(std::list<StructFloat>()),
-    m_propString(std::list<StructString>()),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<StructArrayInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -45,20 +41,20 @@ RemoteStructArrayInterface::~RemoteStructArrayInterface()
 void RemoteStructArrayInterface::applyState(const nlohmann::json& fields) 
 {
     if(fields.contains("propBool")) {
-        setPropboolLocal(fields["propBool"].get<std::list<StructBool>>());
+        setPropBoolLocal(fields["propBool"].get<std::list<StructBool>>());
     }
     if(fields.contains("propInt")) {
-        setPropintLocal(fields["propInt"].get<std::list<StructInt>>());
+        setPropIntLocal(fields["propInt"].get<std::list<StructInt>>());
     }
     if(fields.contains("propFloat")) {
-        setPropfloatLocal(fields["propFloat"].get<std::list<StructFloat>>());
+        setPropFloatLocal(fields["propFloat"].get<std::list<StructFloat>>());
     }
     if(fields.contains("propString")) {
-        setPropstringLocal(fields["propString"].get<std::list<StructString>>());
+        setPropStringLocal(fields["propString"].get<std::list<StructString>>());
     }
 }
 
-void RemoteStructArrayInterface::setPropbool(const std::list<StructBool>& propBool)
+void RemoteStructArrayInterface::setPropBool(const std::list<StructBool>& propBool)
 {
     if(m_node == nullptr) {
         return;
@@ -66,20 +62,20 @@ void RemoteStructArrayInterface::setPropbool(const std::list<StructBool>& propBo
     m_node->setRemoteProperty("testbed1.StructArrayInterface/propBool", propBool);
 }
 
-void RemoteStructArrayInterface::setPropboolLocal(const std::list<StructBool>& propBool)
+void RemoteStructArrayInterface::setPropBoolLocal(const std::list<StructBool>& propBool)
 {
-    if (m_propBool != propBool) {
-        m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 const std::list<StructBool>& RemoteStructArrayInterface::propBool() const
 {
-    return m_propBool;
+    return m_data.m_propBool;
 }
 
-void RemoteStructArrayInterface::setPropint(const std::list<StructInt>& propInt)
+void RemoteStructArrayInterface::setPropInt(const std::list<StructInt>& propInt)
 {
     if(m_node == nullptr) {
         return;
@@ -87,20 +83,20 @@ void RemoteStructArrayInterface::setPropint(const std::list<StructInt>& propInt)
     m_node->setRemoteProperty("testbed1.StructArrayInterface/propInt", propInt);
 }
 
-void RemoteStructArrayInterface::setPropintLocal(const std::list<StructInt>& propInt)
+void RemoteStructArrayInterface::setPropIntLocal(const std::list<StructInt>& propInt)
 {
-    if (m_propInt != propInt) {
-        m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 const std::list<StructInt>& RemoteStructArrayInterface::propInt() const
 {
-    return m_propInt;
+    return m_data.m_propInt;
 }
 
-void RemoteStructArrayInterface::setPropfloat(const std::list<StructFloat>& propFloat)
+void RemoteStructArrayInterface::setPropFloat(const std::list<StructFloat>& propFloat)
 {
     if(m_node == nullptr) {
         return;
@@ -108,20 +104,20 @@ void RemoteStructArrayInterface::setPropfloat(const std::list<StructFloat>& prop
     m_node->setRemoteProperty("testbed1.StructArrayInterface/propFloat", propFloat);
 }
 
-void RemoteStructArrayInterface::setPropfloatLocal(const std::list<StructFloat>& propFloat)
+void RemoteStructArrayInterface::setPropFloatLocal(const std::list<StructFloat>& propFloat)
 {
-    if (m_propFloat != propFloat) {
-        m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 const std::list<StructFloat>& RemoteStructArrayInterface::propFloat() const
 {
-    return m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void RemoteStructArrayInterface::setPropstring(const std::list<StructString>& propString)
+void RemoteStructArrayInterface::setPropString(const std::list<StructString>& propString)
 {
     if(m_node == nullptr) {
         return;
@@ -129,17 +125,17 @@ void RemoteStructArrayInterface::setPropstring(const std::list<StructString>& pr
     m_node->setRemoteProperty("testbed1.StructArrayInterface/propString", propString);
 }
 
-void RemoteStructArrayInterface::setPropstringLocal(const std::list<StructString>& propString)
+void RemoteStructArrayInterface::setPropStringLocal(const std::list<StructString>& propString)
 {
-    if (m_propString != propString) {
-        m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 const std::list<StructString>& RemoteStructArrayInterface::propString() const
 {
-    return m_propString;
+    return m_data.m_propString;
 }
 
 StructBool RemoteStructArrayInterface::funcBool(const std::list<StructBool>& paramBool)

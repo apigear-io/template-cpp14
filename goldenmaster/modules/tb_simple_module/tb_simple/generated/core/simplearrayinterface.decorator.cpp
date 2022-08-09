@@ -57,36 +57,36 @@ AbstractSimpleArrayInterfaceDecorator::~AbstractSimpleArrayInterfaceDecorator()
         m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
-void AbstractSimpleArrayInterfaceDecorator::setPropbool(const std::list<bool>& propBool)
+void AbstractSimpleArrayInterfaceDecorator::setPropBool(const std::list<bool>& propBool)
 {
-    m_impl->setPropbool(propBool);
+    m_impl->setPropBool(propBool);
 }
 
 const std::list<bool>& AbstractSimpleArrayInterfaceDecorator::propBool() const
 {
     return m_impl->propBool();
 }
-void AbstractSimpleArrayInterfaceDecorator::setPropint(const std::list<int>& propInt)
+void AbstractSimpleArrayInterfaceDecorator::setPropInt(const std::list<int>& propInt)
 {
-    m_impl->setPropint(propInt);
+    m_impl->setPropInt(propInt);
 }
 
 const std::list<int>& AbstractSimpleArrayInterfaceDecorator::propInt() const
 {
     return m_impl->propInt();
 }
-void AbstractSimpleArrayInterfaceDecorator::setPropfloat(const std::list<float>& propFloat)
+void AbstractSimpleArrayInterfaceDecorator::setPropFloat(const std::list<float>& propFloat)
 {
-    m_impl->setPropfloat(propFloat);
+    m_impl->setPropFloat(propFloat);
 }
 
 const std::list<float>& AbstractSimpleArrayInterfaceDecorator::propFloat() const
 {
     return m_impl->propFloat();
 }
-void AbstractSimpleArrayInterfaceDecorator::setPropstring(const std::list<std::string>& propString)
+void AbstractSimpleArrayInterfaceDecorator::setPropString(const std::list<std::string>& propString)
 {
-    m_impl->setPropstring(propString);
+    m_impl->setPropString(propString);
 }
 
 const std::list<std::string>& AbstractSimpleArrayInterfaceDecorator::propString() const

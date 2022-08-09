@@ -57,36 +57,36 @@ AbstractSimpleInterfaceDecorator::~AbstractSimpleInterfaceDecorator()
         m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
-void AbstractSimpleInterfaceDecorator::setPropbool(bool propBool)
+void AbstractSimpleInterfaceDecorator::setPropBool(bool propBool)
 {
-    m_impl->setPropbool(propBool);
+    m_impl->setPropBool(propBool);
 }
 
 bool AbstractSimpleInterfaceDecorator::propBool() const
 {
     return m_impl->propBool();
 }
-void AbstractSimpleInterfaceDecorator::setPropint(int propInt)
+void AbstractSimpleInterfaceDecorator::setPropInt(int propInt)
 {
-    m_impl->setPropint(propInt);
+    m_impl->setPropInt(propInt);
 }
 
 int AbstractSimpleInterfaceDecorator::propInt() const
 {
     return m_impl->propInt();
 }
-void AbstractSimpleInterfaceDecorator::setPropfloat(float propFloat)
+void AbstractSimpleInterfaceDecorator::setPropFloat(float propFloat)
 {
-    m_impl->setPropfloat(propFloat);
+    m_impl->setPropFloat(propFloat);
 }
 
 float AbstractSimpleInterfaceDecorator::propFloat() const
 {
     return m_impl->propFloat();
 }
-void AbstractSimpleInterfaceDecorator::setPropstring(const std::string& propString)
+void AbstractSimpleInterfaceDecorator::setPropString(const std::string& propString)
 {
-    m_impl->setPropstring(propString);
+    m_impl->setPropString(propString);
 }
 
 std::string AbstractSimpleInterfaceDecorator::propString() const

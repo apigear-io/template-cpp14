@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "tb_enum/generated/api/tb_enum.h"
 #include "tb_enum/generated/api/common.h"
+#include "tb_enum/generated/core/enuminterface.data.h"
 #include <memory>
 
 namespace Test {
@@ -80,8 +81,7 @@ private:
     /* The publisher for the EnumInterface. */
     std::unique_ptr<IEnumInterfacePublisher> m_publisher;
     /**The helper structure to store all the properties for EnumInterface. */
-    struct EnumInterfaceData;
-    std::unique_ptr<EnumInterfaceData> m_data;
+    EnumInterfaceData m_data;
 };
 } // namespace TbEnum
 } // namespace Test

@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "testbed1/generated/api/testbed1.h"
 #include "testbed1/generated/api/common.h"
+#include "testbed1/generated/core/structinterface.data.h"
 #include <memory>
 
 namespace Test {
@@ -34,16 +35,16 @@ public:
     explicit StructInterface();
     ~StructInterface();
 public:
-    void setPropbool(const StructBool& propBool) override;
+    void setPropBool(const StructBool& propBool) override;
     const StructBool& propBool() const override;
     
-    void setPropint(const StructInt& propInt) override;
+    void setPropInt(const StructInt& propInt) override;
     const StructInt& propInt() const override;
     
-    void setPropfloat(const StructFloat& propFloat) override;
+    void setPropFloat(const StructFloat& propFloat) override;
     const StructFloat& propFloat() const override;
     
-    void setPropstring(const StructString& propString) override;
+    void setPropString(const StructString& propString) override;
     const StructString& propString() const override;
     
     /**
@@ -80,8 +81,7 @@ private:
     /* The publisher for the StructInterface. */
     std::unique_ptr<IStructInterfacePublisher> m_publisher;
     /**The helper structure to store all the properties for StructInterface. */
-    struct StructInterfaceData;
-    std::unique_ptr<StructInterfaceData> m_data;
+    StructInterfaceData m_data;
 };
 } // namespace Testbed1
 } // namespace Test

@@ -23,14 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
 using namespace Test::TbSimple;
+using namespace Test::TbSimple::olink;
 
 RemoteSimpleArrayInterface::RemoteSimpleArrayInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_propBool(std::list<bool>()),
-    m_propInt(std::list<int>()),
-    m_propFloat(std::list<float>()),
-    m_propString(std::list<std::string>()),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<SimpleArrayInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -45,20 +41,20 @@ RemoteSimpleArrayInterface::~RemoteSimpleArrayInterface()
 void RemoteSimpleArrayInterface::applyState(const nlohmann::json& fields) 
 {
     if(fields.contains("propBool")) {
-        setPropboolLocal(fields["propBool"].get<std::list<bool>>());
+        setPropBoolLocal(fields["propBool"].get<std::list<bool>>());
     }
     if(fields.contains("propInt")) {
-        setPropintLocal(fields["propInt"].get<std::list<int>>());
+        setPropIntLocal(fields["propInt"].get<std::list<int>>());
     }
     if(fields.contains("propFloat")) {
-        setPropfloatLocal(fields["propFloat"].get<std::list<float>>());
+        setPropFloatLocal(fields["propFloat"].get<std::list<float>>());
     }
     if(fields.contains("propString")) {
-        setPropstringLocal(fields["propString"].get<std::list<std::string>>());
+        setPropStringLocal(fields["propString"].get<std::list<std::string>>());
     }
 }
 
-void RemoteSimpleArrayInterface::setPropbool(const std::list<bool>& propBool)
+void RemoteSimpleArrayInterface::setPropBool(const std::list<bool>& propBool)
 {
     if(m_node == nullptr) {
         return;
@@ -66,20 +62,20 @@ void RemoteSimpleArrayInterface::setPropbool(const std::list<bool>& propBool)
     m_node->setRemoteProperty("tb.simple.SimpleArrayInterface/propBool", propBool);
 }
 
-void RemoteSimpleArrayInterface::setPropboolLocal(const std::list<bool>& propBool)
+void RemoteSimpleArrayInterface::setPropBoolLocal(const std::list<bool>& propBool)
 {
-    if (m_propBool != propBool) {
-        m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 const std::list<bool>& RemoteSimpleArrayInterface::propBool() const
 {
-    return m_propBool;
+    return m_data.m_propBool;
 }
 
-void RemoteSimpleArrayInterface::setPropint(const std::list<int>& propInt)
+void RemoteSimpleArrayInterface::setPropInt(const std::list<int>& propInt)
 {
     if(m_node == nullptr) {
         return;
@@ -87,20 +83,20 @@ void RemoteSimpleArrayInterface::setPropint(const std::list<int>& propInt)
     m_node->setRemoteProperty("tb.simple.SimpleArrayInterface/propInt", propInt);
 }
 
-void RemoteSimpleArrayInterface::setPropintLocal(const std::list<int>& propInt)
+void RemoteSimpleArrayInterface::setPropIntLocal(const std::list<int>& propInt)
 {
-    if (m_propInt != propInt) {
-        m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 const std::list<int>& RemoteSimpleArrayInterface::propInt() const
 {
-    return m_propInt;
+    return m_data.m_propInt;
 }
 
-void RemoteSimpleArrayInterface::setPropfloat(const std::list<float>& propFloat)
+void RemoteSimpleArrayInterface::setPropFloat(const std::list<float>& propFloat)
 {
     if(m_node == nullptr) {
         return;
@@ -108,20 +104,20 @@ void RemoteSimpleArrayInterface::setPropfloat(const std::list<float>& propFloat)
     m_node->setRemoteProperty("tb.simple.SimpleArrayInterface/propFloat", propFloat);
 }
 
-void RemoteSimpleArrayInterface::setPropfloatLocal(const std::list<float>& propFloat)
+void RemoteSimpleArrayInterface::setPropFloatLocal(const std::list<float>& propFloat)
 {
-    if (m_propFloat != propFloat) {
-        m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 const std::list<float>& RemoteSimpleArrayInterface::propFloat() const
 {
-    return m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void RemoteSimpleArrayInterface::setPropstring(const std::list<std::string>& propString)
+void RemoteSimpleArrayInterface::setPropString(const std::list<std::string>& propString)
 {
     if(m_node == nullptr) {
         return;
@@ -129,17 +125,17 @@ void RemoteSimpleArrayInterface::setPropstring(const std::list<std::string>& pro
     m_node->setRemoteProperty("tb.simple.SimpleArrayInterface/propString", propString);
 }
 
-void RemoteSimpleArrayInterface::setPropstringLocal(const std::list<std::string>& propString)
+void RemoteSimpleArrayInterface::setPropStringLocal(const std::list<std::string>& propString)
 {
-    if (m_propString != propString) {
-        m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 const std::list<std::string>& RemoteSimpleArrayInterface::propString() const
 {
-    return m_propString;
+    return m_data.m_propString;
 }
 
 std::list<bool> RemoteSimpleArrayInterface::funcBool(const std::list<bool>& paramBool)

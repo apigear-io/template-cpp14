@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "testbed2/generated/api/testbed2.h"
 #include "testbed2/generated/api/common.h"
+#include "testbed2/generated/core/nestedstruct1interface.data.h"
 #include <memory>
 
 namespace Test {
@@ -53,8 +54,7 @@ private:
     /* The publisher for the NestedStruct1Interface. */
     std::unique_ptr<INestedStruct1InterfacePublisher> m_publisher;
     /**The helper structure to store all the properties for NestedStruct1Interface. */
-    struct NestedStruct1InterfaceData;
-    std::unique_ptr<NestedStruct1InterfaceData> m_data;
+    NestedStruct1InterfaceData m_data;
 };
 } // namespace Testbed2
 } // namespace Test

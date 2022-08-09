@@ -19,76 +19,68 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_simple/implementation/simpleinterface.h"
 #include "tb_simple/generated/core/simpleinterface.publisher.h"
+#include "tb_simple/generated/core/simpleinterface.data.h"
 
 using namespace Test::TbSimple;
 
-struct SimpleInterface::SimpleInterfaceData
-{
-    bool m_propBool;
-    int m_propInt;
-    float m_propFloat;
-    std::string m_propString;
-};
-
 SimpleInterface::SimpleInterface()
-    : m_publisher(std::make_unique<SimpleInterfacePublisher>()),
-      m_data(std::make_unique<SimpleInterface::SimpleInterfaceData>())
+    : m_publisher(std::make_unique<SimpleInterfacePublisher>()) 
 {
 }
 SimpleInterface::~SimpleInterface()
 {
 }
 
-void SimpleInterface::setPropbool(bool propBool)
+void SimpleInterface::setPropBool(bool propBool)
 {
-    if (m_data->m_propBool != propBool) {
-        m_data->m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 bool SimpleInterface::propBool() const
 {
-    return m_data->m_propBool;
+    return m_data.m_propBool;
 }
 
-void SimpleInterface::setPropint(int propInt)
+void SimpleInterface::setPropInt(int propInt)
 {
-    if (m_data->m_propInt != propInt) {
-        m_data->m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 int SimpleInterface::propInt() const
 {
-    return m_data->m_propInt;
+    return m_data.m_propInt;
 }
 
-void SimpleInterface::setPropfloat(float propFloat)
+void SimpleInterface::setPropFloat(float propFloat)
 {
-    if (m_data->m_propFloat != propFloat) {
-        m_data->m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 float SimpleInterface::propFloat() const
 {
-    return m_data->m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void SimpleInterface::setPropstring(const std::string& propString)
+void SimpleInterface::setPropString(const std::string& propString)
 {
-    if (m_data->m_propString != propString) {
-        m_data->m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 std::string SimpleInterface::propString() const
 {
-    return m_data->m_propString;
+    return m_data.m_propString;
 }
 
 bool SimpleInterface::funcBool(bool paramBool)

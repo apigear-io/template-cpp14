@@ -63,6 +63,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for NestedStruct1Interface changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for NestedStruct1Interface.
     */
     virtual INestedStruct1InterfacePublisher& _getPublisher() const = 0;
@@ -86,13 +88,13 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig1(const NestedStruct1& param1) = 0;
+    virtual void onSig1(const NestedStruct1& param1) = 0;
     /**
     * Called by the INestedStruct1InterfacePublisher when prop1 value has changed if subscribed for the prop1 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp1Changed(const NestedStruct1& prop1) = 0;
+    virtual void onProp1Changed(const NestedStruct1& prop1) = 0;
 };
 
 /** Callback for changes of prop1 */

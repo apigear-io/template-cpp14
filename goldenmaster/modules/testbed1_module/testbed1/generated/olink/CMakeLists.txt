@@ -3,9 +3,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(apigear QUIET COMPONENTS poco-olink)
 set (SOURCES_OLINK
-    structinterfaceservice.cpp
+    structinterfaceservice.adapter.cpp
     remotestructinterface.cpp
-    structarrayinterfaceservice.cpp
+    structarrayinterfaceservice.adapter.cpp
     remotestructarrayinterface.cpp
 )
 add_library(testbed1-olink SHARED ${SOURCES_OLINK})

@@ -44,12 +44,12 @@ std::future<NestedStruct1> NestedStruct1InterfaceTracerDecorator::func1Async(con
     m_tracer->trace_func1(param1);
     return AbstractNestedStruct1InterfaceDecorator::func1Async(param1);
 }
-void NestedStruct1InterfaceTracerDecorator::OnSig1(const NestedStruct1& param1)
+void NestedStruct1InterfaceTracerDecorator::onSig1(const NestedStruct1& param1)
 {
     (void) param1;
     //m_tracer->trace_Sig1(param1);
 }
-void NestedStruct1InterfaceTracerDecorator::OnProp1Changed(const NestedStruct1&)
+void NestedStruct1InterfaceTracerDecorator::onProp1Changed(const NestedStruct1&)
 {
     m_tracer->capture_state(this);
 }

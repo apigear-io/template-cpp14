@@ -31,19 +31,19 @@ public:
     virtual ~AbstractStructInterfaceDecorator();
 public:
     // property propBool
-    void setPropbool(const StructBool& propBool) override;
+    void setPropBool(const StructBool& propBool) override;
     const StructBool& propBool() const override;
     
     // property propInt
-    void setPropint(const StructInt& propInt) override;
+    void setPropInt(const StructInt& propInt) override;
     const StructInt& propInt() const override;
     
     // property propFloat
-    void setPropfloat(const StructFloat& propFloat) override;
+    void setPropFloat(const StructFloat& propFloat) override;
     const StructFloat& propFloat() const override;
     
     // property propString
-    void setPropstring(const StructString& propString) override;
+    void setPropString(const StructString& propString) override;
     const StructString& propString() const override;
     
     // operations

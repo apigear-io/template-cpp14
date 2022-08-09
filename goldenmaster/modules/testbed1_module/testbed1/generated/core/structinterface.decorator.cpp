@@ -57,36 +57,36 @@ AbstractStructInterfaceDecorator::~AbstractStructInterfaceDecorator()
         m_impl->_getPublisher().unsubscribeFromAllChanges(*this);
     }
 }
-void AbstractStructInterfaceDecorator::setPropbool(const StructBool& propBool)
+void AbstractStructInterfaceDecorator::setPropBool(const StructBool& propBool)
 {
-    m_impl->setPropbool(propBool);
+    m_impl->setPropBool(propBool);
 }
 
 const StructBool& AbstractStructInterfaceDecorator::propBool() const
 {
     return m_impl->propBool();
 }
-void AbstractStructInterfaceDecorator::setPropint(const StructInt& propInt)
+void AbstractStructInterfaceDecorator::setPropInt(const StructInt& propInt)
 {
-    m_impl->setPropint(propInt);
+    m_impl->setPropInt(propInt);
 }
 
 const StructInt& AbstractStructInterfaceDecorator::propInt() const
 {
     return m_impl->propInt();
 }
-void AbstractStructInterfaceDecorator::setPropfloat(const StructFloat& propFloat)
+void AbstractStructInterfaceDecorator::setPropFloat(const StructFloat& propFloat)
 {
-    m_impl->setPropfloat(propFloat);
+    m_impl->setPropFloat(propFloat);
 }
 
 const StructFloat& AbstractStructInterfaceDecorator::propFloat() const
 {
     return m_impl->propFloat();
 }
-void AbstractStructInterfaceDecorator::setPropstring(const StructString& propString)
+void AbstractStructInterfaceDecorator::setPropString(const StructString& propString)
 {
-    m_impl->setPropstring(propString);
+    m_impl->setPropString(propString);
 }
 
 const StructString& AbstractStructInterfaceDecorator::propString() const

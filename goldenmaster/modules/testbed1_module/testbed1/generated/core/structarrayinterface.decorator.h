@@ -31,19 +31,19 @@ public:
     virtual ~AbstractStructArrayInterfaceDecorator();
 public:
     // property propBool
-    void setPropbool(const std::list<StructBool>& propBool) override;
+    void setPropBool(const std::list<StructBool>& propBool) override;
     const std::list<StructBool>& propBool() const override;
     
     // property propInt
-    void setPropint(const std::list<StructInt>& propInt) override;
+    void setPropInt(const std::list<StructInt>& propInt) override;
     const std::list<StructInt>& propInt() const override;
     
     // property propFloat
-    void setPropfloat(const std::list<StructFloat>& propFloat) override;
+    void setPropFloat(const std::list<StructFloat>& propFloat) override;
     const std::list<StructFloat>& propFloat() const override;
     
     // property propString
-    void setPropstring(const std::list<StructString>& propString) override;
+    void setPropString(const std::list<StructString>& propString) override;
     const std::list<StructString>& propString() const override;
     
     // operations

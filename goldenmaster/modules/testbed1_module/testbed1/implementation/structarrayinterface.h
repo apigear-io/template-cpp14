@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "testbed1/generated/api/testbed1.h"
 #include "testbed1/generated/api/common.h"
+#include "testbed1/generated/core/structarrayinterface.data.h"
 #include <memory>
 
 namespace Test {
@@ -34,16 +35,16 @@ public:
     explicit StructArrayInterface();
     ~StructArrayInterface();
 public:
-    void setPropbool(const std::list<StructBool>& propBool) override;
+    void setPropBool(const std::list<StructBool>& propBool) override;
     const std::list<StructBool>& propBool() const override;
     
-    void setPropint(const std::list<StructInt>& propInt) override;
+    void setPropInt(const std::list<StructInt>& propInt) override;
     const std::list<StructInt>& propInt() const override;
     
-    void setPropfloat(const std::list<StructFloat>& propFloat) override;
+    void setPropFloat(const std::list<StructFloat>& propFloat) override;
     const std::list<StructFloat>& propFloat() const override;
     
-    void setPropstring(const std::list<StructString>& propString) override;
+    void setPropString(const std::list<StructString>& propString) override;
     const std::list<StructString>& propString() const override;
     
     /**
@@ -80,8 +81,7 @@ private:
     /* The publisher for the StructArrayInterface. */
     std::unique_ptr<IStructArrayInterfacePublisher> m_publisher;
     /**The helper structure to store all the properties for StructArrayInterface. */
-    struct StructArrayInterfaceData;
-    std::unique_ptr<StructArrayInterfaceData> m_data;
+    StructArrayInterfaceData m_data;
 };
 } // namespace Testbed1
 } // namespace Test

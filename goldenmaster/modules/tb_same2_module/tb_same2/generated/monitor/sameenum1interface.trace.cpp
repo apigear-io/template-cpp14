@@ -44,12 +44,12 @@ std::future<Enum1Enum> SameEnum1InterfaceTracerDecorator::func1Async(const Enum1
     m_tracer->trace_func1(param1);
     return AbstractSameEnum1InterfaceDecorator::func1Async(param1);
 }
-void SameEnum1InterfaceTracerDecorator::OnSig1(const Enum1Enum& param1)
+void SameEnum1InterfaceTracerDecorator::onSig1(const Enum1Enum& param1)
 {
     (void) param1;
     //m_tracer->trace_Sig1(param1);
 }
-void SameEnum1InterfaceTracerDecorator::OnProp1Changed(const Enum1Enum&)
+void SameEnum1InterfaceTracerDecorator::onProp1Changed(const Enum1Enum&)
 {
     m_tracer->capture_state(this);
 }

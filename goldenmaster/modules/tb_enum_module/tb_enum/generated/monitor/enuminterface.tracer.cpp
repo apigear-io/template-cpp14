@@ -46,3 +46,27 @@ void EnumInterfaceTracer::trace_func3(const Enum3Enum& param3)
     fields_["param3"] = param3;
     m_tracer.call("tb.enum.EnumInterface#func3", fields_);
 }
+void EnumInterfaceTracer::trace_sig0(const Enum0Enum& param0)
+{
+    nlohmann::json fields_;
+    fields_["param0"] = param0;
+    m_tracer.signal("tb.enum.EnumInterface#sig0", fields_);
+}
+void EnumInterfaceTracer::trace_sig1(const Enum1Enum& param1)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    m_tracer.signal("tb.enum.EnumInterface#sig1", fields_);
+}
+void EnumInterfaceTracer::trace_sig2(const Enum2Enum& param2)
+{
+    nlohmann::json fields_;
+    fields_["param2"] = param2;
+    m_tracer.signal("tb.enum.EnumInterface#sig2", fields_);
+}
+void EnumInterfaceTracer::trace_sig3(const Enum3Enum& param3)
+{
+    nlohmann::json fields_;
+    fields_["param3"] = param3;
+    m_tracer.signal("tb.enum.EnumInterface#sig3", fields_);
+}

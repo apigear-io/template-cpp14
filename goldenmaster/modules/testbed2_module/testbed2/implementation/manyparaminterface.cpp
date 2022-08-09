@@ -19,20 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed2/implementation/manyparaminterface.h"
 #include "testbed2/generated/core/manyparaminterface.publisher.h"
+#include "testbed2/generated/core/manyparaminterface.data.h"
 
 using namespace Test::Testbed2;
 
-struct ManyParamInterface::ManyParamInterfaceData
-{
-    int m_prop1;
-    int m_prop2;
-    int m_prop3;
-    int m_prop4;
-};
-
 ManyParamInterface::ManyParamInterface()
-    : m_publisher(std::make_unique<ManyParamInterfacePublisher>()),
-      m_data(std::make_unique<ManyParamInterface::ManyParamInterfaceData>())
+    : m_publisher(std::make_unique<ManyParamInterfacePublisher>()) 
 {
 }
 ManyParamInterface::~ManyParamInterface()
@@ -41,54 +33,54 @@ ManyParamInterface::~ManyParamInterface()
 
 void ManyParamInterface::setProp1(int prop1)
 {
-    if (m_data->m_prop1 != prop1) {
-        m_data->m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 int ManyParamInterface::prop1() const
 {
-    return m_data->m_prop1;
+    return m_data.m_prop1;
 }
 
 void ManyParamInterface::setProp2(int prop2)
 {
-    if (m_data->m_prop2 != prop2) {
-        m_data->m_prop2 = prop2;
+    if (m_data.m_prop2 != prop2) {
+        m_data.m_prop2 = prop2;
         m_publisher->publishProp2Changed(prop2);
     }
 }
 
 int ManyParamInterface::prop2() const
 {
-    return m_data->m_prop2;
+    return m_data.m_prop2;
 }
 
 void ManyParamInterface::setProp3(int prop3)
 {
-    if (m_data->m_prop3 != prop3) {
-        m_data->m_prop3 = prop3;
+    if (m_data.m_prop3 != prop3) {
+        m_data.m_prop3 = prop3;
         m_publisher->publishProp3Changed(prop3);
     }
 }
 
 int ManyParamInterface::prop3() const
 {
-    return m_data->m_prop3;
+    return m_data.m_prop3;
 }
 
 void ManyParamInterface::setProp4(int prop4)
 {
-    if (m_data->m_prop4 != prop4) {
-        m_data->m_prop4 = prop4;
+    if (m_data.m_prop4 != prop4) {
+        m_data.m_prop4 = prop4;
         m_publisher->publishProp4Changed(prop4);
     }
 }
 
 int ManyParamInterface::prop4() const
 {
-    return m_data->m_prop4;
+    return m_data.m_prop4;
 }
 
 int ManyParamInterface::func1(int param1)

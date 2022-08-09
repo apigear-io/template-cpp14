@@ -114,6 +114,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for EnumInterface changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for EnumInterface.
     */
     virtual IEnumInterfacePublisher& _getPublisher() const = 0;
@@ -137,52 +139,52 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig0(const Enum0Enum& param0) = 0;
+    virtual void onSig0(const Enum0Enum& param0) = 0;
     /**
     * Called by the IEnumInterfacePublisher when the EnumInterface emits sig1, if subscribed for the sig1.
     * @param param1 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig1(const Enum1Enum& param1) = 0;
+    virtual void onSig1(const Enum1Enum& param1) = 0;
     /**
     * Called by the IEnumInterfacePublisher when the EnumInterface emits sig2, if subscribed for the sig2.
     * @param param2 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig2(const Enum2Enum& param2) = 0;
+    virtual void onSig2(const Enum2Enum& param2) = 0;
     /**
     * Called by the IEnumInterfacePublisher when the EnumInterface emits sig3, if subscribed for the sig3.
     * @param param3 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSig3(const Enum3Enum& param3) = 0;
+    virtual void onSig3(const Enum3Enum& param3) = 0;
     /**
     * Called by the IEnumInterfacePublisher when prop0 value has changed if subscribed for the prop0 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp0Changed(const Enum0Enum& prop0) = 0;
+    virtual void onProp0Changed(const Enum0Enum& prop0) = 0;
     /**
     * Called by the IEnumInterfacePublisher when prop1 value has changed if subscribed for the prop1 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp1Changed(const Enum1Enum& prop1) = 0;
+    virtual void onProp1Changed(const Enum1Enum& prop1) = 0;
     /**
     * Called by the IEnumInterfacePublisher when prop2 value has changed if subscribed for the prop2 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp2Changed(const Enum2Enum& prop2) = 0;
+    virtual void onProp2Changed(const Enum2Enum& prop2) = 0;
     /**
     * Called by the IEnumInterfacePublisher when prop3 value has changed if subscribed for the prop3 change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnProp3Changed(const Enum3Enum& prop3) = 0;
+    virtual void onProp3Changed(const Enum3Enum& prop3) = 0;
 };
 
 /** Callback for changes of prop0 */

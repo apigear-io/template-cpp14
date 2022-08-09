@@ -23,11 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_same2/generated/core/tb_same2.json.adapter.h"
 
 using namespace Test::TbSame2;
+using namespace Test::TbSame2::olink;
 
 RemoteSameEnum1Interface::RemoteSameEnum1Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_prop1(Enum1Enum::value1),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<SameEnum1InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -56,15 +55,15 @@ void RemoteSameEnum1Interface::setProp1(const Enum1Enum& prop1)
 
 void RemoteSameEnum1Interface::setProp1Local(const Enum1Enum& prop1)
 {
-    if (m_prop1 != prop1) {
-        m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const Enum1Enum& RemoteSameEnum1Interface::prop1() const
 {
-    return m_prop1;
+    return m_data.m_prop1;
 }
 
 Enum1Enum RemoteSameEnum1Interface::func1(const Enum1Enum& param1)

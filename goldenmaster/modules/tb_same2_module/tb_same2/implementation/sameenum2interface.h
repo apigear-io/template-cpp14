@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "tb_same2/generated/api/tb_same2.h"
 #include "tb_same2/generated/api/common.h"
+#include "tb_same2/generated/core/sameenum2interface.data.h"
 #include <memory>
 
 namespace Test {
@@ -62,8 +63,7 @@ private:
     /* The publisher for the SameEnum2Interface. */
     std::unique_ptr<ISameEnum2InterfacePublisher> m_publisher;
     /**The helper structure to store all the properties for SameEnum2Interface. */
-    struct SameEnum2InterfaceData;
-    std::unique_ptr<SameEnum2InterfaceData> m_data;
+    SameEnum2InterfaceData m_data;
 };
 } // namespace TbSame2
 } // namespace Test

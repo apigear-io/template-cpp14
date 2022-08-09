@@ -19,17 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed2/implementation/nestedstruct1interface.h"
 #include "testbed2/generated/core/nestedstruct1interface.publisher.h"
+#include "testbed2/generated/core/nestedstruct1interface.data.h"
 
 using namespace Test::Testbed2;
 
-struct NestedStruct1Interface::NestedStruct1InterfaceData
-{
-    NestedStruct1 m_prop1;
-};
-
 NestedStruct1Interface::NestedStruct1Interface()
-    : m_publisher(std::make_unique<NestedStruct1InterfacePublisher>()),
-      m_data(std::make_unique<NestedStruct1Interface::NestedStruct1InterfaceData>())
+    : m_publisher(std::make_unique<NestedStruct1InterfacePublisher>()) 
 {
 }
 NestedStruct1Interface::~NestedStruct1Interface()
@@ -38,15 +33,15 @@ NestedStruct1Interface::~NestedStruct1Interface()
 
 void NestedStruct1Interface::setProp1(const NestedStruct1& prop1)
 {
-    if (m_data->m_prop1 != prop1) {
-        m_data->m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const NestedStruct1& NestedStruct1Interface::prop1() const
 {
-    return m_data->m_prop1;
+    return m_data.m_prop1;
 }
 
 NestedStruct1 NestedStruct1Interface::func1(const NestedStruct1& param1)

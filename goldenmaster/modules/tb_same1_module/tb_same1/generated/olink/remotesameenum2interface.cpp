@@ -23,12 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_same1/generated/core/tb_same1.json.adapter.h"
 
 using namespace Test::TbSame1;
+using namespace Test::TbSame1::olink;
 
 RemoteSameEnum2Interface::RemoteSameEnum2Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_prop1(Enum1Enum::value1),
-    m_prop2(Enum2Enum::value1),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<SameEnum2InterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -60,15 +58,15 @@ void RemoteSameEnum2Interface::setProp1(const Enum1Enum& prop1)
 
 void RemoteSameEnum2Interface::setProp1Local(const Enum1Enum& prop1)
 {
-    if (m_prop1 != prop1) {
-        m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const Enum1Enum& RemoteSameEnum2Interface::prop1() const
 {
-    return m_prop1;
+    return m_data.m_prop1;
 }
 
 void RemoteSameEnum2Interface::setProp2(const Enum2Enum& prop2)
@@ -81,15 +79,15 @@ void RemoteSameEnum2Interface::setProp2(const Enum2Enum& prop2)
 
 void RemoteSameEnum2Interface::setProp2Local(const Enum2Enum& prop2)
 {
-    if (m_prop2 != prop2) {
-        m_prop2 = prop2;
+    if (m_data.m_prop2 != prop2) {
+        m_data.m_prop2 = prop2;
         m_publisher->publishProp2Changed(prop2);
     }
 }
 
 const Enum2Enum& RemoteSameEnum2Interface::prop2() const
 {
-    return m_prop2;
+    return m_data.m_prop2;
 }
 
 Enum1Enum RemoteSameEnum2Interface::func1(const Enum1Enum& param1)

@@ -19,76 +19,68 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed1/implementation/structinterface.h"
 #include "testbed1/generated/core/structinterface.publisher.h"
+#include "testbed1/generated/core/structinterface.data.h"
 
 using namespace Test::Testbed1;
 
-struct StructInterface::StructInterfaceData
-{
-    StructBool m_propBool;
-    StructInt m_propInt;
-    StructFloat m_propFloat;
-    StructString m_propString;
-};
-
 StructInterface::StructInterface()
-    : m_publisher(std::make_unique<StructInterfacePublisher>()),
-      m_data(std::make_unique<StructInterface::StructInterfaceData>())
+    : m_publisher(std::make_unique<StructInterfacePublisher>()) 
 {
 }
 StructInterface::~StructInterface()
 {
 }
 
-void StructInterface::setPropbool(const StructBool& propBool)
+void StructInterface::setPropBool(const StructBool& propBool)
 {
-    if (m_data->m_propBool != propBool) {
-        m_data->m_propBool = propBool;
+    if (m_data.m_propBool != propBool) {
+        m_data.m_propBool = propBool;
         m_publisher->publishPropBoolChanged(propBool);
     }
 }
 
 const StructBool& StructInterface::propBool() const
 {
-    return m_data->m_propBool;
+    return m_data.m_propBool;
 }
 
-void StructInterface::setPropint(const StructInt& propInt)
+void StructInterface::setPropInt(const StructInt& propInt)
 {
-    if (m_data->m_propInt != propInt) {
-        m_data->m_propInt = propInt;
+    if (m_data.m_propInt != propInt) {
+        m_data.m_propInt = propInt;
         m_publisher->publishPropIntChanged(propInt);
     }
 }
 
 const StructInt& StructInterface::propInt() const
 {
-    return m_data->m_propInt;
+    return m_data.m_propInt;
 }
 
-void StructInterface::setPropfloat(const StructFloat& propFloat)
+void StructInterface::setPropFloat(const StructFloat& propFloat)
 {
-    if (m_data->m_propFloat != propFloat) {
-        m_data->m_propFloat = propFloat;
+    if (m_data.m_propFloat != propFloat) {
+        m_data.m_propFloat = propFloat;
         m_publisher->publishPropFloatChanged(propFloat);
     }
 }
 
 const StructFloat& StructInterface::propFloat() const
 {
-    return m_data->m_propFloat;
+    return m_data.m_propFloat;
 }
 
-void StructInterface::setPropstring(const StructString& propString)
+void StructInterface::setPropString(const StructString& propString)
 {
-    if (m_data->m_propString != propString) {
-        m_data->m_propString = propString;
+    if (m_data.m_propString != propString) {
+        m_data.m_propString = propString;
         m_publisher->publishPropStringChanged(propString);
     }
 }
 
 const StructString& StructInterface::propString() const
 {
-    return m_data->m_propString;
+    return m_data.m_propString;
 }
 
 StructBool StructInterface::funcBool(const StructBool& paramBool)

@@ -19,7 +19,7 @@ int main(){
     {% for interface in module.interfaces %}
     {% assign class = interface.name | capital %}
     {% assign tracer_class = class | append: "TracerDecorator" %}
-    std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{module.name | capital}}{{class}} = std::make_unique<{{ module.name | capital }}::Remote{{interface.name}}>(registry, testClient);
+    std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{module.name | capital}}{{class}} = std::make_unique<{{ module.name | capital }}::olink::Remote{{interface.name}}>(registry, testClient);
     std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{ module.name | capital }}{{tracer_class}}({{ module.name | capital }}::{{tracer_class}}::connect(test{{ module.name | capital }}{{class}}.get(), tracer));
     {% endfor %}
     {% endfor %}

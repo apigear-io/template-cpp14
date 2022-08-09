@@ -19,18 +19,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "tb_same1/implementation/samestruct2interface.h"
 #include "tb_same1/generated/core/samestruct2interface.publisher.h"
+#include "tb_same1/generated/core/samestruct2interface.data.h"
 
 using namespace Test::TbSame1;
 
-struct SameStruct2Interface::SameStruct2InterfaceData
-{
-    Struct2 m_prop1;
-    Struct2 m_prop2;
-};
-
 SameStruct2Interface::SameStruct2Interface()
-    : m_publisher(std::make_unique<SameStruct2InterfacePublisher>()),
-      m_data(std::make_unique<SameStruct2Interface::SameStruct2InterfaceData>())
+    : m_publisher(std::make_unique<SameStruct2InterfacePublisher>()) 
 {
 }
 SameStruct2Interface::~SameStruct2Interface()
@@ -39,28 +33,28 @@ SameStruct2Interface::~SameStruct2Interface()
 
 void SameStruct2Interface::setProp1(const Struct2& prop1)
 {
-    if (m_data->m_prop1 != prop1) {
-        m_data->m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const Struct2& SameStruct2Interface::prop1() const
 {
-    return m_data->m_prop1;
+    return m_data.m_prop1;
 }
 
 void SameStruct2Interface::setProp2(const Struct2& prop2)
 {
-    if (m_data->m_prop2 != prop2) {
-        m_data->m_prop2 = prop2;
+    if (m_data.m_prop2 != prop2) {
+        m_data.m_prop2 = prop2;
         m_publisher->publishProp2Changed(prop2);
     }
 }
 
 const Struct2& SameStruct2Interface::prop2() const
 {
-    return m_data->m_prop2;
+    return m_data.m_prop2;
 }
 
 Struct1 SameStruct2Interface::func1(const Struct1& param1)

@@ -7,6 +7,7 @@
 #pragma once
 #include "{{module.name|identifier}}/generated/api/{{module.name|identifier}}.h"
 #include "{{module.name|identifier}}/generated/api/common.h"
+#include "{{module.name|identifier}}/generated/core/{{interface.name|lower}}.data.h"
 #include <memory>
 
 namespace {{ system.name | capital }} {
@@ -30,7 +31,7 @@ public:
     * {{property.name}} {{property.description}}
     */
 {% endif %}
-    void set{{property.name|capitalize}}({{ property|cpp14Param }}) override;
+    void set{{property.name|capital}}({{ property|cpp14Param }}) override;
     {{property|cpp14Return: true}} {{property.name}}() const override;
     {{nl}}    
 {% endfor %}
@@ -55,8 +56,7 @@ private:
     /* The publisher for the {{interface.name}}. */
     std::unique_ptr<{{pub_interface}}> m_publisher;
     /**The helper structure to store all the properties for {{interface.name}}. */
-    struct {{interface.name | capital}}Data;
-    std::unique_ptr<{{interface.name | capital}}Data> m_data;
+    {{interface.name | capital}}Data m_data;
 };
 } // namespace {{ module.name | capital }}
 } // namespace {{ system.name | capital }}

@@ -23,14 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_enum/generated/core/tb_enum.json.adapter.h"
 
 using namespace Test::TbEnum;
+using namespace Test::TbEnum::olink;
 
 RemoteEnumInterface::RemoteEnumInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    :
-    m_prop0(Enum0Enum::value0),
-    m_prop1(Enum1Enum::value1),
-    m_prop2(Enum2Enum::value2),
-    m_prop3(Enum3Enum::value3),
-    m_registry(registry),
+    : m_registry(registry),
     m_publisher(std::make_unique<EnumInterfacePublisher>())
 {
     m_registry.addObjectSink(this);
@@ -68,15 +64,15 @@ void RemoteEnumInterface::setProp0(const Enum0Enum& prop0)
 
 void RemoteEnumInterface::setProp0Local(const Enum0Enum& prop0)
 {
-    if (m_prop0 != prop0) {
-        m_prop0 = prop0;
+    if (m_data.m_prop0 != prop0) {
+        m_data.m_prop0 = prop0;
         m_publisher->publishProp0Changed(prop0);
     }
 }
 
 const Enum0Enum& RemoteEnumInterface::prop0() const
 {
-    return m_prop0;
+    return m_data.m_prop0;
 }
 
 void RemoteEnumInterface::setProp1(const Enum1Enum& prop1)
@@ -89,15 +85,15 @@ void RemoteEnumInterface::setProp1(const Enum1Enum& prop1)
 
 void RemoteEnumInterface::setProp1Local(const Enum1Enum& prop1)
 {
-    if (m_prop1 != prop1) {
-        m_prop1 = prop1;
+    if (m_data.m_prop1 != prop1) {
+        m_data.m_prop1 = prop1;
         m_publisher->publishProp1Changed(prop1);
     }
 }
 
 const Enum1Enum& RemoteEnumInterface::prop1() const
 {
-    return m_prop1;
+    return m_data.m_prop1;
 }
 
 void RemoteEnumInterface::setProp2(const Enum2Enum& prop2)
@@ -110,15 +106,15 @@ void RemoteEnumInterface::setProp2(const Enum2Enum& prop2)
 
 void RemoteEnumInterface::setProp2Local(const Enum2Enum& prop2)
 {
-    if (m_prop2 != prop2) {
-        m_prop2 = prop2;
+    if (m_data.m_prop2 != prop2) {
+        m_data.m_prop2 = prop2;
         m_publisher->publishProp2Changed(prop2);
     }
 }
 
 const Enum2Enum& RemoteEnumInterface::prop2() const
 {
-    return m_prop2;
+    return m_data.m_prop2;
 }
 
 void RemoteEnumInterface::setProp3(const Enum3Enum& prop3)
@@ -131,15 +127,15 @@ void RemoteEnumInterface::setProp3(const Enum3Enum& prop3)
 
 void RemoteEnumInterface::setProp3Local(const Enum3Enum& prop3)
 {
-    if (m_prop3 != prop3) {
-        m_prop3 = prop3;
+    if (m_data.m_prop3 != prop3) {
+        m_data.m_prop3 = prop3;
         m_publisher->publishProp3Changed(prop3);
     }
 }
 
 const Enum3Enum& RemoteEnumInterface::prop3() const
 {
-    return m_prop3;
+    return m_data.m_prop3;
 }
 
 Enum0Enum RemoteEnumInterface::func0(const Enum0Enum& param0)

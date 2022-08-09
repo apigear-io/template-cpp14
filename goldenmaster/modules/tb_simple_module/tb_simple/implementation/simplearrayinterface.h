@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include "tb_simple/generated/api/tb_simple.h"
 #include "tb_simple/generated/api/common.h"
+#include "tb_simple/generated/core/simplearrayinterface.data.h"
 #include <memory>
 
 namespace Test {
@@ -34,16 +35,16 @@ public:
     explicit SimpleArrayInterface();
     ~SimpleArrayInterface();
 public:
-    void setPropbool(const std::list<bool>& propBool) override;
+    void setPropBool(const std::list<bool>& propBool) override;
     const std::list<bool>& propBool() const override;
     
-    void setPropint(const std::list<int>& propInt) override;
+    void setPropInt(const std::list<int>& propInt) override;
     const std::list<int>& propInt() const override;
     
-    void setPropfloat(const std::list<float>& propFloat) override;
+    void setPropFloat(const std::list<float>& propFloat) override;
     const std::list<float>& propFloat() const override;
     
-    void setPropstring(const std::list<std::string>& propString) override;
+    void setPropString(const std::list<std::string>& propString) override;
     const std::list<std::string>& propString() const override;
     
     /**
@@ -80,8 +81,7 @@ private:
     /* The publisher for the SimpleArrayInterface. */
     std::unique_ptr<ISimpleArrayInterfacePublisher> m_publisher;
     /**The helper structure to store all the properties for SimpleArrayInterface. */
-    struct SimpleArrayInterfaceData;
-    std::unique_ptr<SimpleArrayInterfaceData> m_data;
+    SimpleArrayInterfaceData m_data;
 };
 } // namespace TbSimple
 } // namespace Test

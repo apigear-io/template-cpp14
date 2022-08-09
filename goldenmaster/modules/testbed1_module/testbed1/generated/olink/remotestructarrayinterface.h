@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "testbed1/generated/api/testbed1.h"
 #include "testbed1/generated/api/common.h"
+#include "testbed1/generated/core/structarrayinterface.data.h"
 
 #include "olink/clientnode.h"
 #include "apigear/olink/olinkclient.h"
@@ -29,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace Test {
 namespace Testbed1 {
-
+namespace olink {
 /**
 * Remote StructArrayInterface implemented with OLink. 
 * Handles connnectionn with StructArrayInterface service.
@@ -52,44 +53,44 @@ public:
     virtual ~RemoteStructArrayInterface() override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propbool.
+    * @return Locally stored locally value for PropBool.
     */
     const std::list<StructBool>& propBool() const override;
     /**
     * Request setting a property on the StructArrayInterface service.
-    * @param The value to which set request is send for the Propbool.
+    * @param The value to which set request is send for the PropBool.
     */
-    void setPropbool(const std::list<StructBool>& propBool) override;
+    void setPropBool(const std::list<StructBool>& propBool) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propint.
+    * @return Locally stored locally value for PropInt.
     */
     const std::list<StructInt>& propInt() const override;
     /**
     * Request setting a property on the StructArrayInterface service.
-    * @param The value to which set request is send for the Propint.
+    * @param The value to which set request is send for the PropInt.
     */
-    void setPropint(const std::list<StructInt>& propInt) override;
+    void setPropInt(const std::list<StructInt>& propInt) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propfloat.
+    * @return Locally stored locally value for PropFloat.
     */
     const std::list<StructFloat>& propFloat() const override;
     /**
     * Request setting a property on the StructArrayInterface service.
-    * @param The value to which set request is send for the Propfloat.
+    * @param The value to which set request is send for the PropFloat.
     */
-    void setPropfloat(const std::list<StructFloat>& propFloat) override;
+    void setPropFloat(const std::list<StructFloat>& propFloat) override;
     /**
     * Property getter
-    * @return Locally stored locally value for Propstring.
+    * @return Locally stored locally value for PropString.
     */
     const std::list<StructString>& propString() const override;
     /**
     * Request setting a property on the StructArrayInterface service.
-    * @param The value to which set request is send for the Propstring.
+    * @param The value to which set request is send for the PropString.
     */
-    void setPropstring(const std::list<StructString>& propString) override;
+    void setPropString(const std::list<StructString>& propString) override;
     /**
     * Remote call of IStructArrayInterface::funcBool on the StructArrayInterface service.
     * Uses funcBoolAsync
@@ -175,18 +176,18 @@ private:
     * @param the data recived from StructArrayInterface service.
     */
     void applyState(const nlohmann::json& fields);
-    /**  Updates local value for Propbool and informs subscriber about the change*/
-    void setPropboolLocal(const std::list<StructBool>& propBool);
-    /**  Updates local value for Propint and informs subscriber about the change*/
-    void setPropintLocal(const std::list<StructInt>& propInt);
-    /**  Updates local value for Propfloat and informs subscriber about the change*/
-    void setPropfloatLocal(const std::list<StructFloat>& propFloat);
-    /**  Updates local value for Propstring and informs subscriber about the change*/
-    void setPropstringLocal(const std::list<StructString>& propString);
-    std::list<StructBool> m_propBool;
-    std::list<StructInt> m_propInt;
-    std::list<StructFloat> m_propFloat;
-    std::list<StructString> m_propString;
+    /**  Updates local value for PropBool and informs subscriber about the change*/
+    void setPropBoolLocal(const std::list<StructBool>& propBool);
+    /**  Updates local value for PropInt and informs subscriber about the change*/
+    void setPropIntLocal(const std::list<StructInt>& propInt);
+    /**  Updates local value for PropFloat and informs subscriber about the change*/
+    void setPropFloatLocal(const std::list<StructFloat>& propFloat);
+    /**  Updates local value for PropString and informs subscriber about the change*/
+    void setPropStringLocal(const std::list<StructString>& propString);
+    
+    /** Local storage for properties values. */
+    StructArrayInterfaceData m_data;
+
     /**
     * An Olink client node used to connect with a Olink StructArrayInterface service for object given with olinkObjectName() .
     * An abstraction layer over the socket for the RemoteStructArrayInterface.
@@ -202,5 +203,6 @@ private:
     /** The publisher for StructArrayInterface */
     std::unique_ptr<IStructArrayInterfacePublisher> m_publisher;
 };
+} // namespace olink
 } // namespace Testbed1
 } // namespace Test

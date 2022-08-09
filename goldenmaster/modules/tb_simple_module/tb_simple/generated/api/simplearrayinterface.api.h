@@ -78,7 +78,7 @@ public:
     /**
     * Sets the value of the propBool property.
     */
-    virtual void setPropbool(const std::list<bool>& propBool) = 0;
+    virtual void setPropBool(const std::list<bool>& propBool) = 0;
     /**
     * Gets the value of the propBool property.
     */
@@ -87,7 +87,7 @@ public:
     /**
     * Sets the value of the propInt property.
     */
-    virtual void setPropint(const std::list<int>& propInt) = 0;
+    virtual void setPropInt(const std::list<int>& propInt) = 0;
     /**
     * Gets the value of the propInt property.
     */
@@ -96,7 +96,7 @@ public:
     /**
     * Sets the value of the propFloat property.
     */
-    virtual void setPropfloat(const std::list<float>& propFloat) = 0;
+    virtual void setPropFloat(const std::list<float>& propFloat) = 0;
     /**
     * Gets the value of the propFloat property.
     */
@@ -105,7 +105,7 @@ public:
     /**
     * Sets the value of the propString property.
     */
-    virtual void setPropstring(const std::list<std::string>& propString) = 0;
+    virtual void setPropString(const std::list<std::string>& propString) = 0;
     /**
     * Gets the value of the propString property.
     */
@@ -114,6 +114,8 @@ public:
 
     /**
     * Access to a publisher, use it to subscribe for SimpleArrayInterface changes and signal emission.
+    * This function name doesn't follow the convention, because it is added to user defined interface,
+    * to avoid potentially name clashes, it has the trailing underscore in the name.
     * @return The publisher for SimpleArrayInterface.
     */
     virtual ISimpleArrayInterfacePublisher& _getPublisher() const = 0;
@@ -137,52 +139,52 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigBool(const std::list<bool>& paramBool) = 0;
+    virtual void onSigBool(const std::list<bool>& paramBool) = 0;
     /**
     * Called by the ISimpleArrayInterfacePublisher when the SimpleArrayInterface emits sigInt, if subscribed for the sigInt.
     * @param paramInt 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigInt(const std::list<int>& paramInt) = 0;
+    virtual void onSigInt(const std::list<int>& paramInt) = 0;
     /**
     * Called by the ISimpleArrayInterfacePublisher when the SimpleArrayInterface emits sigFloat, if subscribed for the sigFloat.
     * @param paramFloat 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigFloat(const std::list<float>& paramFloat) = 0;
+    virtual void onSigFloat(const std::list<float>& paramFloat) = 0;
     /**
     * Called by the ISimpleArrayInterfacePublisher when the SimpleArrayInterface emits sigString, if subscribed for the sigString.
     * @param paramString 
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnSigString(const std::list<std::string>& paramString) = 0;
+    virtual void onSigString(const std::list<std::string>& paramString) = 0;
     /**
     * Called by the ISimpleArrayInterfacePublisher when propBool value has changed if subscribed for the propBool change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropBoolChanged(const std::list<bool>& propBool) = 0;
+    virtual void onPropBoolChanged(const std::list<bool>& propBool) = 0;
     /**
     * Called by the ISimpleArrayInterfacePublisher when propInt value has changed if subscribed for the propInt change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropIntChanged(const std::list<int>& propInt) = 0;
+    virtual void onPropIntChanged(const std::list<int>& propInt) = 0;
     /**
     * Called by the ISimpleArrayInterfacePublisher when propFloat value has changed if subscribed for the propFloat change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropFloatChanged(const std::list<float>& propFloat) = 0;
+    virtual void onPropFloatChanged(const std::list<float>& propFloat) = 0;
     /**
     * Called by the ISimpleArrayInterfacePublisher when propString value has changed if subscribed for the propString change.
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void OnPropStringChanged(const std::list<std::string>& propString) = 0;
+    virtual void onPropStringChanged(const std::list<std::string>& propString) = 0;
 };
 
 /** Callback for changes of propBool */
