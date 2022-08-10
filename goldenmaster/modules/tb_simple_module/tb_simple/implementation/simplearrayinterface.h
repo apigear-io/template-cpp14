@@ -27,7 +27,6 @@ namespace TbSimple {
 
 /**
 * The SimpleArrayInterface implementation.
-*
 */
 class TEST_TB_SIMPLE_EXPORT SimpleArrayInterface : public ISimpleArrayInterface
 {
@@ -47,40 +46,27 @@ public:
     void setPropString(const std::list<std::string>& propString) override;
     const std::list<std::string>& propString() const override;
     
-    /**
-    * 
-    */
     std::list<bool> funcBool(const std::list<bool>& paramBool) override;
     std::future<std::list<bool>> funcBoolAsync(const std::list<bool>& paramBool) override;
         
-    /**
-    * 
-    */
     std::list<int> funcInt(const std::list<int>& paramInt) override;
     std::future<std::list<int>> funcIntAsync(const std::list<int>& paramInt) override;
         
-    /**
-    * 
-    */
     std::list<float> funcFloat(const std::list<float>& paramFloat) override;
     std::future<std::list<float>> funcFloatAsync(const std::list<float>& paramFloat) override;
         
-    /**
-    * 
-    */
     std::list<std::string> funcString(const std::list<std::string>& paramString) override;
     std::future<std::list<std::string>> funcStringAsync(const std::list<std::string>& paramString) override;
         
-
     /**
     * Access to a publisher, use it to subscribe for SimpleArrayInterface changes and signal emission.
     * @return The publisher for SimpleArrayInterface.
     */
     ISimpleArrayInterfacePublisher& _getPublisher() const override;
 private:
-    /* The publisher for the SimpleArrayInterface. */
+    /** The publisher for the SimpleArrayInterface. */
     std::unique_ptr<ISimpleArrayInterfacePublisher> m_publisher;
-    /**The helper structure to store all the properties for SimpleArrayInterface. */
+    /** The helper structure to store all the properties for SimpleArrayInterface. */
     SimpleArrayInterfaceData m_data;
 };
 } // namespace TbSimple

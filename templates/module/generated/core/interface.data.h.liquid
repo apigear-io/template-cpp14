@@ -12,6 +12,9 @@ namespace {{ system.name | capital }}
 namespace {{ module.name | capital }}
 {
 
+/**
+* A helper structure for implementations of {{interface.name}}. Stores all the properties.
+*/
 struct {{class}}Data
 {
 {% for property in interface.properties %}

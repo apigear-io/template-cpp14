@@ -27,7 +27,6 @@ namespace Testbed2 {
 
 /**
 * The NestedStruct3Interface implementation.
-*
 */
 class TEST_TESTBED2_EXPORT NestedStruct3Interface : public INestedStruct3Interface
 {
@@ -44,34 +43,24 @@ public:
     void setProp3(const NestedStruct3& prop3) override;
     const NestedStruct3& prop3() const override;
     
-    /**
-    * 
-    */
     NestedStruct1 func1(const NestedStruct1& param1) override;
     std::future<NestedStruct1> func1Async(const NestedStruct1& param1) override;
         
-    /**
-    * 
-    */
     NestedStruct1 func2(const NestedStruct1& param1, const NestedStruct2& param2) override;
     std::future<NestedStruct1> func2Async(const NestedStruct1& param1, const NestedStruct2& param2) override;
         
-    /**
-    * 
-    */
     NestedStruct1 func3(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3) override;
     std::future<NestedStruct1> func3Async(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3) override;
         
-
     /**
     * Access to a publisher, use it to subscribe for NestedStruct3Interface changes and signal emission.
     * @return The publisher for NestedStruct3Interface.
     */
     INestedStruct3InterfacePublisher& _getPublisher() const override;
 private:
-    /* The publisher for the NestedStruct3Interface. */
+    /** The publisher for the NestedStruct3Interface. */
     std::unique_ptr<INestedStruct3InterfacePublisher> m_publisher;
-    /**The helper structure to store all the properties for NestedStruct3Interface. */
+    /** The helper structure to store all the properties for NestedStruct3Interface. */
     NestedStruct3InterfaceData m_data;
 };
 } // namespace Testbed2

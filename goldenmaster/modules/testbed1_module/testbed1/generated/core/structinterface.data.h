@@ -25,6 +25,9 @@ namespace Test
 namespace Testbed1
 {
 
+/**
+* A helper structure for implementations of StructInterface. Stores all the properties.
+*/
 struct StructInterfaceData
 {
     StructBool m_propBool;

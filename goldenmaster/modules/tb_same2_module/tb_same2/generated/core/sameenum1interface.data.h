@@ -25,6 +25,9 @@ namespace Test
 namespace TbSame2
 {
 
+/**
+* A helper structure for implementations of SameEnum1Interface. Stores all the properties.
+*/
 struct SameEnum1InterfaceData
 {
     Enum1Enum m_prop1;

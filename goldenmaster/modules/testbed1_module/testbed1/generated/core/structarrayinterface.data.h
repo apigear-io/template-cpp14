@@ -25,6 +25,9 @@ namespace Test
 namespace Testbed1
 {
 
+/**
+* A helper structure for implementations of StructArrayInterface. Stores all the properties.
+*/
 struct StructArrayInterfaceData
 {
     std::list<StructBool> m_propBool;

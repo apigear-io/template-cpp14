@@ -25,6 +25,9 @@ namespace Test
 namespace Testbed2
 {
 
+/**
+* A helper structure for implementations of ManyParamInterface. Stores all the properties.
+*/
 struct ManyParamInterfaceData
 {
     int m_prop1;

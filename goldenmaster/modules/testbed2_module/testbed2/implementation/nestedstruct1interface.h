@@ -27,7 +27,6 @@ namespace Testbed2 {
 
 /**
 * The NestedStruct1Interface implementation.
-*
 */
 class TEST_TESTBED2_EXPORT NestedStruct1Interface : public INestedStruct1Interface
 {
@@ -38,22 +37,18 @@ public:
     void setProp1(const NestedStruct1& prop1) override;
     const NestedStruct1& prop1() const override;
     
-    /**
-    * 
-    */
     NestedStruct1 func1(const NestedStruct1& param1) override;
     std::future<NestedStruct1> func1Async(const NestedStruct1& param1) override;
         
-
     /**
     * Access to a publisher, use it to subscribe for NestedStruct1Interface changes and signal emission.
     * @return The publisher for NestedStruct1Interface.
     */
     INestedStruct1InterfacePublisher& _getPublisher() const override;
 private:
-    /* The publisher for the NestedStruct1Interface. */
+    /** The publisher for the NestedStruct1Interface. */
     std::unique_ptr<INestedStruct1InterfacePublisher> m_publisher;
-    /**The helper structure to store all the properties for NestedStruct1Interface. */
+    /** The helper structure to store all the properties for NestedStruct1Interface. */
     NestedStruct1InterfaceData m_data;
 };
 } // namespace Testbed2

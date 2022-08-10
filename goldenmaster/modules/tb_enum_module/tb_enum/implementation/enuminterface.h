@@ -27,7 +27,6 @@ namespace TbEnum {
 
 /**
 * The EnumInterface implementation.
-*
 */
 class TEST_TB_ENUM_EXPORT EnumInterface : public IEnumInterface
 {
@@ -47,40 +46,27 @@ public:
     void setProp3(const Enum3Enum& prop3) override;
     const Enum3Enum& prop3() const override;
     
-    /**
-    * 
-    */
     Enum0Enum func0(const Enum0Enum& param0) override;
     std::future<Enum0Enum> func0Async(const Enum0Enum& param0) override;
         
-    /**
-    * 
-    */
     Enum1Enum func1(const Enum1Enum& param1) override;
     std::future<Enum1Enum> func1Async(const Enum1Enum& param1) override;
         
-    /**
-    * 
-    */
     Enum2Enum func2(const Enum2Enum& param2) override;
     std::future<Enum2Enum> func2Async(const Enum2Enum& param2) override;
         
-    /**
-    * 
-    */
     Enum3Enum func3(const Enum3Enum& param3) override;
     std::future<Enum3Enum> func3Async(const Enum3Enum& param3) override;
         
-
     /**
     * Access to a publisher, use it to subscribe for EnumInterface changes and signal emission.
     * @return The publisher for EnumInterface.
     */
     IEnumInterfacePublisher& _getPublisher() const override;
 private:
-    /* The publisher for the EnumInterface. */
+    /** The publisher for the EnumInterface. */
     std::unique_ptr<IEnumInterfacePublisher> m_publisher;
-    /**The helper structure to store all the properties for EnumInterface. */
+    /** The helper structure to store all the properties for EnumInterface. */
     EnumInterfaceData m_data;
 };
 } // namespace TbEnum

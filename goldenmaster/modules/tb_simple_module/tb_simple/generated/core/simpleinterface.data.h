@@ -25,6 +25,9 @@ namespace Test
 namespace TbSimple
 {
 
+/**
+* A helper structure for implementations of SimpleInterface. Stores all the properties.
+*/
 struct SimpleInterfaceData
 {
     bool m_propBool;

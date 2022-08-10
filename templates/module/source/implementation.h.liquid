@@ -15,7 +15,7 @@ namespace {{ module.name | capital }} {
 
 /**
 * The {{interface.name}} implementation. 
-{% if interface.description != "" %}
+{% if interface.description != undefined %}
 *{{interface.description}}
 {% endif %}
 */
@@ -37,7 +37,7 @@ public:
 {% endfor %}
 
 {% for operation in interface.operations %}
-{% if operation.description != "" %}
+{% if operation.description != undefined %}
     /**
     * {{operation.description}}
     */
@@ -46,16 +46,15 @@ public:
     std::future<{{operation|cpp14Return}}> {{operation.name}}Async({{operation|cpp14Params}}) override;
         {{nl}} 
 {% endfor %}
-
     /**
     * Access to a publisher, use it to subscribe for {{interface.name}} changes and signal emission.
     * @return The publisher for {{interface.name}}.
     */
     {{pub_interface}}& _getPublisher() const override;
 private:
-    /* The publisher for the {{interface.name}}. */
+    /** The publisher for the {{interface.name}}. */
     std::unique_ptr<{{pub_interface}}> m_publisher;
-    /**The helper structure to store all the properties for {{interface.name}}. */
+    /** The helper structure to store all the properties for {{interface.name}}. */
     {{interface.name | capital}}Data m_data;
 };
 } // namespace {{ module.name | capital }}

@@ -27,7 +27,6 @@ namespace TbSame2 {
 
 /**
 * The SameStruct1Interface implementation.
-*
 */
 class TEST_TB_SAME2_EXPORT SameStruct1Interface : public ISameStruct1Interface
 {
@@ -38,22 +37,18 @@ public:
     void setProp1(const Struct1& prop1) override;
     const Struct1& prop1() const override;
     
-    /**
-    * 
-    */
     Struct1 func1(const Struct1& param1) override;
     std::future<Struct1> func1Async(const Struct1& param1) override;
         
-
     /**
     * Access to a publisher, use it to subscribe for SameStruct1Interface changes and signal emission.
     * @return The publisher for SameStruct1Interface.
     */
     ISameStruct1InterfacePublisher& _getPublisher() const override;
 private:
-    /* The publisher for the SameStruct1Interface. */
+    /** The publisher for the SameStruct1Interface. */
     std::unique_ptr<ISameStruct1InterfacePublisher> m_publisher;
-    /**The helper structure to store all the properties for SameStruct1Interface. */
+    /** The helper structure to store all the properties for SameStruct1Interface. */
     SameStruct1InterfaceData m_data;
 };
 } // namespace TbSame2

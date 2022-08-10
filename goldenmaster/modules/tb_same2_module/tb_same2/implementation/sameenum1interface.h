@@ -27,7 +27,6 @@ namespace TbSame2 {
 
 /**
 * The SameEnum1Interface implementation.
-*
 */
 class TEST_TB_SAME2_EXPORT SameEnum1Interface : public ISameEnum1Interface
 {
@@ -38,22 +37,18 @@ public:
     void setProp1(const Enum1Enum& prop1) override;
     const Enum1Enum& prop1() const override;
     
-    /**
-    * 
-    */
     Enum1Enum func1(const Enum1Enum& param1) override;
     std::future<Enum1Enum> func1Async(const Enum1Enum& param1) override;
         
-
     /**
     * Access to a publisher, use it to subscribe for SameEnum1Interface changes and signal emission.
     * @return The publisher for SameEnum1Interface.
     */
     ISameEnum1InterfacePublisher& _getPublisher() const override;
 private:
-    /* The publisher for the SameEnum1Interface. */
+    /** The publisher for the SameEnum1Interface. */
     std::unique_ptr<ISameEnum1InterfacePublisher> m_publisher;
-    /**The helper structure to store all the properties for SameEnum1Interface. */
+    /** The helper structure to store all the properties for SameEnum1Interface. */
     SameEnum1InterfaceData m_data;
 };
 } // namespace TbSame2

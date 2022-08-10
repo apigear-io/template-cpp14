@@ -27,7 +27,6 @@ namespace Testbed1 {
 
 /**
 * The StructArrayInterface implementation.
-*
 */
 class TEST_TESTBED1_EXPORT StructArrayInterface : public IStructArrayInterface
 {
@@ -47,40 +46,27 @@ public:
     void setPropString(const std::list<StructString>& propString) override;
     const std::list<StructString>& propString() const override;
     
-    /**
-    * 
-    */
     StructBool funcBool(const std::list<StructBool>& paramBool) override;
     std::future<StructBool> funcBoolAsync(const std::list<StructBool>& paramBool) override;
         
-    /**
-    * 
-    */
     StructBool funcInt(const std::list<StructInt>& paramInt) override;
     std::future<StructBool> funcIntAsync(const std::list<StructInt>& paramInt) override;
         
-    /**
-    * 
-    */
     StructBool funcFloat(const std::list<StructFloat>& paramFloat) override;
     std::future<StructBool> funcFloatAsync(const std::list<StructFloat>& paramFloat) override;
         
-    /**
-    * 
-    */
     StructBool funcString(const std::list<StructString>& paramString) override;
     std::future<StructBool> funcStringAsync(const std::list<StructString>& paramString) override;
         
-
     /**
     * Access to a publisher, use it to subscribe for StructArrayInterface changes and signal emission.
     * @return The publisher for StructArrayInterface.
     */
     IStructArrayInterfacePublisher& _getPublisher() const override;
 private:
-    /* The publisher for the StructArrayInterface. */
+    /** The publisher for the StructArrayInterface. */
     std::unique_ptr<IStructArrayInterfacePublisher> m_publisher;
-    /**The helper structure to store all the properties for StructArrayInterface. */
+    /** The helper structure to store all the properties for StructArrayInterface. */
     StructArrayInterfaceData m_data;
 };
 } // namespace Testbed1

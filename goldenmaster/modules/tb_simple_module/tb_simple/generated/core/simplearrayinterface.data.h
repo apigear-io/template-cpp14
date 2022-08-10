@@ -25,6 +25,9 @@ namespace Test
 namespace TbSimple
 {
 
+/**
+* A helper structure for implementations of SimpleArrayInterface. Stores all the properties.
+*/
 struct SimpleArrayInterfaceData
 {
     std::list<bool> m_propBool;
