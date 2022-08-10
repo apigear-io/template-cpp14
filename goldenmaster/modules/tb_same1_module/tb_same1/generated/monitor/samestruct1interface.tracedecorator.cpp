@@ -36,7 +36,7 @@ SameStruct1InterfaceTraceDecorator::SameStruct1InterfaceTraceDecorator(ISameStru
 SameStruct1InterfaceTraceDecorator::~SameStruct1InterfaceTraceDecorator()
 {
     m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
-};
+}
 
 std::unique_ptr<SameStruct1InterfaceTraceDecorator> SameStruct1InterfaceTraceDecorator::connect(ISameStruct1Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

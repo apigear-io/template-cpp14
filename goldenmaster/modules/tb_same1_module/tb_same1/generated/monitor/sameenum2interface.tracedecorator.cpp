@@ -45,7 +45,7 @@ SameEnum2InterfaceTraceDecorator::~SameEnum2InterfaceTraceDecorator()
 {
     m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSig2(m_sig2SubscriptionToken);
-};
+}
 
 std::unique_ptr<SameEnum2InterfaceTraceDecorator> SameEnum2InterfaceTraceDecorator::connect(ISameEnum2Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

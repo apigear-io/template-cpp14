@@ -60,7 +60,7 @@ EnumInterfaceTraceDecorator::~EnumInterfaceTraceDecorator()
     m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSig2(m_sig2SubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSig3(m_sig3SubscriptionToken);
-};
+}
 
 std::unique_ptr<EnumInterfaceTraceDecorator> EnumInterfaceTraceDecorator::connect(IEnumInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

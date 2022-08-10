@@ -36,7 +36,7 @@ NestedStruct1InterfaceTraceDecorator::NestedStruct1InterfaceTraceDecorator(INest
 NestedStruct1InterfaceTraceDecorator::~NestedStruct1InterfaceTraceDecorator()
 {
     m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
-};
+}
 
 std::unique_ptr<NestedStruct1InterfaceTraceDecorator> NestedStruct1InterfaceTraceDecorator::connect(INestedStruct1Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

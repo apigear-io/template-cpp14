@@ -33,7 +33,7 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }};
 {% for signal in interface.signals %}
     m_impl._getPublisher().unsubscribeFrom{{signal.name | capital}}(m_{{signal.name}}SubscriptionToken);
 {% endfor %}
-};
+}
 
 std::unique_ptr<{{class}}> {{class}}::connect({{interface_class}}& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

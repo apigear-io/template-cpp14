@@ -36,7 +36,7 @@ SameEnum1InterfaceTraceDecorator::SameEnum1InterfaceTraceDecorator(ISameEnum1Int
 SameEnum1InterfaceTraceDecorator::~SameEnum1InterfaceTraceDecorator()
 {
     m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
-};
+}
 
 std::unique_ptr<SameEnum1InterfaceTraceDecorator> SameEnum1InterfaceTraceDecorator::connect(ISameEnum1Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

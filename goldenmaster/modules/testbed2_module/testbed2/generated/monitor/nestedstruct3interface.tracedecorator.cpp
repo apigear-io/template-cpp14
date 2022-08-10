@@ -55,7 +55,7 @@ NestedStruct3InterfaceTraceDecorator::~NestedStruct3InterfaceTraceDecorator()
     m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSig2(m_sig2SubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSig3(m_sig3SubscriptionToken);
-};
+}
 
 std::unique_ptr<NestedStruct3InterfaceTraceDecorator> NestedStruct3InterfaceTraceDecorator::connect(INestedStruct3Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

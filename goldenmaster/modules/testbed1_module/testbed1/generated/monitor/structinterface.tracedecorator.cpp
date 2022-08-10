@@ -60,7 +60,7 @@ StructInterfaceTraceDecorator::~StructInterfaceTraceDecorator()
     m_impl._getPublisher().unsubscribeFromSigInt(m_sigIntSubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSigFloat(m_sigFloatSubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSigString(m_sigStringSubscriptionToken);
-};
+}
 
 std::unique_ptr<StructInterfaceTraceDecorator> StructInterfaceTraceDecorator::connect(IStructInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {

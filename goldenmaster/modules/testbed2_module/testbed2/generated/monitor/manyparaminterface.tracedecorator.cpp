@@ -66,7 +66,7 @@ ManyParamInterfaceTraceDecorator::~ManyParamInterfaceTraceDecorator()
     m_impl._getPublisher().unsubscribeFromSig2(m_sig2SubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSig3(m_sig3SubscriptionToken);
     m_impl._getPublisher().unsubscribeFromSig4(m_sig4SubscriptionToken);
-};
+}
 
 std::unique_ptr<ManyParamInterfaceTraceDecorator> ManyParamInterfaceTraceDecorator::connect(IManyParamInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {
