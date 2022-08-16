@@ -28,25 +28,25 @@ ManyParamInterfaceTraceDecorator::ManyParamInterfaceTraceDecorator(IManyParamInt
     m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
     [this](int param1)
     {
-        m_tracer->trace_Sig1(param1);
+        m_tracer->trace_sig1(param1);
     }
     );
     m_sig2SubscriptionToken = m_impl._getPublisher().subscribeToSig2(
     [this](int param1,int param2)
     {
-        m_tracer->trace_Sig2(param1,param2);
+        m_tracer->trace_sig2(param1,param2);
     }
     );
     m_sig3SubscriptionToken = m_impl._getPublisher().subscribeToSig3(
     [this](int param1,int param2,int param3)
     {
-        m_tracer->trace_Sig3(param1,param2,param3);
+        m_tracer->trace_sig3(param1,param2,param3);
     }
     );
     m_sig4SubscriptionToken = m_impl._getPublisher().subscribeToSig4(
     [this](int param1,int param2,int param3,int param4)
     {
-        m_tracer->trace_Sig4(param1,param2,param3,param4);
+        m_tracer->trace_sig4(param1,param2,param3,param4);
     }
     );
 }

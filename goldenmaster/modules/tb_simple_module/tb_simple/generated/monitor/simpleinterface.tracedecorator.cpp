@@ -28,25 +28,25 @@ SimpleInterfaceTraceDecorator::SimpleInterfaceTraceDecorator(ISimpleInterface& i
     m_sigBoolSubscriptionToken = m_impl._getPublisher().subscribeToSigBool(
     [this](bool paramBool)
     {
-        m_tracer->trace_SigBool(paramBool);
+        m_tracer->trace_sigBool(paramBool);
     }
     );
     m_sigIntSubscriptionToken = m_impl._getPublisher().subscribeToSigInt(
     [this](int paramInt)
     {
-        m_tracer->trace_SigInt(paramInt);
+        m_tracer->trace_sigInt(paramInt);
     }
     );
     m_sigFloatSubscriptionToken = m_impl._getPublisher().subscribeToSigFloat(
     [this](float paramFloat)
     {
-        m_tracer->trace_SigFloat(paramFloat);
+        m_tracer->trace_sigFloat(paramFloat);
     }
     );
     m_sigStringSubscriptionToken = m_impl._getPublisher().subscribeToSigString(
     [this](const std::string& paramString)
     {
-        m_tracer->trace_SigString(paramString);
+        m_tracer->trace_sigString(paramString);
     }
     );
 }

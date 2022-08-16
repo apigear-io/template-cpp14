@@ -28,13 +28,13 @@ SameEnum2InterfaceTraceDecorator::SameEnum2InterfaceTraceDecorator(ISameEnum2Int
     m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
     [this](const Enum1Enum& param1)
     {
-        m_tracer->trace_Sig1(param1);
+        m_tracer->trace_sig1(param1);
     }
     );
     m_sig2SubscriptionToken = m_impl._getPublisher().subscribeToSig2(
     [this](const Enum1Enum& param1,const Enum2Enum& param2)
     {
-        m_tracer->trace_Sig2(param1,param2);
+        m_tracer->trace_sig2(param1,param2);
     }
     );
 }
