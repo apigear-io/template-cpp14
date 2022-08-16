@@ -25,25 +25,17 @@ SameStruct1InterfaceTraceDecorator::SameStruct1InterfaceTraceDecorator(ISameStru
     : m_tracer(std::make_unique<SameStruct1InterfaceTracer>(tracer))
     , m_impl(impl)
 {
-    m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
-    [this](const Struct1& param1)
-    {
-        m_tracer->trace_sig1(param1);
-    }
-    );
+        m_impl._getPublisher().subscribeToAllChanges(*this);
 }
 SameStruct1InterfaceTraceDecorator::~SameStruct1InterfaceTraceDecorator()
 {
-    m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
+    m_impl._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::unique_ptr<SameStruct1InterfaceTraceDecorator> SameStruct1InterfaceTraceDecorator::connect(ISameStruct1Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return std::unique_ptr<SameStruct1InterfaceTraceDecorator>(new SameStruct1InterfaceTraceDecorator(impl, tracer));
 }
-/**
-   \brief 
-*/
 Struct1 SameStruct1InterfaceTraceDecorator::func1(const Struct1& param1)
 {
     m_tracer->trace_func1(param1);
@@ -56,8 +48,6 @@ std::future<Struct1> SameStruct1InterfaceTraceDecorator::func1Async(const Struct
 }
 void SameStruct1InterfaceTraceDecorator::setProp1(const Struct1& prop1)
 {
-    m_tracer->capture_state(this);
-    m_impl.setProp1(prop1);
     m_impl.setProp1(prop1);
 }
 
@@ -65,6 +55,17 @@ const Struct1& SameStruct1InterfaceTraceDecorator::prop1() const
 {
     return m_impl.prop1();
 }
+void SameStruct1InterfaceTraceDecorator::onSig1(const Struct1& param1)
+{
+    m_tracer->trace_sig1(param1);
+}
+
+void SameStruct1InterfaceTraceDecorator::onProp1Changed(const Struct1& /*prop1*/)
+{
+    m_tracer->capture_state(this);
+}
+
+
 
 ISameStruct1InterfacePublisher& SameStruct1InterfaceTraceDecorator::_getPublisher() const
 {

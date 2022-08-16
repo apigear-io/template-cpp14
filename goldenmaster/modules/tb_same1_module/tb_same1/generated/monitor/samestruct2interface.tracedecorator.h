@@ -28,7 +28,7 @@ namespace TbSame1 {
 
 class SameStruct2InterfaceTracer;
 
-class TEST_TB_SAME1_EXPORT SameStruct2InterfaceTraceDecorator : public ISameStruct2Interface
+class TEST_TB_SAME1_EXPORT SameStruct2InterfaceTraceDecorator : public ISameStruct2Interface, public ISameStruct2InterfaceSubscriber
 {
 protected:
     /** 
@@ -61,27 +61,39 @@ public:
     /** Traces func2 and forwards call to SameStruct2Interface implementation. */
     std::future<Struct1> func2Async(const Struct1& param1, const Struct2& param2) override;
     
-    /** Traces set Prop1 and forwards call to SameStruct2Interface implementation. */
+    /** Forwards call to SameStruct2Interface implementation. */
     void setProp1(const Struct2& prop1) override;
     /** Forwards call to SameStruct2Interface implementation. */
     const Struct2& prop1() const override;
     
-    /** Traces set Prop2 and forwards call to SameStruct2Interface implementation. */
+    /** Forwards call to SameStruct2Interface implementation. */
     void setProp2(const Struct2& prop2) override;
     /** Forwards call to SameStruct2Interface implementation. */
     const Struct2& prop2() const override;
     
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(const Struct1& param1) override;
+    /**
+    Traces sig2 emission.
+    */
+    void onSig2(const Struct1& param1,const Struct2& param2) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(const Struct2& prop1) override;
+    /**
+    Traces prop2 changed.
+    */
+    void onProp2Changed(const Struct2& prop2) override;
+
     /**
     * Access to a publisher, use it to subscribe for SameStruct2Interface changes and signal emission.
     * @return The publisher for SameStruct2Interface.
     */
     ISameStruct2InterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-    /** Subscription token for sig2 callback */
-    long m_sig2SubscriptionToken;
-
     /** A tracer that provides the traces for given SameStruct2Interface object. */
     std::unique_ptr<SameStruct2InterfaceTracer> m_tracer;
     /** The SameStruct2Interface object which is traced */

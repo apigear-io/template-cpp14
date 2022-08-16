@@ -28,7 +28,7 @@ namespace TbSimple {
 
 class SimpleInterfaceTracer;
 
-class TEST_TB_SIMPLE_EXPORT SimpleInterfaceTraceDecorator : public ISimpleInterface
+class TEST_TB_SIMPLE_EXPORT SimpleInterfaceTraceDecorator : public ISimpleInterface, public ISimpleInterfaceSubscriber
 {
 protected:
     /** 
@@ -71,41 +71,65 @@ public:
     /** Traces funcString and forwards call to SimpleInterface implementation. */
     std::future<std::string> funcStringAsync(const std::string& paramString) override;
     
-    /** Traces set PropBool and forwards call to SimpleInterface implementation. */
+    /** Forwards call to SimpleInterface implementation. */
     void setPropBool(bool propBool) override;
     /** Forwards call to SimpleInterface implementation. */
     bool propBool() const override;
     
-    /** Traces set PropInt and forwards call to SimpleInterface implementation. */
+    /** Forwards call to SimpleInterface implementation. */
     void setPropInt(int propInt) override;
     /** Forwards call to SimpleInterface implementation. */
     int propInt() const override;
     
-    /** Traces set PropFloat and forwards call to SimpleInterface implementation. */
+    /** Forwards call to SimpleInterface implementation. */
     void setPropFloat(float propFloat) override;
     /** Forwards call to SimpleInterface implementation. */
     float propFloat() const override;
     
-    /** Traces set PropString and forwards call to SimpleInterface implementation. */
+    /** Forwards call to SimpleInterface implementation. */
     void setPropString(const std::string& propString) override;
     /** Forwards call to SimpleInterface implementation. */
     std::string propString() const override;
     
+    /**
+    Traces sigBool emission.
+    */
+    void onSigBool(bool paramBool) override;
+    /**
+    Traces sigInt emission.
+    */
+    void onSigInt(int paramInt) override;
+    /**
+    Traces sigFloat emission.
+    */
+    void onSigFloat(float paramFloat) override;
+    /**
+    Traces sigString emission.
+    */
+    void onSigString(const std::string& paramString) override;
+    /**
+    Traces propBool changed.
+    */
+    void onPropBoolChanged(bool propBool) override;
+    /**
+    Traces propInt changed.
+    */
+    void onPropIntChanged(int propInt) override;
+    /**
+    Traces propFloat changed.
+    */
+    void onPropFloatChanged(float propFloat) override;
+    /**
+    Traces propString changed.
+    */
+    void onPropStringChanged(std::string propString) override;
+
     /**
     * Access to a publisher, use it to subscribe for SimpleInterface changes and signal emission.
     * @return The publisher for SimpleInterface.
     */
     ISimpleInterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sigBool callback */
-    long m_sigBoolSubscriptionToken;
-    /** Subscription token for sigInt callback */
-    long m_sigIntSubscriptionToken;
-    /** Subscription token for sigFloat callback */
-    long m_sigFloatSubscriptionToken;
-    /** Subscription token for sigString callback */
-    long m_sigStringSubscriptionToken;
-
     /** A tracer that provides the traces for given SimpleInterface object. */
     std::unique_ptr<SimpleInterfaceTracer> m_tracer;
     /** The SimpleInterface object which is traced */

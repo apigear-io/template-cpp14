@@ -25,46 +25,17 @@ SimpleArrayInterfaceTraceDecorator::SimpleArrayInterfaceTraceDecorator(ISimpleAr
     : m_tracer(std::make_unique<SimpleArrayInterfaceTracer>(tracer))
     , m_impl(impl)
 {
-    m_sigBoolSubscriptionToken = m_impl._getPublisher().subscribeToSigBool(
-    [this](const std::list<bool>& paramBool)
-    {
-        m_tracer->trace_sigBool(paramBool);
-    }
-    );
-    m_sigIntSubscriptionToken = m_impl._getPublisher().subscribeToSigInt(
-    [this](const std::list<int>& paramInt)
-    {
-        m_tracer->trace_sigInt(paramInt);
-    }
-    );
-    m_sigFloatSubscriptionToken = m_impl._getPublisher().subscribeToSigFloat(
-    [this](const std::list<float>& paramFloat)
-    {
-        m_tracer->trace_sigFloat(paramFloat);
-    }
-    );
-    m_sigStringSubscriptionToken = m_impl._getPublisher().subscribeToSigString(
-    [this](const std::list<std::string>& paramString)
-    {
-        m_tracer->trace_sigString(paramString);
-    }
-    );
+        m_impl._getPublisher().subscribeToAllChanges(*this);
 }
 SimpleArrayInterfaceTraceDecorator::~SimpleArrayInterfaceTraceDecorator()
 {
-    m_impl._getPublisher().unsubscribeFromSigBool(m_sigBoolSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigInt(m_sigIntSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigFloat(m_sigFloatSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigString(m_sigStringSubscriptionToken);
+    m_impl._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::unique_ptr<SimpleArrayInterfaceTraceDecorator> SimpleArrayInterfaceTraceDecorator::connect(ISimpleArrayInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return std::unique_ptr<SimpleArrayInterfaceTraceDecorator>(new SimpleArrayInterfaceTraceDecorator(impl, tracer));
 }
-/**
-   \brief 
-*/
 std::list<bool> SimpleArrayInterfaceTraceDecorator::funcBool(const std::list<bool>& paramBool)
 {
     m_tracer->trace_funcBool(paramBool);
@@ -75,9 +46,6 @@ std::future<std::list<bool>> SimpleArrayInterfaceTraceDecorator::funcBoolAsync(c
     m_tracer->trace_funcBool(paramBool);
     return m_impl.funcBoolAsync(paramBool);
 }
-/**
-   \brief 
-*/
 std::list<int> SimpleArrayInterfaceTraceDecorator::funcInt(const std::list<int>& paramInt)
 {
     m_tracer->trace_funcInt(paramInt);
@@ -88,9 +56,6 @@ std::future<std::list<int>> SimpleArrayInterfaceTraceDecorator::funcIntAsync(con
     m_tracer->trace_funcInt(paramInt);
     return m_impl.funcIntAsync(paramInt);
 }
-/**
-   \brief 
-*/
 std::list<float> SimpleArrayInterfaceTraceDecorator::funcFloat(const std::list<float>& paramFloat)
 {
     m_tracer->trace_funcFloat(paramFloat);
@@ -101,9 +66,6 @@ std::future<std::list<float>> SimpleArrayInterfaceTraceDecorator::funcFloatAsync
     m_tracer->trace_funcFloat(paramFloat);
     return m_impl.funcFloatAsync(paramFloat);
 }
-/**
-   \brief 
-*/
 std::list<std::string> SimpleArrayInterfaceTraceDecorator::funcString(const std::list<std::string>& paramString)
 {
     m_tracer->trace_funcString(paramString);
@@ -116,8 +78,6 @@ std::future<std::list<std::string>> SimpleArrayInterfaceTraceDecorator::funcStri
 }
 void SimpleArrayInterfaceTraceDecorator::setPropBool(const std::list<bool>& propBool)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropBool(propBool);
     m_impl.setPropBool(propBool);
 }
 
@@ -127,8 +87,6 @@ const std::list<bool>& SimpleArrayInterfaceTraceDecorator::propBool() const
 }
 void SimpleArrayInterfaceTraceDecorator::setPropInt(const std::list<int>& propInt)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropInt(propInt);
     m_impl.setPropInt(propInt);
 }
 
@@ -138,8 +96,6 @@ const std::list<int>& SimpleArrayInterfaceTraceDecorator::propInt() const
 }
 void SimpleArrayInterfaceTraceDecorator::setPropFloat(const std::list<float>& propFloat)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropFloat(propFloat);
     m_impl.setPropFloat(propFloat);
 }
 
@@ -149,8 +105,6 @@ const std::list<float>& SimpleArrayInterfaceTraceDecorator::propFloat() const
 }
 void SimpleArrayInterfaceTraceDecorator::setPropString(const std::list<std::string>& propString)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropString(propString);
     m_impl.setPropString(propString);
 }
 
@@ -158,6 +112,47 @@ const std::list<std::string>& SimpleArrayInterfaceTraceDecorator::propString() c
 {
     return m_impl.propString();
 }
+void SimpleArrayInterfaceTraceDecorator::onSigBool(const std::list<bool>& paramBool)
+{
+    m_tracer->trace_sigBool(paramBool);
+}
+
+void SimpleArrayInterfaceTraceDecorator::onSigInt(const std::list<int>& paramInt)
+{
+    m_tracer->trace_sigInt(paramInt);
+}
+
+void SimpleArrayInterfaceTraceDecorator::onSigFloat(const std::list<float>& paramFloat)
+{
+    m_tracer->trace_sigFloat(paramFloat);
+}
+
+void SimpleArrayInterfaceTraceDecorator::onSigString(const std::list<std::string>& paramString)
+{
+    m_tracer->trace_sigString(paramString);
+}
+
+void SimpleArrayInterfaceTraceDecorator::onPropBoolChanged(const std::list<bool>& /*propBool*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void SimpleArrayInterfaceTraceDecorator::onPropIntChanged(const std::list<int>& /*propInt*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void SimpleArrayInterfaceTraceDecorator::onPropFloatChanged(const std::list<float>& /*propFloat*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void SimpleArrayInterfaceTraceDecorator::onPropStringChanged(const std::list<std::string>& /*propString*/)
+{
+    m_tracer->capture_state(this);
+}
+
+
 
 ISimpleArrayInterfacePublisher& SimpleArrayInterfaceTraceDecorator::_getPublisher() const
 {

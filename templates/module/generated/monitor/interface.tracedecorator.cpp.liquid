@@ -13,23 +13,11 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }};
     : m_tracer(std::make_unique<{{interface.name}}Tracer>(tracer))
     , m_impl(impl)
 {
-{% for signal in interface.signals %}
-    m_{{signal.name}}SubscriptionToken = m_impl._getPublisher().subscribeTo{{signal.name | capital}}(
-    [this]({%- for param in signal.params -%} {{param|cpp14Param: true}}{% unless forloop.last %},{% endunless -%}{%- endfor -%})
-    {
-        m_tracer->trace_{{signal.name}}(
-        {% for param in signal.params -%}
-            {{param.name}}{% unless forloop.last %},{% endunless -%}
-        {% endfor -%});
-    }
-    );
-{% endfor %}
+        m_impl._getPublisher().subscribeToAllChanges(*this);
 }
 {{class}}::~{{class}}()
 {
-{% for signal in interface.signals %}
-    m_impl._getPublisher().unsubscribeFrom{{signal.name | capital}}(m_{{signal.name}}SubscriptionToken);
-{% endfor %}
+    m_impl._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::unique_ptr<{{class}}> {{class}}::connect({{interface_class}}& impl, ApiGear::PocoImpl::Tracer& tracer)
@@ -38,13 +26,6 @@ std::unique_ptr<{{class}}> {{class}}::connect({{interface_class}}& impl, ApiGear
 }
 
 {% for operation in interface.operations %}
-
-
-{% if operation.description != "" %}
-/**
-   \brief {{operation.description}}
-*/
-{% endif %}
 {{operation|cpp14Return}} {{class}}::{{operation.name}}({{operation|cpp14Params}})
 {
     m_tracer->trace_{{operation.name}}({% for param in operation.params %}{{param.name}}{% unless forloop.last %},{% endunless %}{% endfor %});
@@ -63,8 +44,6 @@ std::future<{{returnType}}> {{class}}::{{operation.name}}Async({{operation|cpp14
 {% for property in interface.properties %}
 void {{class}}::set{{property.name|capital}}({{property|cpp14Param}})
 {
-    m_tracer->capture_state(this);
-    m_impl.set{{property.name|capital}}({{property.name}});
     m_impl.set{{property.name|capital}}({{property.name}});
 }
 
@@ -74,6 +53,29 @@ void {{class}}::set{{property.name|capital}}({{property|cpp14Param}})
 }
 
 {% endfor %}
+
+{% for signal in interface.signals %}
+void {{class}}::on{{signal.name | capital}}(
+{%- for param in signal.params -%}
+{{param|cpp14Param}}{% unless forloop.last %},{% endunless -%}
+{%- endfor -%}
+)
+{
+    m_tracer->trace_{{signal.name}}(
+    {% for param in signal.params -%}
+    {{param.name}}{% unless forloop.last %},{% endunless -%}
+    {% endfor -%});
+}
+{{nl}}
+{% endfor %}
+{% for property in interface.properties %}
+void {{class}}::on{{property.name|capital}}Changed({{property|cpp14Return: true}} /*{{property.name}}*/)
+{
+    m_tracer->capture_state(this);
+}
+{{nl}}
+{% endfor %}
+
 
 {{pub_class}}& {{class}}::_getPublisher() const
 {

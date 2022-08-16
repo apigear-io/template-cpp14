@@ -28,7 +28,7 @@ namespace Testbed2 {
 
 class NestedStruct2InterfaceTracer;
 
-class TEST_TESTBED2_EXPORT NestedStruct2InterfaceTraceDecorator : public INestedStruct2Interface
+class TEST_TESTBED2_EXPORT NestedStruct2InterfaceTraceDecorator : public INestedStruct2Interface, public INestedStruct2InterfaceSubscriber
 {
 protected:
     /** 
@@ -61,27 +61,39 @@ public:
     /** Traces func2 and forwards call to NestedStruct2Interface implementation. */
     std::future<NestedStruct1> func2Async(const NestedStruct1& param1, const NestedStruct2& param2) override;
     
-    /** Traces set Prop1 and forwards call to NestedStruct2Interface implementation. */
+    /** Forwards call to NestedStruct2Interface implementation. */
     void setProp1(const NestedStruct1& prop1) override;
     /** Forwards call to NestedStruct2Interface implementation. */
     const NestedStruct1& prop1() const override;
     
-    /** Traces set Prop2 and forwards call to NestedStruct2Interface implementation. */
+    /** Forwards call to NestedStruct2Interface implementation. */
     void setProp2(const NestedStruct2& prop2) override;
     /** Forwards call to NestedStruct2Interface implementation. */
     const NestedStruct2& prop2() const override;
     
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(const NestedStruct1& param1) override;
+    /**
+    Traces sig2 emission.
+    */
+    void onSig2(const NestedStruct1& param1,const NestedStruct2& param2) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(const NestedStruct1& prop1) override;
+    /**
+    Traces prop2 changed.
+    */
+    void onProp2Changed(const NestedStruct2& prop2) override;
+
     /**
     * Access to a publisher, use it to subscribe for NestedStruct2Interface changes and signal emission.
     * @return The publisher for NestedStruct2Interface.
     */
     INestedStruct2InterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-    /** Subscription token for sig2 callback */
-    long m_sig2SubscriptionToken;
-
     /** A tracer that provides the traces for given NestedStruct2Interface object. */
     std::unique_ptr<NestedStruct2InterfaceTracer> m_tracer;
     /** The NestedStruct2Interface object which is traced */

@@ -28,7 +28,7 @@ namespace TbSame2 {
 
 class SameStruct1InterfaceTracer;
 
-class TEST_TB_SAME2_EXPORT SameStruct1InterfaceTraceDecorator : public ISameStruct1Interface
+class TEST_TB_SAME2_EXPORT SameStruct1InterfaceTraceDecorator : public ISameStruct1Interface, public ISameStruct1InterfaceSubscriber
 {
 protected:
     /** 
@@ -56,20 +56,26 @@ public:
     /** Traces func1 and forwards call to SameStruct1Interface implementation. */
     std::future<Struct1> func1Async(const Struct1& param1) override;
     
-    /** Traces set Prop1 and forwards call to SameStruct1Interface implementation. */
+    /** Forwards call to SameStruct1Interface implementation. */
     void setProp1(const Struct1& prop1) override;
     /** Forwards call to SameStruct1Interface implementation. */
     const Struct1& prop1() const override;
     
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(const Struct1& param1) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(const Struct1& prop1) override;
+
     /**
     * Access to a publisher, use it to subscribe for SameStruct1Interface changes and signal emission.
     * @return The publisher for SameStruct1Interface.
     */
     ISameStruct1InterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-
     /** A tracer that provides the traces for given SameStruct1Interface object. */
     std::unique_ptr<SameStruct1InterfaceTracer> m_tracer;
     /** The SameStruct1Interface object which is traced */

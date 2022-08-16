@@ -25,25 +25,17 @@ NestedStruct1InterfaceTraceDecorator::NestedStruct1InterfaceTraceDecorator(INest
     : m_tracer(std::make_unique<NestedStruct1InterfaceTracer>(tracer))
     , m_impl(impl)
 {
-    m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
-    [this](const NestedStruct1& param1)
-    {
-        m_tracer->trace_sig1(param1);
-    }
-    );
+        m_impl._getPublisher().subscribeToAllChanges(*this);
 }
 NestedStruct1InterfaceTraceDecorator::~NestedStruct1InterfaceTraceDecorator()
 {
-    m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
+    m_impl._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::unique_ptr<NestedStruct1InterfaceTraceDecorator> NestedStruct1InterfaceTraceDecorator::connect(INestedStruct1Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return std::unique_ptr<NestedStruct1InterfaceTraceDecorator>(new NestedStruct1InterfaceTraceDecorator(impl, tracer));
 }
-/**
-   \brief 
-*/
 NestedStruct1 NestedStruct1InterfaceTraceDecorator::func1(const NestedStruct1& param1)
 {
     m_tracer->trace_func1(param1);
@@ -56,8 +48,6 @@ std::future<NestedStruct1> NestedStruct1InterfaceTraceDecorator::func1Async(cons
 }
 void NestedStruct1InterfaceTraceDecorator::setProp1(const NestedStruct1& prop1)
 {
-    m_tracer->capture_state(this);
-    m_impl.setProp1(prop1);
     m_impl.setProp1(prop1);
 }
 
@@ -65,6 +55,17 @@ const NestedStruct1& NestedStruct1InterfaceTraceDecorator::prop1() const
 {
     return m_impl.prop1();
 }
+void NestedStruct1InterfaceTraceDecorator::onSig1(const NestedStruct1& param1)
+{
+    m_tracer->trace_sig1(param1);
+}
+
+void NestedStruct1InterfaceTraceDecorator::onProp1Changed(const NestedStruct1& /*prop1*/)
+{
+    m_tracer->capture_state(this);
+}
+
+
 
 INestedStruct1InterfacePublisher& NestedStruct1InterfaceTraceDecorator::_getPublisher() const
 {

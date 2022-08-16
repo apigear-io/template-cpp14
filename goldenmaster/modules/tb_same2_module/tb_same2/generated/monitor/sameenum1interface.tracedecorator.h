@@ -28,7 +28,7 @@ namespace TbSame2 {
 
 class SameEnum1InterfaceTracer;
 
-class TEST_TB_SAME2_EXPORT SameEnum1InterfaceTraceDecorator : public ISameEnum1Interface
+class TEST_TB_SAME2_EXPORT SameEnum1InterfaceTraceDecorator : public ISameEnum1Interface, public ISameEnum1InterfaceSubscriber
 {
 protected:
     /** 
@@ -56,20 +56,26 @@ public:
     /** Traces func1 and forwards call to SameEnum1Interface implementation. */
     std::future<Enum1Enum> func1Async(const Enum1Enum& param1) override;
     
-    /** Traces set Prop1 and forwards call to SameEnum1Interface implementation. */
+    /** Forwards call to SameEnum1Interface implementation. */
     void setProp1(const Enum1Enum& prop1) override;
     /** Forwards call to SameEnum1Interface implementation. */
     const Enum1Enum& prop1() const override;
     
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(const Enum1Enum& param1) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(const Enum1Enum& prop1) override;
+
     /**
     * Access to a publisher, use it to subscribe for SameEnum1Interface changes and signal emission.
     * @return The publisher for SameEnum1Interface.
     */
     ISameEnum1InterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-
     /** A tracer that provides the traces for given SameEnum1Interface object. */
     std::unique_ptr<SameEnum1InterfaceTracer> m_tracer;
     /** The SameEnum1Interface object which is traced */

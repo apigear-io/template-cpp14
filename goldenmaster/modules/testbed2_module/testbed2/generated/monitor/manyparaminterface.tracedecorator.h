@@ -28,7 +28,7 @@ namespace Testbed2 {
 
 class ManyParamInterfaceTracer;
 
-class TEST_TESTBED2_EXPORT ManyParamInterfaceTraceDecorator : public IManyParamInterface
+class TEST_TESTBED2_EXPORT ManyParamInterfaceTraceDecorator : public IManyParamInterface, public IManyParamInterfaceSubscriber
 {
 protected:
     /** 
@@ -71,41 +71,65 @@ public:
     /** Traces func4 and forwards call to ManyParamInterface implementation. */
     std::future<int> func4Async(int param1, int param2, int param3, int param4) override;
     
-    /** Traces set Prop1 and forwards call to ManyParamInterface implementation. */
+    /** Forwards call to ManyParamInterface implementation. */
     void setProp1(int prop1) override;
     /** Forwards call to ManyParamInterface implementation. */
     int prop1() const override;
     
-    /** Traces set Prop2 and forwards call to ManyParamInterface implementation. */
+    /** Forwards call to ManyParamInterface implementation. */
     void setProp2(int prop2) override;
     /** Forwards call to ManyParamInterface implementation. */
     int prop2() const override;
     
-    /** Traces set Prop3 and forwards call to ManyParamInterface implementation. */
+    /** Forwards call to ManyParamInterface implementation. */
     void setProp3(int prop3) override;
     /** Forwards call to ManyParamInterface implementation. */
     int prop3() const override;
     
-    /** Traces set Prop4 and forwards call to ManyParamInterface implementation. */
+    /** Forwards call to ManyParamInterface implementation. */
     void setProp4(int prop4) override;
     /** Forwards call to ManyParamInterface implementation. */
     int prop4() const override;
     
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(int param1) override;
+    /**
+    Traces sig2 emission.
+    */
+    void onSig2(int param1,int param2) override;
+    /**
+    Traces sig3 emission.
+    */
+    void onSig3(int param1,int param2,int param3) override;
+    /**
+    Traces sig4 emission.
+    */
+    void onSig4(int param1,int param2,int param3,int param4) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(int prop1) override;
+    /**
+    Traces prop2 changed.
+    */
+    void onProp2Changed(int prop2) override;
+    /**
+    Traces prop3 changed.
+    */
+    void onProp3Changed(int prop3) override;
+    /**
+    Traces prop4 changed.
+    */
+    void onProp4Changed(int prop4) override;
+
     /**
     * Access to a publisher, use it to subscribe for ManyParamInterface changes and signal emission.
     * @return The publisher for ManyParamInterface.
     */
     IManyParamInterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-    /** Subscription token for sig2 callback */
-    long m_sig2SubscriptionToken;
-    /** Subscription token for sig3 callback */
-    long m_sig3SubscriptionToken;
-    /** Subscription token for sig4 callback */
-    long m_sig4SubscriptionToken;
-
     /** A tracer that provides the traces for given ManyParamInterface object. */
     std::unique_ptr<ManyParamInterfaceTracer> m_tracer;
     /** The ManyParamInterface object which is traced */

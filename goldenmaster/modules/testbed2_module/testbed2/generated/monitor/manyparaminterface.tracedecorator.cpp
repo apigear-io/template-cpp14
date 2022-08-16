@@ -25,46 +25,17 @@ ManyParamInterfaceTraceDecorator::ManyParamInterfaceTraceDecorator(IManyParamInt
     : m_tracer(std::make_unique<ManyParamInterfaceTracer>(tracer))
     , m_impl(impl)
 {
-    m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
-    [this](int param1)
-    {
-        m_tracer->trace_sig1(param1);
-    }
-    );
-    m_sig2SubscriptionToken = m_impl._getPublisher().subscribeToSig2(
-    [this](int param1,int param2)
-    {
-        m_tracer->trace_sig2(param1,param2);
-    }
-    );
-    m_sig3SubscriptionToken = m_impl._getPublisher().subscribeToSig3(
-    [this](int param1,int param2,int param3)
-    {
-        m_tracer->trace_sig3(param1,param2,param3);
-    }
-    );
-    m_sig4SubscriptionToken = m_impl._getPublisher().subscribeToSig4(
-    [this](int param1,int param2,int param3,int param4)
-    {
-        m_tracer->trace_sig4(param1,param2,param3,param4);
-    }
-    );
+        m_impl._getPublisher().subscribeToAllChanges(*this);
 }
 ManyParamInterfaceTraceDecorator::~ManyParamInterfaceTraceDecorator()
 {
-    m_impl._getPublisher().unsubscribeFromSig1(m_sig1SubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSig2(m_sig2SubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSig3(m_sig3SubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSig4(m_sig4SubscriptionToken);
+    m_impl._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::unique_ptr<ManyParamInterfaceTraceDecorator> ManyParamInterfaceTraceDecorator::connect(IManyParamInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return std::unique_ptr<ManyParamInterfaceTraceDecorator>(new ManyParamInterfaceTraceDecorator(impl, tracer));
 }
-/**
-   \brief 
-*/
 int ManyParamInterfaceTraceDecorator::func1(int param1)
 {
     m_tracer->trace_func1(param1);
@@ -75,9 +46,6 @@ std::future<int> ManyParamInterfaceTraceDecorator::func1Async(int param1)
     m_tracer->trace_func1(param1);
     return m_impl.func1Async(param1);
 }
-/**
-   \brief 
-*/
 int ManyParamInterfaceTraceDecorator::func2(int param1, int param2)
 {
     m_tracer->trace_func2(param1,param2);
@@ -88,9 +56,6 @@ std::future<int> ManyParamInterfaceTraceDecorator::func2Async(int param1, int pa
     m_tracer->trace_func2(param1,param2);
     return m_impl.func2Async(param1,param2);
 }
-/**
-   \brief 
-*/
 int ManyParamInterfaceTraceDecorator::func3(int param1, int param2, int param3)
 {
     m_tracer->trace_func3(param1,param2,param3);
@@ -101,9 +66,6 @@ std::future<int> ManyParamInterfaceTraceDecorator::func3Async(int param1, int pa
     m_tracer->trace_func3(param1,param2,param3);
     return m_impl.func3Async(param1,param2,param3);
 }
-/**
-   \brief 
-*/
 int ManyParamInterfaceTraceDecorator::func4(int param1, int param2, int param3, int param4)
 {
     m_tracer->trace_func4(param1,param2,param3,param4);
@@ -116,8 +78,6 @@ std::future<int> ManyParamInterfaceTraceDecorator::func4Async(int param1, int pa
 }
 void ManyParamInterfaceTraceDecorator::setProp1(int prop1)
 {
-    m_tracer->capture_state(this);
-    m_impl.setProp1(prop1);
     m_impl.setProp1(prop1);
 }
 
@@ -127,8 +87,6 @@ int ManyParamInterfaceTraceDecorator::prop1() const
 }
 void ManyParamInterfaceTraceDecorator::setProp2(int prop2)
 {
-    m_tracer->capture_state(this);
-    m_impl.setProp2(prop2);
     m_impl.setProp2(prop2);
 }
 
@@ -138,8 +96,6 @@ int ManyParamInterfaceTraceDecorator::prop2() const
 }
 void ManyParamInterfaceTraceDecorator::setProp3(int prop3)
 {
-    m_tracer->capture_state(this);
-    m_impl.setProp3(prop3);
     m_impl.setProp3(prop3);
 }
 
@@ -149,8 +105,6 @@ int ManyParamInterfaceTraceDecorator::prop3() const
 }
 void ManyParamInterfaceTraceDecorator::setProp4(int prop4)
 {
-    m_tracer->capture_state(this);
-    m_impl.setProp4(prop4);
     m_impl.setProp4(prop4);
 }
 
@@ -158,6 +112,47 @@ int ManyParamInterfaceTraceDecorator::prop4() const
 {
     return m_impl.prop4();
 }
+void ManyParamInterfaceTraceDecorator::onSig1(int param1)
+{
+    m_tracer->trace_sig1(param1);
+}
+
+void ManyParamInterfaceTraceDecorator::onSig2(int param1,int param2)
+{
+    m_tracer->trace_sig2(param1,param2);
+}
+
+void ManyParamInterfaceTraceDecorator::onSig3(int param1,int param2,int param3)
+{
+    m_tracer->trace_sig3(param1,param2,param3);
+}
+
+void ManyParamInterfaceTraceDecorator::onSig4(int param1,int param2,int param3,int param4)
+{
+    m_tracer->trace_sig4(param1,param2,param3,param4);
+}
+
+void ManyParamInterfaceTraceDecorator::onProp1Changed(int /*prop1*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void ManyParamInterfaceTraceDecorator::onProp2Changed(int /*prop2*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void ManyParamInterfaceTraceDecorator::onProp3Changed(int /*prop3*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void ManyParamInterfaceTraceDecorator::onProp4Changed(int /*prop4*/)
+{
+    m_tracer->capture_state(this);
+}
+
+
 
 IManyParamInterfacePublisher& ManyParamInterfaceTraceDecorator::_getPublisher() const
 {

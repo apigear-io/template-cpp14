@@ -25,46 +25,17 @@ StructInterfaceTraceDecorator::StructInterfaceTraceDecorator(IStructInterface& i
     : m_tracer(std::make_unique<StructInterfaceTracer>(tracer))
     , m_impl(impl)
 {
-    m_sigBoolSubscriptionToken = m_impl._getPublisher().subscribeToSigBool(
-    [this](const StructBool& paramBool)
-    {
-        m_tracer->trace_sigBool(paramBool);
-    }
-    );
-    m_sigIntSubscriptionToken = m_impl._getPublisher().subscribeToSigInt(
-    [this](const StructInt& paramInt)
-    {
-        m_tracer->trace_sigInt(paramInt);
-    }
-    );
-    m_sigFloatSubscriptionToken = m_impl._getPublisher().subscribeToSigFloat(
-    [this](const StructFloat& paramFloat)
-    {
-        m_tracer->trace_sigFloat(paramFloat);
-    }
-    );
-    m_sigStringSubscriptionToken = m_impl._getPublisher().subscribeToSigString(
-    [this](const StructString& paramString)
-    {
-        m_tracer->trace_sigString(paramString);
-    }
-    );
+        m_impl._getPublisher().subscribeToAllChanges(*this);
 }
 StructInterfaceTraceDecorator::~StructInterfaceTraceDecorator()
 {
-    m_impl._getPublisher().unsubscribeFromSigBool(m_sigBoolSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigInt(m_sigIntSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigFloat(m_sigFloatSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigString(m_sigStringSubscriptionToken);
+    m_impl._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::unique_ptr<StructInterfaceTraceDecorator> StructInterfaceTraceDecorator::connect(IStructInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return std::unique_ptr<StructInterfaceTraceDecorator>(new StructInterfaceTraceDecorator(impl, tracer));
 }
-/**
-   \brief 
-*/
 StructBool StructInterfaceTraceDecorator::funcBool(const StructBool& paramBool)
 {
     m_tracer->trace_funcBool(paramBool);
@@ -75,9 +46,6 @@ std::future<StructBool> StructInterfaceTraceDecorator::funcBoolAsync(const Struc
     m_tracer->trace_funcBool(paramBool);
     return m_impl.funcBoolAsync(paramBool);
 }
-/**
-   \brief 
-*/
 StructBool StructInterfaceTraceDecorator::funcInt(const StructInt& paramInt)
 {
     m_tracer->trace_funcInt(paramInt);
@@ -88,9 +56,6 @@ std::future<StructBool> StructInterfaceTraceDecorator::funcIntAsync(const Struct
     m_tracer->trace_funcInt(paramInt);
     return m_impl.funcIntAsync(paramInt);
 }
-/**
-   \brief 
-*/
 StructFloat StructInterfaceTraceDecorator::funcFloat(const StructFloat& paramFloat)
 {
     m_tracer->trace_funcFloat(paramFloat);
@@ -101,9 +66,6 @@ std::future<StructFloat> StructInterfaceTraceDecorator::funcFloatAsync(const Str
     m_tracer->trace_funcFloat(paramFloat);
     return m_impl.funcFloatAsync(paramFloat);
 }
-/**
-   \brief 
-*/
 StructString StructInterfaceTraceDecorator::funcString(const StructString& paramString)
 {
     m_tracer->trace_funcString(paramString);
@@ -116,8 +78,6 @@ std::future<StructString> StructInterfaceTraceDecorator::funcStringAsync(const S
 }
 void StructInterfaceTraceDecorator::setPropBool(const StructBool& propBool)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropBool(propBool);
     m_impl.setPropBool(propBool);
 }
 
@@ -127,8 +87,6 @@ const StructBool& StructInterfaceTraceDecorator::propBool() const
 }
 void StructInterfaceTraceDecorator::setPropInt(const StructInt& propInt)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropInt(propInt);
     m_impl.setPropInt(propInt);
 }
 
@@ -138,8 +96,6 @@ const StructInt& StructInterfaceTraceDecorator::propInt() const
 }
 void StructInterfaceTraceDecorator::setPropFloat(const StructFloat& propFloat)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropFloat(propFloat);
     m_impl.setPropFloat(propFloat);
 }
 
@@ -149,8 +105,6 @@ const StructFloat& StructInterfaceTraceDecorator::propFloat() const
 }
 void StructInterfaceTraceDecorator::setPropString(const StructString& propString)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropString(propString);
     m_impl.setPropString(propString);
 }
 
@@ -158,6 +112,47 @@ const StructString& StructInterfaceTraceDecorator::propString() const
 {
     return m_impl.propString();
 }
+void StructInterfaceTraceDecorator::onSigBool(const StructBool& paramBool)
+{
+    m_tracer->trace_sigBool(paramBool);
+}
+
+void StructInterfaceTraceDecorator::onSigInt(const StructInt& paramInt)
+{
+    m_tracer->trace_sigInt(paramInt);
+}
+
+void StructInterfaceTraceDecorator::onSigFloat(const StructFloat& paramFloat)
+{
+    m_tracer->trace_sigFloat(paramFloat);
+}
+
+void StructInterfaceTraceDecorator::onSigString(const StructString& paramString)
+{
+    m_tracer->trace_sigString(paramString);
+}
+
+void StructInterfaceTraceDecorator::onPropBoolChanged(const StructBool& /*propBool*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void StructInterfaceTraceDecorator::onPropIntChanged(const StructInt& /*propInt*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void StructInterfaceTraceDecorator::onPropFloatChanged(const StructFloat& /*propFloat*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void StructInterfaceTraceDecorator::onPropStringChanged(const StructString& /*propString*/)
+{
+    m_tracer->capture_state(this);
+}
+
+
 
 IStructInterfacePublisher& StructInterfaceTraceDecorator::_getPublisher() const
 {

@@ -28,7 +28,7 @@ namespace Testbed2 {
 
 class NestedStruct1InterfaceTracer;
 
-class TEST_TESTBED2_EXPORT NestedStruct1InterfaceTraceDecorator : public INestedStruct1Interface
+class TEST_TESTBED2_EXPORT NestedStruct1InterfaceTraceDecorator : public INestedStruct1Interface, public INestedStruct1InterfaceSubscriber
 {
 protected:
     /** 
@@ -56,20 +56,26 @@ public:
     /** Traces func1 and forwards call to NestedStruct1Interface implementation. */
     std::future<NestedStruct1> func1Async(const NestedStruct1& param1) override;
     
-    /** Traces set Prop1 and forwards call to NestedStruct1Interface implementation. */
+    /** Forwards call to NestedStruct1Interface implementation. */
     void setProp1(const NestedStruct1& prop1) override;
     /** Forwards call to NestedStruct1Interface implementation. */
     const NestedStruct1& prop1() const override;
     
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(const NestedStruct1& param1) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(const NestedStruct1& prop1) override;
+
     /**
     * Access to a publisher, use it to subscribe for NestedStruct1Interface changes and signal emission.
     * @return The publisher for NestedStruct1Interface.
     */
     INestedStruct1InterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-
     /** A tracer that provides the traces for given NestedStruct1Interface object. */
     std::unique_ptr<NestedStruct1InterfaceTracer> m_tracer;
     /** The NestedStruct1Interface object which is traced */

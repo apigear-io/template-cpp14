@@ -28,7 +28,7 @@ namespace Testbed2 {
 
 class NestedStruct3InterfaceTracer;
 
-class TEST_TESTBED2_EXPORT NestedStruct3InterfaceTraceDecorator : public INestedStruct3Interface
+class TEST_TESTBED2_EXPORT NestedStruct3InterfaceTraceDecorator : public INestedStruct3Interface, public INestedStruct3InterfaceSubscriber
 {
 protected:
     /** 
@@ -66,34 +66,52 @@ public:
     /** Traces func3 and forwards call to NestedStruct3Interface implementation. */
     std::future<NestedStruct1> func3Async(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3) override;
     
-    /** Traces set Prop1 and forwards call to NestedStruct3Interface implementation. */
+    /** Forwards call to NestedStruct3Interface implementation. */
     void setProp1(const NestedStruct1& prop1) override;
     /** Forwards call to NestedStruct3Interface implementation. */
     const NestedStruct1& prop1() const override;
     
-    /** Traces set Prop2 and forwards call to NestedStruct3Interface implementation. */
+    /** Forwards call to NestedStruct3Interface implementation. */
     void setProp2(const NestedStruct2& prop2) override;
     /** Forwards call to NestedStruct3Interface implementation. */
     const NestedStruct2& prop2() const override;
     
-    /** Traces set Prop3 and forwards call to NestedStruct3Interface implementation. */
+    /** Forwards call to NestedStruct3Interface implementation. */
     void setProp3(const NestedStruct3& prop3) override;
     /** Forwards call to NestedStruct3Interface implementation. */
     const NestedStruct3& prop3() const override;
     
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(const NestedStruct1& param1) override;
+    /**
+    Traces sig2 emission.
+    */
+    void onSig2(const NestedStruct1& param1,const NestedStruct2& param2) override;
+    /**
+    Traces sig3 emission.
+    */
+    void onSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(const NestedStruct1& prop1) override;
+    /**
+    Traces prop2 changed.
+    */
+    void onProp2Changed(const NestedStruct2& prop2) override;
+    /**
+    Traces prop3 changed.
+    */
+    void onProp3Changed(const NestedStruct3& prop3) override;
+
     /**
     * Access to a publisher, use it to subscribe for NestedStruct3Interface changes and signal emission.
     * @return The publisher for NestedStruct3Interface.
     */
     INestedStruct3InterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-    /** Subscription token for sig2 callback */
-    long m_sig2SubscriptionToken;
-    /** Subscription token for sig3 callback */
-    long m_sig3SubscriptionToken;
-
     /** A tracer that provides the traces for given NestedStruct3Interface object. */
     std::unique_ptr<NestedStruct3InterfaceTracer> m_tracer;
     /** The NestedStruct3Interface object which is traced */

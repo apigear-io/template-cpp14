@@ -28,7 +28,7 @@ namespace Testbed1 {
 
 class StructArrayInterfaceTracer;
 
-class TEST_TESTBED1_EXPORT StructArrayInterfaceTraceDecorator : public IStructArrayInterface
+class TEST_TESTBED1_EXPORT StructArrayInterfaceTraceDecorator : public IStructArrayInterface, public IStructArrayInterfaceSubscriber
 {
 protected:
     /** 
@@ -71,41 +71,65 @@ public:
     /** Traces funcString and forwards call to StructArrayInterface implementation. */
     std::future<StructBool> funcStringAsync(const std::list<StructString>& paramString) override;
     
-    /** Traces set PropBool and forwards call to StructArrayInterface implementation. */
+    /** Forwards call to StructArrayInterface implementation. */
     void setPropBool(const std::list<StructBool>& propBool) override;
     /** Forwards call to StructArrayInterface implementation. */
     const std::list<StructBool>& propBool() const override;
     
-    /** Traces set PropInt and forwards call to StructArrayInterface implementation. */
+    /** Forwards call to StructArrayInterface implementation. */
     void setPropInt(const std::list<StructInt>& propInt) override;
     /** Forwards call to StructArrayInterface implementation. */
     const std::list<StructInt>& propInt() const override;
     
-    /** Traces set PropFloat and forwards call to StructArrayInterface implementation. */
+    /** Forwards call to StructArrayInterface implementation. */
     void setPropFloat(const std::list<StructFloat>& propFloat) override;
     /** Forwards call to StructArrayInterface implementation. */
     const std::list<StructFloat>& propFloat() const override;
     
-    /** Traces set PropString and forwards call to StructArrayInterface implementation. */
+    /** Forwards call to StructArrayInterface implementation. */
     void setPropString(const std::list<StructString>& propString) override;
     /** Forwards call to StructArrayInterface implementation. */
     const std::list<StructString>& propString() const override;
     
+    /**
+    Traces sigBool emission.
+    */
+    void onSigBool(const std::list<StructBool>& paramBool) override;
+    /**
+    Traces sigInt emission.
+    */
+    void onSigInt(const std::list<StructInt>& paramInt) override;
+    /**
+    Traces sigFloat emission.
+    */
+    void onSigFloat(const std::list<StructFloat>& paramFloat) override;
+    /**
+    Traces sigString emission.
+    */
+    void onSigString(const std::list<StructString>& paramString) override;
+    /**
+    Traces propBool changed.
+    */
+    void onPropBoolChanged(const std::list<StructBool>& propBool) override;
+    /**
+    Traces propInt changed.
+    */
+    void onPropIntChanged(const std::list<StructInt>& propInt) override;
+    /**
+    Traces propFloat changed.
+    */
+    void onPropFloatChanged(const std::list<StructFloat>& propFloat) override;
+    /**
+    Traces propString changed.
+    */
+    void onPropStringChanged(const std::list<StructString>& propString) override;
+
     /**
     * Access to a publisher, use it to subscribe for StructArrayInterface changes and signal emission.
     * @return The publisher for StructArrayInterface.
     */
     IStructArrayInterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sigBool callback */
-    long m_sigBoolSubscriptionToken;
-    /** Subscription token for sigInt callback */
-    long m_sigIntSubscriptionToken;
-    /** Subscription token for sigFloat callback */
-    long m_sigFloatSubscriptionToken;
-    /** Subscription token for sigString callback */
-    long m_sigStringSubscriptionToken;
-
     /** A tracer that provides the traces for given StructArrayInterface object. */
     std::unique_ptr<StructArrayInterfaceTracer> m_tracer;
     /** The StructArrayInterface object which is traced */

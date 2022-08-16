@@ -28,7 +28,7 @@ namespace TbSimple {
 
 class SimpleArrayInterfaceTracer;
 
-class TEST_TB_SIMPLE_EXPORT SimpleArrayInterfaceTraceDecorator : public ISimpleArrayInterface
+class TEST_TB_SIMPLE_EXPORT SimpleArrayInterfaceTraceDecorator : public ISimpleArrayInterface, public ISimpleArrayInterfaceSubscriber
 {
 protected:
     /** 
@@ -71,41 +71,65 @@ public:
     /** Traces funcString and forwards call to SimpleArrayInterface implementation. */
     std::future<std::list<std::string>> funcStringAsync(const std::list<std::string>& paramString) override;
     
-    /** Traces set PropBool and forwards call to SimpleArrayInterface implementation. */
+    /** Forwards call to SimpleArrayInterface implementation. */
     void setPropBool(const std::list<bool>& propBool) override;
     /** Forwards call to SimpleArrayInterface implementation. */
     const std::list<bool>& propBool() const override;
     
-    /** Traces set PropInt and forwards call to SimpleArrayInterface implementation. */
+    /** Forwards call to SimpleArrayInterface implementation. */
     void setPropInt(const std::list<int>& propInt) override;
     /** Forwards call to SimpleArrayInterface implementation. */
     const std::list<int>& propInt() const override;
     
-    /** Traces set PropFloat and forwards call to SimpleArrayInterface implementation. */
+    /** Forwards call to SimpleArrayInterface implementation. */
     void setPropFloat(const std::list<float>& propFloat) override;
     /** Forwards call to SimpleArrayInterface implementation. */
     const std::list<float>& propFloat() const override;
     
-    /** Traces set PropString and forwards call to SimpleArrayInterface implementation. */
+    /** Forwards call to SimpleArrayInterface implementation. */
     void setPropString(const std::list<std::string>& propString) override;
     /** Forwards call to SimpleArrayInterface implementation. */
     const std::list<std::string>& propString() const override;
     
+    /**
+    Traces sigBool emission.
+    */
+    void onSigBool(const std::list<bool>& paramBool) override;
+    /**
+    Traces sigInt emission.
+    */
+    void onSigInt(const std::list<int>& paramInt) override;
+    /**
+    Traces sigFloat emission.
+    */
+    void onSigFloat(const std::list<float>& paramFloat) override;
+    /**
+    Traces sigString emission.
+    */
+    void onSigString(const std::list<std::string>& paramString) override;
+    /**
+    Traces propBool changed.
+    */
+    void onPropBoolChanged(const std::list<bool>& propBool) override;
+    /**
+    Traces propInt changed.
+    */
+    void onPropIntChanged(const std::list<int>& propInt) override;
+    /**
+    Traces propFloat changed.
+    */
+    void onPropFloatChanged(const std::list<float>& propFloat) override;
+    /**
+    Traces propString changed.
+    */
+    void onPropStringChanged(const std::list<std::string>& propString) override;
+
     /**
     * Access to a publisher, use it to subscribe for SimpleArrayInterface changes and signal emission.
     * @return The publisher for SimpleArrayInterface.
     */
     ISimpleArrayInterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sigBool callback */
-    long m_sigBoolSubscriptionToken;
-    /** Subscription token for sigInt callback */
-    long m_sigIntSubscriptionToken;
-    /** Subscription token for sigFloat callback */
-    long m_sigFloatSubscriptionToken;
-    /** Subscription token for sigString callback */
-    long m_sigStringSubscriptionToken;
-
     /** A tracer that provides the traces for given SimpleArrayInterface object. */
     std::unique_ptr<SimpleArrayInterfaceTracer> m_tracer;
     /** The SimpleArrayInterface object which is traced */

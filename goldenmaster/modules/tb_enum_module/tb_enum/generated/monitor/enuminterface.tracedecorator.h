@@ -28,7 +28,7 @@ namespace TbEnum {
 
 class EnumInterfaceTracer;
 
-class TEST_TB_ENUM_EXPORT EnumInterfaceTraceDecorator : public IEnumInterface
+class TEST_TB_ENUM_EXPORT EnumInterfaceTraceDecorator : public IEnumInterface, public IEnumInterfaceSubscriber
 {
 protected:
     /** 
@@ -71,41 +71,65 @@ public:
     /** Traces func3 and forwards call to EnumInterface implementation. */
     std::future<Enum3Enum> func3Async(const Enum3Enum& param3) override;
     
-    /** Traces set Prop0 and forwards call to EnumInterface implementation. */
+    /** Forwards call to EnumInterface implementation. */
     void setProp0(const Enum0Enum& prop0) override;
     /** Forwards call to EnumInterface implementation. */
     const Enum0Enum& prop0() const override;
     
-    /** Traces set Prop1 and forwards call to EnumInterface implementation. */
+    /** Forwards call to EnumInterface implementation. */
     void setProp1(const Enum1Enum& prop1) override;
     /** Forwards call to EnumInterface implementation. */
     const Enum1Enum& prop1() const override;
     
-    /** Traces set Prop2 and forwards call to EnumInterface implementation. */
+    /** Forwards call to EnumInterface implementation. */
     void setProp2(const Enum2Enum& prop2) override;
     /** Forwards call to EnumInterface implementation. */
     const Enum2Enum& prop2() const override;
     
-    /** Traces set Prop3 and forwards call to EnumInterface implementation. */
+    /** Forwards call to EnumInterface implementation. */
     void setProp3(const Enum3Enum& prop3) override;
     /** Forwards call to EnumInterface implementation. */
     const Enum3Enum& prop3() const override;
     
+    /**
+    Traces sig0 emission.
+    */
+    void onSig0(const Enum0Enum& param0) override;
+    /**
+    Traces sig1 emission.
+    */
+    void onSig1(const Enum1Enum& param1) override;
+    /**
+    Traces sig2 emission.
+    */
+    void onSig2(const Enum2Enum& param2) override;
+    /**
+    Traces sig3 emission.
+    */
+    void onSig3(const Enum3Enum& param3) override;
+    /**
+    Traces prop0 changed.
+    */
+    void onProp0Changed(const Enum0Enum& prop0) override;
+    /**
+    Traces prop1 changed.
+    */
+    void onProp1Changed(const Enum1Enum& prop1) override;
+    /**
+    Traces prop2 changed.
+    */
+    void onProp2Changed(const Enum2Enum& prop2) override;
+    /**
+    Traces prop3 changed.
+    */
+    void onProp3Changed(const Enum3Enum& prop3) override;
+
     /**
     * Access to a publisher, use it to subscribe for EnumInterface changes and signal emission.
     * @return The publisher for EnumInterface.
     */
     IEnumInterfacePublisher& _getPublisher() const override;
 private:
-    /** Subscription token for sig0 callback */
-    long m_sig0SubscriptionToken;
-    /** Subscription token for sig1 callback */
-    long m_sig1SubscriptionToken;
-    /** Subscription token for sig2 callback */
-    long m_sig2SubscriptionToken;
-    /** Subscription token for sig3 callback */
-    long m_sig3SubscriptionToken;
-
     /** A tracer that provides the traces for given EnumInterface object. */
     std::unique_ptr<EnumInterfaceTracer> m_tracer;
     /** The EnumInterface object which is traced */

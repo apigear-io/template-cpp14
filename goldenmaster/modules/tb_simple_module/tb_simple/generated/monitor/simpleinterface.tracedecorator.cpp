@@ -25,46 +25,17 @@ SimpleInterfaceTraceDecorator::SimpleInterfaceTraceDecorator(ISimpleInterface& i
     : m_tracer(std::make_unique<SimpleInterfaceTracer>(tracer))
     , m_impl(impl)
 {
-    m_sigBoolSubscriptionToken = m_impl._getPublisher().subscribeToSigBool(
-    [this](bool paramBool)
-    {
-        m_tracer->trace_sigBool(paramBool);
-    }
-    );
-    m_sigIntSubscriptionToken = m_impl._getPublisher().subscribeToSigInt(
-    [this](int paramInt)
-    {
-        m_tracer->trace_sigInt(paramInt);
-    }
-    );
-    m_sigFloatSubscriptionToken = m_impl._getPublisher().subscribeToSigFloat(
-    [this](float paramFloat)
-    {
-        m_tracer->trace_sigFloat(paramFloat);
-    }
-    );
-    m_sigStringSubscriptionToken = m_impl._getPublisher().subscribeToSigString(
-    [this](const std::string& paramString)
-    {
-        m_tracer->trace_sigString(paramString);
-    }
-    );
+        m_impl._getPublisher().subscribeToAllChanges(*this);
 }
 SimpleInterfaceTraceDecorator::~SimpleInterfaceTraceDecorator()
 {
-    m_impl._getPublisher().unsubscribeFromSigBool(m_sigBoolSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigInt(m_sigIntSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigFloat(m_sigFloatSubscriptionToken);
-    m_impl._getPublisher().unsubscribeFromSigString(m_sigStringSubscriptionToken);
+    m_impl._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::unique_ptr<SimpleInterfaceTraceDecorator> SimpleInterfaceTraceDecorator::connect(ISimpleInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
 {
     return std::unique_ptr<SimpleInterfaceTraceDecorator>(new SimpleInterfaceTraceDecorator(impl, tracer));
 }
-/**
-   \brief 
-*/
 bool SimpleInterfaceTraceDecorator::funcBool(bool paramBool)
 {
     m_tracer->trace_funcBool(paramBool);
@@ -75,9 +46,6 @@ std::future<bool> SimpleInterfaceTraceDecorator::funcBoolAsync(bool paramBool)
     m_tracer->trace_funcBool(paramBool);
     return m_impl.funcBoolAsync(paramBool);
 }
-/**
-   \brief 
-*/
 int SimpleInterfaceTraceDecorator::funcInt(int paramInt)
 {
     m_tracer->trace_funcInt(paramInt);
@@ -88,9 +56,6 @@ std::future<int> SimpleInterfaceTraceDecorator::funcIntAsync(int paramInt)
     m_tracer->trace_funcInt(paramInt);
     return m_impl.funcIntAsync(paramInt);
 }
-/**
-   \brief 
-*/
 float SimpleInterfaceTraceDecorator::funcFloat(float paramFloat)
 {
     m_tracer->trace_funcFloat(paramFloat);
@@ -101,9 +66,6 @@ std::future<float> SimpleInterfaceTraceDecorator::funcFloatAsync(float paramFloa
     m_tracer->trace_funcFloat(paramFloat);
     return m_impl.funcFloatAsync(paramFloat);
 }
-/**
-   \brief 
-*/
 std::string SimpleInterfaceTraceDecorator::funcString(const std::string& paramString)
 {
     m_tracer->trace_funcString(paramString);
@@ -116,8 +78,6 @@ std::future<std::string> SimpleInterfaceTraceDecorator::funcStringAsync(const st
 }
 void SimpleInterfaceTraceDecorator::setPropBool(bool propBool)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropBool(propBool);
     m_impl.setPropBool(propBool);
 }
 
@@ -127,8 +87,6 @@ bool SimpleInterfaceTraceDecorator::propBool() const
 }
 void SimpleInterfaceTraceDecorator::setPropInt(int propInt)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropInt(propInt);
     m_impl.setPropInt(propInt);
 }
 
@@ -138,8 +96,6 @@ int SimpleInterfaceTraceDecorator::propInt() const
 }
 void SimpleInterfaceTraceDecorator::setPropFloat(float propFloat)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropFloat(propFloat);
     m_impl.setPropFloat(propFloat);
 }
 
@@ -149,8 +105,6 @@ float SimpleInterfaceTraceDecorator::propFloat() const
 }
 void SimpleInterfaceTraceDecorator::setPropString(const std::string& propString)
 {
-    m_tracer->capture_state(this);
-    m_impl.setPropString(propString);
     m_impl.setPropString(propString);
 }
 
@@ -158,6 +112,47 @@ std::string SimpleInterfaceTraceDecorator::propString() const
 {
     return m_impl.propString();
 }
+void SimpleInterfaceTraceDecorator::onSigBool(bool paramBool)
+{
+    m_tracer->trace_sigBool(paramBool);
+}
+
+void SimpleInterfaceTraceDecorator::onSigInt(int paramInt)
+{
+    m_tracer->trace_sigInt(paramInt);
+}
+
+void SimpleInterfaceTraceDecorator::onSigFloat(float paramFloat)
+{
+    m_tracer->trace_sigFloat(paramFloat);
+}
+
+void SimpleInterfaceTraceDecorator::onSigString(const std::string& paramString)
+{
+    m_tracer->trace_sigString(paramString);
+}
+
+void SimpleInterfaceTraceDecorator::onPropBoolChanged(bool /*propBool*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void SimpleInterfaceTraceDecorator::onPropIntChanged(int /*propInt*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void SimpleInterfaceTraceDecorator::onPropFloatChanged(float /*propFloat*/)
+{
+    m_tracer->capture_state(this);
+}
+
+void SimpleInterfaceTraceDecorator::onPropStringChanged(std::string /*propString*/)
+{
+    m_tracer->capture_state(this);
+}
+
+
 
 ISimpleInterfacePublisher& SimpleInterfaceTraceDecorator::_getPublisher() const
 {
