@@ -28,8 +28,7 @@ SameStruct1InterfaceTraceDecorator::SameStruct1InterfaceTraceDecorator(ISameStru
     m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
     [this](const Struct1& param1)
     {
-        (void) param1; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig1(param1)*/
+        m_tracer->trace_Sig1(param1);
     }
     );
 }

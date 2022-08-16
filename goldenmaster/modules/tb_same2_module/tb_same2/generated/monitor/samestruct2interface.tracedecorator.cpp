@@ -28,16 +28,13 @@ SameStruct2InterfaceTraceDecorator::SameStruct2InterfaceTraceDecorator(ISameStru
     m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
     [this](const Struct1& param1)
     {
-        (void) param1; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig1(param1)*/
+        m_tracer->trace_Sig1(param1);
     }
     );
     m_sig2SubscriptionToken = m_impl._getPublisher().subscribeToSig2(
     [this](const Struct1& param1,const Struct2& param2)
     {
-        (void) param1; // To suppress unreferenced formal parameter error
-        (void) param2; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig2(param1,param2)*/
+        m_tracer->trace_Sig2(param1,param2);
     }
     );
 }

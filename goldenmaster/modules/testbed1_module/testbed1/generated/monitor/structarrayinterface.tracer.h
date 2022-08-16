@@ -46,6 +46,26 @@ public:
   * @param The StructArrayInterface object to trace.
   */
   void trace_funcString(const std::list<StructString>& paramString);
+  /**
+  * Prepares information about the sigBool call in a nlohmann::json format and puts to a tracer.
+  * @param The StructArrayInterface object to trace.
+  */
+  void trace_sigBool(const std::list<StructBool>& paramBool);
+  /**
+  * Prepares information about the sigInt call in a nlohmann::json format and puts to a tracer.
+  * @param The StructArrayInterface object to trace.
+  */
+  void trace_sigInt(const std::list<StructInt>& paramInt);
+  /**
+  * Prepares information about the sigFloat call in a nlohmann::json format and puts to a tracer.
+  * @param The StructArrayInterface object to trace.
+  */
+  void trace_sigFloat(const std::list<StructFloat>& paramFloat);
+  /**
+  * Prepares information about the sigString call in a nlohmann::json format and puts to a tracer.
+  * @param The StructArrayInterface object to trace.
+  */
+  void trace_sigString(const std::list<StructString>& paramString);
 private:
   /**
   * A tracer object to which the information about the state and operations is put.

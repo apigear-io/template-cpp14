@@ -28,8 +28,7 @@ NestedStruct1InterfaceTraceDecorator::NestedStruct1InterfaceTraceDecorator(INest
     m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
     [this](const NestedStruct1& param1)
     {
-        (void) param1; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig1(param1)*/
+        m_tracer->trace_Sig1(param1);
     }
     );
 }

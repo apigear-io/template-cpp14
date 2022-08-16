@@ -28,8 +28,7 @@ SameEnum1InterfaceTraceDecorator::SameEnum1InterfaceTraceDecorator(ISameEnum1Int
     m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
     [this](const Enum1Enum& param1)
     {
-        (void) param1; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig1(param1)*/
+        m_tracer->trace_Sig1(param1);
     }
     );
 }

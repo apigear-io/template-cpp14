@@ -46,6 +46,26 @@ public:
   * @param The SimpleInterface object to trace.
   */
   void trace_funcString(const std::string& paramString);
+  /**
+  * Prepares information about the sigBool call in a nlohmann::json format and puts to a tracer.
+  * @param The SimpleInterface object to trace.
+  */
+  void trace_sigBool(bool paramBool);
+  /**
+  * Prepares information about the sigInt call in a nlohmann::json format and puts to a tracer.
+  * @param The SimpleInterface object to trace.
+  */
+  void trace_sigInt(int paramInt);
+  /**
+  * Prepares information about the sigFloat call in a nlohmann::json format and puts to a tracer.
+  * @param The SimpleInterface object to trace.
+  */
+  void trace_sigFloat(float paramFloat);
+  /**
+  * Prepares information about the sigString call in a nlohmann::json format and puts to a tracer.
+  * @param The SimpleInterface object to trace.
+  */
+  void trace_sigString(const std::string& paramString);
 private:
   /**
   * A tracer object to which the information about the state and operations is put.

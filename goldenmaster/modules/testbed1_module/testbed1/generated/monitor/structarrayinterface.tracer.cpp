@@ -46,3 +46,27 @@ void StructArrayInterfaceTracer::trace_funcString(const std::list<StructString>&
     fields_["paramString"] = paramString;
     m_tracer.call("testbed1.StructArrayInterface#funcString", fields_);
 }
+void StructArrayInterfaceTracer::trace_sigBool(const std::list<StructBool>& paramBool)
+{
+    nlohmann::json fields_;
+    fields_["paramBool"] = paramBool;
+    m_tracer.signal("testbed1.StructArrayInterface#sigBool", fields_);
+}
+void StructArrayInterfaceTracer::trace_sigInt(const std::list<StructInt>& paramInt)
+{
+    nlohmann::json fields_;
+    fields_["paramInt"] = paramInt;
+    m_tracer.signal("testbed1.StructArrayInterface#sigInt", fields_);
+}
+void StructArrayInterfaceTracer::trace_sigFloat(const std::list<StructFloat>& paramFloat)
+{
+    nlohmann::json fields_;
+    fields_["paramFloat"] = paramFloat;
+    m_tracer.signal("testbed1.StructArrayInterface#sigFloat", fields_);
+}
+void StructArrayInterfaceTracer::trace_sigString(const std::list<StructString>& paramString)
+{
+    nlohmann::json fields_;
+    fields_["paramString"] = paramString;
+    m_tracer.signal("testbed1.StructArrayInterface#sigString", fields_);
+}

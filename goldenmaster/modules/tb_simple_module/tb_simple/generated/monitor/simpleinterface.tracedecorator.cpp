@@ -28,29 +28,25 @@ SimpleInterfaceTraceDecorator::SimpleInterfaceTraceDecorator(ISimpleInterface& i
     m_sigBoolSubscriptionToken = m_impl._getPublisher().subscribeToSigBool(
     [this](bool paramBool)
     {
-        (void) paramBool; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_SigBool(paramBool)*/
+        m_tracer->trace_SigBool(paramBool);
     }
     );
     m_sigIntSubscriptionToken = m_impl._getPublisher().subscribeToSigInt(
     [this](int paramInt)
     {
-        (void) paramInt; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_SigInt(paramInt)*/
+        m_tracer->trace_SigInt(paramInt);
     }
     );
     m_sigFloatSubscriptionToken = m_impl._getPublisher().subscribeToSigFloat(
     [this](float paramFloat)
     {
-        (void) paramFloat; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_SigFloat(paramFloat)*/
+        m_tracer->trace_SigFloat(paramFloat);
     }
     );
     m_sigStringSubscriptionToken = m_impl._getPublisher().subscribeToSigString(
     [this](const std::string& paramString)
     {
-        (void) paramString; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_SigString(paramString)*/
+        m_tracer->trace_SigString(paramString);
     }
     );
 }

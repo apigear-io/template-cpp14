@@ -28,29 +28,25 @@ EnumInterfaceTraceDecorator::EnumInterfaceTraceDecorator(IEnumInterface& impl, A
     m_sig0SubscriptionToken = m_impl._getPublisher().subscribeToSig0(
     [this](const Enum0Enum& param0)
     {
-        (void) param0; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig0(param0)*/
+        m_tracer->trace_Sig0(param0);
     }
     );
     m_sig1SubscriptionToken = m_impl._getPublisher().subscribeToSig1(
     [this](const Enum1Enum& param1)
     {
-        (void) param1; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig1(param1)*/
+        m_tracer->trace_Sig1(param1);
     }
     );
     m_sig2SubscriptionToken = m_impl._getPublisher().subscribeToSig2(
     [this](const Enum2Enum& param2)
     {
-        (void) param2; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig2(param2)*/
+        m_tracer->trace_Sig2(param2);
     }
     );
     m_sig3SubscriptionToken = m_impl._getPublisher().subscribeToSig3(
     [this](const Enum3Enum& param3)
     {
-        (void) param3; // To suppress unreferenced formal parameter error
-        /**m_tracer->trace_Sig3(param3)*/
+        m_tracer->trace_Sig3(param3);
     }
     );
 }

@@ -41,3 +41,24 @@ void NestedStruct3InterfaceTracer::trace_func3(const NestedStruct1& param1, cons
     fields_["param3"] = param3;
     m_tracer.call("testbed2.NestedStruct3Interface#func3", fields_);
 }
+void NestedStruct3InterfaceTracer::trace_sig1(const NestedStruct1& param1)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    m_tracer.signal("testbed2.NestedStruct3Interface#sig1", fields_);
+}
+void NestedStruct3InterfaceTracer::trace_sig2(const NestedStruct1& param1,const NestedStruct2& param2)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    fields_["param2"] = param2;
+    m_tracer.signal("testbed2.NestedStruct3Interface#sig2", fields_);
+}
+void NestedStruct3InterfaceTracer::trace_sig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    fields_["param2"] = param2;
+    fields_["param3"] = param3;
+    m_tracer.signal("testbed2.NestedStruct3Interface#sig3", fields_);
+}

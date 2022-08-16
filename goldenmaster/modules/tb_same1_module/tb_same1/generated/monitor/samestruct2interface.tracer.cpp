@@ -31,3 +31,16 @@ void SameStruct2InterfaceTracer::trace_func2(const Struct1& param1, const Struct
     fields_["param2"] = param2;
     m_tracer.call("tb.same1.SameStruct2Interface#func2", fields_);
 }
+void SameStruct2InterfaceTracer::trace_sig1(const Struct1& param1)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    m_tracer.signal("tb.same1.SameStruct2Interface#sig1", fields_);
+}
+void SameStruct2InterfaceTracer::trace_sig2(const Struct1& param1,const Struct2& param2)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    fields_["param2"] = param2;
+    m_tracer.signal("tb.same1.SameStruct2Interface#sig2", fields_);
+}

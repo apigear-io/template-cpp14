@@ -22,3 +22,9 @@ void NestedStruct1InterfaceTracer::trace_func1(const NestedStruct1& param1)
     fields_["param1"] = param1;
     m_tracer.call("testbed2.NestedStruct1Interface#func1", fields_);
 }
+void NestedStruct1InterfaceTracer::trace_sig1(const NestedStruct1& param1)
+{
+    nlohmann::json fields_;
+    fields_["param1"] = param1;
+    m_tracer.signal("testbed2.NestedStruct1Interface#sig1", fields_);
+}

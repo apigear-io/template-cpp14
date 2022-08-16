@@ -31,6 +31,11 @@ public:
   * @param The SameEnum1Interface object to trace.
   */
   void trace_func1(const Enum1Enum& param1);
+  /**
+  * Prepares information about the sig1 call in a nlohmann::json format and puts to a tracer.
+  * @param The SameEnum1Interface object to trace.
+  */
+  void trace_sig1(const Enum1Enum& param1);
 private:
   /**
   * A tracer object to which the information about the state and operations is put.
