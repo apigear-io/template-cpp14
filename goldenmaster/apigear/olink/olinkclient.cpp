@@ -10,11 +10,10 @@ using namespace ApiGear::PocoImpl;
 OLinkClient::OLinkClient(ApiGear::ObjectLink::ClientRegistry& registry)
     : m_socket(nullptr)
     , m_node(registry)
-    , m_registry(&registry)
     , m_disconnectRequested(false)
 {
     m_node.onLog(m_logger.logFunc());
-    m_registry->onLog(m_logger.logFunc());
+    registry->onLog(m_logger.logFunc());
     ApiGear::ObjectLink::WriteMessageFunc func = [this](std::string msg) {
         m_queueMutex.lock(100);
         m_queue.push(msg);
@@ -31,7 +30,7 @@ OLinkClient::OLinkClient(ApiGear::ObjectLink::ClientRegistry& registry)
 OLinkClient::~OLinkClient()
 {
     for (auto& object: m_linkedObjects){
-        m_node.registry().unlinkClientNode(object, &m_node);
+        m_node.unlinkNode(object);// TODO should it unlink remote too?
     }
 }
 
@@ -72,7 +71,7 @@ void OLinkClient::run()
         }
     }
     while (!connectionClosed && !m_disconnectRequested);
-    this->onDisconnected();
+    onDisconnected();
 }
 
 void OLinkClient::connectToHost(Poco::URI url)
@@ -108,7 +107,7 @@ void OLinkClient::connectToHost(Poco::URI url)
 void OLinkClient::disconnect() {
     for (auto& object: m_linkedObjects){
         m_node.unlinkRemote(object);
-        m_node.registry().unlinkClientNode(object, &m_node);
+        m_node.unlinkNode(object); //TODO unlink should do unlink remote too //m_linked objects should not be here at all
     }
     m_linkedObjects.clear();
     
@@ -125,11 +124,6 @@ void OLinkClient::disconnect() {
     Poco::ThreadPool::defaultPool().joinAll();
 }
 
-ApiGear::ObjectLink::ClientRegistry &OLinkClient::registry()
-{
-    return m_node.registry();
-}
-
 ApiGear::ObjectLink::ClientNode &OLinkClient::node()
 {
     return m_node;
@@ -138,7 +132,7 @@ ApiGear::ObjectLink::ClientNode &OLinkClient::node()
 void OLinkClient::linkObjectSource(std::string name)
 {
     std::clog << "linkObjectSource:" << name << std::endl;
-    m_node.registry().linkClientNode(name, &m_node);
+    m_node.linkNode(name);
     m_linkedObjects.insert(name);
 }
 

@@ -6,8 +6,8 @@ if(NOT objectlink-core-cpp_FOUND)
   message(STATUS "objectlink-core-cpp NOT FOUND, fetching the git repository")
   include(FetchContent)
   FetchContent_Declare(objectlink-core-cpp
-      GIT_REPOSITORY https://github.com/apigear-io/objectlink-core-cpp
-      GIT_TAG v0.1.4
+      GIT_REPOSITORY https://github.com/apigear-io/objectlink-core-cpp.git
+      GIT_TAG origin/dphan/refactor
       GIT_SHALLOW TRUE
       EXCLUDE_FROM_ALL FALSE
   )

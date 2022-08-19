@@ -10,11 +10,10 @@ using namespace ApiGear::PocoImpl;
 OLinkClient::OLinkClient(ApiGear::ObjectLink::ClientRegistry& registry)
     : m_socket(nullptr)
     , m_node(registry)
-    , m_registry(&registry)
     , m_disconnectRequested(false)
 {
     m_node.onLog(m_logger.logFunc());
-    m_registry->onLog(m_logger.logFunc());
+    registry->onLog(m_logger.logFunc());
     ApiGear::ObjectLink::WriteMessageFunc func = [this](std::string msg) {
         m_queueMutex.lock(100);
         m_queue.push(msg);
@@ -26,13 +25,6 @@ OLinkClient::OLinkClient(ApiGear::ObjectLink::ClientRegistry& registry)
     // socket connection retry
     m_task = new Poco::Util::TimerTaskAdapter<OLinkClient>(*this, &OLinkClient::processMessages);
     m_retryTimer.schedule(m_task, 10, 5000);
-}
-
-OLinkClient::~OLinkClient()
-{
-    for (auto& object: m_linkedObjects){
-        m_node.registry().unlinkClientNode(object, &m_node);
-    }
 }
 
 void OLinkClient::run()
@@ -72,7 +64,7 @@ void OLinkClient::run()
         }
     }
     while (!connectionClosed && !m_disconnectRequested);
-    this->onDisconnected();
+    onDisconnected();
 }
 
 void OLinkClient::connectToHost(Poco::URI url)
@@ -106,11 +98,7 @@ void OLinkClient::connectToHost(Poco::URI url)
 }
 
 void OLinkClient::disconnect() {
-    for (auto& object: m_linkedObjects){
-        m_node.unlinkRemote(object);
-        m_node.registry().unlinkClientNode(object, &m_node);
-    }
-    m_linkedObjects.clear();
+    m_node.disconnect();
     
     try {
         if(m_socket != nullptr) {
@@ -125,11 +113,6 @@ void OLinkClient::disconnect() {
     Poco::ThreadPool::defaultPool().joinAll();
 }
 
-ApiGear::ObjectLink::ClientRegistry &OLinkClient::registry()
-{
-    return m_node.registry();
-}
-
 ApiGear::ObjectLink::ClientNode &OLinkClient::node()
 {
     return m_node;
@@ -138,16 +121,13 @@ ApiGear::ObjectLink::ClientNode &OLinkClient::node()
 void OLinkClient::linkObjectSource(std::string name)
 {
     std::clog << "linkObjectSource:" << name << std::endl;
-    m_node.registry().linkClientNode(name, &m_node);
-    m_linkedObjects.insert(name);
+    m_node.linkNode(name);
 }
 
 void OLinkClient::onConnected()
 {
     std::clog << " socket connected" << std::endl;
-    for (auto& object: m_linkedObjects){
-        m_node.linkRemote(object);
-    }
+    m_node.connected();
     process();
 }
 

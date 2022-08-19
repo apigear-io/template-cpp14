@@ -31,35 +31,32 @@ class APIGEAR_OLINK_EXPORT OLinkClient: public Poco::Runnable
 {
 public:
     OLinkClient(ApiGear::ObjectLink::ClientRegistry& registry);
-    virtual ~OLinkClient();
-public:
+    virtual ~OLinkClient() = default;
+
     void connectToHost(Poco::URI url=Poco::URI());
     void disconnect();
-    ApiGear::ObjectLink::ClientRegistry &registry();
-    ApiGear::ObjectLink::ClientNode &node();
-    std::string name() const;
+    ApiGear::ObjectLink::ClientNode& node();
 
     void linkObjectSource(std::string name);
+    void run() override;
 
+private:
     void onConnected();
     void onDisconnected();
     void handleTextMessage(const std::string& message);
     void processMessages(Poco::Util::TimerTask& task);
     void process();
-    
-    void run() override;
-private:
+
     Poco::Mutex m_queueMutex;
     Poco::URI m_serverUrl;
     Poco::Net::WebSocket *m_socket;
     Poco::Util::Timer m_retryTimer;
     Poco::Util::TimerTask::Ptr m_task;
-    ApiGear::ObjectLink::ClientNode m_node;
-    ApiGear::ObjectLink::ClientRegistry* m_registry;
     std::queue<std::string> m_queue;
-    ApiGear::ObjectLink::ConsoleLogger m_logger;
     std::atomic<bool> m_disconnectRequested;
-    std::set<std::string> m_linkedObjects;
+
+    ApiGear::ObjectLink::ClientNode m_node;
+    ApiGear::ObjectLink::ConsoleLogger m_logger;
 };
 } // namespace PocoImpl
 } // namespace ApiGear
