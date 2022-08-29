@@ -17,12 +17,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+#include "tb_simple/generated/api/datastructs.api.h"
 #include "tb_simple/generated/olink/simpleinterfaceservice.adapter.h"
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 #include <iostream>
 
+
 using namespace Test::TbSimple;
 using namespace Test::TbSimple::olink;
+
+namespace 
+{
+const std::string interfaceId = "tb.simple.SimpleInterface";
+}
 
 SimpleInterfaceServiceAdapter::SimpleInterfaceServiceAdapter(ISimpleInterface& SimpleInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SimpleInterface(SimpleInterface)
@@ -40,28 +47,28 @@ SimpleInterfaceServiceAdapter::~SimpleInterfaceServiceAdapter()
 }
 
 std::string SimpleInterfaceServiceAdapter::olinkObjectName() {
-    return "tb.simple.SimpleInterface";
+    return interfaceId;
 }
 
-nlohmann::json SimpleInterfaceServiceAdapter::olinkInvoke(std::string fcnName, nlohmann::json fcnArgs) {
-    std::clog << fcnName << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(fcnName);
-    if(path == "funcBool") {
+nlohmann::json SimpleInterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+    std::clog << methodId << std::endl;
+    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    if(memberMethod == "funcBool") {
         const bool& paramBool = fcnArgs.at(0);
         bool result = m_SimpleInterface.funcBool(paramBool);
         return result;
     }
-    if(path == "funcInt") {
+    if(memberMethod == "funcInt") {
         const int& paramInt = fcnArgs.at(0);
         int result = m_SimpleInterface.funcInt(paramInt);
         return result;
     }
-    if(path == "funcFloat") {
+    if(memberMethod == "funcFloat") {
         const float& paramFloat = fcnArgs.at(0);
         float result = m_SimpleInterface.funcFloat(paramFloat);
         return result;
     }
-    if(path == "funcString") {
+    if(memberMethod == "funcString") {
         const std::string& paramString = fcnArgs.at(0);
         std::string result = m_SimpleInterface.funcString(paramString);
         return result;
@@ -69,22 +76,22 @@ nlohmann::json SimpleInterfaceServiceAdapter::olinkInvoke(std::string fcnName, n
     return nlohmann::json();
 }
 
-void SimpleInterfaceServiceAdapter::olinkSetProperty(std::string name, nlohmann::json value) {
-    std::clog << name << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    if(path == "propBool") {
+void SimpleInterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+    std::clog << propertyId << std::endl;
+    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
+    if(memberProperty == "propBool") {
         bool propBool = value.get<bool>();
         m_SimpleInterface.setPropBool(propBool);
     }
-    if(path == "propInt") {
+    if(memberProperty == "propInt") {
         int propInt = value.get<int>();
         m_SimpleInterface.setPropInt(propInt);
     }
-    if(path == "propFloat") {
+    if(memberProperty == "propFloat") {
         float propFloat = value.get<float>();
         m_SimpleInterface.setPropFloat(propFloat);
     }
-    if(path == "propString") {
+    if(memberProperty == "propString") {
         std::string propString = value.get<std::string>();
         m_SimpleInterface.setPropString(propString);
     } 
@@ -114,52 +121,60 @@ void SimpleInterfaceServiceAdapter::onSigBool(bool paramBool)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramBool };
-        m_node->notifySignal("tb.simple.SimpleInterface/sigBool", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
+        m_node->notifySignal(signalId, args);
     }
 }
 void SimpleInterfaceServiceAdapter::onSigInt(int paramInt)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramInt };
-        m_node->notifySignal("tb.simple.SimpleInterface/sigInt", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt");
+        m_node->notifySignal(signalId, args);
     }
 }
 void SimpleInterfaceServiceAdapter::onSigFloat(float paramFloat)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramFloat };
-        m_node->notifySignal("tb.simple.SimpleInterface/sigFloat", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat");
+        m_node->notifySignal(signalId, args);
     }
 }
 void SimpleInterfaceServiceAdapter::onSigString(const std::string& paramString)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramString };
-        m_node->notifySignal("tb.simple.SimpleInterface/sigString", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigString");
+        m_node->notifySignal(signalId, args);
     }
 }
 void SimpleInterfaceServiceAdapter::onPropBoolChanged(bool propBool)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("tb.simple.SimpleInterface/propBool", propBool);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
+        m_node->notifyPropertyChange(propertyId, propBool);
     }
 }
 void SimpleInterfaceServiceAdapter::onPropIntChanged(int propInt)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("tb.simple.SimpleInterface/propInt", propInt);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
+        m_node->notifyPropertyChange(propertyId, propInt);
     }
 }
 void SimpleInterfaceServiceAdapter::onPropFloatChanged(float propFloat)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("tb.simple.SimpleInterface/propFloat", propFloat);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
+        m_node->notifyPropertyChange(propertyId, propFloat);
     }
 }
 void SimpleInterfaceServiceAdapter::onPropStringChanged(std::string propString)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("tb.simple.SimpleInterface/propString", propString);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
+        m_node->notifyPropertyChange(propertyId, propString);
     }
 }
 

@@ -17,12 +17,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+#include "testbed2/generated/api/datastructs.api.h"
 #include "testbed2/generated/olink/manyparaminterfaceservice.adapter.h"
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 #include <iostream>
 
+
 using namespace Test::Testbed2;
 using namespace Test::Testbed2::olink;
+
+namespace 
+{
+const std::string interfaceId = "testbed2.ManyParamInterface";
+}
 
 ManyParamInterfaceServiceAdapter::ManyParamInterfaceServiceAdapter(IManyParamInterface& ManyParamInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_ManyParamInterface(ManyParamInterface)
@@ -40,31 +47,31 @@ ManyParamInterfaceServiceAdapter::~ManyParamInterfaceServiceAdapter()
 }
 
 std::string ManyParamInterfaceServiceAdapter::olinkObjectName() {
-    return "testbed2.ManyParamInterface";
+    return interfaceId;
 }
 
-nlohmann::json ManyParamInterfaceServiceAdapter::olinkInvoke(std::string fcnName, nlohmann::json fcnArgs) {
-    std::clog << fcnName << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(fcnName);
-    if(path == "func1") {
+nlohmann::json ManyParamInterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+    std::clog << methodId << std::endl;
+    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    if(memberMethod == "func1") {
         const int& param1 = fcnArgs.at(0);
         int result = m_ManyParamInterface.func1(param1);
         return result;
     }
-    if(path == "func2") {
+    if(memberMethod == "func2") {
         const int& param1 = fcnArgs.at(0);
         const int& param2 = fcnArgs.at(1);
         int result = m_ManyParamInterface.func2(param1, param2);
         return result;
     }
-    if(path == "func3") {
+    if(memberMethod == "func3") {
         const int& param1 = fcnArgs.at(0);
         const int& param2 = fcnArgs.at(1);
         const int& param3 = fcnArgs.at(2);
         int result = m_ManyParamInterface.func3(param1, param2, param3);
         return result;
     }
-    if(path == "func4") {
+    if(memberMethod == "func4") {
         const int& param1 = fcnArgs.at(0);
         const int& param2 = fcnArgs.at(1);
         const int& param3 = fcnArgs.at(2);
@@ -75,22 +82,22 @@ nlohmann::json ManyParamInterfaceServiceAdapter::olinkInvoke(std::string fcnName
     return nlohmann::json();
 }
 
-void ManyParamInterfaceServiceAdapter::olinkSetProperty(std::string name, nlohmann::json value) {
-    std::clog << name << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    if(path == "prop1") {
+void ManyParamInterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+    std::clog << propertyId << std::endl;
+    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
+    if(memberProperty == "prop1") {
         int prop1 = value.get<int>();
         m_ManyParamInterface.setProp1(prop1);
     }
-    if(path == "prop2") {
+    if(memberProperty == "prop2") {
         int prop2 = value.get<int>();
         m_ManyParamInterface.setProp2(prop2);
     }
-    if(path == "prop3") {
+    if(memberProperty == "prop3") {
         int prop3 = value.get<int>();
         m_ManyParamInterface.setProp3(prop3);
     }
-    if(path == "prop4") {
+    if(memberProperty == "prop4") {
         int prop4 = value.get<int>();
         m_ManyParamInterface.setProp4(prop4);
     } 
@@ -120,52 +127,60 @@ void ManyParamInterfaceServiceAdapter::onSig1(int param1)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1 };
-        m_node->notifySignal("testbed2.ManyParamInterface/sig1", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+        m_node->notifySignal(signalId, args);
     }
 }
 void ManyParamInterfaceServiceAdapter::onSig2(int param1,int param2)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1, param2 };
-        m_node->notifySignal("testbed2.ManyParamInterface/sig2", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
+        m_node->notifySignal(signalId, args);
     }
 }
 void ManyParamInterfaceServiceAdapter::onSig3(int param1,int param2,int param3)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1, param2, param3 };
-        m_node->notifySignal("testbed2.ManyParamInterface/sig3", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig3");
+        m_node->notifySignal(signalId, args);
     }
 }
 void ManyParamInterfaceServiceAdapter::onSig4(int param1,int param2,int param3,int param4)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1, param2, param3, param4 };
-        m_node->notifySignal("testbed2.ManyParamInterface/sig4", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig4");
+        m_node->notifySignal(signalId, args);
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp1Changed(int prop1)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("testbed2.ManyParamInterface/prop1", prop1);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+        m_node->notifyPropertyChange(propertyId, prop1);
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp2Changed(int prop2)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("testbed2.ManyParamInterface/prop2", prop2);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+        m_node->notifyPropertyChange(propertyId, prop2);
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp3Changed(int prop3)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("testbed2.ManyParamInterface/prop3", prop3);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
+        m_node->notifyPropertyChange(propertyId, prop3);
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp4Changed(int prop4)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("testbed2.ManyParamInterface/prop4", prop4);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
+        m_node->notifyPropertyChange(propertyId, prop4);
     }
 }
 

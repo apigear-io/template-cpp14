@@ -21,20 +21,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_simple/generated/core/simpleinterface.publisher.h"
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
+#include "olink/iclientnode.h"
+#include "apigear/olink/olinkconnection.h"
+
 using namespace Test::TbSimple;
 using namespace Test::TbSimple::olink;
 
-RemoteSimpleInterface::RemoteSimpleInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    : m_registry(registry),
+namespace 
+{
+const std::string interfaceId = "tb.simple.SimpleInterface";
+}
+
+RemoteSimpleInterface::RemoteSimpleInterface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector)
+    : m_olinkConnector(olinkConnector),
       m_publisher(std::make_unique<SimpleInterfacePublisher>())
 {
-    m_registry.addObjectSink(this);
-    client.linkObjectSource("tb.simple.SimpleInterface");
+    m_olinkConnector.connectAndLinkObject(*this);
 }
 
 RemoteSimpleInterface::~RemoteSimpleInterface()
 {
-    m_registry.removeObjectSink(this);
+    m_olinkConnector.disconnectAndUnlink(olinkObjectName());
 }
 
 void RemoteSimpleInterface::applyState(const nlohmann::json& fields) 
@@ -55,10 +62,12 @@ void RemoteSimpleInterface::applyState(const nlohmann::json& fields)
 
 void RemoteSimpleInterface::setPropBool(bool propBool)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("tb.simple.SimpleInterface/propBool", propBool);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
+    m_node->setRemoteProperty(propertyId, propBool);
 }
 
 void RemoteSimpleInterface::setPropBoolLocal(bool propBool)
@@ -76,10 +85,12 @@ bool RemoteSimpleInterface::propBool() const
 
 void RemoteSimpleInterface::setPropInt(int propInt)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("tb.simple.SimpleInterface/propInt", propInt);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
+    m_node->setRemoteProperty(propertyId, propInt);
 }
 
 void RemoteSimpleInterface::setPropIntLocal(int propInt)
@@ -97,10 +108,12 @@ int RemoteSimpleInterface::propInt() const
 
 void RemoteSimpleInterface::setPropFloat(float propFloat)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("tb.simple.SimpleInterface/propFloat", propFloat);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
+    m_node->setRemoteProperty(propertyId, propFloat);
 }
 
 void RemoteSimpleInterface::setPropFloatLocal(float propFloat)
@@ -118,10 +131,12 @@ float RemoteSimpleInterface::propFloat() const
 
 void RemoteSimpleInterface::setPropString(const std::string& propString)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("tb.simple.SimpleInterface/propString", propString);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
+    m_node->setRemoteProperty(propertyId, propString);
 }
 
 void RemoteSimpleInterface::setPropStringLocal(const std::string& propString)
@@ -139,7 +154,8 @@ std::string RemoteSimpleInterface::propString() const
 
 bool RemoteSimpleInterface::funcBool(bool paramBool)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return false;
     }
     bool value(funcBoolAsync(paramBool).get());
@@ -148,14 +164,16 @@ bool RemoteSimpleInterface::funcBool(bool paramBool)
 
 std::future<bool> RemoteSimpleInterface::funcBoolAsync(bool paramBool)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<bool>{};
     }
     return std::async(std::launch::async, [this,
                     paramBool]()
         {
             std::promise<bool> resultPromise;
-            m_node->invokeRemote("tb.simple.SimpleInterface/funcBool",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcBool");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const bool& value = arg.value.get<bool>();
                     resultPromise.set_value(value);
@@ -167,7 +185,8 @@ std::future<bool> RemoteSimpleInterface::funcBoolAsync(bool paramBool)
 
 int RemoteSimpleInterface::funcInt(int paramInt)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return 0;
     }
     int value(funcIntAsync(paramInt).get());
@@ -176,14 +195,16 @@ int RemoteSimpleInterface::funcInt(int paramInt)
 
 std::future<int> RemoteSimpleInterface::funcIntAsync(int paramInt)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
                     paramInt]()
         {
             std::promise<int> resultPromise;
-            m_node->invokeRemote("tb.simple.SimpleInterface/funcInt",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramInt}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
                     resultPromise.set_value(value);
@@ -195,7 +216,8 @@ std::future<int> RemoteSimpleInterface::funcIntAsync(int paramInt)
 
 float RemoteSimpleInterface::funcFloat(float paramFloat)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return 0.0f;
     }
     float value(funcFloatAsync(paramFloat).get());
@@ -204,14 +226,16 @@ float RemoteSimpleInterface::funcFloat(float paramFloat)
 
 std::future<float> RemoteSimpleInterface::funcFloatAsync(float paramFloat)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<float>{};
     }
     return std::async(std::launch::async, [this,
                     paramFloat]()
         {
             std::promise<float> resultPromise;
-            m_node->invokeRemote("tb.simple.SimpleInterface/funcFloat",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const float& value = arg.value.get<float>();
                     resultPromise.set_value(value);
@@ -223,7 +247,8 @@ std::future<float> RemoteSimpleInterface::funcFloatAsync(float paramFloat)
 
 std::string RemoteSimpleInterface::funcString(const std::string& paramString)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return std::string();
     }
     std::string value(funcStringAsync(paramString).get());
@@ -232,14 +257,16 @@ std::string RemoteSimpleInterface::funcString(const std::string& paramString)
 
 std::future<std::string> RemoteSimpleInterface::funcStringAsync(const std::string& paramString)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<std::string>{};
     }
     return std::async(std::launch::async, [this,
                     paramString]()
         {
             std::promise<std::string> resultPromise;
-            m_node->invokeRemote("tb.simple.SimpleInterface/funcString",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcString");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramString}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const std::string& value = arg.value.get<std::string>();
                     resultPromise.set_value(value);
@@ -251,38 +278,36 @@ std::future<std::string> RemoteSimpleInterface::funcStringAsync(const std::strin
 
 std::string RemoteSimpleInterface::olinkObjectName()
 {
-    return "tb.simple.SimpleInterface";
+    return interfaceId;
 }
 
-void RemoteSimpleInterface::olinkOnSignal(std::string name, nlohmann::json args)
+void RemoteSimpleInterface::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    if(path == "sigBool") {
+    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    if(signalName == "sigBool") {
         m_publisher->publishSigBool(args[0].get<bool>());   
         return;
     }
-    if(path == "sigInt") {
+    if(signalName == "sigInt") {
         m_publisher->publishSigInt(args[0].get<int>());   
         return;
     }
-    if(path == "sigFloat") {
+    if(signalName == "sigFloat") {
         m_publisher->publishSigFloat(args[0].get<float>());   
         return;
     }
-    if(path == "sigString") {
+    if(signalName == "sigString") {
         m_publisher->publishSigString(args[0].get<std::string>());   
         return;
     }
 }
 
-void RemoteSimpleInterface::olinkOnPropertyChanged(std::string name, nlohmann::json value)
+void RemoteSimpleInterface::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    applyState({ {path, value} });
+    applyState({ {ApiGear::ObjectLink::Name::getMemberName(propertyId), value} });
 }
-void RemoteSimpleInterface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
+void RemoteSimpleInterface::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
 {
-    (void) name; //suppress the 'Unreferenced Formal Parameter' warning.
     m_node = node;
     applyState(props);
 }
@@ -294,7 +319,7 @@ void RemoteSimpleInterface::olinkOnRelease()
 
 bool RemoteSimpleInterface::isReady() const
 {
-    return m_node != nullptr;
+    return m_node;
 }
 
 ISimpleInterfacePublisher& RemoteSimpleInterface::_getPublisher() const

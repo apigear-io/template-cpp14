@@ -117,9 +117,15 @@ features:
           raw: true
         - source: "apigear/olink/olinkhost.h"
           raw: true
-        - source: "apigear/olink/olinkclient.cpp"
+        - source: "apigear/olink/olinkconnection.cpp"
           raw: true
-        - source: "apigear/olink/olinkclient.h"
+        - source: "apigear/olink/olinkconnection.h"
+          raw: true
+        - source: "apigear/olink/iolinkconnector.h"
+          raw: true
+        - source: "apigear/olink/logger/logger.cpp"
+          raw: true
+        - source: "apigear/olink/logger/logger.h"
           raw: true
   examples:
     system:

@@ -17,12 +17,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 
+#include "tb_same1/generated/api/datastructs.api.h"
 #include "tb_same1/generated/olink/samestruct1interfaceservice.adapter.h"
 #include "tb_same1/generated/core/tb_same1.json.adapter.h"
 #include <iostream>
 
+
 using namespace Test::TbSame1;
 using namespace Test::TbSame1::olink;
+
+namespace 
+{
+const std::string interfaceId = "tb.same1.SameStruct1Interface";
+}
 
 SameStruct1InterfaceServiceAdapter::SameStruct1InterfaceServiceAdapter(ISameStruct1Interface& SameStruct1Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SameStruct1Interface(SameStruct1Interface)
@@ -40,13 +47,13 @@ SameStruct1InterfaceServiceAdapter::~SameStruct1InterfaceServiceAdapter()
 }
 
 std::string SameStruct1InterfaceServiceAdapter::olinkObjectName() {
-    return "tb.same1.SameStruct1Interface";
+    return interfaceId;
 }
 
-nlohmann::json SameStruct1InterfaceServiceAdapter::olinkInvoke(std::string fcnName, nlohmann::json fcnArgs) {
-    std::clog << fcnName << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(fcnName);
-    if(path == "func1") {
+nlohmann::json SameStruct1InterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+    std::clog << methodId << std::endl;
+    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    if(memberMethod == "func1") {
         const Struct1& param1 = fcnArgs.at(0);
         Struct1 result = m_SameStruct1Interface.func1(param1);
         return result;
@@ -54,10 +61,10 @@ nlohmann::json SameStruct1InterfaceServiceAdapter::olinkInvoke(std::string fcnNa
     return nlohmann::json();
 }
 
-void SameStruct1InterfaceServiceAdapter::olinkSetProperty(std::string name, nlohmann::json value) {
-    std::clog << name << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    if(path == "prop1") {
+void SameStruct1InterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+    std::clog << propertyId << std::endl;
+    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
+    if(memberProperty == "prop1") {
         Struct1 prop1 = value.get<Struct1>();
         m_SameStruct1Interface.setProp1(prop1);
     } 
@@ -84,13 +91,15 @@ void SameStruct1InterfaceServiceAdapter::onSig1(const Struct1& param1)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1 };
-        m_node->notifySignal("tb.same1.SameStruct1Interface/sig1", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+        m_node->notifySignal(signalId, args);
     }
 }
 void SameStruct1InterfaceServiceAdapter::onProp1Changed(const Struct1& prop1)
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("tb.same1.SameStruct1Interface/prop1", prop1);
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+        m_node->notifyPropertyChange(propertyId, prop1);
     }
 }
 

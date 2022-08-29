@@ -2,12 +2,19 @@
 {{ module | licGPLcpp -}}
 {% capture class%}{{interface.name}}ServiceAdapter{% endcapture %}
 
+#include "{{module.name|identifier}}/generated/api/datastructs.api.h"
 #include "{{module.name|identifier}}/generated/olink/{{interface.name|lower}}service.adapter.h"
 #include "{{module.name|identifier}}/generated/core/{{module.name|identifier}}.json.adapter.h"
 #include <iostream>
 
+
 using namespace {{ system.name | capital }}::{{ module.name | capital }};
 using namespace {{ system.name | capital }}::{{ module.name | capital }}::olink;
+
+namespace 
+{
+const std::string interfaceId = "{{module}}.{{interface}}";
+}
 
 {{class}}::{{class}}(I{{interface}}& {{interface}}, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_{{interface}}({{interface}})
@@ -25,14 +32,14 @@ using namespace {{ system.name | capital }}::{{ module.name | capital }}::olink;
 }
 
 std::string {{class}}::olinkObjectName() {
-    return "{{module}}.{{interface}}";
+    return interfaceId;
 }
 
-nlohmann::json {{class}}::olinkInvoke(std::string fcnName, nlohmann::json fcnArgs) {
-    std::clog << fcnName << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(fcnName);
+nlohmann::json {{class}}::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+    std::clog << methodId << std::endl;
+    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
 {% for operation in interface.operations %}
-    if(path == "{{operation}}") {
+    if(memberMethod == "{{operation}}") {
 {% for param in operation.params %}
         const {{param|cpp14Return}}& {{param}} = fcnArgs.at({{ forloop.index0 }});      
 {% endfor %}
@@ -51,11 +58,11 @@ nlohmann::json {{class}}::olinkInvoke(std::string fcnName, nlohmann::json fcnArg
     return nlohmann::json();
 }
 
-void {{class}}::olinkSetProperty(std::string name, nlohmann::json value) {
-    std::clog << name << std::endl;
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
+void {{class}}::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+    std::clog << propertyId << std::endl;
+    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
 {% for property in interface.properties %}
-    if(path == "{{property}}") {
+    if(memberProperty == "{{property}}") {
         {{property|cpp14Return}} {{property}} = value.get<{{property|cpp14Return}}>();
         m_{{interface}}.set{{property.name|capital}}({{property}});
     }
@@ -94,7 +101,8 @@ void {{class}}::on{{signal.name | capital}}(
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { {{ signal.params | map: 'name' | join: ', ' }} };
-        m_node->notifySignal("{{module}}.{{interface}}/{{signal}}", args);
+        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{signal.name}}");
+        m_node->notifySignal(signalId, args);
     }
 }
 {% endfor %}
@@ -103,7 +111,8 @@ void {{class}}::on{{signal.name | capital}}(
 void {{class}}::on{{property.name|capital}}Changed({{property|cpp14Return: true}} {{property}})
 {
     if(m_node != nullptr) {
-        m_node->notifyPropertyChange("{{module}}.{{interface}}/{{property}}", {{property}});
+        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{property.name}}");
+        m_node->notifyPropertyChange(propertyId, {{property}});
     }
 }
 {% endfor %}

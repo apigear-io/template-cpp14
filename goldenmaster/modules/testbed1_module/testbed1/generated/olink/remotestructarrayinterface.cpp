@@ -21,20 +21,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed1/generated/core/structarrayinterface.publisher.h"
 #include "testbed1/generated/core/testbed1.json.adapter.h"
 
+#include "olink/iclientnode.h"
+#include "apigear/olink/olinkconnection.h"
+
 using namespace Test::Testbed1;
 using namespace Test::Testbed1::olink;
 
-RemoteStructArrayInterface::RemoteStructArrayInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    : m_registry(registry),
+namespace 
+{
+const std::string interfaceId = "testbed1.StructArrayInterface";
+}
+
+RemoteStructArrayInterface::RemoteStructArrayInterface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector)
+    : m_olinkConnector(olinkConnector),
       m_publisher(std::make_unique<StructArrayInterfacePublisher>())
 {
-    m_registry.addObjectSink(this);
-    client.linkObjectSource("testbed1.StructArrayInterface");
+    m_olinkConnector.connectAndLinkObject(*this);
 }
 
 RemoteStructArrayInterface::~RemoteStructArrayInterface()
 {
-    m_registry.removeObjectSink(this);
+    m_olinkConnector.disconnectAndUnlink(olinkObjectName());
 }
 
 void RemoteStructArrayInterface::applyState(const nlohmann::json& fields) 
@@ -55,10 +62,12 @@ void RemoteStructArrayInterface::applyState(const nlohmann::json& fields)
 
 void RemoteStructArrayInterface::setPropBool(const std::list<StructBool>& propBool)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructArrayInterface/propBool", propBool);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
+    m_node->setRemoteProperty(propertyId, propBool);
 }
 
 void RemoteStructArrayInterface::setPropBoolLocal(const std::list<StructBool>& propBool)
@@ -76,10 +85,12 @@ const std::list<StructBool>& RemoteStructArrayInterface::propBool() const
 
 void RemoteStructArrayInterface::setPropInt(const std::list<StructInt>& propInt)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructArrayInterface/propInt", propInt);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
+    m_node->setRemoteProperty(propertyId, propInt);
 }
 
 void RemoteStructArrayInterface::setPropIntLocal(const std::list<StructInt>& propInt)
@@ -97,10 +108,12 @@ const std::list<StructInt>& RemoteStructArrayInterface::propInt() const
 
 void RemoteStructArrayInterface::setPropFloat(const std::list<StructFloat>& propFloat)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructArrayInterface/propFloat", propFloat);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
+    m_node->setRemoteProperty(propertyId, propFloat);
 }
 
 void RemoteStructArrayInterface::setPropFloatLocal(const std::list<StructFloat>& propFloat)
@@ -118,10 +131,12 @@ const std::list<StructFloat>& RemoteStructArrayInterface::propFloat() const
 
 void RemoteStructArrayInterface::setPropString(const std::list<StructString>& propString)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed1.StructArrayInterface/propString", propString);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
+    m_node->setRemoteProperty(propertyId, propString);
 }
 
 void RemoteStructArrayInterface::setPropStringLocal(const std::list<StructString>& propString)
@@ -139,7 +154,8 @@ const std::list<StructString>& RemoteStructArrayInterface::propString() const
 
 StructBool RemoteStructArrayInterface::funcBool(const std::list<StructBool>& paramBool)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return StructBool();
     }
     StructBool value(funcBoolAsync(paramBool).get());
@@ -148,14 +164,16 @@ StructBool RemoteStructArrayInterface::funcBool(const std::list<StructBool>& par
 
 std::future<StructBool> RemoteStructArrayInterface::funcBoolAsync(const std::list<StructBool>& paramBool)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,
                     paramBool]()
         {
             std::promise<StructBool> resultPromise;
-            m_node->invokeRemote("testbed1.StructArrayInterface/funcBool",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcBool");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
@@ -167,7 +185,8 @@ std::future<StructBool> RemoteStructArrayInterface::funcBoolAsync(const std::lis
 
 StructBool RemoteStructArrayInterface::funcInt(const std::list<StructInt>& paramInt)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return StructBool();
     }
     StructBool value(funcIntAsync(paramInt).get());
@@ -176,14 +195,16 @@ StructBool RemoteStructArrayInterface::funcInt(const std::list<StructInt>& param
 
 std::future<StructBool> RemoteStructArrayInterface::funcIntAsync(const std::list<StructInt>& paramInt)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,
                     paramInt]()
         {
             std::promise<StructBool> resultPromise;
-            m_node->invokeRemote("testbed1.StructArrayInterface/funcInt",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramInt}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
@@ -195,7 +216,8 @@ std::future<StructBool> RemoteStructArrayInterface::funcIntAsync(const std::list
 
 StructBool RemoteStructArrayInterface::funcFloat(const std::list<StructFloat>& paramFloat)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return StructBool();
     }
     StructBool value(funcFloatAsync(paramFloat).get());
@@ -204,14 +226,16 @@ StructBool RemoteStructArrayInterface::funcFloat(const std::list<StructFloat>& p
 
 std::future<StructBool> RemoteStructArrayInterface::funcFloatAsync(const std::list<StructFloat>& paramFloat)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,
                     paramFloat]()
         {
             std::promise<StructBool> resultPromise;
-            m_node->invokeRemote("testbed1.StructArrayInterface/funcFloat",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
@@ -223,7 +247,8 @@ std::future<StructBool> RemoteStructArrayInterface::funcFloatAsync(const std::li
 
 StructBool RemoteStructArrayInterface::funcString(const std::list<StructString>& paramString)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return StructBool();
     }
     StructBool value(funcStringAsync(paramString).get());
@@ -232,14 +257,16 @@ StructBool RemoteStructArrayInterface::funcString(const std::list<StructString>&
 
 std::future<StructBool> RemoteStructArrayInterface::funcStringAsync(const std::list<StructString>& paramString)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,
                     paramString]()
         {
             std::promise<StructBool> resultPromise;
-            m_node->invokeRemote("testbed1.StructArrayInterface/funcString",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcString");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({paramString}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const StructBool& value = arg.value.get<StructBool>();
                     resultPromise.set_value(value);
@@ -251,38 +278,36 @@ std::future<StructBool> RemoteStructArrayInterface::funcStringAsync(const std::l
 
 std::string RemoteStructArrayInterface::olinkObjectName()
 {
-    return "testbed1.StructArrayInterface";
+    return interfaceId;
 }
 
-void RemoteStructArrayInterface::olinkOnSignal(std::string name, nlohmann::json args)
+void RemoteStructArrayInterface::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    if(path == "sigBool") {
+    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    if(signalName == "sigBool") {
         m_publisher->publishSigBool(args[0].get<std::list<StructBool>>());   
         return;
     }
-    if(path == "sigInt") {
+    if(signalName == "sigInt") {
         m_publisher->publishSigInt(args[0].get<std::list<StructInt>>());   
         return;
     }
-    if(path == "sigFloat") {
+    if(signalName == "sigFloat") {
         m_publisher->publishSigFloat(args[0].get<std::list<StructFloat>>());   
         return;
     }
-    if(path == "sigString") {
+    if(signalName == "sigString") {
         m_publisher->publishSigString(args[0].get<std::list<StructString>>());   
         return;
     }
 }
 
-void RemoteStructArrayInterface::olinkOnPropertyChanged(std::string name, nlohmann::json value)
+void RemoteStructArrayInterface::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    applyState({ {path, value} });
+    applyState({ {ApiGear::ObjectLink::Name::getMemberName(propertyId), value} });
 }
-void RemoteStructArrayInterface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
+void RemoteStructArrayInterface::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
 {
-    (void) name; //suppress the 'Unreferenced Formal Parameter' warning.
     m_node = node;
     applyState(props);
 }
@@ -294,7 +319,7 @@ void RemoteStructArrayInterface::olinkOnRelease()
 
 bool RemoteStructArrayInterface::isReady() const
 {
-    return m_node != nullptr;
+    return m_node;
 }
 
 IStructArrayInterfacePublisher& RemoteStructArrayInterface::_getPublisher() const

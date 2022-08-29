@@ -21,20 +21,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "tb_same1/generated/core/sameenum2interface.publisher.h"
 #include "tb_same1/generated/core/tb_same1.json.adapter.h"
 
+#include "olink/iclientnode.h"
+#include "apigear/olink/olinkconnection.h"
+
 using namespace Test::TbSame1;
 using namespace Test::TbSame1::olink;
 
-RemoteSameEnum2Interface::RemoteSameEnum2Interface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    : m_registry(registry),
+namespace 
+{
+const std::string interfaceId = "tb.same1.SameEnum2Interface";
+}
+
+RemoteSameEnum2Interface::RemoteSameEnum2Interface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector)
+    : m_olinkConnector(olinkConnector),
       m_publisher(std::make_unique<SameEnum2InterfacePublisher>())
 {
-    m_registry.addObjectSink(this);
-    client.linkObjectSource("tb.same1.SameEnum2Interface");
+    m_olinkConnector.connectAndLinkObject(*this);
 }
 
 RemoteSameEnum2Interface::~RemoteSameEnum2Interface()
 {
-    m_registry.removeObjectSink(this);
+    m_olinkConnector.disconnectAndUnlink(olinkObjectName());
 }
 
 void RemoteSameEnum2Interface::applyState(const nlohmann::json& fields) 
@@ -49,10 +56,12 @@ void RemoteSameEnum2Interface::applyState(const nlohmann::json& fields)
 
 void RemoteSameEnum2Interface::setProp1(const Enum1Enum& prop1)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("tb.same1.SameEnum2Interface/prop1", prop1);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    m_node->setRemoteProperty(propertyId, prop1);
 }
 
 void RemoteSameEnum2Interface::setProp1Local(const Enum1Enum& prop1)
@@ -70,10 +79,12 @@ const Enum1Enum& RemoteSameEnum2Interface::prop1() const
 
 void RemoteSameEnum2Interface::setProp2(const Enum2Enum& prop2)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("tb.same1.SameEnum2Interface/prop2", prop2);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+    m_node->setRemoteProperty(propertyId, prop2);
 }
 
 void RemoteSameEnum2Interface::setProp2Local(const Enum2Enum& prop2)
@@ -91,7 +102,8 @@ const Enum2Enum& RemoteSameEnum2Interface::prop2() const
 
 Enum1Enum RemoteSameEnum2Interface::func1(const Enum1Enum& param1)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return Enum1Enum::value1;
     }
     Enum1Enum value(func1Async(param1).get());
@@ -100,14 +112,16 @@ Enum1Enum RemoteSameEnum2Interface::func1(const Enum1Enum& param1)
 
 std::future<Enum1Enum> RemoteSameEnum2Interface::func1Async(const Enum1Enum& param1)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<Enum1Enum>{};
     }
     return std::async(std::launch::async, [this,
                     param1]()
         {
             std::promise<Enum1Enum> resultPromise;
-            m_node->invokeRemote("tb.same1.SameEnum2Interface/func1",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const Enum1Enum& value = arg.value.get<Enum1Enum>();
                     resultPromise.set_value(value);
@@ -119,7 +133,8 @@ std::future<Enum1Enum> RemoteSameEnum2Interface::func1Async(const Enum1Enum& par
 
 Enum1Enum RemoteSameEnum2Interface::func2(const Enum1Enum& param1, const Enum2Enum& param2)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return Enum1Enum::value1;
     }
     Enum1Enum value(func2Async(param1, param2).get());
@@ -128,15 +143,17 @@ Enum1Enum RemoteSameEnum2Interface::func2(const Enum1Enum& param1, const Enum2En
 
 std::future<Enum1Enum> RemoteSameEnum2Interface::func2Async(const Enum1Enum& param1, const Enum2Enum& param2)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<Enum1Enum>{};
     }
     return std::async(std::launch::async, [this,
                     param1,
                     param2]()
         {
             std::promise<Enum1Enum> resultPromise;
-            m_node->invokeRemote("tb.same1.SameEnum2Interface/func2",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const Enum1Enum& value = arg.value.get<Enum1Enum>();
                     resultPromise.set_value(value);
@@ -148,30 +165,28 @@ std::future<Enum1Enum> RemoteSameEnum2Interface::func2Async(const Enum1Enum& par
 
 std::string RemoteSameEnum2Interface::olinkObjectName()
 {
-    return "tb.same1.SameEnum2Interface";
+    return interfaceId;
 }
 
-void RemoteSameEnum2Interface::olinkOnSignal(std::string name, nlohmann::json args)
+void RemoteSameEnum2Interface::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    if(path == "sig1") {
+    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    if(signalName == "sig1") {
         m_publisher->publishSig1(args[0].get<Enum1Enum>());   
         return;
     }
-    if(path == "sig2") {
+    if(signalName == "sig2") {
         m_publisher->publishSig2(args[0].get<Enum1Enum>(),args[1].get<Enum2Enum>());   
         return;
     }
 }
 
-void RemoteSameEnum2Interface::olinkOnPropertyChanged(std::string name, nlohmann::json value)
+void RemoteSameEnum2Interface::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    applyState({ {path, value} });
+    applyState({ {ApiGear::ObjectLink::Name::getMemberName(propertyId), value} });
 }
-void RemoteSameEnum2Interface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
+void RemoteSameEnum2Interface::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
 {
-    (void) name; //suppress the 'Unreferenced Formal Parameter' warning.
     m_node = node;
     applyState(props);
 }
@@ -183,7 +198,7 @@ void RemoteSameEnum2Interface::olinkOnRelease()
 
 bool RemoteSameEnum2Interface::isReady() const
 {
-    return m_node != nullptr;
+    return m_node;
 }
 
 ISameEnum2InterfacePublisher& RemoteSameEnum2Interface::_getPublisher() const

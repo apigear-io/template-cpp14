@@ -28,7 +28,8 @@ find_package(Poco REQUIRED Foundation Net Util)
 
 set (SOURCES
     olinkhost.cpp
-    olinkclient.cpp
+    olinkconnection.cpp
+    logger/logger.cpp
 )
 add_library(poco-olink SHARED ${SOURCES})
 add_library(apigear::poco-olink ALIAS poco-olink)

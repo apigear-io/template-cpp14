@@ -21,20 +21,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "testbed2/generated/core/manyparaminterface.publisher.h"
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 
+#include "olink/iclientnode.h"
+#include "apigear/olink/olinkconnection.h"
+
 using namespace Test::Testbed2;
 using namespace Test::Testbed2::olink;
 
-RemoteManyParamInterface::RemoteManyParamInterface(ApiGear::ObjectLink::ClientRegistry& registry, ApiGear::PocoImpl::OLinkClient& client)
-    : m_registry(registry),
+namespace 
+{
+const std::string interfaceId = "testbed2.ManyParamInterface";
+}
+
+RemoteManyParamInterface::RemoteManyParamInterface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector)
+    : m_olinkConnector(olinkConnector),
       m_publisher(std::make_unique<ManyParamInterfacePublisher>())
 {
-    m_registry.addObjectSink(this);
-    client.linkObjectSource("testbed2.ManyParamInterface");
+    m_olinkConnector.connectAndLinkObject(*this);
 }
 
 RemoteManyParamInterface::~RemoteManyParamInterface()
 {
-    m_registry.removeObjectSink(this);
+    m_olinkConnector.disconnectAndUnlink(olinkObjectName());
 }
 
 void RemoteManyParamInterface::applyState(const nlohmann::json& fields) 
@@ -55,10 +62,12 @@ void RemoteManyParamInterface::applyState(const nlohmann::json& fields)
 
 void RemoteManyParamInterface::setProp1(int prop1)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed2.ManyParamInterface/prop1", prop1);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    m_node->setRemoteProperty(propertyId, prop1);
 }
 
 void RemoteManyParamInterface::setProp1Local(int prop1)
@@ -76,10 +85,12 @@ int RemoteManyParamInterface::prop1() const
 
 void RemoteManyParamInterface::setProp2(int prop2)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed2.ManyParamInterface/prop2", prop2);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+    m_node->setRemoteProperty(propertyId, prop2);
 }
 
 void RemoteManyParamInterface::setProp2Local(int prop2)
@@ -97,10 +108,12 @@ int RemoteManyParamInterface::prop2() const
 
 void RemoteManyParamInterface::setProp3(int prop3)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed2.ManyParamInterface/prop3", prop3);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
+    m_node->setRemoteProperty(propertyId, prop3);
 }
 
 void RemoteManyParamInterface::setProp3Local(int prop3)
@@ -118,10 +131,12 @@ int RemoteManyParamInterface::prop3() const
 
 void RemoteManyParamInterface::setProp4(int prop4)
 {
-    if(m_node == nullptr) {
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return;
     }
-    m_node->setRemoteProperty("testbed2.ManyParamInterface/prop4", prop4);
+    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
+    m_node->setRemoteProperty(propertyId, prop4);
 }
 
 void RemoteManyParamInterface::setProp4Local(int prop4)
@@ -139,7 +154,8 @@ int RemoteManyParamInterface::prop4() const
 
 int RemoteManyParamInterface::func1(int param1)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return 0;
     }
     int value(func1Async(param1).get());
@@ -148,14 +164,16 @@ int RemoteManyParamInterface::func1(int param1)
 
 std::future<int> RemoteManyParamInterface::func1Async(int param1)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
                     param1]()
         {
             std::promise<int> resultPromise;
-            m_node->invokeRemote("testbed2.ManyParamInterface/func1",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
                     resultPromise.set_value(value);
@@ -167,7 +185,8 @@ std::future<int> RemoteManyParamInterface::func1Async(int param1)
 
 int RemoteManyParamInterface::func2(int param1, int param2)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return 0;
     }
     int value(func2Async(param1, param2).get());
@@ -176,15 +195,17 @@ int RemoteManyParamInterface::func2(int param1, int param2)
 
 std::future<int> RemoteManyParamInterface::func2Async(int param1, int param2)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
                     param1,
                     param2]()
         {
             std::promise<int> resultPromise;
-            m_node->invokeRemote("testbed2.ManyParamInterface/func2",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
                     resultPromise.set_value(value);
@@ -196,7 +217,8 @@ std::future<int> RemoteManyParamInterface::func2Async(int param1, int param2)
 
 int RemoteManyParamInterface::func3(int param1, int param2, int param3)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return 0;
     }
     int value(func3Async(param1, param2, param3).get());
@@ -205,8 +227,9 @@ int RemoteManyParamInterface::func3(int param1, int param2, int param3)
 
 std::future<int> RemoteManyParamInterface::func3Async(int param1, int param2, int param3)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
                     param1,
@@ -214,7 +237,8 @@ std::future<int> RemoteManyParamInterface::func3Async(int param1, int param2, in
                     param3]()
         {
             std::promise<int> resultPromise;
-            m_node->invokeRemote("testbed2.ManyParamInterface/func3",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func3");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2,param3}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
                     resultPromise.set_value(value);
@@ -226,7 +250,8 @@ std::future<int> RemoteManyParamInterface::func3Async(int param1, int param2, in
 
 int RemoteManyParamInterface::func4(int param1, int param2, int param3, int param4)
 {
-    if(m_node == nullptr) {
+     if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
         return 0;
     }
     int value(func4Async(param1, param2, param3, param4).get());
@@ -235,8 +260,9 @@ int RemoteManyParamInterface::func4(int param1, int param2, int param3, int para
 
 std::future<int> RemoteManyParamInterface::func4Async(int param1, int param2, int param3, int param4)
 {
-    if(m_node == nullptr) {
-        throw std::runtime_error("Node is not initialized");
+    if(!m_node) {
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
                     param1,
@@ -245,7 +271,8 @@ std::future<int> RemoteManyParamInterface::func4Async(int param1, int param2, in
                     param4]()
         {
             std::promise<int> resultPromise;
-            m_node->invokeRemote("testbed2.ManyParamInterface/func4",
+            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func4");
+            m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2,param3,param4}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
                     resultPromise.set_value(value);
@@ -257,38 +284,36 @@ std::future<int> RemoteManyParamInterface::func4Async(int param1, int param2, in
 
 std::string RemoteManyParamInterface::olinkObjectName()
 {
-    return "testbed2.ManyParamInterface";
+    return interfaceId;
 }
 
-void RemoteManyParamInterface::olinkOnSignal(std::string name, nlohmann::json args)
+void RemoteManyParamInterface::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    if(path == "sig1") {
+    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    if(signalName == "sig1") {
         m_publisher->publishSig1(args[0].get<int>());   
         return;
     }
-    if(path == "sig2") {
+    if(signalName == "sig2") {
         m_publisher->publishSig2(args[0].get<int>(),args[1].get<int>());   
         return;
     }
-    if(path == "sig3") {
+    if(signalName == "sig3") {
         m_publisher->publishSig3(args[0].get<int>(),args[1].get<int>(),args[2].get<int>());   
         return;
     }
-    if(path == "sig4") {
+    if(signalName == "sig4") {
         m_publisher->publishSig4(args[0].get<int>(),args[1].get<int>(),args[2].get<int>(),args[3].get<int>());   
         return;
     }
 }
 
-void RemoteManyParamInterface::olinkOnPropertyChanged(std::string name, nlohmann::json value)
+void RemoteManyParamInterface::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
 {
-    std::string path = ApiGear::ObjectLink::Name::pathFromName(name);
-    applyState({ {path, value} });
+    applyState({ {ApiGear::ObjectLink::Name::getMemberName(propertyId), value} });
 }
-void RemoteManyParamInterface::olinkOnInit(std::string name, nlohmann::json props, ApiGear::ObjectLink::IClientNode *node)
+void RemoteManyParamInterface::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
 {
-    (void) name; //suppress the 'Unreferenced Formal Parameter' warning.
     m_node = node;
     applyState(props);
 }
@@ -300,7 +325,7 @@ void RemoteManyParamInterface::olinkOnRelease()
 
 bool RemoteManyParamInterface::isReady() const
 {
-    return m_node != nullptr;
+    return m_node;
 }
 
 IManyParamInterfacePublisher& RemoteManyParamInterface::_getPublisher() const

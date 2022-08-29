@@ -81,7 +81,7 @@ public:
 		{
 			std::cout << it->first << ": " << it->second << std::endl;
 		}
-		
+		/// TODO DOROTA handle somehow if we cannot upgrade
 		if(request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0) {
             std::cout << "wss.newConnection()\n";
             OLinkWebsocketHandler* handler = new OLinkWebsocketHandler(this);
