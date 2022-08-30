@@ -23,8 +23,6 @@ namespace{
 OlinkConnection::OlinkConnection(ApiGear::ObjectLink::ClientRegistry& registry)
     : m_node(registry)
 {
-    m_node.onLog(m_logger.logFunc());
-    registry.onLog(m_logger.logFunc());
     ApiGear::ObjectLink::WriteMessageFunc func = [this](std::string msg) {
         m_queueMutex.lock(100);
         m_queue.push(msg);
@@ -59,13 +57,11 @@ void OlinkConnection::run()
                     m_socket->sendFrame(buffer, frameSize, Poco::Net::WebSocket::FRAME_OP_PONG);
                 } else if (m_socket && frameOpCode == Poco::Net::WebSocket::FRAME_OP_PONG) {
                     // handle pong
-                }
-                else if (frameSize == 0 || frameOpCode == Poco::Net::WebSocket::FRAME_OP_CLOSE)
+                } else if (frameSize == 0 || frameOpCode == Poco::Net::WebSocket::FRAME_OP_CLOSE)
                 {
                     std::cout << "close connection" << std::endl;
                     connectionClosed = true;
-                }
-                else {
+                } else {
                     handleTextMessage(buffer);
                 }
             }
@@ -74,8 +70,7 @@ void OlinkConnection::run()
             connectionClosed = true;
             std::cout << "connection closed with exception:"  << e.what() << std::endl;
         }
-    }
-    while (!connectionClosed && !m_disconnectRequested);
+    } while (!connectionClosed && !m_disconnectRequested);
     onDisconnected();
 }
 
@@ -194,9 +189,7 @@ void OlinkConnection::processMessages(Poco::Util::TimerTask& /*task*/)
             if(m_socket) {
                 m_socket->sendFrame(msg.c_str(), static_cast<int>(msg.size()));
                 m_queue.pop();
-            }
-            else
-            {
+            } else {
                 return;
             }
         } catch (std::exception &e) {

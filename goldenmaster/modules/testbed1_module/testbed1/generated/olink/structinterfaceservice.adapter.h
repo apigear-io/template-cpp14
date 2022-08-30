@@ -56,7 +56,6 @@ public:
     */
     nlohmann::json olinkInvoke(std::string name, nlohmann::json args) override;
     /**
-    /**
     * Applies recived change property request to StructInterface object.
     * @param name Path the property to change. Contains object name and the property name.
     * @param args Value in json format requested to set for the property.
