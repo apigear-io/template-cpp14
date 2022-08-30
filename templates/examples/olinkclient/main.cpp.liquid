@@ -7,8 +7,9 @@
 {% endfor %}
 
 #include "apigear/olink/olinkconnection.h"
-#include "olink/clientregistry.h"
 #include "apigear/tracer/tracer.h"
+#include "olink/consolelogger.h"
+#include "olink/clientregistry.h"
 
 using namespace {{ system.name | capital }};
 
@@ -16,7 +17,10 @@ int main(){
     ApiGear::PocoImpl::Tracer tracer;
     tracer.connect("http://localhost:5555", "testExampleOLinkApp");
     ApiGear::ObjectLink::ClientRegistry registry;
+    ApiGear::ObjectLink::ConsoleLogger logger;
+    registry.onLog(logger.logFunc());
     ApiGear::PocoImpl::OlinkConnection testClient(registry);
+    testClient.node().onLog(logger.logFunc());
     {% for module in system.modules %}
     {% for interface in module.interfaces %}
     {% assign class = interface.name | capital %}

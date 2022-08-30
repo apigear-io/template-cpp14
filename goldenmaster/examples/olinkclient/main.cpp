@@ -35,8 +35,9 @@
 #include "testbed1/generated/monitor/structarrayinterface.tracedecorator.h"
 
 #include "apigear/olink/olinkconnection.h"
-#include "olink/clientregistry.h"
 #include "apigear/tracer/tracer.h"
+#include "olink/consolelogger.h"
+#include "olink/clientregistry.h"
 
 using namespace Test;
 
@@ -44,7 +45,10 @@ int main(){
     ApiGear::PocoImpl::Tracer tracer;
     tracer.connect("http://localhost:5555", "testExampleOLinkApp");
     ApiGear::ObjectLink::ClientRegistry registry;
+    ApiGear::ObjectLink::ConsoleLogger logger;
+    registry.onLog(logger.logFunc());
     ApiGear::PocoImpl::OlinkConnection testClient(registry);
+    testClient.node().onLog(logger.logFunc());
     std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterface = std::make_unique<Testbed2::olink::RemoteManyParamInterface>(testClient);
     std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterfaceTraceDecorator = Testbed2::ManyParamInterfaceTraceDecorator::connect(*testTestbed2ManyParamInterface, tracer);
     std::unique_ptr<Testbed2::INestedStruct1Interface> testTestbed2NestedStruct1Interface = std::make_unique<Testbed2::olink::RemoteNestedStruct1Interface>(testClient);
