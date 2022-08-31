@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed2/implementation/manyparaminterface.h"
@@ -39,7 +22,7 @@ void ManyParamInterface::setProp1(int prop1)
     }
 }
 
-int ManyParamInterface::prop1() const
+int ManyParamInterface::getProp1() const
 {
     return m_data.m_prop1;
 }
@@ -52,7 +35,7 @@ void ManyParamInterface::setProp2(int prop2)
     }
 }
 
-int ManyParamInterface::prop2() const
+int ManyParamInterface::getProp2() const
 {
     return m_data.m_prop2;
 }
@@ -65,7 +48,7 @@ void ManyParamInterface::setProp3(int prop3)
     }
 }
 
-int ManyParamInterface::prop3() const
+int ManyParamInterface::getProp3() const
 {
     return m_data.m_prop3;
 }
@@ -78,7 +61,7 @@ void ManyParamInterface::setProp4(int prop4)
     }
 }
 
-int ManyParamInterface::prop4() const
+int ManyParamInterface::getProp4() const
 {
     return m_data.m_prop4;
 }

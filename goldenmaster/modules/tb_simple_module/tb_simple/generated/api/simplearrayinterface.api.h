@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 #pragma once
 
 #include <future>
@@ -82,7 +65,7 @@ public:
     /**
     * Gets the value of the propBool property.
     */
-    virtual const std::list<bool>& propBool() const = 0;
+    virtual const std::list<bool>& getPropBool() const = 0;
 
     /**
     * Sets the value of the propInt property.
@@ -91,7 +74,7 @@ public:
     /**
     * Gets the value of the propInt property.
     */
-    virtual const std::list<int>& propInt() const = 0;
+    virtual const std::list<int>& getPropInt() const = 0;
 
     /**
     * Sets the value of the propFloat property.
@@ -100,7 +83,7 @@ public:
     /**
     * Gets the value of the propFloat property.
     */
-    virtual const std::list<float>& propFloat() const = 0;
+    virtual const std::list<float>& getPropFloat() const = 0;
 
     /**
     * Sets the value of the propString property.
@@ -109,7 +92,7 @@ public:
     /**
     * Gets the value of the propString property.
     */
-    virtual const std::list<std::string>& propString() const = 0;
+    virtual const std::list<std::string>& getPropString() const = 0;
 
     /**
     * Access to a publisher, use it to subscribe for SimpleArrayInterface changes and signal emission.

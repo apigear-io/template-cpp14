@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 #pragma once
 
@@ -62,7 +45,7 @@ public:
     * Property getter
     * @return Locally stored locally value for Prop0.
     */
-    const Enum0Enum& prop0() const override;
+    const Enum0Enum& getProp0() const override;
     /**
     * Request setting a property on the EnumInterface service.
     * @param The value to which set request is send for the Prop0.
@@ -72,7 +55,7 @@ public:
     * Property getter
     * @return Locally stored locally value for Prop1.
     */
-    const Enum1Enum& prop1() const override;
+    const Enum1Enum& getProp1() const override;
     /**
     * Request setting a property on the EnumInterface service.
     * @param The value to which set request is send for the Prop1.
@@ -82,7 +65,7 @@ public:
     * Property getter
     * @return Locally stored locally value for Prop2.
     */
-    const Enum2Enum& prop2() const override;
+    const Enum2Enum& getProp2() const override;
     /**
     * Request setting a property on the EnumInterface service.
     * @param The value to which set request is send for the Prop2.
@@ -92,7 +75,7 @@ public:
     * Property getter
     * @return Locally stored locally value for Prop3.
     */
-    const Enum3Enum& prop3() const override;
+    const Enum3Enum& getProp3() const override;
     /**
     * Request setting a property on the EnumInterface service.
     * @param The value to which set request is send for the Prop3.

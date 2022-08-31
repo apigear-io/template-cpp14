@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 #pragma once
 #include "tb_simple/generated/api/tb_simple.h"
@@ -74,22 +57,22 @@ public:
     /** Forwards call to SimpleArrayInterface implementation. */
     void setPropBool(const std::list<bool>& propBool) override;
     /** Forwards call to SimpleArrayInterface implementation. */
-    const std::list<bool>& propBool() const override;
+    const std::list<bool>& getPropBool() const override;
     
     /** Forwards call to SimpleArrayInterface implementation. */
     void setPropInt(const std::list<int>& propInt) override;
     /** Forwards call to SimpleArrayInterface implementation. */
-    const std::list<int>& propInt() const override;
+    const std::list<int>& getPropInt() const override;
     
     /** Forwards call to SimpleArrayInterface implementation. */
     void setPropFloat(const std::list<float>& propFloat) override;
     /** Forwards call to SimpleArrayInterface implementation. */
-    const std::list<float>& propFloat() const override;
+    const std::list<float>& getPropFloat() const override;
     
     /** Forwards call to SimpleArrayInterface implementation. */
     void setPropString(const std::list<std::string>& propString) override;
     /** Forwards call to SimpleArrayInterface implementation. */
-    const std::list<std::string>& propString() const override;
+    const std::list<std::string>& getPropString() const override;
     
     /**
     Traces sigBool emission.

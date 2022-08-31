@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 #pragma once
 
 #include <future>
@@ -82,7 +65,7 @@ public:
     /**
     * Gets the value of the prop0 property.
     */
-    virtual const Enum0Enum& prop0() const = 0;
+    virtual const Enum0Enum& getProp0() const = 0;
 
     /**
     * Sets the value of the prop1 property.
@@ -91,7 +74,7 @@ public:
     /**
     * Gets the value of the prop1 property.
     */
-    virtual const Enum1Enum& prop1() const = 0;
+    virtual const Enum1Enum& getProp1() const = 0;
 
     /**
     * Sets the value of the prop2 property.
@@ -100,7 +83,7 @@ public:
     /**
     * Gets the value of the prop2 property.
     */
-    virtual const Enum2Enum& prop2() const = 0;
+    virtual const Enum2Enum& getProp2() const = 0;
 
     /**
     * Sets the value of the prop3 property.
@@ -109,7 +92,7 @@ public:
     /**
     * Gets the value of the prop3 property.
     */
-    virtual const Enum3Enum& prop3() const = 0;
+    virtual const Enum3Enum& getProp3() const = 0;
 
     /**
     * Access to a publisher, use it to subscribe for EnumInterface changes and signal emission.

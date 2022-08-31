@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed2/generated/monitor/nestedstruct3interface.tracedecorator.h"
@@ -71,27 +54,27 @@ void NestedStruct3InterfaceTraceDecorator::setProp1(const NestedStruct1& prop1)
     m_impl.setProp1(prop1);
 }
 
-const NestedStruct1& NestedStruct3InterfaceTraceDecorator::prop1() const
+const NestedStruct1& NestedStruct3InterfaceTraceDecorator::getProp1() const
 {
-    return m_impl.prop1();
+    return m_impl.getProp1();
 }
 void NestedStruct3InterfaceTraceDecorator::setProp2(const NestedStruct2& prop2)
 {
     m_impl.setProp2(prop2);
 }
 
-const NestedStruct2& NestedStruct3InterfaceTraceDecorator::prop2() const
+const NestedStruct2& NestedStruct3InterfaceTraceDecorator::getProp2() const
 {
-    return m_impl.prop2();
+    return m_impl.getProp2();
 }
 void NestedStruct3InterfaceTraceDecorator::setProp3(const NestedStruct3& prop3)
 {
     m_impl.setProp3(prop3);
 }
 
-const NestedStruct3& NestedStruct3InterfaceTraceDecorator::prop3() const
+const NestedStruct3& NestedStruct3InterfaceTraceDecorator::getProp3() const
 {
-    return m_impl.prop3();
+    return m_impl.getProp3();
 }
 void NestedStruct3InterfaceTraceDecorator::onSig1(const NestedStruct1& param1)
 {

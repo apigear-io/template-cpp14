@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "tb_same2/generated/api/datastructs.api.h"
@@ -94,8 +77,8 @@ void SameEnum2InterfaceServiceAdapter::olinkUnlinked(std::string name)
 nlohmann::json SameEnum2InterfaceServiceAdapter::olinkCollectProperties()
 {
     return nlohmann::json::object({
-        { "prop1", m_SameEnum2Interface.prop1() },
-        { "prop2", m_SameEnum2Interface.prop2() }
+        { "prop1", m_SameEnum2Interface.getProp1() },
+        { "prop2", m_SameEnum2Interface.getProp2() }
     });
 }
 void SameEnum2InterfaceServiceAdapter::onSig1(const Enum1Enum& param1)

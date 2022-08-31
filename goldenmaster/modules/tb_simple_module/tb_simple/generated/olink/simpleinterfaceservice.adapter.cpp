@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "tb_simple/generated/api/datastructs.api.h"
@@ -111,10 +94,10 @@ void SimpleInterfaceServiceAdapter::olinkUnlinked(std::string name)
 nlohmann::json SimpleInterfaceServiceAdapter::olinkCollectProperties()
 {
     return nlohmann::json::object({
-        { "propBool", m_SimpleInterface.propBool() },
-        { "propInt", m_SimpleInterface.propInt() },
-        { "propFloat", m_SimpleInterface.propFloat() },
-        { "propString", m_SimpleInterface.propString() }
+        { "propBool", m_SimpleInterface.getPropBool() },
+        { "propInt", m_SimpleInterface.getPropInt() },
+        { "propFloat", m_SimpleInterface.getPropFloat() },
+        { "propString", m_SimpleInterface.getPropString() }
     });
 }
 void SimpleInterfaceServiceAdapter::onSigBool(bool paramBool)

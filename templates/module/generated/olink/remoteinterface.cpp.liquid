@@ -1,5 +1,4 @@
 {% comment %} // Copyright (c) ApiGear UG 2020 {% endcomment -%}
-{{ module | licGPLcpp -}}
 {% assign class = interface.name |prepend:"Remote"-%}
 {% assign pub_class = interface.name | capital | append: "Publisher" %}
 {% assign pub_interface = "I" | append: interface.name | capital | append: "Publisher"%}
@@ -65,7 +64,7 @@ void {{class}}::set{{name|capital}}Local({{property|cpp14Param}})
     }
 }
 
-{{property|cpp14Return: true}} {{class}}::{{name}}() const
+{{property|cpp14Return: true}} {{class}}::get{{name | capital}}() const
 {
     return m_data.m_{{name}};
 }
@@ -76,7 +75,7 @@ void {{class}}::set{{name|capital}}Local({{property|cpp14Param}})
 {% for operation in interface.operations %}
 {% capture returnType %}{{operation|cpp14Return}}{% endcapture %}
 
-{{returnType}} {{class}}::{{operation.name}}({{operation|cpp14Params}})
+{{returnType}} {{class}}::{{operation.name| lowerFirst}}({{operation|cpp14Params}})
 {
      if(!m_node) {
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
@@ -94,12 +93,12 @@ void {{class}}::set{{name|capital}}Local({{property|cpp14Param}})
     auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{operation.name}}");
     m_node->invokeRemote(operationId, args, func);
     {% else %}
-    {{returnType}} value({{operation.name}}Async({{ operation.params | map: 'name' | join: ', ' }}).get());
+    {{returnType}} value({{operation.name | lowerFirst}}Async({{ operation.params | map: 'name' | join: ', ' }}).get());
     return value;
     {% endif %}
 }
 
-std::future<{{returnType}}> {{class}}::{{operation.name}}Async({{operation|cpp14Params}})
+std::future<{{returnType}}> {{class}}::{{operation.name| lowerFirst}}Async({{operation|cpp14Params}})
 {
     if(!m_node) {
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
