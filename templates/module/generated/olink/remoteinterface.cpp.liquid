@@ -50,7 +50,7 @@ void {{class}}::applyState(const nlohmann::json& fields)
 void {{class}}::set{{name|capital}}({{property|cpp14Param}})
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{property.name}}");
@@ -79,7 +79,7 @@ void {{class}}::set{{name|capital}}Local({{property|cpp14Param}})
 {{returnType}} {{class}}::{{operation.name}}({{operation|cpp14Params}})
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return {{operation|cpp14Default}};
     }
     {% if operation.type == 'void' %}
@@ -102,7 +102,7 @@ void {{class}}::set{{name|capital}}Local({{property|cpp14Param}})
 std::future<{{returnType}}> {{class}}::{{operation.name}}Async({{operation|cpp14Params}})
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<{{returnType}}>{};
     }
     return std::async(std::launch::async, [this{%- for param in operation.params -%},
