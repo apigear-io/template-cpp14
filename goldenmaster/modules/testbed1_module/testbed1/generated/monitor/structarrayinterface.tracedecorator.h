@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 #pragma once
 #include "testbed1/generated/api/testbed1.h"
@@ -74,22 +57,22 @@ public:
     /** Forwards call to StructArrayInterface implementation. */
     void setPropBool(const std::list<StructBool>& propBool) override;
     /** Forwards call to StructArrayInterface implementation. */
-    const std::list<StructBool>& propBool() const override;
+    const std::list<StructBool>& getPropBool() const override;
     
     /** Forwards call to StructArrayInterface implementation. */
     void setPropInt(const std::list<StructInt>& propInt) override;
     /** Forwards call to StructArrayInterface implementation. */
-    const std::list<StructInt>& propInt() const override;
+    const std::list<StructInt>& getPropInt() const override;
     
     /** Forwards call to StructArrayInterface implementation. */
     void setPropFloat(const std::list<StructFloat>& propFloat) override;
     /** Forwards call to StructArrayInterface implementation. */
-    const std::list<StructFloat>& propFloat() const override;
+    const std::list<StructFloat>& getPropFloat() const override;
     
     /** Forwards call to StructArrayInterface implementation. */
     void setPropString(const std::list<StructString>& propString) override;
     /** Forwards call to StructArrayInterface implementation. */
-    const std::list<StructString>& propString() const override;
+    const std::list<StructString>& getPropString() const override;
     
     /**
     Traces sigBool emission.

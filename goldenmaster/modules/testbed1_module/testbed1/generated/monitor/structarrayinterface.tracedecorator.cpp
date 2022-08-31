@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed1/generated/monitor/structarrayinterface.tracedecorator.h"
@@ -81,36 +64,36 @@ void StructArrayInterfaceTraceDecorator::setPropBool(const std::list<StructBool>
     m_impl.setPropBool(propBool);
 }
 
-const std::list<StructBool>& StructArrayInterfaceTraceDecorator::propBool() const
+const std::list<StructBool>& StructArrayInterfaceTraceDecorator::getPropBool() const
 {
-    return m_impl.propBool();
+    return m_impl.getPropBool();
 }
 void StructArrayInterfaceTraceDecorator::setPropInt(const std::list<StructInt>& propInt)
 {
     m_impl.setPropInt(propInt);
 }
 
-const std::list<StructInt>& StructArrayInterfaceTraceDecorator::propInt() const
+const std::list<StructInt>& StructArrayInterfaceTraceDecorator::getPropInt() const
 {
-    return m_impl.propInt();
+    return m_impl.getPropInt();
 }
 void StructArrayInterfaceTraceDecorator::setPropFloat(const std::list<StructFloat>& propFloat)
 {
     m_impl.setPropFloat(propFloat);
 }
 
-const std::list<StructFloat>& StructArrayInterfaceTraceDecorator::propFloat() const
+const std::list<StructFloat>& StructArrayInterfaceTraceDecorator::getPropFloat() const
 {
-    return m_impl.propFloat();
+    return m_impl.getPropFloat();
 }
 void StructArrayInterfaceTraceDecorator::setPropString(const std::list<StructString>& propString)
 {
     m_impl.setPropString(propString);
 }
 
-const std::list<StructString>& StructArrayInterfaceTraceDecorator::propString() const
+const std::list<StructString>& StructArrayInterfaceTraceDecorator::getPropString() const
 {
-    return m_impl.propString();
+    return m_impl.getPropString();
 }
 void StructArrayInterfaceTraceDecorator::onSigBool(const std::list<StructBool>& paramBool)
 {

@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "tb_simple/generated/monitor/simplearrayinterface.tracedecorator.h"
@@ -81,36 +64,36 @@ void SimpleArrayInterfaceTraceDecorator::setPropBool(const std::list<bool>& prop
     m_impl.setPropBool(propBool);
 }
 
-const std::list<bool>& SimpleArrayInterfaceTraceDecorator::propBool() const
+const std::list<bool>& SimpleArrayInterfaceTraceDecorator::getPropBool() const
 {
-    return m_impl.propBool();
+    return m_impl.getPropBool();
 }
 void SimpleArrayInterfaceTraceDecorator::setPropInt(const std::list<int>& propInt)
 {
     m_impl.setPropInt(propInt);
 }
 
-const std::list<int>& SimpleArrayInterfaceTraceDecorator::propInt() const
+const std::list<int>& SimpleArrayInterfaceTraceDecorator::getPropInt() const
 {
-    return m_impl.propInt();
+    return m_impl.getPropInt();
 }
 void SimpleArrayInterfaceTraceDecorator::setPropFloat(const std::list<float>& propFloat)
 {
     m_impl.setPropFloat(propFloat);
 }
 
-const std::list<float>& SimpleArrayInterfaceTraceDecorator::propFloat() const
+const std::list<float>& SimpleArrayInterfaceTraceDecorator::getPropFloat() const
 {
-    return m_impl.propFloat();
+    return m_impl.getPropFloat();
 }
 void SimpleArrayInterfaceTraceDecorator::setPropString(const std::list<std::string>& propString)
 {
     m_impl.setPropString(propString);
 }
 
-const std::list<std::string>& SimpleArrayInterfaceTraceDecorator::propString() const
+const std::list<std::string>& SimpleArrayInterfaceTraceDecorator::getPropString() const
 {
-    return m_impl.propString();
+    return m_impl.getPropString();
 }
 void SimpleArrayInterfaceTraceDecorator::onSigBool(const std::list<bool>& paramBool)
 {

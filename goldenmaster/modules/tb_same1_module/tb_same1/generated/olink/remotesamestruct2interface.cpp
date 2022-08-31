@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "tb_same1/generated/olink/remotesamestruct2interface.h"
@@ -72,7 +55,7 @@ void RemoteSameStruct2Interface::setProp1Local(const Struct2& prop1)
     }
 }
 
-const Struct2& RemoteSameStruct2Interface::prop1() const
+const Struct2& RemoteSameStruct2Interface::getProp1() const
 {
     return m_data.m_prop1;
 }
@@ -95,7 +78,7 @@ void RemoteSameStruct2Interface::setProp2Local(const Struct2& prop2)
     }
 }
 
-const Struct2& RemoteSameStruct2Interface::prop2() const
+const Struct2& RemoteSameStruct2Interface::getProp2() const
 {
     return m_data.m_prop2;
 }

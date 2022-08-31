@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 #include <memory>
 #include "catch2/catch.hpp"
 #include "tb_simple/implementation/simplearrayinterface.h"
@@ -42,21 +25,21 @@ TEST_CASE("Testing SimpleArrayInterface", "[SimpleArrayInterface]"){
     SECTION("Test property propBool") {
         // Do implement test here
         testSimpleArrayInterface->setPropBool(std::list<bool>());
-        REQUIRE( testSimpleArrayInterface->propBool() == std::list<bool>() );
+        REQUIRE( testSimpleArrayInterface->getPropBool() == std::list<bool>() );
     }
     SECTION("Test property propInt") {
         // Do implement test here
         testSimpleArrayInterface->setPropInt(std::list<int>());
-        REQUIRE( testSimpleArrayInterface->propInt() == std::list<int>() );
+        REQUIRE( testSimpleArrayInterface->getPropInt() == std::list<int>() );
     }
     SECTION("Test property propFloat") {
         // Do implement test here
         testSimpleArrayInterface->setPropFloat(std::list<float>());
-        REQUIRE( testSimpleArrayInterface->propFloat() == std::list<float>() );
+        REQUIRE( testSimpleArrayInterface->getPropFloat() == std::list<float>() );
     }
     SECTION("Test property propString") {
         // Do implement test here
         testSimpleArrayInterface->setPropString(std::list<std::string>());
-        REQUIRE( testSimpleArrayInterface->propString() == std::list<std::string>() );
+        REQUIRE( testSimpleArrayInterface->getPropString() == std::list<std::string>() );
     }
 }

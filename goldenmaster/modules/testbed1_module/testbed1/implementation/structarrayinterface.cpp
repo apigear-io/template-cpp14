@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed1/implementation/structarrayinterface.h"
@@ -39,7 +22,7 @@ void StructArrayInterface::setPropBool(const std::list<StructBool>& propBool)
     }
 }
 
-const std::list<StructBool>& StructArrayInterface::propBool() const
+const std::list<StructBool>& StructArrayInterface::getPropBool() const
 {
     return m_data.m_propBool;
 }
@@ -52,7 +35,7 @@ void StructArrayInterface::setPropInt(const std::list<StructInt>& propInt)
     }
 }
 
-const std::list<StructInt>& StructArrayInterface::propInt() const
+const std::list<StructInt>& StructArrayInterface::getPropInt() const
 {
     return m_data.m_propInt;
 }
@@ -65,7 +48,7 @@ void StructArrayInterface::setPropFloat(const std::list<StructFloat>& propFloat)
     }
 }
 
-const std::list<StructFloat>& StructArrayInterface::propFloat() const
+const std::list<StructFloat>& StructArrayInterface::getPropFloat() const
 {
     return m_data.m_propFloat;
 }
@@ -78,7 +61,7 @@ void StructArrayInterface::setPropString(const std::list<StructString>& propStri
     }
 }
 
-const std::list<StructString>& StructArrayInterface::propString() const
+const std::list<StructString>& StructArrayInterface::getPropString() const
 {
     return m_data.m_propString;
 }

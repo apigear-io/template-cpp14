@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "tb_enum/generated/olink/remoteenuminterface.h"
@@ -78,7 +61,7 @@ void RemoteEnumInterface::setProp0Local(const Enum0Enum& prop0)
     }
 }
 
-const Enum0Enum& RemoteEnumInterface::prop0() const
+const Enum0Enum& RemoteEnumInterface::getProp0() const
 {
     return m_data.m_prop0;
 }
@@ -101,7 +84,7 @@ void RemoteEnumInterface::setProp1Local(const Enum1Enum& prop1)
     }
 }
 
-const Enum1Enum& RemoteEnumInterface::prop1() const
+const Enum1Enum& RemoteEnumInterface::getProp1() const
 {
     return m_data.m_prop1;
 }
@@ -124,7 +107,7 @@ void RemoteEnumInterface::setProp2Local(const Enum2Enum& prop2)
     }
 }
 
-const Enum2Enum& RemoteEnumInterface::prop2() const
+const Enum2Enum& RemoteEnumInterface::getProp2() const
 {
     return m_data.m_prop2;
 }
@@ -147,7 +130,7 @@ void RemoteEnumInterface::setProp3Local(const Enum3Enum& prop3)
     }
 }
 
-const Enum3Enum& RemoteEnumInterface::prop3() const
+const Enum3Enum& RemoteEnumInterface::getProp3() const
 {
     return m_data.m_prop3;
 }

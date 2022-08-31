@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed2/generated/olink/remotemanyparaminterface.h"
@@ -78,7 +61,7 @@ void RemoteManyParamInterface::setProp1Local(int prop1)
     }
 }
 
-int RemoteManyParamInterface::prop1() const
+int RemoteManyParamInterface::getProp1() const
 {
     return m_data.m_prop1;
 }
@@ -101,7 +84,7 @@ void RemoteManyParamInterface::setProp2Local(int prop2)
     }
 }
 
-int RemoteManyParamInterface::prop2() const
+int RemoteManyParamInterface::getProp2() const
 {
     return m_data.m_prop2;
 }
@@ -124,7 +107,7 @@ void RemoteManyParamInterface::setProp3Local(int prop3)
     }
 }
 
-int RemoteManyParamInterface::prop3() const
+int RemoteManyParamInterface::getProp3() const
 {
     return m_data.m_prop3;
 }
@@ -147,7 +130,7 @@ void RemoteManyParamInterface::setProp4Local(int prop4)
     }
 }
 
-int RemoteManyParamInterface::prop4() const
+int RemoteManyParamInterface::getProp4() const
 {
     return m_data.m_prop4;
 }

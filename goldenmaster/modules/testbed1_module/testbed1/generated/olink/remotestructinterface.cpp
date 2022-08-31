@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed1/generated/olink/remotestructinterface.h"
@@ -78,7 +61,7 @@ void RemoteStructInterface::setPropBoolLocal(const StructBool& propBool)
     }
 }
 
-const StructBool& RemoteStructInterface::propBool() const
+const StructBool& RemoteStructInterface::getPropBool() const
 {
     return m_data.m_propBool;
 }
@@ -101,7 +84,7 @@ void RemoteStructInterface::setPropIntLocal(const StructInt& propInt)
     }
 }
 
-const StructInt& RemoteStructInterface::propInt() const
+const StructInt& RemoteStructInterface::getPropInt() const
 {
     return m_data.m_propInt;
 }
@@ -124,7 +107,7 @@ void RemoteStructInterface::setPropFloatLocal(const StructFloat& propFloat)
     }
 }
 
-const StructFloat& RemoteStructInterface::propFloat() const
+const StructFloat& RemoteStructInterface::getPropFloat() const
 {
     return m_data.m_propFloat;
 }
@@ -147,7 +130,7 @@ void RemoteStructInterface::setPropStringLocal(const StructString& propString)
     }
 }
 
-const StructString& RemoteStructInterface::propString() const
+const StructString& RemoteStructInterface::getPropString() const
 {
     return m_data.m_propString;
 }

@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed1/generated/monitor/structinterface.tracedecorator.h"
@@ -81,36 +64,36 @@ void StructInterfaceTraceDecorator::setPropBool(const StructBool& propBool)
     m_impl.setPropBool(propBool);
 }
 
-const StructBool& StructInterfaceTraceDecorator::propBool() const
+const StructBool& StructInterfaceTraceDecorator::getPropBool() const
 {
-    return m_impl.propBool();
+    return m_impl.getPropBool();
 }
 void StructInterfaceTraceDecorator::setPropInt(const StructInt& propInt)
 {
     m_impl.setPropInt(propInt);
 }
 
-const StructInt& StructInterfaceTraceDecorator::propInt() const
+const StructInt& StructInterfaceTraceDecorator::getPropInt() const
 {
-    return m_impl.propInt();
+    return m_impl.getPropInt();
 }
 void StructInterfaceTraceDecorator::setPropFloat(const StructFloat& propFloat)
 {
     m_impl.setPropFloat(propFloat);
 }
 
-const StructFloat& StructInterfaceTraceDecorator::propFloat() const
+const StructFloat& StructInterfaceTraceDecorator::getPropFloat() const
 {
-    return m_impl.propFloat();
+    return m_impl.getPropFloat();
 }
 void StructInterfaceTraceDecorator::setPropString(const StructString& propString)
 {
     m_impl.setPropString(propString);
 }
 
-const StructString& StructInterfaceTraceDecorator::propString() const
+const StructString& StructInterfaceTraceDecorator::getPropString() const
 {
-    return m_impl.propString();
+    return m_impl.getPropString();
 }
 void StructInterfaceTraceDecorator::onSigBool(const StructBool& paramBool)
 {

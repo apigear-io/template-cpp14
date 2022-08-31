@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "testbed2/generated/api/datastructs.api.h"
@@ -117,10 +100,10 @@ void ManyParamInterfaceServiceAdapter::olinkUnlinked(std::string name)
 nlohmann::json ManyParamInterfaceServiceAdapter::olinkCollectProperties()
 {
     return nlohmann::json::object({
-        { "prop1", m_ManyParamInterface.prop1() },
-        { "prop2", m_ManyParamInterface.prop2() },
-        { "prop3", m_ManyParamInterface.prop3() },
-        { "prop4", m_ManyParamInterface.prop4() }
+        { "prop1", m_ManyParamInterface.getProp1() },
+        { "prop2", m_ManyParamInterface.getProp2() },
+        { "prop3", m_ManyParamInterface.getProp3() },
+        { "prop4", m_ManyParamInterface.getProp4() }
     });
 }
 void ManyParamInterfaceServiceAdapter::onSig1(int param1)

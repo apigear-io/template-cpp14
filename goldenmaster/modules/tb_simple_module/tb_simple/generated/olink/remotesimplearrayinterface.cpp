@@ -1,20 +1,3 @@
-/**
-NO TITLE
-Copyright (C) 2020 ApiGear UG
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 
 
 #include "tb_simple/generated/olink/remotesimplearrayinterface.h"
@@ -78,7 +61,7 @@ void RemoteSimpleArrayInterface::setPropBoolLocal(const std::list<bool>& propBoo
     }
 }
 
-const std::list<bool>& RemoteSimpleArrayInterface::propBool() const
+const std::list<bool>& RemoteSimpleArrayInterface::getPropBool() const
 {
     return m_data.m_propBool;
 }
@@ -101,7 +84,7 @@ void RemoteSimpleArrayInterface::setPropIntLocal(const std::list<int>& propInt)
     }
 }
 
-const std::list<int>& RemoteSimpleArrayInterface::propInt() const
+const std::list<int>& RemoteSimpleArrayInterface::getPropInt() const
 {
     return m_data.m_propInt;
 }
@@ -124,7 +107,7 @@ void RemoteSimpleArrayInterface::setPropFloatLocal(const std::list<float>& propF
     }
 }
 
-const std::list<float>& RemoteSimpleArrayInterface::propFloat() const
+const std::list<float>& RemoteSimpleArrayInterface::getPropFloat() const
 {
     return m_data.m_propFloat;
 }
@@ -147,7 +130,7 @@ void RemoteSimpleArrayInterface::setPropStringLocal(const std::list<std::string>
     }
 }
 
-const std::list<std::string>& RemoteSimpleArrayInterface::propString() const
+const std::list<std::string>& RemoteSimpleArrayInterface::getPropString() const
 {
     return m_data.m_propString;
 }
