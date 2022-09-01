@@ -37,7 +37,9 @@ public:
 
     /**
     * ctor
-    * @param registry The global registry with the sinks and client nodes.
+    * @param olinkConnector An object, that sets up connection of this object sink to the service on server side. 
+    *        It manages the connection and a client node associated to it and is responsible for linking the object
+    *        depending on connection state.
     */
     explicit RemoteSimpleInterface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector);
     virtual ~RemoteSimpleInterface() override;

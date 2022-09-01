@@ -22,12 +22,22 @@
 * SOFTWARE.
 */
 #include "logger.h"
-
+#include <iostream>
 
 
 
 namespace ApiGear { namespace Logger {
 
+Logger::Logger()
+{
+m_logFunc = [](LogLevel level, const std::string& msg){
+    auto levelText = 
+        level == LogLevel::Error ? "error" :
+            level == LogLevel::Warning ? "warning" :
+                level == LogLevel::Info ?  "info" :"debug";
+    std::cout<< levelText <<" : "<< msg << std::endl;};
+
+}
 
 void Logger::onLog(WriteLogFunc func){
     m_logFunc = func;

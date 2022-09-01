@@ -28,15 +28,15 @@
 
 #if defined _WIN32 || defined __CYGWIN__
 #ifdef __GNUC__
-#define OLINK_EXPORT __attribute__ ((dllexport))
+#define API_GEAR_LOGGER __attribute__ ((dllexport))
 #else
 #define API_GEAR_LOGGER __declspec(dllexport)
 #endif
 #else
 #if __GNUC__ >= 4
-#define OLINK_EXPORT __attribute__ ((visibility ("default")))
+#define API_GEAR_LOGGER __attribute__ ((visibility ("default")))
 #else
-#define OLINK_EXPORT
+#define API_GEAR_LOGGER
 #endif
 #endif
 
@@ -58,10 +58,11 @@ using WriteLogFunc = std::function<void(LogLevel level, const std::string& msg)>
 
 
 /**
-* Helper base class enabling consistent logging behavior.
+* Helper base class enabling consistent logging behavior. By default logs to std::cout.
 */
 class API_GEAR_LOGGER Logger {
 public:
+    Logger();
     virtual ~Logger() = default;
     /**
     * Use this function to set a logger writer.
