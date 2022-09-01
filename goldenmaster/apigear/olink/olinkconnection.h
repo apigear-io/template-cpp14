@@ -115,6 +115,6 @@ private:
     /** A mutex for the message queue */
     Poco::Mutex m_queueMutex;
     /** Flag handled between the threads with information that the connection should be closed. */
-    std::atomic<bool> m_disconnectRequested = false;
+    std::atomic<bool> m_disconnectRequested;
 };
 }} // namespace ApiGear::PocoImpl

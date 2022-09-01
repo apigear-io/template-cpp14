@@ -46,7 +46,7 @@ void RemoteStructArrayInterface::applyState(const nlohmann::json& fields)
 void RemoteStructArrayInterface::setPropBool(const std::list<StructBool>& propBool)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
@@ -69,7 +69,7 @@ const std::list<StructBool>& RemoteStructArrayInterface::getPropBool() const
 void RemoteStructArrayInterface::setPropInt(const std::list<StructInt>& propInt)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
@@ -92,7 +92,7 @@ const std::list<StructInt>& RemoteStructArrayInterface::getPropInt() const
 void RemoteStructArrayInterface::setPropFloat(const std::list<StructFloat>& propFloat)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
@@ -115,7 +115,7 @@ const std::list<StructFloat>& RemoteStructArrayInterface::getPropFloat() const
 void RemoteStructArrayInterface::setPropString(const std::list<StructString>& propString)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
@@ -138,7 +138,7 @@ const std::list<StructString>& RemoteStructArrayInterface::getPropString() const
 StructBool RemoteStructArrayInterface::funcBool(const std::list<StructBool>& paramBool)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return StructBool();
     }
     StructBool value(funcBoolAsync(paramBool).get());
@@ -148,7 +148,7 @@ StructBool RemoteStructArrayInterface::funcBool(const std::list<StructBool>& par
 std::future<StructBool> RemoteStructArrayInterface::funcBoolAsync(const std::list<StructBool>& paramBool)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,
@@ -169,7 +169,7 @@ std::future<StructBool> RemoteStructArrayInterface::funcBoolAsync(const std::lis
 StructBool RemoteStructArrayInterface::funcInt(const std::list<StructInt>& paramInt)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return StructBool();
     }
     StructBool value(funcIntAsync(paramInt).get());
@@ -179,7 +179,7 @@ StructBool RemoteStructArrayInterface::funcInt(const std::list<StructInt>& param
 std::future<StructBool> RemoteStructArrayInterface::funcIntAsync(const std::list<StructInt>& paramInt)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,
@@ -200,7 +200,7 @@ std::future<StructBool> RemoteStructArrayInterface::funcIntAsync(const std::list
 StructBool RemoteStructArrayInterface::funcFloat(const std::list<StructFloat>& paramFloat)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return StructBool();
     }
     StructBool value(funcFloatAsync(paramFloat).get());
@@ -210,7 +210,7 @@ StructBool RemoteStructArrayInterface::funcFloat(const std::list<StructFloat>& p
 std::future<StructBool> RemoteStructArrayInterface::funcFloatAsync(const std::list<StructFloat>& paramFloat)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,
@@ -231,7 +231,7 @@ std::future<StructBool> RemoteStructArrayInterface::funcFloatAsync(const std::li
 StructBool RemoteStructArrayInterface::funcString(const std::list<StructString>& paramString)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return StructBool();
     }
     StructBool value(funcStringAsync(paramString).get());
@@ -241,7 +241,7 @@ StructBool RemoteStructArrayInterface::funcString(const std::list<StructString>&
 std::future<StructBool> RemoteStructArrayInterface::funcStringAsync(const std::list<StructString>& paramString)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<StructBool>{};
     }
     return std::async(std::launch::async, [this,

@@ -37,7 +37,7 @@ void RemoteSameEnum1Interface::applyState(const nlohmann::json& fields)
 void RemoteSameEnum1Interface::setProp1(const Enum1Enum& prop1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
@@ -60,7 +60,7 @@ const Enum1Enum& RemoteSameEnum1Interface::getProp1() const
 Enum1Enum RemoteSameEnum1Interface::func1(const Enum1Enum& param1)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return Enum1Enum::value1;
     }
     Enum1Enum value(func1Async(param1).get());
@@ -70,7 +70,7 @@ Enum1Enum RemoteSameEnum1Interface::func1(const Enum1Enum& param1)
 std::future<Enum1Enum> RemoteSameEnum1Interface::func1Async(const Enum1Enum& param1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<Enum1Enum>{};
     }
     return std::async(std::launch::async, [this,

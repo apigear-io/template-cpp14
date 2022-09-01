@@ -21,7 +21,8 @@ namespace{
 }
 
 OlinkConnection::OlinkConnection(ApiGear::ObjectLink::ClientRegistry& registry)
-    : m_node(registry)
+    : m_node(registry),
+    m_disconnectRequested(false)
 {
     ApiGear::ObjectLink::WriteMessageFunc func = [this](std::string msg) {
         m_queueMutex.lock(100);

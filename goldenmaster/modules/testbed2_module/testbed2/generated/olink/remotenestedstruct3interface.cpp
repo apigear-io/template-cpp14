@@ -43,7 +43,7 @@ void RemoteNestedStruct3Interface::applyState(const nlohmann::json& fields)
 void RemoteNestedStruct3Interface::setProp1(const NestedStruct1& prop1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
@@ -66,7 +66,7 @@ const NestedStruct1& RemoteNestedStruct3Interface::getProp1() const
 void RemoteNestedStruct3Interface::setProp2(const NestedStruct2& prop2)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
@@ -89,7 +89,7 @@ const NestedStruct2& RemoteNestedStruct3Interface::getProp2() const
 void RemoteNestedStruct3Interface::setProp3(const NestedStruct3& prop3)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
@@ -112,7 +112,7 @@ const NestedStruct3& RemoteNestedStruct3Interface::getProp3() const
 NestedStruct1 RemoteNestedStruct3Interface::func1(const NestedStruct1& param1)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return NestedStruct1();
     }
     NestedStruct1 value(func1Async(param1).get());
@@ -122,7 +122,7 @@ NestedStruct1 RemoteNestedStruct3Interface::func1(const NestedStruct1& param1)
 std::future<NestedStruct1> RemoteNestedStruct3Interface::func1Async(const NestedStruct1& param1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<NestedStruct1>{};
     }
     return std::async(std::launch::async, [this,
@@ -143,7 +143,7 @@ std::future<NestedStruct1> RemoteNestedStruct3Interface::func1Async(const Nested
 NestedStruct1 RemoteNestedStruct3Interface::func2(const NestedStruct1& param1, const NestedStruct2& param2)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return NestedStruct1();
     }
     NestedStruct1 value(func2Async(param1, param2).get());
@@ -153,7 +153,7 @@ NestedStruct1 RemoteNestedStruct3Interface::func2(const NestedStruct1& param1, c
 std::future<NestedStruct1> RemoteNestedStruct3Interface::func2Async(const NestedStruct1& param1, const NestedStruct2& param2)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<NestedStruct1>{};
     }
     return std::async(std::launch::async, [this,
@@ -175,7 +175,7 @@ std::future<NestedStruct1> RemoteNestedStruct3Interface::func2Async(const Nested
 NestedStruct1 RemoteNestedStruct3Interface::func3(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return NestedStruct1();
     }
     NestedStruct1 value(func3Async(param1, param2, param3).get());
@@ -185,7 +185,7 @@ NestedStruct1 RemoteNestedStruct3Interface::func3(const NestedStruct1& param1, c
 std::future<NestedStruct1> RemoteNestedStruct3Interface::func3Async(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<NestedStruct1>{};
     }
     return std::async(std::launch::async, [this,

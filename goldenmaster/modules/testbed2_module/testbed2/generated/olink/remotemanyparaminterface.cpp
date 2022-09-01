@@ -46,7 +46,7 @@ void RemoteManyParamInterface::applyState(const nlohmann::json& fields)
 void RemoteManyParamInterface::setProp1(int prop1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
@@ -69,7 +69,7 @@ int RemoteManyParamInterface::getProp1() const
 void RemoteManyParamInterface::setProp2(int prop2)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
@@ -92,7 +92,7 @@ int RemoteManyParamInterface::getProp2() const
 void RemoteManyParamInterface::setProp3(int prop3)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
@@ -115,7 +115,7 @@ int RemoteManyParamInterface::getProp3() const
 void RemoteManyParamInterface::setProp4(int prop4)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
@@ -138,7 +138,7 @@ int RemoteManyParamInterface::getProp4() const
 int RemoteManyParamInterface::func1(int param1)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return 0;
     }
     int value(func1Async(param1).get());
@@ -148,7 +148,7 @@ int RemoteManyParamInterface::func1(int param1)
 std::future<int> RemoteManyParamInterface::func1Async(int param1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
@@ -169,7 +169,7 @@ std::future<int> RemoteManyParamInterface::func1Async(int param1)
 int RemoteManyParamInterface::func2(int param1, int param2)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return 0;
     }
     int value(func2Async(param1, param2).get());
@@ -179,7 +179,7 @@ int RemoteManyParamInterface::func2(int param1, int param2)
 std::future<int> RemoteManyParamInterface::func2Async(int param1, int param2)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
@@ -201,7 +201,7 @@ std::future<int> RemoteManyParamInterface::func2Async(int param1, int param2)
 int RemoteManyParamInterface::func3(int param1, int param2, int param3)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return 0;
     }
     int value(func3Async(param1, param2, param3).get());
@@ -211,7 +211,7 @@ int RemoteManyParamInterface::func3(int param1, int param2, int param3)
 std::future<int> RemoteManyParamInterface::func3Async(int param1, int param2, int param3)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
@@ -234,7 +234,7 @@ std::future<int> RemoteManyParamInterface::func3Async(int param1, int param2, in
 int RemoteManyParamInterface::func4(int param1, int param2, int param3, int param4)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return 0;
     }
     int value(func4Async(param1, param2, param3, param4).get());
@@ -244,7 +244,7 @@ int RemoteManyParamInterface::func4(int param1, int param2, int param3, int para
 std::future<int> RemoteManyParamInterface::func4Async(int param1, int param2, int param3, int param4)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<int>{};
     }
     return std::async(std::launch::async, [this,

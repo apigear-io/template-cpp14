@@ -37,7 +37,7 @@ void RemoteSameStruct1Interface::applyState(const nlohmann::json& fields)
 void RemoteSameStruct1Interface::setProp1(const Struct1& prop1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
@@ -60,7 +60,7 @@ const Struct1& RemoteSameStruct1Interface::getProp1() const
 Struct1 RemoteSameStruct1Interface::func1(const Struct1& param1)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return Struct1();
     }
     Struct1 value(func1Async(param1).get());
@@ -70,7 +70,7 @@ Struct1 RemoteSameStruct1Interface::func1(const Struct1& param1)
 std::future<Struct1> RemoteSameStruct1Interface::func1Async(const Struct1& param1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<Struct1>{};
     }
     return std::async(std::launch::async, [this,

@@ -46,7 +46,7 @@ void RemoteEnumInterface::applyState(const nlohmann::json& fields)
 void RemoteEnumInterface::setProp0(const Enum0Enum& prop0)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop0");
@@ -69,7 +69,7 @@ const Enum0Enum& RemoteEnumInterface::getProp0() const
 void RemoteEnumInterface::setProp1(const Enum1Enum& prop1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
@@ -92,7 +92,7 @@ const Enum1Enum& RemoteEnumInterface::getProp1() const
 void RemoteEnumInterface::setProp2(const Enum2Enum& prop2)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
@@ -115,7 +115,7 @@ const Enum2Enum& RemoteEnumInterface::getProp2() const
 void RemoteEnumInterface::setProp3(const Enum3Enum& prop3)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
@@ -138,7 +138,7 @@ const Enum3Enum& RemoteEnumInterface::getProp3() const
 Enum0Enum RemoteEnumInterface::func0(const Enum0Enum& param0)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return Enum0Enum::value0;
     }
     Enum0Enum value(func0Async(param0).get());
@@ -148,7 +148,7 @@ Enum0Enum RemoteEnumInterface::func0(const Enum0Enum& param0)
 std::future<Enum0Enum> RemoteEnumInterface::func0Async(const Enum0Enum& param0)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<Enum0Enum>{};
     }
     return std::async(std::launch::async, [this,
@@ -169,7 +169,7 @@ std::future<Enum0Enum> RemoteEnumInterface::func0Async(const Enum0Enum& param0)
 Enum1Enum RemoteEnumInterface::func1(const Enum1Enum& param1)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return Enum1Enum::value1;
     }
     Enum1Enum value(func1Async(param1).get());
@@ -179,7 +179,7 @@ Enum1Enum RemoteEnumInterface::func1(const Enum1Enum& param1)
 std::future<Enum1Enum> RemoteEnumInterface::func1Async(const Enum1Enum& param1)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<Enum1Enum>{};
     }
     return std::async(std::launch::async, [this,
@@ -200,7 +200,7 @@ std::future<Enum1Enum> RemoteEnumInterface::func1Async(const Enum1Enum& param1)
 Enum2Enum RemoteEnumInterface::func2(const Enum2Enum& param2)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return Enum2Enum::value2;
     }
     Enum2Enum value(func2Async(param2).get());
@@ -210,7 +210,7 @@ Enum2Enum RemoteEnumInterface::func2(const Enum2Enum& param2)
 std::future<Enum2Enum> RemoteEnumInterface::func2Async(const Enum2Enum& param2)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<Enum2Enum>{};
     }
     return std::async(std::launch::async, [this,
@@ -231,7 +231,7 @@ std::future<Enum2Enum> RemoteEnumInterface::func2Async(const Enum2Enum& param2)
 Enum3Enum RemoteEnumInterface::func3(const Enum3Enum& param3)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return Enum3Enum::value3;
     }
     Enum3Enum value(func3Async(param3).get());
@@ -241,7 +241,7 @@ Enum3Enum RemoteEnumInterface::func3(const Enum3Enum& param3)
 std::future<Enum3Enum> RemoteEnumInterface::func3Async(const Enum3Enum& param3)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<Enum3Enum>{};
     }
     return std::async(std::launch::async, [this,

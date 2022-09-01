@@ -46,7 +46,7 @@ void RemoteSimpleInterface::applyState(const nlohmann::json& fields)
 void RemoteSimpleInterface::setPropBool(bool propBool)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
@@ -69,7 +69,7 @@ bool RemoteSimpleInterface::getPropBool() const
 void RemoteSimpleInterface::setPropInt(int propInt)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
@@ -92,7 +92,7 @@ int RemoteSimpleInterface::getPropInt() const
 void RemoteSimpleInterface::setPropFloat(float propFloat)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
@@ -115,7 +115,7 @@ float RemoteSimpleInterface::getPropFloat() const
 void RemoteSimpleInterface::setPropString(const std::string& propString)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
     auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
@@ -138,7 +138,7 @@ std::string RemoteSimpleInterface::getPropString() const
 bool RemoteSimpleInterface::funcBool(bool paramBool)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return false;
     }
     bool value(funcBoolAsync(paramBool).get());
@@ -148,7 +148,7 @@ bool RemoteSimpleInterface::funcBool(bool paramBool)
 std::future<bool> RemoteSimpleInterface::funcBoolAsync(bool paramBool)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<bool>{};
     }
     return std::async(std::launch::async, [this,
@@ -169,7 +169,7 @@ std::future<bool> RemoteSimpleInterface::funcBoolAsync(bool paramBool)
 int RemoteSimpleInterface::funcInt(int paramInt)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return 0;
     }
     int value(funcIntAsync(paramInt).get());
@@ -179,7 +179,7 @@ int RemoteSimpleInterface::funcInt(int paramInt)
 std::future<int> RemoteSimpleInterface::funcIntAsync(int paramInt)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<int>{};
     }
     return std::async(std::launch::async, [this,
@@ -200,7 +200,7 @@ std::future<int> RemoteSimpleInterface::funcIntAsync(int paramInt)
 float RemoteSimpleInterface::funcFloat(float paramFloat)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return 0.0f;
     }
     float value(funcFloatAsync(paramFloat).get());
@@ -210,7 +210,7 @@ float RemoteSimpleInterface::funcFloat(float paramFloat)
 std::future<float> RemoteSimpleInterface::funcFloatAsync(float paramFloat)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<float>{};
     }
     return std::async(std::launch::async, [this,
@@ -231,7 +231,7 @@ std::future<float> RemoteSimpleInterface::funcFloatAsync(float paramFloat)
 std::string RemoteSimpleInterface::funcString(const std::string& paramString)
 {
      if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::string();
     }
     std::string value(funcStringAsync(paramString).get());
@@ -241,7 +241,7 @@ std::string RemoteSimpleInterface::funcString(const std::string& paramString)
 std::future<std::string> RemoteSimpleInterface::funcStringAsync(const std::string& paramString)
 {
     if(!m_node) {
-        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method, but network connection is not set for " + olinkObjectName() +" please check if IClientNode is linked for this object");
+        emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return std::future<std::string>{};
     }
     return std::async(std::launch::async, [this,
