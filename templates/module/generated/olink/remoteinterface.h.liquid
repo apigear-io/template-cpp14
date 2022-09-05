@@ -45,7 +45,7 @@ public:
     *        It manages the connection and a client node associated to it and is responsible for linking the object
     *        depending on connection state.
     */
-    explicit {{class}}(ApiGear::PocoImpl::IOlinkConnector& olinkConnector);
+    explicit {{class}}(std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> olinkConnector);
     virtual ~{{class}}() override;
 
 {% for property in interface.properties %}
@@ -138,7 +138,7 @@ private:
     * A helper used to connect with a Olink {{interface.name}} service for object given with olinkObjectName()
     * takes care of setup and tear down linkage for this {{class}}.
     */
-    ApiGear::PocoImpl::IOlinkConnector& m_olinkConnector;
+    std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> m_olinkConnector;
     /** The publisher for {{interface.name}} */
     std::unique_ptr<{{pub_interface}}> m_publisher;
 };

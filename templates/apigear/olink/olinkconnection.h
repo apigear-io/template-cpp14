@@ -48,15 +48,22 @@ namespace PocoImpl {
 class APIGEAR_OLINK_EXPORT OlinkConnection: public Poco::Runnable,
                                             public ApiGear::PocoImpl::IOlinkConnector
 {
-public:
+protected:
     /**
     * ctor
     * @param registry. A global client registry to which the client node and sink object are added.
     * Remark: the registered objects must provide unique identifiers
     */
     OlinkConnection(ApiGear::ObjectLink::ClientRegistry& registry);
+public:
+    /**
+    * Factory method to get shared_ptr<OlinkConnection>
+    * @param registry. A global client registry to which the client node and sink object are added.
+    * Remark: the registered objects must provide unique identifiers
+    */
+    static std::shared_ptr<OlinkConnection> create(ApiGear::ObjectLink::ClientRegistry& registry);
     //TODO what with closing the connection
-    virtual ~OlinkConnection() = default;
+    virtual ~OlinkConnection();
 
     /**
     * Use this function to set up a connection to server.
@@ -100,7 +107,7 @@ private:
     void scheduleProcessMessages();
 
     /** Client node that separates sinks Objects from created socket, and handles incoming and outgoing messages. */
-    ApiGear::ObjectLink::ClientNode m_node;
+    std::unique_ptr<ApiGear::ObjectLink::ClientNode> m_node;
 
     /** The server url to which socket connects. */
     Poco::URI m_serverUrl;
