@@ -47,8 +47,8 @@ int main(){
     ApiGear::ObjectLink::ClientRegistry registry;
     ApiGear::ObjectLink::ConsoleLogger logger;
     registry.onLog(logger.logFunc());
-    ApiGear::PocoImpl::OlinkConnection testClient(registry);
-    testClient.node().onLog(logger.logFunc());
+    auto testClient = ApiGear::PocoImpl::OlinkConnection::create(registry);
+    testClient->node().onLog(logger.logFunc());
     std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterface = std::make_unique<Testbed2::olink::RemoteManyParamInterface>(testClient);
     std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterfaceTraceDecorator = Testbed2::ManyParamInterfaceTraceDecorator::connect(*testTestbed2ManyParamInterface, tracer);
     std::unique_ptr<Testbed2::INestedStruct1Interface> testTestbed2NestedStruct1Interface = std::make_unique<Testbed2::olink::RemoteNestedStruct1Interface>(testClient);
@@ -84,7 +84,7 @@ int main(){
     std::unique_ptr<Testbed1::IStructArrayInterface> testTestbed1StructArrayInterface = std::make_unique<Testbed1::olink::RemoteStructArrayInterface>(testClient);
     std::unique_ptr<Testbed1::IStructArrayInterface> testTestbed1StructArrayInterfaceTraceDecorator = Testbed1::StructArrayInterfaceTraceDecorator::connect(*testTestbed1StructArrayInterface, tracer);
     
-    testClient.connectToHost(Poco::URI("ws://localhost:8000"));
+    testClient->connectToHost(Poco::URI("ws://localhost:8000"));
 
     bool keepRunning = true;
     std::string cmd;
@@ -94,7 +94,7 @@ int main(){
 
         if(cmd == "quit"){
             keepRunning = false;
-            testClient.disconnect();
+            testClient->disconnect();
         }
     } while(keepRunning);
 

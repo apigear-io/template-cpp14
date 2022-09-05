@@ -15,16 +15,22 @@ namespace
 const std::string interfaceId = "testbed2.NestedStruct1Interface";
 }
 
-RemoteNestedStruct1Interface::RemoteNestedStruct1Interface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector)
+RemoteNestedStruct1Interface::RemoteNestedStruct1Interface(std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> olinkConnector)
     : m_olinkConnector(olinkConnector),
       m_publisher(std::make_unique<NestedStruct1InterfacePublisher>())
 {
-    m_olinkConnector.connectAndLinkObject(*this);
+    if(auto connector = m_olinkConnector.lock())
+    {
+        connector->connectAndLinkObject(*this);
+    }
 }
 
 RemoteNestedStruct1Interface::~RemoteNestedStruct1Interface()
-{
-    m_olinkConnector.disconnectAndUnlink(olinkObjectName());
+{    
+    if(auto connector = m_olinkConnector.lock())
+    {
+        connector->disconnectAndUnlink(olinkObjectName());
+    }
 }
 
 void RemoteNestedStruct1Interface::applyState(const nlohmann::json& fields) 

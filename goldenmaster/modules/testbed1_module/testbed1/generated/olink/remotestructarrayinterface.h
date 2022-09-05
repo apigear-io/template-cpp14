@@ -41,7 +41,7 @@ public:
     *        It manages the connection and a client node associated to it and is responsible for linking the object
     *        depending on connection state.
     */
-    explicit RemoteStructArrayInterface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector);
+    explicit RemoteStructArrayInterface(std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> olinkConnector);
     virtual ~RemoteStructArrayInterface() override;
     /**
     * Property getter
@@ -189,7 +189,7 @@ private:
     * A helper used to connect with a Olink StructArrayInterface service for object given with olinkObjectName()
     * takes care of setup and tear down linkage for this RemoteStructArrayInterface.
     */
-    ApiGear::PocoImpl::IOlinkConnector& m_olinkConnector;
+    std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> m_olinkConnector;
     /** The publisher for StructArrayInterface */
     std::unique_ptr<IStructArrayInterfacePublisher> m_publisher;
 };

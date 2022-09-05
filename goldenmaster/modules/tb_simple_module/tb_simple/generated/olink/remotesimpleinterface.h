@@ -41,7 +41,7 @@ public:
     *        It manages the connection and a client node associated to it and is responsible for linking the object
     *        depending on connection state.
     */
-    explicit RemoteSimpleInterface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector);
+    explicit RemoteSimpleInterface(std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> olinkConnector);
     virtual ~RemoteSimpleInterface() override;
     /**
     * Property getter
@@ -189,7 +189,7 @@ private:
     * A helper used to connect with a Olink SimpleInterface service for object given with olinkObjectName()
     * takes care of setup and tear down linkage for this RemoteSimpleInterface.
     */
-    ApiGear::PocoImpl::IOlinkConnector& m_olinkConnector;
+    std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> m_olinkConnector;
     /** The publisher for SimpleInterface */
     std::unique_ptr<ISimpleInterfacePublisher> m_publisher;
 };

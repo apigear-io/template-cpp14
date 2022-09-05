@@ -41,7 +41,7 @@ public:
     *        It manages the connection and a client node associated to it and is responsible for linking the object
     *        depending on connection state.
     */
-    explicit RemoteNestedStruct2Interface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector);
+    explicit RemoteNestedStruct2Interface(std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> olinkConnector);
     virtual ~RemoteNestedStruct2Interface() override;
     /**
     * Property getter
@@ -147,7 +147,7 @@ private:
     * A helper used to connect with a Olink NestedStruct2Interface service for object given with olinkObjectName()
     * takes care of setup and tear down linkage for this RemoteNestedStruct2Interface.
     */
-    ApiGear::PocoImpl::IOlinkConnector& m_olinkConnector;
+    std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> m_olinkConnector;
     /** The publisher for NestedStruct2Interface */
     std::unique_ptr<INestedStruct2InterfacePublisher> m_publisher;
 };

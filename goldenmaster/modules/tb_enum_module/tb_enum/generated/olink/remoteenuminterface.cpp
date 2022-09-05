@@ -15,16 +15,22 @@ namespace
 const std::string interfaceId = "tb.enum.EnumInterface";
 }
 
-RemoteEnumInterface::RemoteEnumInterface(ApiGear::PocoImpl::IOlinkConnector& olinkConnector)
+RemoteEnumInterface::RemoteEnumInterface(std::weak_ptr<ApiGear::PocoImpl::IOlinkConnector> olinkConnector)
     : m_olinkConnector(olinkConnector),
       m_publisher(std::make_unique<EnumInterfacePublisher>())
 {
-    m_olinkConnector.connectAndLinkObject(*this);
+    if(auto connector = m_olinkConnector.lock())
+    {
+        connector->connectAndLinkObject(*this);
+    }
 }
 
 RemoteEnumInterface::~RemoteEnumInterface()
-{
-    m_olinkConnector.disconnectAndUnlink(olinkObjectName());
+{    
+    if(auto connector = m_olinkConnector.lock())
+    {
+        connector->disconnectAndUnlink(olinkObjectName());
+    }
 }
 
 void RemoteEnumInterface::applyState(const nlohmann::json& fields) 

@@ -21,7 +21,7 @@ namespace{
 }
 
 OlinkConnection::OlinkConnection(ApiGear::ObjectLink::ClientRegistry& registry)
-    : m_node(registry),
+    : m_node(std::make_unique<ApiGear::ObjectLink::ClientNode>(registry)),
     m_disconnectRequested(false)
 {
     ApiGear::ObjectLink::WriteMessageFunc func = [this](std::string msg) {
@@ -30,12 +30,28 @@ OlinkConnection::OlinkConnection(ApiGear::ObjectLink::ClientRegistry& registry)
         m_queueMutex.unlock();
         scheduleProcessMessages();
     };
-    m_node.onWrite(func);
+    m_node->onWrite(func);
 
     // socket connection retry
     m_processMessagesTask = new Poco::Util::TimerTaskAdapter<OlinkConnection>(*this, &OlinkConnection::processMessages);
     long firstDelay = 10;
     m_retryTimer.schedule(m_processMessagesTask, firstDelay, timerInterval);
+}
+
+std::shared_ptr<OlinkConnection> OlinkConnection::create(ApiGear::ObjectLink::ClientRegistry& registry)
+{
+    return  std::shared_ptr<OlinkConnection>(new OlinkConnection(registry));
+}
+
+OlinkConnection::~OlinkConnection()
+{
+    auto& registry = m_node->registry();
+    auto ids = registry.getObjectsId(*m_node);
+    m_node.reset();
+    for(auto& id : ids)
+    {
+        registry.removeObject(id);
+    }
 }
 
 void OlinkConnection::run()
@@ -77,17 +93,17 @@ void OlinkConnection::run()
 
 void OlinkConnection::connectAndLinkObject(ApiGear::ObjectLink::IObjectSink& object)
 {
-    m_node.registry().addObject(object);
-    m_node.registry().setNode(m_node, object.olinkObjectName());
+    m_node->registry().addObject(object);
+    m_node->registry().setNode(*m_node, object.olinkObjectName());
     if (m_socket){
-        m_node.linkRemote(object.olinkObjectName());
+        m_node->linkRemote(object.olinkObjectName());
     }
 }
 
 void OlinkConnection::disconnectAndUnlink(const std::string& objectId)  
 {
-    m_node.unlinkRemote(objectId);
-    m_node.registry().removeObject(objectId);
+    m_node->unlinkRemote(objectId);
+    m_node->registry().removeObject(objectId);
 }
 
 void OlinkConnection::connectToHost(Poco::URI url)
@@ -123,7 +139,7 @@ void OlinkConnection::connectToHost(Poco::URI url)
 
 void OlinkConnection::disconnect() {
 
-    m_node.unlinkRemoteForAllSinks();
+    m_node->unlinkRemoteForAllSinks();
     try {
         if(m_socket) {
             m_socket->sendFrame(closeFramePayload.c_str(), static_cast<int>(closeFramePayload.size()), Poco::Net::WebSocket::FRAME_OP_CLOSE);
@@ -139,26 +155,26 @@ void OlinkConnection::disconnect() {
 
 ApiGear::ObjectLink::ClientNode &OlinkConnection::node()
 {
-    return m_node;
+    return *m_node;
 }
 
 void OlinkConnection::onConnected()
 {
     std::clog << " socket connected" << std::endl;
-    m_node.linkRemoteForAllSinks();
+    m_node->linkRemoteForAllSinks();
     scheduleProcessMessages();
 }
 
 void OlinkConnection::onDisconnected()
 {
-    m_node.unlinkRemoteForAllSinks();
+    m_node->unlinkRemoteForAllSinks();
     m_socket.reset();
     std::clog << " socket disconnected" << std::endl;
 }
 
 void OlinkConnection::handleTextMessage(const std::string &message)
 {
-    m_node.handleMessage(message);
+    m_node->handleMessage(message);
 }
 
 void OlinkConnection::scheduleProcessMessages()
