@@ -35,7 +35,7 @@ std::string SameEnum2InterfaceServiceAdapter::olinkObjectName() {
 
 nlohmann::json SameEnum2InterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
     std::clog << methodId << std::endl;
-    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
         const Enum1Enum& param1 = fcnArgs.at(0);
         Enum1Enum result = m_SameEnum2Interface.func1(param1);
@@ -52,7 +52,7 @@ nlohmann::json SameEnum2InterfaceServiceAdapter::olinkInvoke(std::string methodI
 
 void SameEnum2InterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
     std::clog << propertyId << std::endl;
-    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
+    const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
         Enum1Enum prop1 = value.get<Enum1Enum>();
         m_SameEnum2Interface.setProp1(prop1);
@@ -85,7 +85,7 @@ void SameEnum2InterfaceServiceAdapter::onSig1(const Enum1Enum& param1)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1 };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
         m_node->notifySignal(signalId, args);
     }
 }
@@ -93,21 +93,21 @@ void SameEnum2InterfaceServiceAdapter::onSig2(const Enum1Enum& param1,const Enum
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1, param2 };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
         m_node->notifySignal(signalId, args);
     }
 }
 void SameEnum2InterfaceServiceAdapter::onProp1Changed(const Enum1Enum& prop1)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
         m_node->notifyPropertyChange(propertyId, prop1);
     }
 }
 void SameEnum2InterfaceServiceAdapter::onProp2Changed(const Enum2Enum& prop2)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
         m_node->notifyPropertyChange(propertyId, prop2);
     }
 }

@@ -36,7 +36,7 @@ std::string {{class}}::olinkObjectName() {
 
 nlohmann::json {{class}}::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
     std::clog << methodId << std::endl;
-    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
 {% for operation in interface.operations %}
     if(memberMethod == "{{operation.name}}") {
 {% for param in operation.params %}
@@ -59,7 +59,7 @@ nlohmann::json {{class}}::olinkInvoke(std::string methodId, nlohmann::json fcnAr
 
 void {{class}}::olinkSetProperty(std::string propertyId, nlohmann::json value) {
     std::clog << propertyId << std::endl;
-    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
+    const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
 {% for property in interface.properties %}
     if(memberProperty == "{{property}}") {
         {{property|cpp14Return}} {{property}} = value.get<{{property|cpp14Return}}>();
@@ -100,7 +100,7 @@ void {{class}}::on{{signal.name | capital}}(
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { {{ signal.params | map: 'name' | join: ', ' }} };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{signal.name}}");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{signal.name}}");
         m_node->notifySignal(signalId, args);
     }
 }
@@ -110,7 +110,7 @@ void {{class}}::on{{signal.name | capital}}(
 void {{class}}::on{{property.name|capital}}Changed({{property|cpp14Return: true}} {{property}})
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{property.name}}");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{property.name}}");
         m_node->notifyPropertyChange(propertyId, {{property}});
     }
 }

@@ -35,7 +35,7 @@ std::string SameStruct2InterfaceServiceAdapter::olinkObjectName() {
 
 nlohmann::json SameStruct2InterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
     std::clog << methodId << std::endl;
-    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
         const Struct1& param1 = fcnArgs.at(0);
         Struct1 result = m_SameStruct2Interface.func1(param1);
@@ -52,7 +52,7 @@ nlohmann::json SameStruct2InterfaceServiceAdapter::olinkInvoke(std::string metho
 
 void SameStruct2InterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
     std::clog << propertyId << std::endl;
-    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
+    const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
         Struct2 prop1 = value.get<Struct2>();
         m_SameStruct2Interface.setProp1(prop1);
@@ -85,7 +85,7 @@ void SameStruct2InterfaceServiceAdapter::onSig1(const Struct1& param1)
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1 };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
         m_node->notifySignal(signalId, args);
     }
 }
@@ -93,21 +93,21 @@ void SameStruct2InterfaceServiceAdapter::onSig2(const Struct1& param1,const Stru
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { param1, param2 };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
         m_node->notifySignal(signalId, args);
     }
 }
 void SameStruct2InterfaceServiceAdapter::onProp1Changed(const Struct2& prop1)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
         m_node->notifyPropertyChange(propertyId, prop1);
     }
 }
 void SameStruct2InterfaceServiceAdapter::onProp2Changed(const Struct2& prop2)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
         m_node->notifyPropertyChange(propertyId, prop2);
     }
 }

@@ -46,7 +46,7 @@ void RemoteSameStruct1Interface::setProp1(const Struct1& prop1)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
     m_node->setRemoteProperty(propertyId, prop1);
 }
 
@@ -83,7 +83,7 @@ std::future<Struct1> RemoteSameStruct1Interface::func1Async(const Struct1& param
                     param1]()
         {
             std::promise<Struct1> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const Struct1& value = arg.value.get<Struct1>();
@@ -101,7 +101,7 @@ std::string RemoteSameStruct1Interface::olinkObjectName()
 
 void RemoteSameStruct1Interface::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
     if(signalName == "sig1") {
         m_publisher->publishSig1(args[0].get<Struct1>());   
         return;
@@ -125,7 +125,7 @@ void RemoteSameStruct1Interface::olinkOnRelease()
 
 bool RemoteSameStruct1Interface::isReady() const
 {
-    return m_node;
+    return m_node != nullptr;
 }
 
 ISameStruct1InterfacePublisher& RemoteSameStruct1Interface::_getPublisher() const

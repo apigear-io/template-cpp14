@@ -55,7 +55,7 @@ void RemoteManyParamInterface::setProp1(int prop1)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
     m_node->setRemoteProperty(propertyId, prop1);
 }
 
@@ -78,7 +78,7 @@ void RemoteManyParamInterface::setProp2(int prop2)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
     m_node->setRemoteProperty(propertyId, prop2);
 }
 
@@ -101,7 +101,7 @@ void RemoteManyParamInterface::setProp3(int prop3)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
     m_node->setRemoteProperty(propertyId, prop3);
 }
 
@@ -124,7 +124,7 @@ void RemoteManyParamInterface::setProp4(int prop4)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
     m_node->setRemoteProperty(propertyId, prop4);
 }
 
@@ -161,7 +161,7 @@ std::future<int> RemoteManyParamInterface::func1Async(int param1)
                     param1]()
         {
             std::promise<int> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
@@ -193,7 +193,7 @@ std::future<int> RemoteManyParamInterface::func2Async(int param1, int param2)
                     param2]()
         {
             std::promise<int> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
@@ -226,7 +226,7 @@ std::future<int> RemoteManyParamInterface::func3Async(int param1, int param2, in
                     param3]()
         {
             std::promise<int> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func3");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func3");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2,param3}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
@@ -260,7 +260,7 @@ std::future<int> RemoteManyParamInterface::func4Async(int param1, int param2, in
                     param4]()
         {
             std::promise<int> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func4");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func4");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2,param3,param4}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const int& value = arg.value.get<int>();
@@ -278,7 +278,7 @@ std::string RemoteManyParamInterface::olinkObjectName()
 
 void RemoteManyParamInterface::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
     if(signalName == "sig1") {
         m_publisher->publishSig1(args[0].get<int>());   
         return;
@@ -314,7 +314,7 @@ void RemoteManyParamInterface::olinkOnRelease()
 
 bool RemoteManyParamInterface::isReady() const
 {
-    return m_node;
+    return m_node != nullptr;
 }
 
 IManyParamInterfacePublisher& RemoteManyParamInterface::_getPublisher() const

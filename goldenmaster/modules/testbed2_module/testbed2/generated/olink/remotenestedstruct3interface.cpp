@@ -52,7 +52,7 @@ void RemoteNestedStruct3Interface::setProp1(const NestedStruct1& prop1)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
     m_node->setRemoteProperty(propertyId, prop1);
 }
 
@@ -75,7 +75,7 @@ void RemoteNestedStruct3Interface::setProp2(const NestedStruct2& prop2)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
     m_node->setRemoteProperty(propertyId, prop2);
 }
 
@@ -98,7 +98,7 @@ void RemoteNestedStruct3Interface::setProp3(const NestedStruct3& prop3)
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
     m_node->setRemoteProperty(propertyId, prop3);
 }
 
@@ -135,7 +135,7 @@ std::future<NestedStruct1> RemoteNestedStruct3Interface::func1Async(const Nested
                     param1]()
         {
             std::promise<NestedStruct1> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const NestedStruct1& value = arg.value.get<NestedStruct1>();
@@ -167,7 +167,7 @@ std::future<NestedStruct1> RemoteNestedStruct3Interface::func2Async(const Nested
                     param2]()
         {
             std::promise<NestedStruct1> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const NestedStruct1& value = arg.value.get<NestedStruct1>();
@@ -200,7 +200,7 @@ std::future<NestedStruct1> RemoteNestedStruct3Interface::func3Async(const Nested
                     param3]()
         {
             std::promise<NestedStruct1> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func3");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func3");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({param1,param2,param3}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     const NestedStruct1& value = arg.value.get<NestedStruct1>();
@@ -218,7 +218,7 @@ std::string RemoteNestedStruct3Interface::olinkObjectName()
 
 void RemoteNestedStruct3Interface::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
     if(signalName == "sig1") {
         m_publisher->publishSig1(args[0].get<NestedStruct1>());   
         return;
@@ -250,7 +250,7 @@ void RemoteNestedStruct3Interface::olinkOnRelease()
 
 bool RemoteNestedStruct3Interface::isReady() const
 {
-    return m_node;
+    return m_node != nullptr;
 }
 
 INestedStruct3InterfacePublisher& RemoteNestedStruct3Interface::_getPublisher() const

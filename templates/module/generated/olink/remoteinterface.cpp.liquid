@@ -58,7 +58,7 @@ void {{class}}::set{{name|capital}}({{property|cpp14Param}})
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to set property but " + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return;
     }
-    auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{property.name}}");
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{property.name}}");
     m_node->setRemoteProperty(propertyId, {{property}});
 }
 
@@ -96,7 +96,7 @@ void {{class}}::set{{name|capital}}Local({{property|cpp14Param}})
     const nlohmann::json &args = nlohmann::json::array({
         {{ operation.params | map: 'name' | join: ', ' }}
     });
-    auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{operation.name}}");
+    const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{operation.name}}");
     m_node->invokeRemote(operationId, args, func);
     {% else %}
     {{returnType}} value({{operation.name | lowerFirst}}Async({{ operation.params | map: 'name' | join: ', ' }}).get());
@@ -115,7 +115,7 @@ std::future<{{returnType}}> {{class}}::{{operation.name| lowerFirst}}Async({{ope
                 {%- endfor -%}]()
         {
             std::promise<{{returnType}}> resultPromise;
-            auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{operation.name}}");
+            const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{operation.name}}");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({
                 {%- for param in operation.params -%}
@@ -143,7 +143,7 @@ std::string {{class}}::olinkObjectName()
 
 void {{class}}::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
 {
-    auto signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
 {% for signal in interface.signals %}
     if(signalName == "{{signal}}") {
         m_publisher->publish{{signal.name | capital}}(
@@ -175,7 +175,7 @@ void {{class}}::olinkOnRelease()
 
 bool {{class}}::isReady() const
 {
-    return m_node;
+    return m_node != nullptr;
 }
 
 {{pub_interface}}& {{class}}::_getPublisher() const

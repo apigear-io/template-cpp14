@@ -35,7 +35,7 @@ std::string SimpleArrayInterfaceServiceAdapter::olinkObjectName() {
 
 nlohmann::json SimpleArrayInterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
     std::clog << methodId << std::endl;
-    std::string memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "funcBool") {
         const std::list<bool>& paramBool = fcnArgs.at(0);
         std::list<bool> result = m_SimpleArrayInterface.funcBool(paramBool);
@@ -61,7 +61,7 @@ nlohmann::json SimpleArrayInterfaceServiceAdapter::olinkInvoke(std::string metho
 
 void SimpleArrayInterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
     std::clog << propertyId << std::endl;
-    std::string memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
+    const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "propBool") {
         std::list<bool> propBool = value.get<std::list<bool>>();
         m_SimpleArrayInterface.setPropBool(propBool);
@@ -104,7 +104,7 @@ void SimpleArrayInterfaceServiceAdapter::onSigBool(const std::list<bool>& paramB
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramBool };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
         m_node->notifySignal(signalId, args);
     }
 }
@@ -112,7 +112,7 @@ void SimpleArrayInterfaceServiceAdapter::onSigInt(const std::list<int>& paramInt
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramInt };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt");
         m_node->notifySignal(signalId, args);
     }
 }
@@ -120,7 +120,7 @@ void SimpleArrayInterfaceServiceAdapter::onSigFloat(const std::list<float>& para
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramFloat };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat");
         m_node->notifySignal(signalId, args);
     }
 }
@@ -128,35 +128,35 @@ void SimpleArrayInterfaceServiceAdapter::onSigString(const std::list<std::string
 {
     if(m_node != nullptr) {
         const nlohmann::json& args = { paramString };
-        auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigString");
+        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigString");
         m_node->notifySignal(signalId, args);
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropBoolChanged(const std::list<bool>& propBool)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
         m_node->notifyPropertyChange(propertyId, propBool);
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropIntChanged(const std::list<int>& propInt)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
         m_node->notifyPropertyChange(propertyId, propInt);
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropFloatChanged(const std::list<float>& propFloat)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
         m_node->notifyPropertyChange(propertyId, propFloat);
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropStringChanged(const std::list<std::string>& propString)
 {
     if(m_node != nullptr) {
-        auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
+        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
         m_node->notifyPropertyChange(propertyId, propString);
     }
 }
