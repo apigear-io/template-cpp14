@@ -127,6 +127,24 @@ features:
           raw: true
         - source: "apigear/olink/logger/logger.h"
           raw: true
+        - source: "apigear/olink/tests/CMakeLists.txt"
+          raw: true
+        - source: "apigear/olink/tests/olink_connection.test.cpp"
+          raw: true
+        - source: "apigear/olink/tests/test_main.cpp"
+          raw: true
+        - source: "apigear/olink/tests/private/frame.hpp"
+          raw: true
+        - source: "apigear/olink/tests/private/sinkobjectmock.hpp"
+          raw: true
+        - source: "apigear/olink/tests/private/test_server/test_server.hpp"
+          raw: true
+        - source: "apigear/olink/tests/private/test_server/test_server_request_factory.hpp"
+          raw: true
+        - source: "apigear/olink/tests/private/test_server/iframestorage.hpp"
+          raw: true
+        - source: "apigear/olink/tests/private/test_server/test_server_request_handler.hpp"
+          raw: true
   examples:
     system:
       documents:

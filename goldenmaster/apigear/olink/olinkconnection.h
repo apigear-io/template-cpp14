@@ -40,9 +40,9 @@ namespace ObjectLink {
 namespace PocoImpl {
 
 /**
-* A class responsible for network connection for ObjectLinkc client side. Creates a socket and provides write function
+* A class responsible for network connection for ObjectLink client side. Creates a socket and provides write function
 * that allows a client node it holds to use the sink.
-* It handles linking and inlinking with remote service for the sink with regard to the connection state.
+* It handles linking and unlinking with remote service for the sink with regard to the connection state.
 * Implements a message queue.
 */
 class APIGEAR_OLINK_EXPORT OlinkConnection: public Poco::Runnable,
@@ -94,7 +94,8 @@ public:
 private:
     /** Sends all the waiting messages when the connection is up. */
     void onConnected();
-    /** Sends all the necessary close messages when about to close socket. */
+    /** Handle disconnect sent from server side.
+    Sends all the necessary close messages when about to close socket. */
     void onDisconnected();
     /** Handler for raw messages.*/
     void handleTextMessage(const std::string& message);
@@ -106,8 +107,19 @@ private:
     /** Schedules a process messages task.*/
     void scheduleProcessMessages();
 
+    /** Finalize close connection. */
+    void cleanupConnectionResources();
+    /** Tries to send message immediately without queuing. 
+    * If the connection is not working, message will not be stored to resend.
+    * @param message a message in network format to be send as it is.
+    * @param the frame opcode. Use FRAME_TEXT or FRAME_BINARY for regular text messages
+    *   see Poco::Net::WebSocket Frame Opcodes for more info.
+    * @return true if message was sent, false otherwise.
+    */
+    bool trySendImmediately(std::string message, int frameOpCode);
+
     /** Client node that separates sinks Objects from created socket, and handles incoming and outgoing messages. */
-    std::unique_ptr<ApiGear::ObjectLink::ClientNode> m_node;
+    ApiGear::ObjectLink::ClientNode m_node;
 
     /** The server url to which socket connects. */
     Poco::URI m_serverUrl;
