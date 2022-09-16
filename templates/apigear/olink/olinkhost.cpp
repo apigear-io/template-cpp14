@@ -23,6 +23,7 @@
 */
 #include "Poco/Net/HTTPServerRequest.h"
 #include "olinkhost.h"
+#include "olink/remoteregistry.h"
 #include <atomic>
 #include <iostream>
 #include <set>
