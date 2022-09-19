@@ -34,6 +34,9 @@ find_package(Poco REQUIRED Foundation Net Util)
 set (SOURCES
     olinkhost.cpp
     olinkconnection.cpp
+    private/olinkremote.cpp
+    private/olinkwebsockethandler.cpp
+    private/requesthandlerfactory.cpp
     logger/logger.cpp
 )
 add_library(poco-olink SHARED ${SOURCES})

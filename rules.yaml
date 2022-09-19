@@ -123,6 +123,20 @@ features:
           raw: true
         - source: "apigear/olink/iolinkconnector.h"
           raw: true
+        - source: "apigear/olink/private/apigear_olink.hpp"
+          raw: true
+        - source: "apigear/olink/private/olinkremote.cpp"
+          raw: true
+        - source: "apigear/olink/private/olinkremote.h"
+          raw: true
+        - source: "apigear/olink/private/olinkwebsockethandler.cpp"
+          raw: true
+        - source: "apigear/olink/private/olinkwebsockethandler.h"
+          raw: true
+        - source: "apigear/olink/private/requesthandlerfactory.cpp"
+          raw: true
+        - source: "apigear/olink/private/requesthandlerfactory.h"
+          raw: true
         - source: "apigear/olink/logger/logger.cpp"
           raw: true
         - source: "apigear/olink/logger/logger.h"
