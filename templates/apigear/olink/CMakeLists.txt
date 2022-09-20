@@ -37,6 +37,12 @@ set (SOURCES
     private/olinkremote.cpp
     private/olinkwebsockethandler.cpp
     private/requesthandlerfactory.cpp
+    private/connectionstorage.cpp
+    private/olinkremote.h
+    private/olinkwebsockethandler.h
+    private/requesthandlerfactory.h
+    private/connectionstorage.h
+    private/iconnectionstorage.h
     logger/logger.cpp
 )
 add_library(poco-olink SHARED ${SOURCES})

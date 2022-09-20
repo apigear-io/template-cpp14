@@ -6,22 +6,22 @@ namespace Poco {
 namespace Net {
 class HTTPServerRequest;
 class HTTPServerResponse;
-}
-}
+}} // namespace Poco::Net
 
 
 namespace ApiGear {
 namespace PocoImpl {
-class RequestHandlerFactory;
+
+class IConnectionStorage;
 
 class OLinkWebsocketHandler : public Poco::Net::HTTPRequestHandler
 {
 public:
-    explicit OLinkWebsocketHandler(RequestHandlerFactory* factory);
+    explicit OLinkWebsocketHandler(IConnectionStorage& connectionStorage);
     void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) override;
-    void close();
 private:
-    RequestHandlerFactory* m_factory;
+private:
+    IConnectionStorage& m_connectionStorage;
 };
 
-}}
+}}   //namespace ApiGear::PocoImpl

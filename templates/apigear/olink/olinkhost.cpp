@@ -30,35 +30,27 @@
 using namespace ApiGear::PocoImpl;
 
 OLinkHost::OLinkHost(ApiGear::ObjectLink::RemoteRegistry& registry)
-    : m_webserver(nullptr)
-    , m_handlerFactory(nullptr)
-    , m_registry(&registry)
-{
-    m_registry->onLog(m_log.logFunc());
-}
+    :  m_registry(registry),
+    m_connectionStorage(registry)
+{}
 
 OLinkHost::~OLinkHost()
 {
-    m_webserver->stop();
-    delete m_webserver;
-    m_webserver = nullptr;
+    close();
 }
 
 void OLinkHost::listen(int port)
 {
     std::cout << "wss.listen() on ";
-    if(m_handlerFactory == nullptr)
-    {
-        m_handlerFactory = new RequestHandlerFactory(*m_registry);
-    }
-    m_webserver = new Poco::Net::HTTPServer(m_handlerFactory, port);
+    // Poco::Net::HttpServer takes ownership of Request Handler Factory
+    m_webserver = std::make_unique<Poco::Net::HTTPServer>(new RequestHandlerFactory(m_connectionStorage), port);
     std::cout << m_webserver->port() << std::endl;
     m_webserver->start();
 }
 
 void OLinkHost::close()
 {
-    m_handlerFactory->close();
+    m_connectionStorage.closeConnections();
     m_webserver->stop();
 }
 
@@ -66,4 +58,3 @@ void OLinkHost::onClosed()
 {
     std::cout << "wss.closed()\n";
 }
-

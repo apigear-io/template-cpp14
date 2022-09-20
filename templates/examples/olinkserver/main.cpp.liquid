@@ -1,18 +1,23 @@
-#include <iostream>
 {%- for module in system.modules -%}
 {% for interface in module.interfaces %}
 #include "{{module.name|identifier}}/implementation/{{interface.name|lower}}.h"
 #include "{{module.name|identifier}}/generated/olink/{{interface.name|lower}}service.adapter.h"
+{% endfor %}
+{% endfor %}
 
-{% endfor %}
-{% endfor %}
-#include "apigear/olink/olinkhost.h"
+#include "olink/consolelogger.h"
 #include "olink/remoteregistry.h"
+#include "apigear/olink/olinkhost.h"
+
+#include <iostream>
 
 using namespace {{ system.name | capital }};
 
 int main(){
     ApiGear::ObjectLink::RemoteRegistry registry;
+    ApiGear::ObjectLink::ConsoleLogger logger;
+    registry.onLog(logger.logFunc());
+    
     ApiGear::PocoImpl::OLinkHost testserver(registry);
 
     {% for module in system.modules %}
