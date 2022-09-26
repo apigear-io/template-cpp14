@@ -71,9 +71,9 @@ TEST_CASE("OlinkConnection tests")
         
         auto preparedInitMessage = converter.toString(ApiGear::ObjectLink::Protocol::initMessage(sink1Id, initProperties));
         server.sendFrame(preparedInitMessage);
-
         // Wait for init message to be delivered and handled before the sink will be released
-        Poco::Thread::sleep(200);
+        Poco::Thread::sleep(50);
+
         // Remove sink: unlink, detach from node, remove from registry.
         REQUIRE_CALL(sink1, olinkOnRelease());
         testOlinkConnection->disconnectAndUnlink(sink1Id);
@@ -87,7 +87,6 @@ TEST_CASE("OlinkConnection tests")
         REQUIRE(msgs[0].flags == Poco::Net::WebSocket::FRAME_TEXT);
         
         testOlinkConnection->disconnect();
-        Poco::Thread::sleep(100);
         msgs = removePingMessages(server.getReceivedFrames());
         REQUIRE(msgs.size() > 0);
         // Check close frame was sent
@@ -116,7 +115,6 @@ TEST_CASE("OlinkConnection tests")
         REQUIRE_CALL(sink1, olinkOnInit(sink1Id, initProperties, &(testOlinkConnection->node())));
         auto preparedInitMessage = converter.toString(ApiGear::ObjectLink::Protocol::initMessage(sink1Id, initProperties));
         server.sendFrame(preparedInitMessage);
-        Poco::Thread::sleep(200);
         
         // Teardown
         REQUIRE_CALL(sink1, olinkOnRelease());
@@ -173,4 +171,5 @@ TEST_CASE("OlinkConnection tests")
         server.stop();
     }
 }
+
 }

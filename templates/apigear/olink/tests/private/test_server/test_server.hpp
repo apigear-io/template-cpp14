@@ -10,6 +10,7 @@
 #include <vector>
 #include <mutex>
 #include <functional>
+#include <chrono>
 
 #include "tests/private/frame.hpp"
 #include "tests/private/test_server/iframestorage.hpp"
@@ -32,7 +33,7 @@ public:
 	void start()
 	{
 		server.start();
-		Poco::Thread::sleep(200);
+		Poco::Thread::sleep(100);
 	}
 	void stop()
 	{
@@ -64,11 +65,14 @@ public:
 	{
 		// Client send frames with some delay, here delay is long enough to make sure all messages are delivered
 		// also due to working in threads.
-		Poco::Thread::sleep(100);
+		Poco::Thread::sleep(50);
 		std::vector<Frame> frames;
-		receivedFramesMutex.lock();
-		std::swap(frames, receivedFrames);
-		receivedFramesMutex.unlock();
+		std::unique_lock<std::timed_mutex> lock(receivedFramesMutex, std::defer_lock);
+		if (lock.try_lock_for(std::chrono::milliseconds(100)))
+		{
+			std::swap(frames, receivedFrames);
+			lock.unlock();
+		}
 		return frames;
 	}
 
@@ -76,9 +80,12 @@ public:
 	// used by socket owner.
 	void storeFrame(const Frame& frame) override
 	{
-		receivedFramesMutex.lock();
-		receivedFrames.push_back(frame);
-		receivedFramesMutex.unlock();
+		std::unique_lock<std::timed_mutex> lock(receivedFramesMutex, std::defer_lock);
+		if (lock.try_lock_for(std::chrono::milliseconds(100)))
+		{
+			receivedFrames.push_back(frame);
+			lock.unlock();
+		}
 	}
 	// Implementation of IFrameStorage::setRequestSendFunction, 
 	// used by socket owner.
@@ -90,7 +97,7 @@ public:
 	// Function to send a frame from server. Provided by socket owner. 
 	std::function <void(Frame)> m_requestSend;
 	// Mutex for managing receivedFrames.
-	std::mutex receivedFramesMutex;
+	std::timed_mutex receivedFramesMutex;
 	// Storage for received frames.
 	std::vector<Frame> receivedFrames;
 	Poco::Net::HTTPServer server;
