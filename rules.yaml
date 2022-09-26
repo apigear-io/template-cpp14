@@ -137,6 +137,12 @@ features:
           raw: true
         - source: "apigear/olink/private/requesthandlerfactory.h"
           raw: true
+        - source: "apigear/olink/private/iconnectionstorage.h"
+          raw: true
+        - source: "apigear/olink/private/connectionstorage.cpp"
+          raw: true
+        - source: "apigear/olink/private/connectionstorage.h"
+          raw: true
         - source: "apigear/olink/logger/logger.cpp"
           raw: true
         - source: "apigear/olink/logger/logger.h"
@@ -145,11 +151,15 @@ features:
           raw: true
         - source: "apigear/olink/tests/olink_connection.test.cpp"
           raw: true
+        - source: "apigear/olink/tests/olinkhost.test.cpp"
+          raw: true
         - source: "apigear/olink/tests/test_main.cpp"
           raw: true
         - source: "apigear/olink/tests/private/frame.hpp"
           raw: true
         - source: "apigear/olink/tests/private/sinkobjectmock.hpp"
+          raw: true
+        - source: "apigear/olink/tests/private/sourceobjectmock.hpp"
           raw: true
         - source: "apigear/olink/tests/private/test_server/test_server.hpp"
           raw: true

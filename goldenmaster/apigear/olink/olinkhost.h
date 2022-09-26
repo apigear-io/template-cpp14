@@ -21,42 +21,45 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+
 #pragma once
 
-#if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-  #define APIGEAR_OLINK_EXPORT __attribute__ ((dllexport))
-#else
-  #define APIGEAR_OLINK_EXPORT __declspec(dllexport)
-#endif
-#else
-  #if __GNUC__ >= 4
-    #define APIGEAR_OLINK_EXPORT __attribute__ ((visibility ("default")))
-  #else
-    #define APIGEAR_OLINK_EXPORT
-  #endif
-#endif
-
-// #include <QtCore>
-// #include <QtWebSockets>
 #include "Poco/Net/HTTPRequestHandler.h"
 #include "Poco/Net/HTTPServer.h"
 #include "Poco/Net/ServerSocket.h"
 #include "Poco/Net/WebSocket.h"
-#include "olink/remotenode.h"
-#include "olink/consolelogger.h"
+#include "private/connectionstorage.h"
+
+#include <memory>
+
+
+#if defined _WIN32 || defined __CYGWIN__
+#ifdef __GNUC__
+#define APIGEAR_OLINK_EXPORT __attribute__ ((dllexport))
+#else
+#define APIGEAR_OLINK_EXPORT __declspec(dllexport)
+#endif
+#else
+#if __GNUC__ >= 4
+#define APIGEAR_OLINK_EXPORT __attribute__ ((visibility ("default")))
+#else
+#define APIGEAR_OLINK_EXPORT
+#endif
+#endif
 
 namespace Poco {
-    namespace Net {
-        class HTTPServerRequest;
-        class HTTPServerResponse;
-    }
-}
+namespace Net {
+
+class HTTPServerRequest;
+class HTTPServerResponse;
+}} // namespace Poco::Net
 
 
-class RequestHandlerFactory;
 namespace ApiGear {
 namespace PocoImpl {
+
+class RequestHandlerFactory;
+
 class APIGEAR_OLINK_EXPORT OLinkHost
 {
 public:
@@ -64,15 +67,12 @@ public:
     virtual ~OLinkHost();
     void listen(int port);
     void close();
-    void onNewConnection();
     void onClosed();
-    const std::string &name() const;
 
 private:
-    Poco::Net::HTTPServer* m_webserver;
-    RequestHandlerFactory* m_handlerFactory;
-    ApiGear::ObjectLink::ConsoleLogger m_log;
-    ApiGear::ObjectLink::RemoteRegistry* m_registry;
+    std::unique_ptr<Poco::Net::HTTPServer> m_webserver;
+    ApiGear::ObjectLink::RemoteRegistry& m_registry;
+    ConnectionStorage m_connectionStorage;
 };
 
 } // namespace PocoImpl

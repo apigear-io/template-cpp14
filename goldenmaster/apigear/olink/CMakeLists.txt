@@ -13,7 +13,7 @@ if(NOT objectlink-core-cpp_FOUND)
   message(STATUS "objectlink-core-cpp NOT FOUND, fetching the git repository")
   FetchContent_Declare(objectlink-core-cpp
       GIT_REPOSITORY https://github.com/apigear-io/objectlink-core-cpp.git
-      GIT_TAG origin/dphan/refactor
+      GIT_TAG origin/dphan/refactor-server-side
       GIT_SHALLOW TRUE
       EXCLUDE_FROM_ALL FALSE
   )
@@ -34,6 +34,15 @@ find_package(Poco REQUIRED Foundation Net Util)
 set (SOURCES
     olinkhost.cpp
     olinkconnection.cpp
+    private/olinkremote.cpp
+    private/olinkwebsockethandler.cpp
+    private/requesthandlerfactory.cpp
+    private/connectionstorage.cpp
+    private/olinkremote.h
+    private/olinkwebsockethandler.h
+    private/requesthandlerfactory.h
+    private/connectionstorage.h
+    private/iconnectionstorage.h
     logger/logger.cpp
 )
 add_library(poco-olink SHARED ${SOURCES})

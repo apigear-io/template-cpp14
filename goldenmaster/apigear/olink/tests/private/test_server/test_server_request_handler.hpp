@@ -51,7 +51,7 @@ public:
 			} while (!stop);
 			socket.reset();
 		}
-		catch (Poco::Net::WebSocketException& exc)
+		catch (Poco::Net::WebSocketException& /*exc*/)
 		{
 			std::cout << "ERROR handleRequest exception " << std::endl;
 		}

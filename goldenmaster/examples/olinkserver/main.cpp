@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include "testbed2/implementation/manyparaminterface.h"
 #include "testbed2/generated/olink/manyparaminterfaceservice.adapter.h"
 #include "testbed2/implementation/nestedstruct1interface.h"
@@ -33,12 +33,20 @@
 #include "testbed1/generated/olink/structinterfaceservice.adapter.h"
 #include "testbed1/implementation/structarrayinterface.h"
 #include "testbed1/generated/olink/structarrayinterfaceservice.adapter.h"
+
+#include "olink/consolelogger.h"
+#include "olink/remoteregistry.h"
 #include "apigear/olink/olinkhost.h"
+
+#include <iostream>
 
 using namespace Test;
 
 int main(){
     ApiGear::ObjectLink::RemoteRegistry registry;
+    ApiGear::ObjectLink::ConsoleLogger logger;
+    registry.onLog(logger.logFunc());
+    
     ApiGear::PocoImpl::OLinkHost testserver(registry);
     std::unique_ptr<Testbed2::IManyParamInterface> testTestbed2ManyParamInterface = std::make_unique<Testbed2::ManyParamInterface>();
     Testbed2::olink::ManyParamInterfaceServiceAdapter testTestbed2ManyParamInterfaceServiceAdapter(*testTestbed2ManyParamInterface, registry);

@@ -33,7 +33,7 @@ endif()
 set(TEST_POCO_OLINK_SOURCES
     test_main.cpp
     olink_connection.test.cpp
-    olink_connection.test.cpp
+    olinkhost.test.cpp
     test_main.cpp
     private/frame.hpp
     private/sinkobjectmock.hpp
