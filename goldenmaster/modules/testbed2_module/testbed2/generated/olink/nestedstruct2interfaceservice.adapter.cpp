@@ -3,6 +3,10 @@
 #include "testbed2/generated/api/datastructs.api.h"
 #include "testbed2/generated/olink/nestedstruct2interfaceservice.adapter.h"
 #include "testbed2/generated/core/testbed2.json.adapter.h"
+
+#include "olink/iremotenode.h"
+#include "olink/remoteregistry.h"
+
 #include <iostream>
 
 
@@ -16,16 +20,15 @@ const std::string interfaceId = "testbed2.NestedStruct2Interface";
 
 NestedStruct2InterfaceServiceAdapter::NestedStruct2InterfaceServiceAdapter(INestedStruct2Interface& NestedStruct2Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_NestedStruct2Interface(NestedStruct2Interface)
-    , m_node(nullptr)
     , m_registry(registry)
 {
     m_NestedStruct2Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
+    m_registry.addSource(*this);
 }
 
 NestedStruct2InterfaceServiceAdapter::~NestedStruct2InterfaceServiceAdapter()
 {
-    m_registry.removeObjectSource(this);
+    m_registry.removeSource(olinkObjectName());
     m_NestedStruct2Interface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
@@ -33,7 +36,7 @@ std::string NestedStruct2InterfaceServiceAdapter::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json NestedStruct2InterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+nlohmann::json NestedStruct2InterfaceServiceAdapter::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
     std::clog << methodId << std::endl;
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
@@ -50,7 +53,7 @@ nlohmann::json NestedStruct2InterfaceServiceAdapter::olinkInvoke(std::string met
     return nlohmann::json();
 }
 
-void NestedStruct2InterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+void NestedStruct2InterfaceServiceAdapter::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
     std::clog << propertyId << std::endl;
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
@@ -63,15 +66,12 @@ void NestedStruct2InterfaceServiceAdapter::olinkSetProperty(std::string property
     } 
 }
 
-void NestedStruct2InterfaceServiceAdapter::olinkLinked(std::string name, ApiGear::ObjectLink::IRemoteNode *node) {
-    std::clog << name << std::endl;
-    m_node = node;
+void NestedStruct2InterfaceServiceAdapter::olinkLinked(const std::string& objetId, ApiGear::ObjectLink::IRemoteNode* /*node*/) {
+    std::clog << objetId << std::endl;
 }
 
-void NestedStruct2InterfaceServiceAdapter::olinkUnlinked(std::string name)
-{
-    std::clog << name << std::endl;
-    m_node = nullptr;
+void NestedStruct2InterfaceServiceAdapter::olinkUnlinked(const std::string& objetId){
+    std::clog << objetId << std::endl;
 }
 
 nlohmann::json NestedStruct2InterfaceServiceAdapter::olinkCollectProperties()
@@ -83,32 +83,40 @@ nlohmann::json NestedStruct2InterfaceServiceAdapter::olinkCollectProperties()
 }
 void NestedStruct2InterfaceServiceAdapter::onSig1(const NestedStruct1& param1)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void NestedStruct2InterfaceServiceAdapter::onSig2(const NestedStruct1& param1,const NestedStruct2& param2)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1, param2 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1, param2 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void NestedStruct2InterfaceServiceAdapter::onProp1Changed(const NestedStruct1& prop1)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-        m_node->notifyPropertyChange(propertyId, prop1);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop1);
+        }
     }
 }
 void NestedStruct2InterfaceServiceAdapter::onProp2Changed(const NestedStruct2& prop2)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
-        m_node->notifyPropertyChange(propertyId, prop2);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop2);
+        }
     }
 }
 

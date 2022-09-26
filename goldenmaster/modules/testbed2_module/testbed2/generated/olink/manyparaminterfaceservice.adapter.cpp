@@ -3,6 +3,10 @@
 #include "testbed2/generated/api/datastructs.api.h"
 #include "testbed2/generated/olink/manyparaminterfaceservice.adapter.h"
 #include "testbed2/generated/core/testbed2.json.adapter.h"
+
+#include "olink/iremotenode.h"
+#include "olink/remoteregistry.h"
+
 #include <iostream>
 
 
@@ -16,16 +20,15 @@ const std::string interfaceId = "testbed2.ManyParamInterface";
 
 ManyParamInterfaceServiceAdapter::ManyParamInterfaceServiceAdapter(IManyParamInterface& ManyParamInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_ManyParamInterface(ManyParamInterface)
-    , m_node(nullptr)
     , m_registry(registry)
 {
     m_ManyParamInterface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
+    m_registry.addSource(*this);
 }
 
 ManyParamInterfaceServiceAdapter::~ManyParamInterfaceServiceAdapter()
 {
-    m_registry.removeObjectSource(this);
+    m_registry.removeSource(olinkObjectName());
     m_ManyParamInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
@@ -33,7 +36,7 @@ std::string ManyParamInterfaceServiceAdapter::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json ManyParamInterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+nlohmann::json ManyParamInterfaceServiceAdapter::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
     std::clog << methodId << std::endl;
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
@@ -65,7 +68,7 @@ nlohmann::json ManyParamInterfaceServiceAdapter::olinkInvoke(std::string methodI
     return nlohmann::json();
 }
 
-void ManyParamInterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+void ManyParamInterfaceServiceAdapter::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
     std::clog << propertyId << std::endl;
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
@@ -86,15 +89,12 @@ void ManyParamInterfaceServiceAdapter::olinkSetProperty(std::string propertyId, 
     } 
 }
 
-void ManyParamInterfaceServiceAdapter::olinkLinked(std::string name, ApiGear::ObjectLink::IRemoteNode *node) {
-    std::clog << name << std::endl;
-    m_node = node;
+void ManyParamInterfaceServiceAdapter::olinkLinked(const std::string& objetId, ApiGear::ObjectLink::IRemoteNode* /*node*/) {
+    std::clog << objetId << std::endl;
 }
 
-void ManyParamInterfaceServiceAdapter::olinkUnlinked(std::string name)
-{
-    std::clog << name << std::endl;
-    m_node = nullptr;
+void ManyParamInterfaceServiceAdapter::olinkUnlinked(const std::string& objetId){
+    std::clog << objetId << std::endl;
 }
 
 nlohmann::json ManyParamInterfaceServiceAdapter::olinkCollectProperties()
@@ -108,62 +108,78 @@ nlohmann::json ManyParamInterfaceServiceAdapter::olinkCollectProperties()
 }
 void ManyParamInterfaceServiceAdapter::onSig1(int param1)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void ManyParamInterfaceServiceAdapter::onSig2(int param1,int param2)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1, param2 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1, param2 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void ManyParamInterfaceServiceAdapter::onSig3(int param1,int param2,int param3)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1, param2, param3 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig3");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1, param2, param3 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig3");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void ManyParamInterfaceServiceAdapter::onSig4(int param1,int param2,int param3,int param4)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1, param2, param3, param4 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig4");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1, param2, param3, param4 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig4");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp1Changed(int prop1)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-        m_node->notifyPropertyChange(propertyId, prop1);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop1);
+        }
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp2Changed(int prop2)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
-        m_node->notifyPropertyChange(propertyId, prop2);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop2);
+        }
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp3Changed(int prop3)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
-        m_node->notifyPropertyChange(propertyId, prop3);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop3);
+        }
     }
 }
 void ManyParamInterfaceServiceAdapter::onProp4Changed(int prop4)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
-        m_node->notifyPropertyChange(propertyId, prop4);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop4);
+        }
     }
 }
 

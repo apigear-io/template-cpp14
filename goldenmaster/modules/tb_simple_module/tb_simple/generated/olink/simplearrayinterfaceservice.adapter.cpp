@@ -3,6 +3,10 @@
 #include "tb_simple/generated/api/datastructs.api.h"
 #include "tb_simple/generated/olink/simplearrayinterfaceservice.adapter.h"
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
+
+#include "olink/iremotenode.h"
+#include "olink/remoteregistry.h"
+
 #include <iostream>
 
 
@@ -16,16 +20,15 @@ const std::string interfaceId = "tb.simple.SimpleArrayInterface";
 
 SimpleArrayInterfaceServiceAdapter::SimpleArrayInterfaceServiceAdapter(ISimpleArrayInterface& SimpleArrayInterface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SimpleArrayInterface(SimpleArrayInterface)
-    , m_node(nullptr)
     , m_registry(registry)
 {
     m_SimpleArrayInterface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
+    m_registry.addSource(*this);
 }
 
 SimpleArrayInterfaceServiceAdapter::~SimpleArrayInterfaceServiceAdapter()
 {
-    m_registry.removeObjectSource(this);
+    m_registry.removeSource(olinkObjectName());
     m_SimpleArrayInterface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
@@ -33,7 +36,7 @@ std::string SimpleArrayInterfaceServiceAdapter::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json SimpleArrayInterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+nlohmann::json SimpleArrayInterfaceServiceAdapter::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
     std::clog << methodId << std::endl;
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "funcBool") {
@@ -59,7 +62,7 @@ nlohmann::json SimpleArrayInterfaceServiceAdapter::olinkInvoke(std::string metho
     return nlohmann::json();
 }
 
-void SimpleArrayInterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+void SimpleArrayInterfaceServiceAdapter::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
     std::clog << propertyId << std::endl;
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "propBool") {
@@ -80,15 +83,12 @@ void SimpleArrayInterfaceServiceAdapter::olinkSetProperty(std::string propertyId
     } 
 }
 
-void SimpleArrayInterfaceServiceAdapter::olinkLinked(std::string name, ApiGear::ObjectLink::IRemoteNode *node) {
-    std::clog << name << std::endl;
-    m_node = node;
+void SimpleArrayInterfaceServiceAdapter::olinkLinked(const std::string& objetId, ApiGear::ObjectLink::IRemoteNode* /*node*/) {
+    std::clog << objetId << std::endl;
 }
 
-void SimpleArrayInterfaceServiceAdapter::olinkUnlinked(std::string name)
-{
-    std::clog << name << std::endl;
-    m_node = nullptr;
+void SimpleArrayInterfaceServiceAdapter::olinkUnlinked(const std::string& objetId){
+    std::clog << objetId << std::endl;
 }
 
 nlohmann::json SimpleArrayInterfaceServiceAdapter::olinkCollectProperties()
@@ -102,62 +102,78 @@ nlohmann::json SimpleArrayInterfaceServiceAdapter::olinkCollectProperties()
 }
 void SimpleArrayInterfaceServiceAdapter::onSigBool(const std::list<bool>& paramBool)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { paramBool };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { paramBool };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onSigInt(const std::list<int>& paramInt)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { paramInt };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { paramInt };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onSigFloat(const std::list<float>& paramFloat)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { paramFloat };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { paramFloat };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onSigString(const std::list<std::string>& paramString)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { paramString };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigString");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { paramString };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigString");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropBoolChanged(const std::list<bool>& propBool)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
-        m_node->notifyPropertyChange(propertyId, propBool);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, propBool);
+        }
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropIntChanged(const std::list<int>& propInt)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
-        m_node->notifyPropertyChange(propertyId, propInt);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, propInt);
+        }
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropFloatChanged(const std::list<float>& propFloat)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
-        m_node->notifyPropertyChange(propertyId, propFloat);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, propFloat);
+        }
     }
 }
 void SimpleArrayInterfaceServiceAdapter::onPropStringChanged(const std::list<std::string>& propString)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
-        m_node->notifyPropertyChange(propertyId, propString);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, propString);
+        }
     }
 }
 

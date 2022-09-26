@@ -3,6 +3,10 @@
 #include "tb_same2/generated/api/datastructs.api.h"
 #include "tb_same2/generated/olink/samestruct2interfaceservice.adapter.h"
 #include "tb_same2/generated/core/tb_same2.json.adapter.h"
+
+#include "olink/iremotenode.h"
+#include "olink/remoteregistry.h"
+
 #include <iostream>
 
 
@@ -16,16 +20,15 @@ const std::string interfaceId = "tb.same2.SameStruct2Interface";
 
 SameStruct2InterfaceServiceAdapter::SameStruct2InterfaceServiceAdapter(ISameStruct2Interface& SameStruct2Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SameStruct2Interface(SameStruct2Interface)
-    , m_node(nullptr)
     , m_registry(registry)
 {
     m_SameStruct2Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
+    m_registry.addSource(*this);
 }
 
 SameStruct2InterfaceServiceAdapter::~SameStruct2InterfaceServiceAdapter()
 {
-    m_registry.removeObjectSource(this);
+    m_registry.removeSource(olinkObjectName());
     m_SameStruct2Interface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
@@ -33,7 +36,7 @@ std::string SameStruct2InterfaceServiceAdapter::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json SameStruct2InterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+nlohmann::json SameStruct2InterfaceServiceAdapter::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
     std::clog << methodId << std::endl;
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
@@ -50,7 +53,7 @@ nlohmann::json SameStruct2InterfaceServiceAdapter::olinkInvoke(std::string metho
     return nlohmann::json();
 }
 
-void SameStruct2InterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+void SameStruct2InterfaceServiceAdapter::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
     std::clog << propertyId << std::endl;
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
@@ -63,15 +66,12 @@ void SameStruct2InterfaceServiceAdapter::olinkSetProperty(std::string propertyId
     } 
 }
 
-void SameStruct2InterfaceServiceAdapter::olinkLinked(std::string name, ApiGear::ObjectLink::IRemoteNode *node) {
-    std::clog << name << std::endl;
-    m_node = node;
+void SameStruct2InterfaceServiceAdapter::olinkLinked(const std::string& objetId, ApiGear::ObjectLink::IRemoteNode* /*node*/) {
+    std::clog << objetId << std::endl;
 }
 
-void SameStruct2InterfaceServiceAdapter::olinkUnlinked(std::string name)
-{
-    std::clog << name << std::endl;
-    m_node = nullptr;
+void SameStruct2InterfaceServiceAdapter::olinkUnlinked(const std::string& objetId){
+    std::clog << objetId << std::endl;
 }
 
 nlohmann::json SameStruct2InterfaceServiceAdapter::olinkCollectProperties()
@@ -83,32 +83,40 @@ nlohmann::json SameStruct2InterfaceServiceAdapter::olinkCollectProperties()
 }
 void SameStruct2InterfaceServiceAdapter::onSig1(const Struct1& param1)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void SameStruct2InterfaceServiceAdapter::onSig2(const Struct1& param1,const Struct2& param2)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1, param2 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1, param2 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void SameStruct2InterfaceServiceAdapter::onProp1Changed(const Struct2& prop1)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-        m_node->notifyPropertyChange(propertyId, prop1);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop1);
+        }
     }
 }
 void SameStruct2InterfaceServiceAdapter::onProp2Changed(const Struct2& prop2)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
-        m_node->notifyPropertyChange(propertyId, prop2);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop2);
+        }
     }
 }
 

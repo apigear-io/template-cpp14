@@ -3,6 +3,10 @@
 #include "tb_same2/generated/api/datastructs.api.h"
 #include "tb_same2/generated/olink/samestruct1interfaceservice.adapter.h"
 #include "tb_same2/generated/core/tb_same2.json.adapter.h"
+
+#include "olink/iremotenode.h"
+#include "olink/remoteregistry.h"
+
 #include <iostream>
 
 
@@ -16,16 +20,15 @@ const std::string interfaceId = "tb.same2.SameStruct1Interface";
 
 SameStruct1InterfaceServiceAdapter::SameStruct1InterfaceServiceAdapter(ISameStruct1Interface& SameStruct1Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SameStruct1Interface(SameStruct1Interface)
-    , m_node(nullptr)
     , m_registry(registry)
 {
     m_SameStruct1Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addObjectSource(this);
+    m_registry.addSource(*this);
 }
 
 SameStruct1InterfaceServiceAdapter::~SameStruct1InterfaceServiceAdapter()
 {
-    m_registry.removeObjectSource(this);
+    m_registry.removeSource(olinkObjectName());
     m_SameStruct1Interface._getPublisher().unsubscribeFromAllChanges(*this);
 }
 
@@ -33,7 +36,7 @@ std::string SameStruct1InterfaceServiceAdapter::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json SameStruct1InterfaceServiceAdapter::olinkInvoke(std::string methodId, nlohmann::json fcnArgs) {
+nlohmann::json SameStruct1InterfaceServiceAdapter::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
     std::clog << methodId << std::endl;
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
@@ -44,7 +47,7 @@ nlohmann::json SameStruct1InterfaceServiceAdapter::olinkInvoke(std::string metho
     return nlohmann::json();
 }
 
-void SameStruct1InterfaceServiceAdapter::olinkSetProperty(std::string propertyId, nlohmann::json value) {
+void SameStruct1InterfaceServiceAdapter::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
     std::clog << propertyId << std::endl;
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
@@ -53,15 +56,12 @@ void SameStruct1InterfaceServiceAdapter::olinkSetProperty(std::string propertyId
     } 
 }
 
-void SameStruct1InterfaceServiceAdapter::olinkLinked(std::string name, ApiGear::ObjectLink::IRemoteNode *node) {
-    std::clog << name << std::endl;
-    m_node = node;
+void SameStruct1InterfaceServiceAdapter::olinkLinked(const std::string& objetId, ApiGear::ObjectLink::IRemoteNode* /*node*/) {
+    std::clog << objetId << std::endl;
 }
 
-void SameStruct1InterfaceServiceAdapter::olinkUnlinked(std::string name)
-{
-    std::clog << name << std::endl;
-    m_node = nullptr;
+void SameStruct1InterfaceServiceAdapter::olinkUnlinked(const std::string& objetId){
+    std::clog << objetId << std::endl;
 }
 
 nlohmann::json SameStruct1InterfaceServiceAdapter::olinkCollectProperties()
@@ -72,17 +72,21 @@ nlohmann::json SameStruct1InterfaceServiceAdapter::olinkCollectProperties()
 }
 void SameStruct1InterfaceServiceAdapter::onSig1(const Struct1& param1)
 {
-    if(m_node != nullptr) {
-        const nlohmann::json& args = { param1 };
-        const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
-        m_node->notifySignal(signalId, args);
+    const nlohmann::json args = { param1 };
+    const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
+        if(node != nullptr) {
+            node->notifySignal(signalId, args);
+        }
     }
 }
 void SameStruct1InterfaceServiceAdapter::onProp1Changed(const Struct1& prop1)
 {
-    if(m_node != nullptr) {
-        const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-        m_node->notifyPropertyChange(propertyId, prop1);
+    const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
+    for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
+        if(node != nullptr) {
+            node->notifyPropertyChange(propertyId, prop1);
+        }
     }
 }
 
