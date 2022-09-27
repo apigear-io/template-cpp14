@@ -29,12 +29,9 @@ Poco::Net::HTTPRequestHandler* RequestHandlerFactory::createRequestHandler(const
     {
         std::cout << it->first << ": " << it->second << std::endl;
     }
-    /// TODO DOROTA handle somehow if we cannot upgrade
-    if (request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0) {
-        std::cout << "wss.newConnection()\n";
-        OLinkWebsocketHandler* handler = new OLinkWebsocketHandler(m_connectionStorage);
-        return handler;
-    }
+
+    // The Poco server implementation takes ownership of the returned HTTPRequestHandler.
+    return new OLinkWebsocketHandler(m_connectionStorage);
 }
 
 
