@@ -77,6 +77,10 @@ features:
         - source: "module/generated/monitor/interface.tracer.cpp.liquid"
           target: "modules/{{module.name|identifier}}_module/{{module.name|identifier}}/generated/monitor/{{interface.name|lower}}.tracer.cpp"
   olink:
+    system:
+        documents:
+        - source: "Lifecycle for olink client-server implementation.md"
+          raw: true
     interface:
       documents:
         - source: "module/generated/olink/CMakeLists.txt.liquid"
