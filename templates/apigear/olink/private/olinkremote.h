@@ -36,6 +36,8 @@ public:
 private:
     void closeSocket();
     void receiveInLoop();
+    void OLinkRemote::removeNodeFromRegistryIfNotUnlikend();
+
     std::unique_ptr<Poco::Net::WebSocket> m_socket;
     IConnectionStorage& m_connectionStorage;
 
@@ -48,5 +50,7 @@ private:
 
     /** A mutex for the using socket */
     std::timed_mutex m_socektMutex;
+
+    ApiGear::ObjectLink::RemoteRegistry& m_registry;
 };
 }}   //namespace ApiGear::PocoImpl

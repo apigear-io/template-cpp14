@@ -5,6 +5,7 @@
 #include "private/requesthandlerfactory.h"
 #include "private/iconnectionstorage.h"
 #include "olink/remotenode.h"
+#include "olink/remoteregistry.h"
 #include <iostream>
 #include <chrono>
 #include <future>
@@ -22,7 +23,8 @@ OLinkRemote::OLinkRemote(std::unique_ptr<Poco::Net::WebSocket> socket, IConnecti
     : m_socket(std::move(socket)),
      m_connectionStorage(connectionStorage),
      m_stopConnection(false),
-     m_node(ApiGear::ObjectLink::RemoteNode::createRemoteNode(registry))
+     m_node(ApiGear::ObjectLink::RemoteNode::createRemoteNode(registry)),
+     m_registry(registry)
 {
     m_node->onLog(m_log.logFunc());
     m_node->onWrite([this](std::string msg) {
@@ -130,8 +132,17 @@ void OLinkRemote::closeSocket()
         std::cout << "closing socket, some messages may be dropped" << std::endl;
     }
     m_socket.reset();
-    m_node.reset();
+    removeNodeFromRegistryIfNotUnlikend();
     lock.unlock();
+}
+
+void OLinkRemote::removeNodeFromRegistryIfNotUnlikend()
+{
+    auto objectsUsingNode = m_registry.getObjectIds(m_node);
+    for (auto objectId : objectsUsingNode)
+    {
+        m_registry.removeNodeFromSource(m_node, objectId);
+    }
 }
 
 }}  //namespace ApiGear::PocoImpl

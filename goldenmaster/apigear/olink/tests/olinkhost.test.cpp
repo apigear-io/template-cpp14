@@ -160,9 +160,7 @@ namespace {
 
             testHost.close();
             Poco::Thread::sleep(50);
-            // node is not removed but is not valid.
-            REQUIRE(registry.getNodes(objectId).size() == 1);
-            REQUIRE(registry.getNodes(objectId)[0].expired() == true);
+            REQUIRE(registry.getNodes(objectId).size() == 0);
             REQUIRE(registry.getSource(objectId).lock() == source1);
 
             {
@@ -264,14 +262,11 @@ namespace {
             // Send close Frame
             Poco::Thread::sleep(100);
             nodes = registry.getNodes(objectId);
-            // Node 2 still works for source, but first one is still present
-            REQUIRE(nodes.size() == 2);
-            auto node1 = nodes[0];
-            auto node2 = nodes[1];
-            auto isOneNodeAlive = !node1.expired() || !node2.expired();
-            REQUIRE(isOneNodeAlive);
-            bool nodeDidNotChanged = (!node1.expired() && node1.lock() == nodeA.lock())
-            || (!node2.expired() && node2.lock() == nodeB.lock());
+            // Node 2 still works for source
+            REQUIRE(nodes.size() == 1);
+            auto node2 = nodes[0];
+            REQUIRE(!node2.expired());
+            bool nodeDidNotChanged = node2.lock() == nodeA.lock() || node2.lock() == nodeB.lock();
             REQUIRE(nodeDidNotChanged);
             // client 2 receives close frame
             testHost.close();
