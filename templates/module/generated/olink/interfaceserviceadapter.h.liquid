@@ -32,7 +32,7 @@ public:
     * @param {{interface}} The service source object, the actual {{interface}} object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit {{class}}(I{{interface}}& {{interface}}, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit {{class}}(std::shared_ptr<I{{interface}}> {{interface}}, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~{{class}}() override;
 
     /**
@@ -93,7 +93,7 @@ private:
     /**
     * The {{interface}} used for object source.
     */
-    I{{interface}}& m_{{interface}};
+    std::shared_ptr<I{{interface}}> m_{{interface}};
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

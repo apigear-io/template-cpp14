@@ -31,7 +31,7 @@ public:
     * @param StructArrayInterface The service source object, the actual StructArrayInterface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit StructArrayInterfaceServiceAdapter(IStructArrayInterface& StructArrayInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit StructArrayInterfaceServiceAdapter(std::shared_ptr<IStructArrayInterface> StructArrayInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~StructArrayInterfaceServiceAdapter() override;
 
     /**
@@ -106,7 +106,7 @@ private:
     /**
     * The StructArrayInterface used for object source.
     */
-    IStructArrayInterface& m_StructArrayInterface;
+    std::shared_ptr<IStructArrayInterface> m_StructArrayInterface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

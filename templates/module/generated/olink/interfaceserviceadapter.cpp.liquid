@@ -19,18 +19,16 @@ namespace
 const std::string interfaceId = "{{module}}.{{interface}}";
 }
 
-{{class}}::{{class}}(I{{interface}}& {{interface}}, ApiGear::ObjectLink::RemoteRegistry& registry)
+{{class}}::{{class}}(std::shared_ptr<I{{interface}}> {{interface}}, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_{{interface}}({{interface}})
     , m_registry(registry)
 {
-    m_{{interface}}._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addSource(*this);
+    m_{{interface}}->_getPublisher().subscribeToAllChanges(*this);
 }
 
 {{class}}::~{{class}}()
 {
-    m_registry.removeSource(olinkObjectName());
-    m_{{interface}}._getPublisher().unsubscribeFromAllChanges(*this);
+    m_{{interface}}->_getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string {{class}}::olinkObjectName() {
@@ -46,10 +44,10 @@ nlohmann::json {{class}}::olinkInvoke(const std::string& methodId, const nlohman
         const {{param|cpp14Return}}& {{param}} = fcnArgs.at({{ forloop.index0 }});      
 {% endfor %}
 {% if operation.type == 'void' %}
-        m_{{interface}}.{{operation.name | lowerFirst}}({{ operation.params | map: 'name' | join: ', ' }});
+        m_{{interface}}->{{operation.name | lowerFirst}}({{ operation.params | map: 'name' | join: ', ' }});
         return nlohmann::json{};
 {% else %}
-        {{operation|cpp14Return}} result = m_{{interface}}.{{operation.name| lowerFirst}}({{ operation.params | map: 'name' | join: ', ' }});
+        {{operation|cpp14Return}} result = m_{{interface}}->{{operation.name| lowerFirst}}({{ operation.params | map: 'name' | join: ', ' }});
         return result;
 {% endif %}
     }
@@ -66,7 +64,7 @@ void {{class}}::olinkSetProperty(const std::string& propertyId, const nlohmann::
 {% for property in interface.properties %}
     if(memberProperty == "{{property}}") {
         {{property|cpp14Return}} {{property}} = value.get<{{property|cpp14Return}}>();
-        m_{{interface}}.set{{property.name|capital}}({{property}});
+        m_{{interface}}->set{{property.name|capital}}({{property}});
     }
 {% else %}
     // no properties to set {% comment %} we generate anyway for consistency {% endcomment %}
@@ -86,7 +84,7 @@ nlohmann::json {{class}}::olinkCollectProperties()
 {
     return nlohmann::json::object({
 {% for property in interface.properties %}
-        { "{{property.name}}", m_{{interface}}.get{{property.name | capital}}() }{% unless forloop.last %},{% endunless %}
+        { "{{property.name}}", m_{{interface}}->get{{property.name | capital}}() }{% unless forloop.last %},{% endunless %}
 {% endfor %}
     });
 }
@@ -101,8 +99,9 @@ void {{class}}::on{{signal.name | capital}}(
     const nlohmann::json args = { {{ signal.params | map: 'name' | join: ', ' }} };
     const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{signal.name}}");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
-        if(node != nullptr) {
-            node->notifySignal(signalId, args);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifySignal(signalId, args);
         }
     }
 }
@@ -113,8 +112,9 @@ void {{class}}::on{{property.name|capital}}Changed({{property|cpp14Return: true}
 {
     const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{property.name}}");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
-        if(node != nullptr) {
-            node->notifyPropertyChange(propertyId, {{property}});
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifyPropertyChange(propertyId, {{property}});
         }
     }
 }

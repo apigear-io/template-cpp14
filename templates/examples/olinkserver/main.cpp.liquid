@@ -23,8 +23,9 @@ int main(){
     {% for module in system.modules %}
     {% for interface in module.interfaces %}
     {% assign class = interface.name | capital %}
-    std::unique_ptr<{{ module.name | capital }}::I{{class}}> test{{module.name | capital}}{{class}} = std::make_unique<{{ module.name | capital }}::{{class}}>();
-    {{ module.name | capital }}::olink::{{interface.name}}ServiceAdapter test{{module.name|capital}}{{interface.name|capital}}ServiceAdapter(*test{{module.name|capital}}{{interface.name|capital}}, registry);
+    auto test{{module.name | capital}}{{class}} = std::make_shared<{{ module.name | capital }}::{{class}}>();
+    auto test{{module.name|capital}}{{interface.name|capital}}ServiceAdapter = std::make_shared<{{ module.name | capital }}::olink::{{interface.name}}ServiceAdapter>(test{{module.name|capital}}{{interface.name|capital}}, registry);
+    registry.addSource(test{{module.name|capital}}{{interface.name|capital}}ServiceAdapter);
     {% endfor %}
     {% endfor %}
 
@@ -42,5 +43,12 @@ int main(){
         }
     } while(keepRunning);
 
+    {% for module in system.modules %}
+    {% for interface in module.interfaces %}
+    {% assign class = interface.name | capital %}
+    registry.removeSource(test{{module.name|capital}}{{interface.name|capital}}ServiceAdapter->olinkObjectName());
+    {% endfor %}
+    {% endfor %}
+    
     return 0;
 }

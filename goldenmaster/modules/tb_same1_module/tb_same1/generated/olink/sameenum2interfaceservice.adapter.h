@@ -31,7 +31,7 @@ public:
     * @param SameEnum2Interface The service source object, the actual SameEnum2Interface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit SameEnum2InterfaceServiceAdapter(ISameEnum2Interface& SameEnum2Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit SameEnum2InterfaceServiceAdapter(std::shared_ptr<ISameEnum2Interface> SameEnum2Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~SameEnum2InterfaceServiceAdapter() override;
 
     /**
@@ -90,7 +90,7 @@ private:
     /**
     * The SameEnum2Interface used for object source.
     */
-    ISameEnum2Interface& m_SameEnum2Interface;
+    std::shared_ptr<ISameEnum2Interface> m_SameEnum2Interface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

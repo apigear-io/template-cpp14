@@ -31,7 +31,7 @@ public:
     * @param SimpleInterface The service source object, the actual SimpleInterface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit SimpleInterfaceServiceAdapter(ISimpleInterface& SimpleInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit SimpleInterfaceServiceAdapter(std::shared_ptr<ISimpleInterface> SimpleInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~SimpleInterfaceServiceAdapter() override;
 
     /**
@@ -106,7 +106,7 @@ private:
     /**
     * The SimpleInterface used for object source.
     */
-    ISimpleInterface& m_SimpleInterface;
+    std::shared_ptr<ISimpleInterface> m_SimpleInterface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

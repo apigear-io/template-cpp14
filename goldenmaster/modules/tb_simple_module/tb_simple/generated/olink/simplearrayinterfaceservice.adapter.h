@@ -31,7 +31,7 @@ public:
     * @param SimpleArrayInterface The service source object, the actual SimpleArrayInterface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit SimpleArrayInterfaceServiceAdapter(ISimpleArrayInterface& SimpleArrayInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit SimpleArrayInterfaceServiceAdapter(std::shared_ptr<ISimpleArrayInterface> SimpleArrayInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~SimpleArrayInterfaceServiceAdapter() override;
 
     /**
@@ -106,7 +106,7 @@ private:
     /**
     * The SimpleArrayInterface used for object source.
     */
-    ISimpleArrayInterface& m_SimpleArrayInterface;
+    std::shared_ptr<ISimpleArrayInterface> m_SimpleArrayInterface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

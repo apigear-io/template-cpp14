@@ -31,7 +31,7 @@ public:
     * @param EnumInterface The service source object, the actual EnumInterface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit EnumInterfaceServiceAdapter(IEnumInterface& EnumInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit EnumInterfaceServiceAdapter(std::shared_ptr<IEnumInterface> EnumInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~EnumInterfaceServiceAdapter() override;
 
     /**
@@ -106,7 +106,7 @@ private:
     /**
     * The EnumInterface used for object source.
     */
-    IEnumInterface& m_EnumInterface;
+    std::shared_ptr<IEnumInterface> m_EnumInterface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

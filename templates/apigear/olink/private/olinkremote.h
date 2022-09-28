@@ -41,7 +41,7 @@ private:
 
     std::atomic<bool> m_stopConnection;
 
-    std::unique_ptr<ApiGear::ObjectLink::RemoteNode> m_node;
+    std::shared_ptr<ApiGear::ObjectLink::RemoteNode> m_node;
 
     ApiGear::ObjectLink::ConsoleLogger m_log;
     std::future<void> m_receivingDone;

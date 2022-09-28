@@ -18,18 +18,16 @@ namespace
 const std::string interfaceId = "testbed2.NestedStruct3Interface";
 }
 
-NestedStruct3InterfaceServiceAdapter::NestedStruct3InterfaceServiceAdapter(INestedStruct3Interface& NestedStruct3Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
+NestedStruct3InterfaceServiceAdapter::NestedStruct3InterfaceServiceAdapter(std::shared_ptr<INestedStruct3Interface> NestedStruct3Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_NestedStruct3Interface(NestedStruct3Interface)
     , m_registry(registry)
 {
-    m_NestedStruct3Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addSource(*this);
+    m_NestedStruct3Interface->_getPublisher().subscribeToAllChanges(*this);
 }
 
 NestedStruct3InterfaceServiceAdapter::~NestedStruct3InterfaceServiceAdapter()
 {
-    m_registry.removeSource(olinkObjectName());
-    m_NestedStruct3Interface._getPublisher().unsubscribeFromAllChanges(*this);
+    m_NestedStruct3Interface->_getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string NestedStruct3InterfaceServiceAdapter::olinkObjectName() {
@@ -41,20 +39,20 @@ nlohmann::json NestedStruct3InterfaceServiceAdapter::olinkInvoke(const std::stri
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
         const NestedStruct1& param1 = fcnArgs.at(0);
-        NestedStruct1 result = m_NestedStruct3Interface.func1(param1);
+        NestedStruct1 result = m_NestedStruct3Interface->func1(param1);
         return result;
     }
     if(memberMethod == "func2") {
         const NestedStruct1& param1 = fcnArgs.at(0);
         const NestedStruct2& param2 = fcnArgs.at(1);
-        NestedStruct1 result = m_NestedStruct3Interface.func2(param1, param2);
+        NestedStruct1 result = m_NestedStruct3Interface->func2(param1, param2);
         return result;
     }
     if(memberMethod == "func3") {
         const NestedStruct1& param1 = fcnArgs.at(0);
         const NestedStruct2& param2 = fcnArgs.at(1);
         const NestedStruct3& param3 = fcnArgs.at(2);
-        NestedStruct1 result = m_NestedStruct3Interface.func3(param1, param2, param3);
+        NestedStruct1 result = m_NestedStruct3Interface->func3(param1, param2, param3);
         return result;
     }
     return nlohmann::json();
@@ -65,15 +63,15 @@ void NestedStruct3InterfaceServiceAdapter::olinkSetProperty(const std::string& p
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
         NestedStruct1 prop1 = value.get<NestedStruct1>();
-        m_NestedStruct3Interface.setProp1(prop1);
+        m_NestedStruct3Interface->setProp1(prop1);
     }
     if(memberProperty == "prop2") {
         NestedStruct2 prop2 = value.get<NestedStruct2>();
-        m_NestedStruct3Interface.setProp2(prop2);
+        m_NestedStruct3Interface->setProp2(prop2);
     }
     if(memberProperty == "prop3") {
         NestedStruct3 prop3 = value.get<NestedStruct3>();
-        m_NestedStruct3Interface.setProp3(prop3);
+        m_NestedStruct3Interface->setProp3(prop3);
     } 
 }
 
@@ -88,9 +86,9 @@ void NestedStruct3InterfaceServiceAdapter::olinkUnlinked(const std::string& obje
 nlohmann::json NestedStruct3InterfaceServiceAdapter::olinkCollectProperties()
 {
     return nlohmann::json::object({
-        { "prop1", m_NestedStruct3Interface.getProp1() },
-        { "prop2", m_NestedStruct3Interface.getProp2() },
-        { "prop3", m_NestedStruct3Interface.getProp3() }
+        { "prop1", m_NestedStruct3Interface->getProp1() },
+        { "prop2", m_NestedStruct3Interface->getProp2() },
+        { "prop3", m_NestedStruct3Interface->getProp3() }
     });
 }
 void NestedStruct3InterfaceServiceAdapter::onSig1(const NestedStruct1& param1)
@@ -98,8 +96,9 @@ void NestedStruct3InterfaceServiceAdapter::onSig1(const NestedStruct1& param1)
     const nlohmann::json args = { param1 };
     const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
-        if(node != nullptr) {
-            node->notifySignal(signalId, args);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifySignal(signalId, args);
         }
     }
 }
@@ -108,8 +107,9 @@ void NestedStruct3InterfaceServiceAdapter::onSig2(const NestedStruct1& param1,co
     const nlohmann::json args = { param1, param2 };
     const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
-        if(node != nullptr) {
-            node->notifySignal(signalId, args);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifySignal(signalId, args);
         }
     }
 }
@@ -118,8 +118,9 @@ void NestedStruct3InterfaceServiceAdapter::onSig3(const NestedStruct1& param1,co
     const nlohmann::json args = { param1, param2, param3 };
     const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig3");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
-        if(node != nullptr) {
-            node->notifySignal(signalId, args);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifySignal(signalId, args);
         }
     }
 }
@@ -127,8 +128,9 @@ void NestedStruct3InterfaceServiceAdapter::onProp1Changed(const NestedStruct1& p
 {
     const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
-        if(node != nullptr) {
-            node->notifyPropertyChange(propertyId, prop1);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifyPropertyChange(propertyId, prop1);
         }
     }
 }
@@ -136,8 +138,9 @@ void NestedStruct3InterfaceServiceAdapter::onProp2Changed(const NestedStruct2& p
 {
     const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
-        if(node != nullptr) {
-            node->notifyPropertyChange(propertyId, prop2);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifyPropertyChange(propertyId, prop2);
         }
     }
 }
@@ -145,8 +148,9 @@ void NestedStruct3InterfaceServiceAdapter::onProp3Changed(const NestedStruct3& p
 {
     const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
-        if(node != nullptr) {
-            node->notifyPropertyChange(propertyId, prop3);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifyPropertyChange(propertyId, prop3);
         }
     }
 }

@@ -18,18 +18,16 @@ namespace
 const std::string interfaceId = "tb.same2.SameEnum1Interface";
 }
 
-SameEnum1InterfaceServiceAdapter::SameEnum1InterfaceServiceAdapter(ISameEnum1Interface& SameEnum1Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
+SameEnum1InterfaceServiceAdapter::SameEnum1InterfaceServiceAdapter(std::shared_ptr<ISameEnum1Interface> SameEnum1Interface, ApiGear::ObjectLink::RemoteRegistry& registry)
     : m_SameEnum1Interface(SameEnum1Interface)
     , m_registry(registry)
 {
-    m_SameEnum1Interface._getPublisher().subscribeToAllChanges(*this);
-    m_registry.addSource(*this);
+    m_SameEnum1Interface->_getPublisher().subscribeToAllChanges(*this);
 }
 
 SameEnum1InterfaceServiceAdapter::~SameEnum1InterfaceServiceAdapter()
 {
-    m_registry.removeSource(olinkObjectName());
-    m_SameEnum1Interface._getPublisher().unsubscribeFromAllChanges(*this);
+    m_SameEnum1Interface->_getPublisher().unsubscribeFromAllChanges(*this);
 }
 
 std::string SameEnum1InterfaceServiceAdapter::olinkObjectName() {
@@ -41,7 +39,7 @@ nlohmann::json SameEnum1InterfaceServiceAdapter::olinkInvoke(const std::string& 
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
     if(memberMethod == "func1") {
         const Enum1Enum& param1 = fcnArgs.at(0);
-        Enum1Enum result = m_SameEnum1Interface.func1(param1);
+        Enum1Enum result = m_SameEnum1Interface->func1(param1);
         return result;
     }
     return nlohmann::json();
@@ -52,7 +50,7 @@ void SameEnum1InterfaceServiceAdapter::olinkSetProperty(const std::string& prope
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
         Enum1Enum prop1 = value.get<Enum1Enum>();
-        m_SameEnum1Interface.setProp1(prop1);
+        m_SameEnum1Interface->setProp1(prop1);
     } 
 }
 
@@ -67,7 +65,7 @@ void SameEnum1InterfaceServiceAdapter::olinkUnlinked(const std::string& objetId)
 nlohmann::json SameEnum1InterfaceServiceAdapter::olinkCollectProperties()
 {
     return nlohmann::json::object({
-        { "prop1", m_SameEnum1Interface.getProp1() }
+        { "prop1", m_SameEnum1Interface->getProp1() }
     });
 }
 void SameEnum1InterfaceServiceAdapter::onSig1(const Enum1Enum& param1)
@@ -75,8 +73,9 @@ void SameEnum1InterfaceServiceAdapter::onSig1(const Enum1Enum& param1)
     const nlohmann::json args = { param1 };
     const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(signalId))) {
-        if(node != nullptr) {
-            node->notifySignal(signalId, args);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifySignal(signalId, args);
         }
     }
 }
@@ -84,8 +83,9 @@ void SameEnum1InterfaceServiceAdapter::onProp1Changed(const Enum1Enum& prop1)
 {
     const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {
-        if(node != nullptr) {
-            node->notifyPropertyChange(propertyId, prop1);
+        auto lockedNode = node.lock();
+        if(lockedNode) {
+            lockedNode->notifyPropertyChange(propertyId, prop1);
         }
     }
 }

@@ -31,7 +31,7 @@ public:
     * @param SameStruct1Interface The service source object, the actual SameStruct1Interface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit SameStruct1InterfaceServiceAdapter(ISameStruct1Interface& SameStruct1Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit SameStruct1InterfaceServiceAdapter(std::shared_ptr<ISameStruct1Interface> SameStruct1Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~SameStruct1InterfaceServiceAdapter() override;
 
     /**
@@ -82,7 +82,7 @@ private:
     /**
     * The SameStruct1Interface used for object source.
     */
-    ISameStruct1Interface& m_SameStruct1Interface;
+    std::shared_ptr<ISameStruct1Interface> m_SameStruct1Interface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

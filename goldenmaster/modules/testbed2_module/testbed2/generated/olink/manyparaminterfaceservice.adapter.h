@@ -31,7 +31,7 @@ public:
     * @param ManyParamInterface The service source object, the actual ManyParamInterface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit ManyParamInterfaceServiceAdapter(IManyParamInterface& ManyParamInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit ManyParamInterfaceServiceAdapter(std::shared_ptr<IManyParamInterface> ManyParamInterface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~ManyParamInterfaceServiceAdapter() override;
 
     /**
@@ -106,7 +106,7 @@ private:
     /**
     * The ManyParamInterface used for object source.
     */
-    IManyParamInterface& m_ManyParamInterface;
+    std::shared_ptr<IManyParamInterface> m_ManyParamInterface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

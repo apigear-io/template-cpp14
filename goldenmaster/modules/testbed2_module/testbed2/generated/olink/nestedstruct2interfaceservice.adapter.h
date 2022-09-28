@@ -31,7 +31,7 @@ public:
     * @param NestedStruct2Interface The service source object, the actual NestedStruct2Interface object which is exposed for remote clients with olink.
     * @param registry The global registry that keeps track of the object source services associated with network nodes.
     */
-    explicit NestedStruct2InterfaceServiceAdapter(INestedStruct2Interface& NestedStruct2Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
+    explicit NestedStruct2InterfaceServiceAdapter(std::shared_ptr<INestedStruct2Interface> NestedStruct2Interface, ApiGear::ObjectLink::RemoteRegistry& registry);
     virtual ~NestedStruct2InterfaceServiceAdapter() override;
 
     /**
@@ -90,7 +90,7 @@ private:
     /**
     * The NestedStruct2Interface used for object source.
     */
-    INestedStruct2Interface& m_NestedStruct2Interface;
+    std::shared_ptr<INestedStruct2Interface> m_NestedStruct2Interface;
     /**
     * A global registry that keeps track of object sources associated with their network layer nodes.
     */

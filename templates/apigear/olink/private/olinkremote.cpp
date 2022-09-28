@@ -22,7 +22,7 @@ OLinkRemote::OLinkRemote(std::unique_ptr<Poco::Net::WebSocket> socket, IConnecti
     : m_socket(std::move(socket)),
      m_connectionStorage(connectionStorage),
      m_stopConnection(false),
-     m_node(std::make_unique<ApiGear::ObjectLink::RemoteNode>(registry))
+     m_node(ApiGear::ObjectLink::RemoteNode::createRemoteNode(registry))
 {
     m_node->onLog(m_log.logFunc());
     m_node->onWrite([this](std::string msg) {
