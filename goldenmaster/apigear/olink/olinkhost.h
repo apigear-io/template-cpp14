@@ -24,10 +24,7 @@
 
 #pragma once
 
-#include "Poco/Net/HTTPRequestHandler.h"
 #include "Poco/Net/HTTPServer.h"
-#include "Poco/Net/ServerSocket.h"
-#include "Poco/Net/WebSocket.h"
 #include "private/connectionstorage.h"
 
 #include <memory>
@@ -47,31 +44,37 @@
 #endif
 #endif
 
-namespace Poco {
-namespace Net {
-
-class HTTPServerRequest;
-class HTTPServerResponse;
-}} // namespace Poco::Net
-
-
 namespace ApiGear {
 namespace PocoImpl {
 
-class RequestHandlerFactory;
 
+/**
+* Class that hosts a server for olink services.
+* Stores connections requested by clients and provides connection endpoints used by sources to the registry.
+* May hold multiple connections. 
+*/
 class APIGEAR_OLINK_EXPORT OLinkHost
 {
 public:
+    /** ctor
+    * @param registry A global registry to which network endpoints for sources are added.
+    */
     explicit OLinkHost(ApiGear::ObjectLink::RemoteRegistry& registry);
+    /**dtor*/
     virtual ~OLinkHost();
+    /** Starts a server and puts it in a listen state.
+    * @param port A port number on which the server should listen.
+    */
     void listen(int port);
+    /* Close the server and all connections. */
     void close();
-    void onClosed();
 
 private:
+    /** A server used for connections.*/
     std::unique_ptr<Poco::Net::HTTPServer> m_webserver;
+    /** A global registry for sources and network endpoints.*/
     ApiGear::ObjectLink::RemoteRegistry& m_registry;
+    /** Storage for connections.*/
     ConnectionStorage m_connectionStorage;
 };
 

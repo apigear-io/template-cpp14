@@ -52,9 +52,5 @@ void OLinkHost::close()
 {
     m_connectionStorage.closeConnections();
     m_webserver->stop();
-}
-
-void OLinkHost::onClosed()
-{
     std::cout << "wss.closed()\n";
 }
