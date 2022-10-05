@@ -4,6 +4,20 @@
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+include(FetchContent)
+
+find_package(olink_core QUIET)
+if(NOT olink_core_FOUND)
+  # pull objectlink-core-cpp as dependency
+  message(STATUS "objectlink-core-cpp NOT FOUND, fetching the git repository")
+  FetchContent_Declare(olink_core
+      GIT_REPOSITORY https://github.com/apigear-io/objectlink-core-cpp.git
+      GIT_TAG origin/dphan/refactor-server-side
+      GIT_SHALLOW TRUE
+      EXCLUDE_FROM_ALL FALSE
+  )
+  FetchContent_MakeAvailable(olink_core)
+endif()
 
 find_package(apigear QUIET COMPONENTS poco-olink)
 set (SOURCES_OLINK
@@ -23,6 +37,7 @@ target_include_directories({{module_id}}-olink
 target_link_libraries({{module_id}}-olink 
     {{module_id}}::{{module_id}}-core
     apigear::poco-olink
+    olink_core
 )
 
 # ensure maximum compiler support
