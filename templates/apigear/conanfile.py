@@ -38,23 +38,15 @@ class apigearConan(ConanFile):
                        "poco:enable_xml": True,
                        "poco:enable_zip": False
                        }
+    exports_sources = "*"
 
-    
-    def layout(self):
-        # Set root of the project to one level above, to keep proper folder structure
-        self.folders.root = ".."
-        # The source of the project is root/apigear (the folder that .py is)
-        self.folders.source = "apigear"
-        self.folders.build = "build/apigear"
-
-    def export_sources(self):
-        # The sources should be copied with apigear folder, so starting one level above
-        folder = os.path.join(self.recipe_folder, "..")
-        copy(self, "apigear/*", folder, self.export_sources_folder)
+    def configure(self):
+        if self.settings.os == "Windows":
+            self.options["openssl"].shared = True
+            self.options["poco"].shared = False
 
     def build(self):
         cmake = CMake(self)
-        path = os.path.join(self.source_folder, "apigear")
         cmake.configure(source_folder=".")
         cmake.build()
 
