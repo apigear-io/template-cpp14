@@ -1,7 +1,5 @@
-#pragma once
-
-#include "private/connectionstorage.h"
-#include "private/olinkremote.h"
+#include "connectionstorage.h"
+#include "olinkremote.h"
 
 #include "olink/remoteregistry.h"
 

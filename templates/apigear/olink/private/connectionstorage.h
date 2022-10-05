@@ -1,6 +1,6 @@
 #pragma once
 
-#include "private/iconnectionstorage.h"
+#include "iconnectionstorage.h"
 #include <mutex>
 #include <memory>
 #include <vector>
