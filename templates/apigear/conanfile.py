@@ -72,7 +72,7 @@ class apigearConan(ConanFile):
         self.copy("*.so*", dst="lib", src=".", keep_path=False, symlinks=True)
         self.copy("*.a", dst="lib", src=".", keep_path=False)
         # manually copy objectlink-core-cpp include files, to have headers for module/generated/olink instead of linking whole library
-        #self.copy(pattern="*.h", dst="include/olink", src="apigear/_deps/olink-core-src/src", keep_path=True)
+        self.copy(pattern="*.h", dst="include/olink", src="_deps/olink-core-src/src/olink", keep_path=True)
 
     def package_info(self):
         self.env_info.path.append(os.path.join(self.package_folder, "bin"))
