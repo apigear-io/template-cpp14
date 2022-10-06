@@ -11,13 +11,13 @@ find_package(objectlink-core-cpp QUIET)
 if(NOT objectlink-core-cpp_FOUND)
   # pull objectlink-core-cpp as dependency
   message(STATUS "objectlink-core-cpp NOT FOUND, fetching the git repository")
-  FetchContent_Declare(objectlink-core-cpp
+  FetchContent_Declare(olink-core
       GIT_REPOSITORY https://github.com/apigear-io/objectlink-core-cpp.git
       GIT_TAG origin/dphan/refactor-server-side
       GIT_SHALLOW TRUE
       EXCLUDE_FROM_ALL FALSE
   )
-  FetchContent_MakeAvailable(objectlink-core-cpp)
+  FetchContent_MakeAvailable(olink-core)
 endif()
 
 find_package(nlohmann_json QUIET)
@@ -62,7 +62,7 @@ install(TARGETS poco-olink
         EXPORT ApiGearPocoOlinkTargets
         RUNTIME DESTINATION bin           COMPONENT Runtime
         LIBRARY DESTINATION lib           COMPONENT Runtime
-        ARCHIVE DESTINATION lib/apigear   COMPONENT Development)
+        ARCHIVE DESTINATION lib           COMPONENT Development)
 # install includes
 FILE(GLOB APIGEAR_INCLUDES *.h)
 install(FILES ${APIGEAR_INCLUDES}
