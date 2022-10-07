@@ -62,7 +62,7 @@ install(TARGETS poco-olink
         EXPORT ApiGearPocoOlinkTargets
         RUNTIME DESTINATION bin           COMPONENT Runtime
         LIBRARY DESTINATION lib           COMPONENT Runtime
-        ARCHIVE DESTINATION lib   COMPONENT Development)
+        ARCHIVE DESTINATION lib           COMPONENT Development)
 # install includes
 FILE(GLOB APIGEAR_INCLUDES *.h)
 install(FILES ${APIGEAR_INCLUDES}

@@ -1,6 +1,5 @@
 from conans import ConanFile, CMake, tools
 from pathlib import os
-from conan.tools.files import load, copy
 
 class apigearConan(ConanFile):
     name = "apigear"
