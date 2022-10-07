@@ -17,9 +17,9 @@ namespace{
     const std::string defaultGatewayUrl = "ws://localhost:8000/ws";
     const std::string closeFramePayload = "bye";
     const std::string pingFramePayload = "ping";
-    long timerInterval = 5000; //Milliseconds
-    long smallDelay = 10;
-    long tryReconnectDelay = 5000;
+    long retryInterval = 500; //Milliseconds
+    long smallDelay = 10; //Milliseconds
+    long tryReconnectDelay = 500; //Milliseconds
 }
 
 OlinkConnection::OlinkConnection(ApiGear::ObjectLink::ClientRegistry& registry)
@@ -54,16 +54,19 @@ OlinkConnection::~OlinkConnection()
     }
     trySendImmediately(closeFramePayload, Poco::Net::WebSocket::FRAME_OP_CLOSE);
     cleanupConnectionResources();
+    if (m_receivingDone.valid()){
+        m_receivingDone.wait();
+    }
 }
 
-void OlinkConnection::run()
+void OlinkConnection::receiveInLoop()
 {
     onConnected();
-    bool connectionClosed = false;
+    auto serverClosedConnection = false;
     do{
         try {
             auto canSocketRead = m_socket ? m_socket->poll(Poco::Timespan(10000), Poco::Net::WebSocket::SELECT_READ) : false;
-            if (canSocketRead) {
+            if (canSocketRead && !m_disconnectRequested) {
                 // TODO change buffer size
                 char buffer[1024];
                 std::memset(buffer, 0, sizeof buffer);
@@ -79,20 +82,20 @@ void OlinkConnection::run()
                 } else if (frameSize == 0 || frameOpCode == Poco::Net::WebSocket::FRAME_OP_CLOSE)
                 {
                     std::cout << "close connection" << std::endl;
-                    connectionClosed = true;
+                    serverClosedConnection = true;
                 } else {
                     handleTextMessage(buffer);
                 }
             }
         }
         catch(Poco::Exception& e) {
-            connectionClosed = true;
+            serverClosedConnection = true;
             std::cout << "connection closed with exception:"  << e.what() << std::endl;
         }
-    } while (!connectionClosed && !m_disconnectRequested);
-    if (!m_disconnectRequested)
+    } while (!serverClosedConnection && !m_disconnectRequested);
+    if (serverClosedConnection)
     {
-        onDisconnected();
+        cleanupConnectionResources();
     }
 }
 
@@ -133,7 +136,7 @@ void OlinkConnection::connectToHost(Poco::URI url)
             Poco::Net::HTTPResponse response;
 
             m_socket = std::make_unique<Poco::Net::WebSocket>(session, request, response);
-            Poco::ThreadPool::defaultPool().start(*this);
+            m_receivingDone = std::async(std::launch::async, [this](){receiveInLoop(); });
         } catch (std::exception &e) {
             m_socket.reset();
             std::cerr << "Exception " << e.what() << std::endl;
@@ -143,7 +146,7 @@ void OlinkConnection::connectToHost(Poco::URI url)
 
     // schedule retry if connection fails
     m_processMessagesTask = new Poco::Util::TimerTaskAdapter<OlinkConnection>(*this, &OlinkConnection::processMessages);
-    m_retryTimer.schedule(m_processMessagesTask, smallDelay, timerInterval);
+    m_retryTimer.schedule(m_processMessagesTask, smallDelay, retryInterval);
 }
 
 void OlinkConnection::disconnect() {
@@ -152,6 +155,7 @@ void OlinkConnection::disconnect() {
     m_node.unlinkRemoteForAllSinks();
     trySendImmediately(closeFramePayload, Poco::Net::WebSocket::FRAME_OP_CLOSE);
     cleanupConnectionResources();
+    m_receivingDone.wait();
 }
 
 ApiGear::ObjectLink::ClientNode &OlinkConnection::node()
@@ -183,21 +187,11 @@ void OlinkConnection::scheduleProcessMessages()
         m_processMessagesTask->cancel();
     }
     m_processMessagesTask = new Poco::Util::TimerTaskAdapter<OlinkConnection>(*this, &OlinkConnection::processMessages);
-    m_retryTimer.schedule(m_processMessagesTask, smallDelay, timerInterval);
+    m_retryTimer.schedule(m_processMessagesTask, smallDelay, retryInterval);
 }
 
 void OlinkConnection::processMessages(Poco::Util::TimerTask& /*task*/)
 {
-    if (!m_socket && !m_disconnectRequested) {
-        if (m_processMessagesTask){
-            m_processMessagesTask->cancel();
-        }
-        connectToHost(m_serverUrl);
-        m_processMessagesTask = new Poco::Util::TimerTaskAdapter<OlinkConnection>(*this, &OlinkConnection::processMessages);
-        m_retryTimer.schedule(m_processMessagesTask, tryReconnectDelay, timerInterval);
-        return;
-    }
-    
     trySendImmediately(pingFramePayload, Poco::Net::WebSocket::FRAME_OP_PING);
     m_queueMutex.lock(100);
     while(!m_queue.empty()) {
@@ -207,11 +201,20 @@ void OlinkConnection::processMessages(Poco::Util::TimerTask& /*task*/)
         auto messageSent = trySendImmediately(message, Poco::Net::WebSocket::FRAME_TEXT);
         if (messageSent){
             m_queue.pop();
-        } else if (!m_disconnectRequested){
-            return;
+        } else {
+            break;
         }
     }
     m_queueMutex.unlock();
+    if (!m_socket && !m_disconnectRequested) {
+        if (m_processMessagesTask){
+            m_processMessagesTask->cancel();
+        }
+        connectToHost(m_serverUrl);
+        m_processMessagesTask = new Poco::Util::TimerTaskAdapter<OlinkConnection>(*this, &OlinkConnection::processMessages);
+        m_retryTimer.schedule(m_processMessagesTask, tryReconnectDelay, retryInterval);
+        return;
+    }
     if (m_disconnectRequested)
     {
         trySendImmediately(closeFramePayload, Poco::Net::WebSocket::FRAME_OP_CLOSE);
@@ -236,7 +239,6 @@ bool OlinkConnection::trySendImmediately(std::string message, int frameOpCode)
 
 void OlinkConnection::cleanupConnectionResources()
 {
-    Poco::ThreadPool::defaultPool().joinAll();
     m_socket.reset();
     std::clog << " socket disconnected" << std::endl;
 }

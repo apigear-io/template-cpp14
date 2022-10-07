@@ -29,6 +29,7 @@
 #include <queue>
 #include <set>
 #include <memory>
+#include <future>
 
 namespace ApiGear {
 
@@ -45,8 +46,7 @@ namespace PocoImpl {
 * It handles linking and unlinking with remote service for the sink with regard to the connection state.
 * Implements a message queue.
 */
-class APIGEAR_OLINK_EXPORT OlinkConnection: public Poco::Runnable,
-                                            public ApiGear::PocoImpl::IOlinkConnector
+class APIGEAR_OLINK_EXPORT OlinkConnection: public ApiGear::PocoImpl::IOlinkConnector
 {
 protected:
     /**
@@ -82,16 +82,16 @@ public:
     */
     ApiGear::ObjectLink::ClientNode& node();
 
-    /** Poco::Runnable:run implementation
-    * implements handling incoming messages in a thread.
-    */
-    void run() override;
     /** IOlinkConnector::connectAndLinkObject implementation*/
     void connectAndLinkObject(ApiGear::ObjectLink::IObjectSink& object) override;
     /** IOlinkConnector::disconnectAndUnlink implementation*/
     void disconnectAndUnlink(const std::string& objectId)  override;
 
 private:
+    /** 
+    * Implements handling incoming messages in a loop.
+    */
+    void receiveInLoop();
     /** Sends all the waiting messages when the connection is up. */
     void onConnected();
     /** Handle disconnect sent from server side.
@@ -135,5 +135,7 @@ private:
     Poco::Mutex m_queueMutex;
     /** Flag handled between the threads with information that the connection should be closed. */
     std::atomic<bool> m_disconnectRequested;
+    /** Result of receiveInLoop. Used to wait for end of its work after m_stopConnection is set to true*/
+    std::future<void> m_receivingDone;
 };
 }} // namespace ApiGear::PocoImpl
