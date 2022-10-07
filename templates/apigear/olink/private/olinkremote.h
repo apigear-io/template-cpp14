@@ -97,8 +97,5 @@ private:
     ApiGear::ObjectLink::RemoteRegistry& m_registry;
     /** Logger*/
     ApiGear::ObjectLink::ConsoleLogger m_log;
-
-
-
 };
 }}   //namespace ApiGear::PocoImpl

@@ -50,14 +50,13 @@ void OLinkRemote::close(){
 void OLinkRemote::writeMessage(const std::string msg, int frameOpcode)
 {
     std::unique_lock<std::timed_mutex> lock(m_socektMutex, std::defer_lock);
-    if (!lock.try_lock_for(std::chrono::milliseconds(100)))
-    {
-        std::cout << "socket busy, dropping message  " << msg << std::endl;
-        return;
-    }
-
     std::cout << "writing " << msg << std::endl;
+
     if (m_socket ){
+        if (!lock.try_lock_for(std::chrono::milliseconds(100))){
+            std::cout << "Socket busy, dropping message  " << msg << std::endl;
+            return;
+        }
         try {
             m_socket->sendFrame(msg.c_str(), static_cast<int>(msg.size()), frameOpcode);
         }
@@ -93,15 +92,17 @@ void OLinkRemote::receiveInLoop(){
                 if (lock.try_lock_for(std::chrono::milliseconds(100))) {
                 
                     auto receivedSize = m_socket->receiveFrame(buffer, sizeof(buffer), flags);
-                    lock.unlock();
-                
+                    
                     auto frameOpcode = flags & Poco::Net::WebSocket::FRAME_OP_BITMASK;
                     if (frameOpcode == Poco::Net::WebSocket::FRAME_OP_PING) {
                          m_socket->sendFrame(buffer, receivedSize, Poco::Net::WebSocket::FRAME_OP_PONG);
-                    } else if (frameOpcode == Poco::Net::WebSocket::FRAME_OP_PONG){
+                         lock.unlock();
+                         continue;
+                    }
+                    lock.unlock();
+                    if (frameOpcode == Poco::Net::WebSocket::FRAME_OP_PONG){
                          // handle pong
                     } else if (receivedSize == 0 || frameOpcode == Poco::Net::WebSocket::FRAME_OP_CLOSE){
-                        std::cout << "close connection" << std::endl;
                         clientClosedConnection = true;
                     } else {
                         handleMessage(buffer);
@@ -127,12 +128,12 @@ bool OLinkRemote::isClosed() const
 
 void OLinkRemote::closeSocket()
 {
+    removeNodeFromRegistryIfNotUnlikend();
     std::unique_lock<std::timed_mutex> lock(m_socektMutex, std::defer_lock);
     if (!lock.try_lock_for(std::chrono::milliseconds(100))) {
-        std::cout << "closing socket, some messages may be dropped" << std::endl;
+        std::cout << "Closing socket, some messages may be dropped" << std::endl;
     }
     m_socket.reset();
-    removeNodeFromRegistryIfNotUnlikend();
     lock.unlock();
 }
 

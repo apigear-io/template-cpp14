@@ -145,7 +145,7 @@ namespace {
 
             clientSocket1.sendFrame(preparedLinkMessage.c_str(), static_cast<int>(preparedLinkMessage.size()));
 
-            Poco::Thread::sleep(150);
+            Poco::Thread::sleep(50);
             auto nodes = registry.getNodes(objectId);
             REQUIRE(nodes.size() == 1);
             REQUIRE(nodes[0].expired() == false);
@@ -260,7 +260,7 @@ namespace {
             // START TEST
             clientSocket1.sendFrame(any_payload.c_str(), static_cast<int>(any_payload.size()), Poco::Net::WebSocket::FRAME_OP_CLOSE);
             // Send close Frame
-            Poco::Thread::sleep(100);
+            Poco::Thread::sleep(50);
             nodes = registry.getNodes(objectId);
             // Node 2 still works for source
             REQUIRE(nodes.size() == 1);
@@ -268,6 +268,62 @@ namespace {
             REQUIRE(!node2.expired());
             bool nodeDidNotChanged = node2.lock() == nodeA.lock() || node2.lock() == nodeB.lock();
             REQUIRE(nodeDidNotChanged);
+            // client 2 receives close frame
+            testHost.close();
+            {
+                auto closeFrame = receiveFrame(clientSocket2);
+                REQUIRE(closeFrame.flags == Poco::Net::WebSocket::FRAME_OP_CLOSE);
+            }
+        }
+
+        SECTION("Connection receives close frame from one client, and then client is up again")
+        {
+            testHost.listen(portNumber);
+
+            Poco::Net::HTTPClientSession clientSession1(localHostAddress, portNumber);
+            Poco::Net::WebSocket clientSocket1(clientSession1, request, response);
+
+            auto preparedLinkMessage = converter.toString(ApiGear::ObjectLink::Protocol::linkMessage(objectId));
+            REQUIRE_CALL(*source1, olinkLinked(objectId, ANY(ApiGear::ObjectLink::IRemoteNode*)));
+            REQUIRE_CALL(*source1, olinkCollectProperties()).RETURN(initProperties1);
+            clientSocket1.sendFrame(preparedLinkMessage.c_str(), static_cast<int>(preparedLinkMessage.size()));
+
+            Poco::Thread::sleep(50);
+            auto nodes = registry.getNodes(objectId);
+            REQUIRE(nodes.size() == 1);
+            REQUIRE(!nodes[0].expired());
+
+            // Check that server sent init message
+            auto expectedInitMessage1 = converter.toString(ApiGear::ObjectLink::Protocol::initMessage(objectId, initProperties1));
+            {
+                auto receivedInit = receiveFrame(clientSocket1);
+                REQUIRE(receivedInit.payload == expectedInitMessage1);
+                REQUIRE(receivedInit.flags == Poco::Net::WebSocket::FRAME_TEXT);
+            }
+
+            // START TEST
+            clientSocket1.sendFrame(any_payload.c_str(), static_cast<int>(any_payload.size()), Poco::Net::WebSocket::FRAME_OP_CLOSE);
+
+            // Send close Frame
+            Poco::Thread::sleep(50);
+            nodes = registry.getNodes(objectId);
+            REQUIRE(nodes.size() == 0);
+
+            // Wait after close with opening a new connection
+            Poco::Thread::sleep(50);
+            //Poco::Net::HTTPClientSession clientSession2(localHostAddress, portNumber);
+            Poco::Net::WebSocket clientSocket2(clientSession1, request, response);
+            REQUIRE_CALL(*source1, olinkLinked(objectId, ANY(ApiGear::ObjectLink::IRemoteNode*)));
+            REQUIRE_CALL(*source1, olinkCollectProperties()).RETURN(initProperties1);
+            clientSocket2.sendFrame(preparedLinkMessage.c_str(), static_cast<int>(preparedLinkMessage.size()));
+
+            Poco::Thread::sleep(50);
+            nodes = registry.getNodes(objectId);
+            REQUIRE(nodes.size() == 1);
+            REQUIRE(!nodes[0].expired());
+
+            // Check that server sent init message
+            REQUIRE(receiveFrame(clientSocket2).payload == expectedInitMessage1);
             // client 2 receives close frame
             testHost.close();
             {
