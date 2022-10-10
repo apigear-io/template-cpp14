@@ -169,8 +169,7 @@ Once the build was successful you can easily launch one of the examples applicat
 
         ```
         $ ./build/examples/olinkserver/OLinkServer.exe
-        [info   ] RemoteRegistry.addSinkSource: modulename.Interfacename
-        [info   ] RemoteRegistry.entry: new entry modulename.Interfacename
+        [info   ] RemoteRegistry.addObjectSource: modulename.Interfacename
         wss.listen() on 8000
         Enter command:
         ```
@@ -185,8 +184,7 @@ Once the build was successful you can easily launch one of the examples applicat
 
         ```
         >build\examples\olinkserver\Debug\OLinkServer.exe
-        [info   ] RemoteRegistry.addSinkSource: modulename.Interfacename
-        [info   ] RemoteRegistry.entry: new entry modulename.Interfacename
+        [info   ] RemoteRegistry.addObjectSource: modulename.Interfacename
         wss.listen() on 8000
         Enter command:
         ```

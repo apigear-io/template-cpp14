@@ -144,7 +144,7 @@ participant POCO_HTTPServer
 
 User ->> OlinkHost : create
 User ->>ObjectSource : create
-ObjectSource ->> RemoteRegistry : AddObjectSource(this)
+ObjectSource ->> RemoteRegistry : AddSource(this)
 User ->> OlinkHost: listen
 OlinkHost ->> POCO_HTTPServer: create("move" RequestHandlerFactory)
 network ->> POCO_HTTPServer : connection request
