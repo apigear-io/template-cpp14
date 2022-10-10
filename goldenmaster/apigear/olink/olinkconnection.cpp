@@ -24,15 +24,19 @@ namespace{
 
 OlinkConnection::OlinkConnection(ApiGear::ObjectLink::ClientRegistry& registry)
     : m_node(registry),
+    m_isConnecting(false),
     m_disconnectRequested(false)
 {
     auto writeFunction = [this](const auto& msg) {
         if(m_disconnectRequested){
             trySendImmediately(msg, Poco::Net::WebSocket::FRAME_TEXT);
         } else {
-            m_queueMutex.lock(100);
-            m_queue.push(msg);
-            m_queueMutex.unlock();
+            std::unique_lock<std::timed_mutex> lock(m_queueMutex, std::defer_lock);
+            if (lock.try_lock_for(std::chrono::milliseconds(100)))
+            {
+                m_queue.push(msg);
+                lock.unlock();
+            }
             scheduleProcessMessages();
         }
     };
@@ -70,21 +74,27 @@ void OlinkConnection::receiveInLoop()
                 // TODO change buffer size
                 char buffer[1024];
                 std::memset(buffer, 0, sizeof buffer);
-
                 int flags;
-                auto frameSize = m_socket->receiveFrame(buffer, sizeof(buffer), flags);
-                auto frameOpCode = flags & Poco::Net::WebSocket::FRAME_OP_BITMASK;
 
-                if (m_socket && frameOpCode == Poco::Net::WebSocket::FRAME_OP_PING){
-                    m_socket->sendFrame(buffer, frameSize, Poco::Net::WebSocket::FRAME_OP_PONG);
-                } else if (m_socket && frameOpCode == Poco::Net::WebSocket::FRAME_OP_PONG) {
-                    // handle pong
-                } else if (frameSize == 0 || frameOpCode == Poco::Net::WebSocket::FRAME_OP_CLOSE)
-                {
-                    std::cout << "close connection" << std::endl;
-                    serverClosedConnection = true;
-                } else {
-                    handleTextMessage(buffer);
+                std::unique_lock<std::timed_mutex> lock(m_socketMutex, std::defer_lock);
+                if (m_socket && lock.try_lock_for(std::chrono::milliseconds(100))) {
+
+                    auto frameSize = m_socket->receiveFrame(buffer, sizeof(buffer), flags);
+                    auto frameOpCode = flags & Poco::Net::WebSocket::FRAME_OP_BITMASK;
+
+                    if (frameOpCode == Poco::Net::WebSocket::FRAME_OP_PING){
+                        m_socket->sendFrame(buffer, frameSize, Poco::Net::WebSocket::FRAME_OP_PONG);
+                    } else if (frameOpCode == Poco::Net::WebSocket::FRAME_OP_PONG) {
+                        // handle pong
+                    } 
+                    lock.unlock();
+                    if (frameSize == 0 || frameOpCode == Poco::Net::WebSocket::FRAME_OP_CLOSE)
+                    {
+                        std::cout << "close connection" << std::endl;
+                        serverClosedConnection = true;
+                    } else {
+                        handleTextMessage(buffer);
+                    }
                 }
             }
         }
@@ -117,18 +127,17 @@ void OlinkConnection::disconnectAndUnlink(const std::string& objectId)
 void OlinkConnection::connectToHost(Poco::URI url)
 {
     m_disconnectRequested = false;
-    static bool connecting = false;
     if(url.empty()) {
         m_serverUrl = Poco::URI(defaultGatewayUrl);
         std::clog << "No host url provided" << std::endl;
     } else {
         m_serverUrl = url;
     }
-    std::clog << "Connecting to host " << url.toString() << std::endl;
     
-    if(!m_socket && !connecting) {
+    if(!m_socket && !m_isConnecting) {
+        std::clog << "Connecting to host " << url.toString() << std::endl;
         try {
-            connecting = true;
+            m_isConnecting = true;
             Poco::Net::HTTPClientSession session(m_serverUrl.getHost(), m_serverUrl.getPort());
             Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, "/ws", Poco::Net::HTTPMessage::HTTP_1_1);
             request.setKeepAlive(true);
@@ -141,7 +150,7 @@ void OlinkConnection::connectToHost(Poco::URI url)
             m_socket.reset();
             std::cerr << "Exception " << e.what() << std::endl;
         }
-        connecting = false;
+        m_isConnecting = false;
     }
 
     // schedule retry if connection fails
@@ -193,19 +202,25 @@ void OlinkConnection::scheduleProcessMessages()
 void OlinkConnection::processMessages(Poco::Util::TimerTask& /*task*/)
 {
     trySendImmediately(pingFramePayload, Poco::Net::WebSocket::FRAME_OP_PING);
-    m_queueMutex.lock(100);
-    while(!m_queue.empty()) {
-        auto message = m_queue.front();
-        std::clog << "write message to socket " << message << std::endl;
-        // if we are using JSON we need to use txt message otherwise binary messages
-        auto messageSent = trySendImmediately(message, Poco::Net::WebSocket::FRAME_TEXT);
-        if (messageSent){
-            m_queue.pop();
-        } else {
-            break;
+    // DOROTA TO DO - rewrite so only one lock is locked at the time
+    std::unique_lock<std::timed_mutex> lock(m_queueMutex, std::defer_lock);
+    if (!lock.try_lock_for(std::chrono::milliseconds(100)))
+    {
+        while(!m_queue.empty()) {
+            auto message = m_queue.front();
+            std::clog << "write message to socket " << message << std::endl;
+            // if we are using JSON we need to use txt message otherwise binary messages
+            // locks the socket mutex. Better to be outside locking queue mutex.
+            auto messageSent = trySendImmediately(message, Poco::Net::WebSocket::FRAME_TEXT);
+            if (messageSent){
+                m_queue.pop();
+            } else {
+                break;
+            }
         }
-    }
-    m_queueMutex.unlock();
+        }
+    lock.unlock();
+
     if (!m_socket && !m_disconnectRequested) {
         if (m_processMessagesTask){
             m_processMessagesTask->cancel();
@@ -226,8 +241,11 @@ bool OlinkConnection::trySendImmediately(std::string message, int frameOpCode)
 {
     bool succeed = false;
     try {
-        if (m_socket) {
+        std::unique_lock<std::timed_mutex> lock(m_socketMutex, std::defer_lock);
+        if (m_socket && lock.try_lock_for(std::chrono::milliseconds(100))) {
+
             m_socket->sendFrame(message.c_str(), static_cast<int>(message.size()), frameOpCode);
+            lock.unlock();
             succeed = true;
         }
     }
@@ -239,6 +257,9 @@ bool OlinkConnection::trySendImmediately(std::string message, int frameOpCode)
 
 void OlinkConnection::cleanupConnectionResources()
 {
+    // Give time other threads if they are finishing some actions with socket
+    std::unique_lock<std::timed_mutex> lock(m_socketMutex, std::defer_lock);
+    if (m_socket && lock.try_lock_for(std::chrono::milliseconds(100))){}
     m_socket.reset();
     std::clog << " socket disconnected" << std::endl;
 }

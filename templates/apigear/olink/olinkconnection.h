@@ -125,6 +125,10 @@ private:
     Poco::URI m_serverUrl;
     /** The websocket used for connection.*/
     std::unique_ptr<Poco::Net::WebSocket> m_socket;
+    /** A mutex for the socket */
+    std::timed_mutex m_socketMutex;
+    /** Flag to protect against opening a connection from many threads at the same time*/
+    std::atomic<bool> m_isConnecting;
     /** The timer used for to process messages. */
     Poco::Util::Timer m_retryTimer;
     /** Poco Task that handles processing messages */
@@ -132,10 +136,10 @@ private:
     /** Messages queue, store messages to send also before the connection is set. */
     std::queue<std::string> m_queue;
     /** A mutex for the message queue */
-    Poco::Mutex m_queueMutex;
+    std::timed_mutex m_queueMutex;
     /** Flag handled between the threads with information that the connection should be closed. */
     std::atomic<bool> m_disconnectRequested;
-    /** Result of receiveInLoop. Used to wait for end of its work after m_stopConnection is set to true*/
+    /** Result of receiveInLoop. Used to wait for end of its work after m_disconnectRequested is set to true*/
     std::future<void> m_receivingDone;
 };
 }} // namespace ApiGear::PocoImpl
