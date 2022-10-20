@@ -43,7 +43,7 @@ private:
 	/** Collection of server connections*/
 	std::vector<std::shared_ptr<OLinkRemote>> m_connectionNodes;
 	/** Mutex for connection storage*/
-	std::timed_mutex m_connectionsMutex;
+	std::mutex m_connectionsMutex;
 };
 
 }}   //namespace ApiGear::PocoImpl
