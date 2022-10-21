@@ -2,11 +2,13 @@
 #include "olinkremote.h"
 
 #include "olink/remoteregistry.h"
-
+#include <Poco/Util/TimerTaskAdapter.h>
 #include <chrono>
 #include <memory>
 #include <vector>
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 namespace ApiGear {
 namespace PocoImpl {
@@ -18,22 +20,17 @@ ConnectionStorage::ConnectionStorage(ApiGear::ObjectLink::RemoteRegistry& regist
 
 void ConnectionStorage::notifyConnectionClosed()
 {
-	std::vector<std::shared_ptr<OLinkRemote>> connectionNodesToRemove;
-	std::unique_lock<std::mutex> lock(m_connectionsMutex);
-	// Move closed connections to separate storage to first unlock the m_conectionNodes, and then
-	// destroy items, which destructor may take some time to clean up connection and wait for tasks to be done.
-	for (auto connection : m_connectionNodes)
-	{
-		if (connection->isClosed())
-		{
-			connectionNodesToRemove.push_back(connection);
-		}
+	Poco::Util::TimerTask::Ptr m_removeConnectionTask;
+	std::unique_lock<std::mutex> lock(m_taskMutex);
+	if (m_removeConnectionTask){
+		m_removeConnectionTask->cancel();
 	}
-	auto closedBegin = std::remove_if(m_connectionNodes.begin(),
-											m_connectionNodes.end(),
-											[](const auto& element){return element->isClosed(); });
-	m_connectionNodes.erase(closedBegin, m_connectionNodes.end());
+	m_removeConnectionTask = new Poco::Util::TimerTaskAdapter<ConnectionStorage>(*this, &ConnectionStorage::removeClosedConnection);
 	lock.unlock();
+	// Schedule removing connection, so it is executed outside this call.
+	long startTaskDelayMilliseconds = 1;
+	long repeatTaskDelayMilliseconds = 10000;
+	m_removeConnectionTimer.schedule(m_removeConnectionTask, startTaskDelayMilliseconds, repeatTaskDelayMilliseconds);
 }
 
 void ConnectionStorage::addConnection(std::unique_ptr<Poco::Net::WebSocket> connectionSocket)
@@ -46,10 +43,24 @@ void ConnectionStorage::addConnection(std::unique_ptr<Poco::Net::WebSocket> conn
 
 void ConnectionStorage::closeConnections()
 {
-	std::unique_lock<std::mutex> lock(m_connectionsMutex);
+	std::unique_lock<std::mutex> taskLock(m_taskMutex);
+	if (m_removeConnectionTask){
+		m_removeConnectionTask->cancel();
+	}
+	taskLock.unlock();
+	std::unique_lock<std::mutex> connectionLock(m_connectionsMutex);
 	m_connectionNodes.clear();
-
 }
 
+void ConnectionStorage::removeClosedConnection(Poco::Util::TimerTask& /*task*/)
+{
+	std::vector<std::shared_ptr<OLinkRemote>> connectionNodesToRemove;
+	std::unique_lock<std::mutex> lock(m_connectionsMutex);
+	auto closedBegin = std::remove_if(m_connectionNodes.begin(),
+		m_connectionNodes.end(),
+		[](const auto& element){return element->isClosed(); });
+	m_connectionNodes.erase(closedBegin, m_connectionNodes.end());
+	lock.unlock();
+}
 
 }}   //namespace ApiGear::PocoImpl
