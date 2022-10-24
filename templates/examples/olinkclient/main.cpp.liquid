@@ -19,8 +19,8 @@ int main(){
     ApiGear::ObjectLink::ClientRegistry registry;
     ApiGear::ObjectLink::ConsoleLogger logger;
     registry.onLog(logger.logFunc());
-    ApiGear::PocoImpl::OlinkConnection clientManager(registry);
-    clientManager.node()->onLog(logger.logFunc());
+    ApiGear::PocoImpl::OlinkConnection clientNetworkEndpoint(registry);
+    clientNetworkEndpoint.node()->onLog(logger.logFunc());
     {% for module in system.modules %}
     {% for interface in module.interfaces %}
     {% assign class = interface.name | capital %}
@@ -28,12 +28,12 @@ int main(){
     {% assign tracer_class = class | append: "TraceDecorator" %}
     {% assign tracer_className = module.name | capital | lowerFirst | append: class | append: "Traced" %}
     auto {{clientClassName}} = std::make_shared<{{ module.name | capital }}::olink::{{interface.name}}Client>();
-    clientManager.connectAndLinkObject({{clientClassName}});
+    clientNetworkEndpoint.connectAndLinkObject({{clientClassName}});
     std::unique_ptr<{{ module.name | capital }}::I{{class}}> {{tracer_className}} = {{ module.name | capital }}::{{tracer_class}}::connect(*{{clientClassName}}, tracer);
     {% endfor %}
     {% endfor %}
     
-    clientManager.connectToHost(Poco::URI("ws://localhost:8000"));
+    clientNetworkEndpoint.connectToHost(Poco::URI("ws://localhost:8000"));
 
     bool keepRunning = true;
     std::string cmd;
@@ -43,14 +43,14 @@ int main(){
 
         if(cmd == "quit"){
             keepRunning = false;
-            clientManager.disconnect();
+            clientNetworkEndpoint.disconnect();
         }
     } while(keepRunning);
     {% for module in system.modules %}
     {% for interface in module.interfaces %}
     {% assign class = interface.name | capital %}
     {% assign clientClassName = module.name | capital | lowerFirst | append: class %}
-    clientManager.disconnectAndUnlink({{clientClassName}}->olinkObjectName());
+    clientNetworkEndpoint.disconnectAndUnlink({{clientClassName}}->olinkObjectName());
     {% endfor %}
     {% endfor %}
 
