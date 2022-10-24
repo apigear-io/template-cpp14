@@ -27,7 +27,8 @@ void ConnectionStorage::notifyConnectionClosed()
 	}
 	m_removeConnectionTask = new Poco::Util::TimerTaskAdapter<ConnectionStorage>(*this, &ConnectionStorage::removeClosedConnection);
 	lock.unlock();
-	// Schedule removing connection, so it is executed outside this call.
+	// This function is called by connection itself, therfore to allow it to finish its function, and to be removed properly
+	// The  removing the connection is scheduled in 1ms, so it is executed outside this call.
 	long startTaskDelayMilliseconds = 1;
 	long repeatTaskDelayMilliseconds = 10000;
 	m_removeConnectionTimer.schedule(m_removeConnectionTask, startTaskDelayMilliseconds, repeatTaskDelayMilliseconds);
