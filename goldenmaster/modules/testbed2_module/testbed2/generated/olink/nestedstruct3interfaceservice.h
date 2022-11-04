@@ -76,11 +76,11 @@ public:
     /**
     * Forwards emitted sig2 through network if the connection is established.
     */
-    void onSig2(const NestedStruct1& param1,const NestedStruct2& param2) override;
+    void onSig2(const NestedStruct1& param1, const NestedStruct2& param2) override;
     /**
     * Forwards emitted sig3 through network if the connection is established.
     */
-    void onSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3) override;
+    void onSig3(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3) override;
     /**
     * Forwards prop1 change through network if the connection is established.
     */

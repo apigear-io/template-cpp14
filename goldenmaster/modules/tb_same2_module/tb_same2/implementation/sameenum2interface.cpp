@@ -71,7 +71,7 @@ std::future<Enum1Enum> SameEnum2Interface::func2Async(const Enum1Enum& param1, c
                     param1,
                     param2]()
         {
-            return func2(param1,param2);
+            return func2(param1, param2);
         }
     );
 }

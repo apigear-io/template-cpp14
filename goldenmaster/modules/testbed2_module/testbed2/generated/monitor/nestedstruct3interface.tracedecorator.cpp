@@ -31,23 +31,23 @@ std::future<NestedStruct1> NestedStruct3InterfaceTraceDecorator::func1Async(cons
 }
 NestedStruct1 NestedStruct3InterfaceTraceDecorator::func2(const NestedStruct1& param1, const NestedStruct2& param2)
 {
-    m_tracer->trace_func2(param1,param2);
-    return m_impl.func2(param1,param2);
+    m_tracer->trace_func2(param1, param2);
+    return m_impl.func2(param1, param2);
 }
 std::future<NestedStruct1> NestedStruct3InterfaceTraceDecorator::func2Async(const NestedStruct1& param1, const NestedStruct2& param2)
 {
-    m_tracer->trace_func2(param1,param2);
-    return m_impl.func2Async(param1,param2);
+    m_tracer->trace_func2(param1, param2);
+    return m_impl.func2Async(param1, param2);
 }
 NestedStruct1 NestedStruct3InterfaceTraceDecorator::func3(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3)
 {
-    m_tracer->trace_func3(param1,param2,param3);
-    return m_impl.func3(param1,param2,param3);
+    m_tracer->trace_func3(param1, param2, param3);
+    return m_impl.func3(param1, param2, param3);
 }
 std::future<NestedStruct1> NestedStruct3InterfaceTraceDecorator::func3Async(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3)
 {
-    m_tracer->trace_func3(param1,param2,param3);
-    return m_impl.func3Async(param1,param2,param3);
+    m_tracer->trace_func3(param1, param2, param3);
+    return m_impl.func3Async(param1, param2, param3);
 }
 void NestedStruct3InterfaceTraceDecorator::setProp1(const NestedStruct1& prop1)
 {
@@ -81,14 +81,14 @@ void NestedStruct3InterfaceTraceDecorator::onSig1(const NestedStruct1& param1)
     m_tracer->trace_sig1(param1);
 }
 
-void NestedStruct3InterfaceTraceDecorator::onSig2(const NestedStruct1& param1,const NestedStruct2& param2)
+void NestedStruct3InterfaceTraceDecorator::onSig2(const NestedStruct1& param1, const NestedStruct2& param2)
 {
-    m_tracer->trace_sig2(param1,param2);
+    m_tracer->trace_sig2(param1, param2);
 }
 
-void NestedStruct3InterfaceTraceDecorator::onSig3(const NestedStruct1& param1,const NestedStruct2& param2,const NestedStruct3& param3)
+void NestedStruct3InterfaceTraceDecorator::onSig3(const NestedStruct1& param1, const NestedStruct2& param2, const NestedStruct3& param3)
 {
-    m_tracer->trace_sig3(param1,param2,param3);
+    m_tracer->trace_sig3(param1, param2, param3);
 }
 
 void NestedStruct3InterfaceTraceDecorator::onProp1Changed(const NestedStruct1& /*prop1*/)

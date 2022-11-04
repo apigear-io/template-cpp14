@@ -61,7 +61,7 @@ public:
     /**
     Traces sig2 emission.
     */
-    void onSig2(const Enum1Enum& param1,const Enum2Enum& param2) override;
+    void onSig2(const Enum1Enum& param1, const Enum2Enum& param2) override;
     /**
     Traces prop1 changed.
     */

@@ -90,7 +90,7 @@ void SameEnum2InterfaceService::onSig1(const Enum1Enum& param1)
         }
     }
 }
-void SameEnum2InterfaceService::onSig2(const Enum1Enum& param1,const Enum2Enum& param2)
+void SameEnum2InterfaceService::onSig2(const Enum1Enum& param1, const Enum2Enum& param2)
 {
     const nlohmann::json args = { param1, param2 };
     const auto& signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");

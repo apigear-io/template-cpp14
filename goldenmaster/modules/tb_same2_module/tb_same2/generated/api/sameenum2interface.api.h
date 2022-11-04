@@ -95,7 +95,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void onSig2(const Enum1Enum& param1,const Enum2Enum& param2) = 0;
+    virtual void onSig2(const Enum1Enum& param1, const Enum2Enum& param2) = 0;
     /**
     * Called by the ISameEnum2InterfacePublisher when prop1 value has changed if subscribed for the prop1 change.
     *
@@ -117,7 +117,7 @@ using SameEnum2InterfaceProp2PropertyCb = std::function<void(const Enum2Enum& pr
 /** Callback for sig1 signal triggers */
 using SameEnum2InterfaceSig1SignalCb = std::function<void(const Enum1Enum& param1)> ;
 /** Callback for sig2 signal triggers */
-using SameEnum2InterfaceSig2SignalCb = std::function<void(const Enum1Enum& param1,const Enum2Enum& param2)> ;
+using SameEnum2InterfaceSig2SignalCb = std::function<void(const Enum1Enum& param1, const Enum2Enum& param2)> ;
 
 
 /**
@@ -241,7 +241,7 @@ public:
     * @param param1 
     * @param param2 
     */
-    virtual void publishSig2(const Enum1Enum& param1,const Enum2Enum& param2) const = 0;
+    virtual void publishSig2(const Enum1Enum& param1, const Enum2Enum& param2) const = 0;
 };
 
 

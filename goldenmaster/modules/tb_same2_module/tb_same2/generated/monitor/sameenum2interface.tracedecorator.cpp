@@ -31,13 +31,13 @@ std::future<Enum1Enum> SameEnum2InterfaceTraceDecorator::func1Async(const Enum1E
 }
 Enum1Enum SameEnum2InterfaceTraceDecorator::func2(const Enum1Enum& param1, const Enum2Enum& param2)
 {
-    m_tracer->trace_func2(param1,param2);
-    return m_impl.func2(param1,param2);
+    m_tracer->trace_func2(param1, param2);
+    return m_impl.func2(param1, param2);
 }
 std::future<Enum1Enum> SameEnum2InterfaceTraceDecorator::func2Async(const Enum1Enum& param1, const Enum2Enum& param2)
 {
-    m_tracer->trace_func2(param1,param2);
-    return m_impl.func2Async(param1,param2);
+    m_tracer->trace_func2(param1, param2);
+    return m_impl.func2Async(param1, param2);
 }
 void SameEnum2InterfaceTraceDecorator::setProp1(const Enum1Enum& prop1)
 {
@@ -62,9 +62,9 @@ void SameEnum2InterfaceTraceDecorator::onSig1(const Enum1Enum& param1)
     m_tracer->trace_sig1(param1);
 }
 
-void SameEnum2InterfaceTraceDecorator::onSig2(const Enum1Enum& param1,const Enum2Enum& param2)
+void SameEnum2InterfaceTraceDecorator::onSig2(const Enum1Enum& param1, const Enum2Enum& param2)
 {
-    m_tracer->trace_sig2(param1,param2);
+    m_tracer->trace_sig2(param1, param2);
 }
 
 void SameEnum2InterfaceTraceDecorator::onProp1Changed(const Enum1Enum& /*prop1*/)

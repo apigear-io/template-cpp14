@@ -79,7 +79,7 @@ public:
     /**
     * Implementation of ISameEnum2InterfacePublisher::publishSig2
     */
-    void publishSig2(const Enum1Enum& param1,const Enum2Enum& param2) const override;
+    void publishSig2(const Enum1Enum& param1, const Enum2Enum& param2) const override;
 private:
     // Subscribers informed about any property change or singal emited in SameEnum2Interface
     std::vector<std::reference_wrapper<ISameEnum2InterfaceSubscriber>> m_allChangesSubscribers;

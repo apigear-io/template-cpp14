@@ -76,15 +76,15 @@ public:
     /**
     * Forwards emitted sig2 through network if the connection is established.
     */
-    void onSig2(int param1,int param2) override;
+    void onSig2(int param1, int param2) override;
     /**
     * Forwards emitted sig3 through network if the connection is established.
     */
-    void onSig3(int param1,int param2,int param3) override;
+    void onSig3(int param1, int param2, int param3) override;
     /**
     * Forwards emitted sig4 through network if the connection is established.
     */
-    void onSig4(int param1,int param2,int param3,int param4) override;
+    void onSig4(int param1, int param2, int param3, int param4) override;
     /**
     * Forwards prop1 change through network if the connection is established.
     */
