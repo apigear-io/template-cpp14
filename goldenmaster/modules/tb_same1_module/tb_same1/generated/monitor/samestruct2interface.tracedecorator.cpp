@@ -67,13 +67,15 @@ void SameStruct2InterfaceTraceDecorator::onSig2(const Struct1& param1, const Str
     m_tracer->trace_sig2(param1, param2);
 }
 
-void SameStruct2InterfaceTraceDecorator::onProp1Changed(const Struct2& /*prop1*/)
+void SameStruct2InterfaceTraceDecorator::onProp1Changed(const Struct2& prop1)
 {
+    (void) prop1; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void SameStruct2InterfaceTraceDecorator::onProp2Changed(const Struct2& /*prop2*/)
+void SameStruct2InterfaceTraceDecorator::onProp2Changed(const Struct2& prop2)
 {
+    (void) prop2; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 

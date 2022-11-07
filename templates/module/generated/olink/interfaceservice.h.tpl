@@ -83,7 +83,7 @@ public:
     /**
     * Forwards {{$property.Name}} change through network if the connection is established.
     */
-    void on{{Camel $property.Name}}Changed({{cppReturn "" $property}} Value) override;
+    void on{{Camel $property.Name}}Changed({{cppParam "" $property}}) override;
 {{- end }}
 
 private:

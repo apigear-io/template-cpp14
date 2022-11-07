@@ -88,19 +88,19 @@ public:
     /**
     * Forwards prop1 change through network if the connection is established.
     */
-    void onProp1Changed(int Value) override;
+    void onProp1Changed(int prop1) override;
     /**
     * Forwards prop2 change through network if the connection is established.
     */
-    void onProp2Changed(int Value) override;
+    void onProp2Changed(int prop2) override;
     /**
     * Forwards prop3 change through network if the connection is established.
     */
-    void onProp3Changed(int Value) override;
+    void onProp3Changed(int prop3) override;
     /**
     * Forwards prop4 change through network if the connection is established.
     */
-    void onProp4Changed(int Value) override;
+    void onProp4Changed(int prop4) override;
 
 private:
     /**

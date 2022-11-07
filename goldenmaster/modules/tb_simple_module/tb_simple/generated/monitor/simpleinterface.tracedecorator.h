@@ -105,7 +105,7 @@ public:
     /**
     Traces propString changed.
     */
-    void onPropStringChanged(std::string propString) override;
+    void onPropStringChanged(const std::string& propString) override;
 
     /**
     * Access to a publisher, use it to subscribe for SimpleInterface changes and signal emission.

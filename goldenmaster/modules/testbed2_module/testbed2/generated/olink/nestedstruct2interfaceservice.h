@@ -80,11 +80,11 @@ public:
     /**
     * Forwards prop1 change through network if the connection is established.
     */
-    void onProp1Changed(const NestedStruct1& Value) override;
+    void onProp1Changed(const NestedStruct1& prop1) override;
     /**
     * Forwards prop2 change through network if the connection is established.
     */
-    void onProp2Changed(const NestedStruct2& Value) override;
+    void onProp2Changed(const NestedStruct2& prop2) override;
 
 private:
     /**

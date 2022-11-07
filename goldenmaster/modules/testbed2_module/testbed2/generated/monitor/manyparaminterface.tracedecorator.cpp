@@ -115,23 +115,27 @@ void ManyParamInterfaceTraceDecorator::onSig4(int param1, int param2, int param3
     m_tracer->trace_sig4(param1, param2, param3, param4);
 }
 
-void ManyParamInterfaceTraceDecorator::onProp1Changed(int /*prop1*/)
+void ManyParamInterfaceTraceDecorator::onProp1Changed(int prop1)
 {
+    (void) prop1; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void ManyParamInterfaceTraceDecorator::onProp2Changed(int /*prop2*/)
+void ManyParamInterfaceTraceDecorator::onProp2Changed(int prop2)
 {
+    (void) prop2; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void ManyParamInterfaceTraceDecorator::onProp3Changed(int /*prop3*/)
+void ManyParamInterfaceTraceDecorator::onProp3Changed(int prop3)
 {
+    (void) prop3; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void ManyParamInterfaceTraceDecorator::onProp4Changed(int /*prop4*/)
+void ManyParamInterfaceTraceDecorator::onProp4Changed(int prop4)
 {
+    (void) prop4; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 

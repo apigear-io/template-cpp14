@@ -68,7 +68,7 @@ public:
     /**
     Traces {{$property.Name}} changed.
     */
-    void on{{Camel $property.Name}}Changed({{cppReturn "" $property}} {{$property.Name}}) override;
+    void on{{Camel $property.Name}}Changed({{cppParam "" $property}}) override;
 {{- end }}
 
     /**

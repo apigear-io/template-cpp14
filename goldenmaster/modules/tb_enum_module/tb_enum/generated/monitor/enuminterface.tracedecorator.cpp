@@ -115,23 +115,27 @@ void EnumInterfaceTraceDecorator::onSig3(const Enum3Enum& param3)
     m_tracer->trace_sig3(param3);
 }
 
-void EnumInterfaceTraceDecorator::onProp0Changed(const Enum0Enum& /*prop0*/)
+void EnumInterfaceTraceDecorator::onProp0Changed(const Enum0Enum& prop0)
 {
+    (void) prop0; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void EnumInterfaceTraceDecorator::onProp1Changed(const Enum1Enum& /*prop1*/)
+void EnumInterfaceTraceDecorator::onProp1Changed(const Enum1Enum& prop1)
 {
+    (void) prop1; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void EnumInterfaceTraceDecorator::onProp2Changed(const Enum2Enum& /*prop2*/)
+void EnumInterfaceTraceDecorator::onProp2Changed(const Enum2Enum& prop2)
 {
+    (void) prop2; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void EnumInterfaceTraceDecorator::onProp3Changed(const Enum3Enum& /*prop3*/)
+void EnumInterfaceTraceDecorator::onProp3Changed(const Enum3Enum& prop3)
 {
+    (void) prop3; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 

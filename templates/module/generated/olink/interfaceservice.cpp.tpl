@@ -112,7 +112,7 @@ void {{$class}}::on{{Camel $signal.Name}}({{cppParams "" $signal.Params}})
 
 {{- range .Interface.Properties}}
 {{- $property := . }}
-void {{$class}}::on{{Camel $property.Name}}Changed({{cppReturn "" $property}} {{$property.Name}})
+void {{$class}}::on{{Camel $property.Name}}Changed({{cppParam "" $property}})
 {
     const auto& propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{$property.Name}}");
     for(auto node: m_registry.getNodes(ApiGear::ObjectLink::Name::getObjectId(propertyId))) {

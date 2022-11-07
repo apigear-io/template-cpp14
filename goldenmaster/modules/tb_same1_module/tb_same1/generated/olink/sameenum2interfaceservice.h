@@ -80,11 +80,11 @@ public:
     /**
     * Forwards prop1 change through network if the connection is established.
     */
-    void onProp1Changed(const Enum1Enum& Value) override;
+    void onProp1Changed(const Enum1Enum& prop1) override;
     /**
     * Forwards prop2 change through network if the connection is established.
     */
-    void onProp2Changed(const Enum2Enum& Value) override;
+    void onProp2Changed(const Enum2Enum& prop2) override;
 
 private:
     /**

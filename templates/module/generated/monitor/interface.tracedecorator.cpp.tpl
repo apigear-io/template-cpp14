@@ -65,8 +65,9 @@ void {{$class}}::on{{Camel $signal.Name}}({{ cppParams "" $signal.Params }})
 {{- end }}
 {{- range .Interface.Properties}}
 {{- $property := . }}
-void {{$class}}::on{{Camel $property.Name}}Changed({{cppReturn "" $property}} /*{{$property.Name}}*/)
+void {{$class}}::on{{Camel $property.Name}}Changed({{cppParam "" $property}})
 {
+    (void) {{$property.Name}}; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 {{- nl }}

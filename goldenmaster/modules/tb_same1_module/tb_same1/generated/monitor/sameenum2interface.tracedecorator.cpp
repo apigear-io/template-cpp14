@@ -67,13 +67,15 @@ void SameEnum2InterfaceTraceDecorator::onSig2(const Enum1Enum& param1, const Enu
     m_tracer->trace_sig2(param1, param2);
 }
 
-void SameEnum2InterfaceTraceDecorator::onProp1Changed(const Enum1Enum& /*prop1*/)
+void SameEnum2InterfaceTraceDecorator::onProp1Changed(const Enum1Enum& prop1)
 {
+    (void) prop1; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 
-void SameEnum2InterfaceTraceDecorator::onProp2Changed(const Enum2Enum& /*prop2*/)
+void SameEnum2InterfaceTraceDecorator::onProp2Changed(const Enum2Enum& prop2)
 {
+    (void) prop2; // suppress the 'Unreferenced Formal Parameter' warning.
     m_tracer->capture_state(this);
 }
 

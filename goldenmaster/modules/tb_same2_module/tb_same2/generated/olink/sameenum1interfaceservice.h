@@ -76,7 +76,7 @@ public:
     /**
     * Forwards prop1 change through network if the connection is established.
     */
-    void onProp1Changed(const Enum1Enum& Value) override;
+    void onProp1Changed(const Enum1Enum& prop1) override;
 
 private:
     /**

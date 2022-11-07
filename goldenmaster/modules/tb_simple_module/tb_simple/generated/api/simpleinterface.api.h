@@ -166,7 +166,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void onPropStringChanged(std::string propString) = 0;
+    virtual void onPropStringChanged(const std::string& propString) = 0;
 };
 
 /** Callback for changes of propBool */

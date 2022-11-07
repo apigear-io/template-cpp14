@@ -130,7 +130,7 @@ public:
     *
     * @warning the subscribed function shall not be blocking and must return immediately!
     */
-    virtual void on{{Camel $property.Name}}Changed({{cppReturn "" $property}} {{$property.Name}}) = 0;
+    virtual void on{{Camel $property.Name}}Changed({{cppParam "" $property}}) = 0;
 {{- end }}
 };
 {{ range .Interface.Properties }}
