@@ -2,7 +2,7 @@
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 #include "testbed2/generated/monitor/nestedstruct1interface.tracer.h"
 
-using namespace Test::Testbed2;
+using namespace Goldenmaster::Testbed2;
 
 NestedStruct1InterfaceTracer::NestedStruct1InterfaceTracer(ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(tracer)

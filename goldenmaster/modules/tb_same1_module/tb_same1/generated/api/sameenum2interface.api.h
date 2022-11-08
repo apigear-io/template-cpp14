@@ -4,7 +4,7 @@
 #include "tb_same1/generated/api/common.h"
 #include "tb_same1/generated/api/datastructs.api.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSame1 {
 
 class ISameEnum2InterfaceSubscriber;
@@ -21,7 +21,7 @@ class ISameEnum2InterfacePublisher;
  * See also ISameEnum2InterfaceSubscriber, ISameEnum2InterfacePublisher
  * and the example implementation SameEnum2Interface  or the
  */
-class TEST_TB_SAME1_EXPORT ISameEnum2Interface
+class GOLDENMASTER_TB_SAME1_EXPORT ISameEnum2Interface
 {
 public:
     virtual ~ISameEnum2Interface() = default;
@@ -77,7 +77,7 @@ public:
  * The implementation for ISameEnum2Interface should call the ISameEnum2InterfaceSubscriber interface functions on either signal emit or property change.
  * You can use ISameEnum2InterfaceSubscriber class to implement clients of the ISameEnum2Interface or the network adapter - see Olink Server and Client example.
  */
-class TEST_TB_SAME1_EXPORT ISameEnum2InterfaceSubscriber
+class GOLDENMASTER_TB_SAME1_EXPORT ISameEnum2InterfaceSubscriber
 {
 public:
     virtual ~ISameEnum2InterfaceSubscriber() = default;
@@ -130,7 +130,7 @@ using SameEnum2InterfaceSig2SignalCb = std::function<void(Enum1Enum param1, Enum
  * The publish functions needs to be called by implementation of the IISameEnum2Interface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class TEST_TB_SAME1_EXPORT ISameEnum2InterfacePublisher
+class GOLDENMASTER_TB_SAME1_EXPORT ISameEnum2InterfacePublisher
 {
 public:
     virtual ~ISameEnum2InterfacePublisher() = default;
@@ -246,4 +246,4 @@ public:
 
 
 } // namespace TbSame1
-} // namespace Test
+} // namespace Goldenmaster

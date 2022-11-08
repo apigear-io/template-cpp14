@@ -4,7 +4,7 @@
 #include "testbed1/generated/core/structinterface.publisher.h"
 #include "testbed1/generated/core/structinterface.data.h"
 
-using namespace Test::Testbed1;
+using namespace Goldenmaster::Testbed1;
 
 StructInterface::StructInterface()
     : m_publisher(std::make_unique<StructInterfacePublisher>())

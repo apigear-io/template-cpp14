@@ -5,13 +5,13 @@
 #include "testbed1/generated/core/structinterface.data.h"
 #include <memory>
 
-namespace Test {
+namespace Goldenmaster {
 namespace Testbed1 {
 
 /**
 * The StructInterface implementation.
 */
-class TEST_TESTBED1_EXPORT StructInterface : public IStructInterface
+class GOLDENMASTER_TESTBED1_EXPORT StructInterface : public IStructInterface
 {
 public:
     explicit StructInterface();
@@ -53,4 +53,4 @@ private:
     StructInterfaceData m_data;
 };
 } // namespace Testbed1
-} // namespace Test
+} // namespace Goldenmaster

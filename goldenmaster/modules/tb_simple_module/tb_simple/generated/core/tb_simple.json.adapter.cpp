@@ -1,6 +1,6 @@
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSimple {
 } // namespace TbSimple
-} // namespace Test
+} // namespace Goldenmaster

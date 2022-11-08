@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Test::Testbed1;
+using namespace Goldenmaster::Testbed1;
 
 void StructArrayInterfacePublisher::subscribeToAllChanges(IStructArrayInterfaceSubscriber& subscriber)
 {

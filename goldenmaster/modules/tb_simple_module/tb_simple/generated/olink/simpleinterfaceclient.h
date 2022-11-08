@@ -18,7 +18,7 @@ class IClientNode;
 }
 }
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSimple {
 namespace olink {
 /**
@@ -32,7 +32,7 @@ namespace olink {
 * Use on client side to request changes of the SimpleInterface on the server side 
 * and to subscribe for the SimpleInterface changes.
 */
-class TEST_TB_SIMPLE_EXPORT SimpleInterfaceClient : public ISimpleInterface,
+class GOLDENMASTER_TB_SIMPLE_EXPORT SimpleInterfaceClient : public ISimpleInterface,
     public ApiGear::ObjectLink::IObjectSink,
     public ApiGear::Logger::Logger
 {
@@ -190,4 +190,4 @@ private:
 };
 } // namespace olink
 } // namespace TbSimple
-} // namespace Test
+} // namespace Goldenmaster

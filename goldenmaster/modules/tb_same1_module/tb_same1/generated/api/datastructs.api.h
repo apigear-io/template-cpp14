@@ -6,7 +6,7 @@
 
 #include "tb_same1/generated/api/common.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSame1 {
 struct Struct1;
 struct Struct2;
@@ -18,7 +18,7 @@ enum class Enum1Enum {
     value1 = 1,
     value2 = 2
 };
-TEST_TB_SAME1_EXPORT Enum1Enum toEnum1Enum(std::uint8_t v, bool *ok);
+GOLDENMASTER_TB_SAME1_EXPORT Enum1Enum toEnum1Enum(std::uint8_t v, bool *ok);
 
 /**
  * Enumeration Enum2
@@ -27,12 +27,12 @@ enum class Enum2Enum {
     value1 = 1,
     value2 = 2
 };
-TEST_TB_SAME1_EXPORT Enum2Enum toEnum2Enum(std::uint8_t v, bool *ok);
+GOLDENMASTER_TB_SAME1_EXPORT Enum2Enum toEnum2Enum(std::uint8_t v, bool *ok);
 
 /**
  * Struct Struct1
  */
-struct TEST_TB_SAME1_EXPORT Struct1
+struct GOLDENMASTER_TB_SAME1_EXPORT Struct1
 {
     Struct1();
     Struct1(int field1, int field2, int field3);
@@ -42,13 +42,13 @@ struct TEST_TB_SAME1_EXPORT Struct1
     int field3{};
 
 };
-bool TEST_TB_SAME1_EXPORT operator==(const Struct1 &, const Struct1 &) noexcept;
-bool TEST_TB_SAME1_EXPORT operator!=(const Struct1 &, const Struct1 &) noexcept;
+bool GOLDENMASTER_TB_SAME1_EXPORT operator==(const Struct1 &, const Struct1 &) noexcept;
+bool GOLDENMASTER_TB_SAME1_EXPORT operator!=(const Struct1 &, const Struct1 &) noexcept;
 
 /**
  * Struct Struct2
  */
-struct TEST_TB_SAME1_EXPORT Struct2
+struct GOLDENMASTER_TB_SAME1_EXPORT Struct2
 {
     Struct2();
     Struct2(int field1, int field2, int field3);
@@ -58,7 +58,7 @@ struct TEST_TB_SAME1_EXPORT Struct2
     int field3{};
 
 };
-bool TEST_TB_SAME1_EXPORT operator==(const Struct2 &, const Struct2 &) noexcept;
-bool TEST_TB_SAME1_EXPORT operator!=(const Struct2 &, const Struct2 &) noexcept;
+bool GOLDENMASTER_TB_SAME1_EXPORT operator==(const Struct2 &, const Struct2 &) noexcept;
+bool GOLDENMASTER_TB_SAME1_EXPORT operator!=(const Struct2 &, const Struct2 &) noexcept;
 } // namespace TbSame1
-} // namespace Test
+} // namespace Goldenmaster

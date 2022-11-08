@@ -18,7 +18,7 @@ class IClientNode;
 }
 }
 
-namespace Test {
+namespace Goldenmaster {
 namespace Testbed2 {
 namespace olink {
 /**
@@ -32,7 +32,7 @@ namespace olink {
 * Use on client side to request changes of the NestedStruct3Interface on the server side 
 * and to subscribe for the NestedStruct3Interface changes.
 */
-class TEST_TESTBED2_EXPORT NestedStruct3InterfaceClient : public INestedStruct3Interface,
+class GOLDENMASTER_TESTBED2_EXPORT NestedStruct3InterfaceClient : public INestedStruct3Interface,
     public ApiGear::ObjectLink::IObjectSink,
     public ApiGear::Logger::Logger
 {
@@ -169,4 +169,4 @@ private:
 };
 } // namespace olink
 } // namespace Testbed2
-} // namespace Test
+} // namespace Goldenmaster

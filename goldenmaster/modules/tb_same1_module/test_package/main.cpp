@@ -4,7 +4,7 @@
 #include "tb_same1/implementation/sameenum1interface.h"
 #include "tb_same1/implementation/sameenum2interface.h"
 
-using namespace Test::TbSame1;
+using namespace Goldenmaster::TbSame1;
 
 int main(){
     std::unique_ptr<ISameStruct1Interface> testSameStruct1Interface = std::make_unique<SameStruct1Interface>();

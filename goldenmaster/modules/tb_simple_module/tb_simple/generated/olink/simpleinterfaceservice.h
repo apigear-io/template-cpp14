@@ -14,7 +14,7 @@ class IRemoteNode;
 
 }} //namespace ApiGear::ObjectLink
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSimple {
 namespace olink {
 /**
@@ -23,7 +23,7 @@ namespace olink {
 * Sends and receives data over the network with ObjectLink protocol. 
 * see https://objectlinkprotocol.net for Object Link Details
 */
-class TEST_TB_SIMPLE_EXPORT SimpleInterfaceService : public ApiGear::ObjectLink::IObjectSource, public ISimpleInterfaceSubscriber
+class GOLDENMASTER_TB_SIMPLE_EXPORT SimpleInterfaceService : public ApiGear::ObjectLink::IObjectSource, public ISimpleInterfaceSubscriber
 {
 public:
     /**
@@ -114,4 +114,4 @@ private:
 };
 } // namespace olink
 } // namespace TbSimple
-} // namespace Test
+} // namespace Goldenmaster

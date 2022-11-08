@@ -8,7 +8,7 @@
 #include <map>
 #include <functional>
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSame2 {
 
 /**
@@ -16,7 +16,7 @@ namespace TbSame2 {
  * Use this class to store clients of the SameEnum2Interface and inform them about the change
  * on call of the appropriate publish function.
  */
-class TEST_TB_SAME2_EXPORT SameEnum2InterfacePublisher : public ISameEnum2InterfacePublisher
+class GOLDENMASTER_TB_SAME2_EXPORT SameEnum2InterfacePublisher : public ISameEnum2InterfacePublisher
 {
 public:
     /**
@@ -102,4 +102,4 @@ private:
 };
 
 } // namespace TbSame2
-} // namespace Test
+} // namespace Goldenmaster

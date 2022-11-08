@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Test::TbSimple;
+using namespace Goldenmaster::TbSimple;
 
 void SimpleArrayInterfacePublisher::subscribeToAllChanges(ISimpleArrayInterfaceSubscriber& subscriber)
 {

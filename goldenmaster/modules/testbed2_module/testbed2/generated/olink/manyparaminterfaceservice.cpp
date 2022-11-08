@@ -10,8 +10,8 @@
 #include <iostream>
 
 
-using namespace Test::Testbed2;
-using namespace Test::Testbed2::olink;
+using namespace Goldenmaster::Testbed2;
+using namespace Goldenmaster::Testbed2::olink;
 
 namespace 
 {

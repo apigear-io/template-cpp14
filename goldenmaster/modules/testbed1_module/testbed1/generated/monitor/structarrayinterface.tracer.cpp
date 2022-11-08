@@ -2,7 +2,7 @@
 #include "testbed1/generated/core/testbed1.json.adapter.h"
 #include "testbed1/generated/monitor/structarrayinterface.tracer.h"
 
-using namespace Test::Testbed1;
+using namespace Goldenmaster::Testbed1;
 
 StructArrayInterfaceTracer::StructArrayInterfaceTracer(ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(tracer)

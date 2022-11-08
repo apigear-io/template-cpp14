@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "testbed2/implementation/nestedstruct3interface.h"
 
-using namespace Test::Testbed2;
+using namespace Goldenmaster::Testbed2;
 TEST_CASE("Testing NestedStruct3Interface", "[NestedStruct3Interface]"){
     std::unique_ptr<INestedStruct3Interface> testNestedStruct3Interface = std::make_unique<NestedStruct3Interface>();
     // setup your test

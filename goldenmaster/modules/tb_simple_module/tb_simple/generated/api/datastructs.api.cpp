@@ -1,6 +1,6 @@
 #include "tb_simple/generated/api/datastructs.api.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSimple {
 } // namespace TbSimple
-} // namespace Test
+} // namespace Goldenmaster

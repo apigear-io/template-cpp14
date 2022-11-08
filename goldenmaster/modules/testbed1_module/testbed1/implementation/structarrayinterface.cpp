@@ -4,7 +4,7 @@
 #include "testbed1/generated/core/structarrayinterface.publisher.h"
 #include "testbed1/generated/core/structarrayinterface.data.h"
 
-using namespace Test::Testbed1;
+using namespace Goldenmaster::Testbed1;
 
 StructArrayInterface::StructArrayInterface()
     : m_publisher(std::make_unique<StructArrayInterfacePublisher>())

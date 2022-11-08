@@ -3,7 +3,7 @@
 #include "testbed1/generated/api/testbed1.h"
 
 
-namespace Test
+namespace Goldenmaster
 {
 namespace Testbed1
 {

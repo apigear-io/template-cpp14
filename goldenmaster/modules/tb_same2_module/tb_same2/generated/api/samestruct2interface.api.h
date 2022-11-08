@@ -4,7 +4,7 @@
 #include "tb_same2/generated/api/common.h"
 #include "tb_same2/generated/api/datastructs.api.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSame2 {
 
 class ISameStruct2InterfaceSubscriber;
@@ -21,7 +21,7 @@ class ISameStruct2InterfacePublisher;
  * See also ISameStruct2InterfaceSubscriber, ISameStruct2InterfacePublisher
  * and the example implementation SameStruct2Interface  or the
  */
-class TEST_TB_SAME2_EXPORT ISameStruct2Interface
+class GOLDENMASTER_TB_SAME2_EXPORT ISameStruct2Interface
 {
 public:
     virtual ~ISameStruct2Interface() = default;
@@ -77,7 +77,7 @@ public:
  * The implementation for ISameStruct2Interface should call the ISameStruct2InterfaceSubscriber interface functions on either signal emit or property change.
  * You can use ISameStruct2InterfaceSubscriber class to implement clients of the ISameStruct2Interface or the network adapter - see Olink Server and Client example.
  */
-class TEST_TB_SAME2_EXPORT ISameStruct2InterfaceSubscriber
+class GOLDENMASTER_TB_SAME2_EXPORT ISameStruct2InterfaceSubscriber
 {
 public:
     virtual ~ISameStruct2InterfaceSubscriber() = default;
@@ -130,7 +130,7 @@ using SameStruct2InterfaceSig2SignalCb = std::function<void(const Struct1& param
  * The publish functions needs to be called by implementation of the IISameStruct2Interface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class TEST_TB_SAME2_EXPORT ISameStruct2InterfacePublisher
+class GOLDENMASTER_TB_SAME2_EXPORT ISameStruct2InterfacePublisher
 {
 public:
     virtual ~ISameStruct2InterfacePublisher() = default;
@@ -246,4 +246,4 @@ public:
 
 
 } // namespace TbSame2
-} // namespace Test
+} // namespace Goldenmaster

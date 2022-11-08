@@ -2,7 +2,7 @@
 #include "tb_simple/implementation/simpleinterface.h"
 #include "tb_simple/implementation/simplearrayinterface.h"
 
-using namespace Test::TbSimple;
+using namespace Goldenmaster::TbSimple;
 
 int main(){
     std::unique_ptr<ISimpleInterface> testSimpleInterface = std::make_unique<SimpleInterface>();

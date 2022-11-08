@@ -39,7 +39,7 @@
 #include "olink/consolelogger.h"
 #include "olink/clientregistry.h"
 
-using namespace Test;
+using namespace Goldenmaster;
 
 int main(){
     ApiGear::PocoImpl::Tracer tracer;

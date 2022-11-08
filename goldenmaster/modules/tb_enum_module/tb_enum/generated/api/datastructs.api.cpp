@@ -1,6 +1,6 @@
 #include "tb_enum/generated/api/datastructs.api.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbEnum {
 
 // ********************************************************************
@@ -83,4 +83,4 @@ Enum3Enum toEnum3Enum(std::uint8_t v, bool *ok)
     }
 }
 } // namespace TbEnum
-} // namespace Test
+} // namespace Goldenmaster

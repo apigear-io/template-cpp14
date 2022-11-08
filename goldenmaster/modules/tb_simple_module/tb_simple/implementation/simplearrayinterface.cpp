@@ -4,7 +4,7 @@
 #include "tb_simple/generated/core/simplearrayinterface.publisher.h"
 #include "tb_simple/generated/core/simplearrayinterface.data.h"
 
-using namespace Test::TbSimple;
+using namespace Goldenmaster::TbSimple;
 
 SimpleArrayInterface::SimpleArrayInterface()
     : m_publisher(std::make_unique<SimpleArrayInterfacePublisher>())

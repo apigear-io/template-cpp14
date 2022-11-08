@@ -3,7 +3,7 @@
 #include "tb_enum/generated/api/tb_enum.h"
 
 
-namespace Test
+namespace Goldenmaster
 {
 namespace TbEnum
 {

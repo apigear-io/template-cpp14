@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "tb_same2/implementation/samestruct2interface.h"
 
-using namespace Test::TbSame2;
+using namespace Goldenmaster::TbSame2;
 TEST_CASE("Testing SameStruct2Interface", "[SameStruct2Interface]"){
     std::unique_ptr<ISameStruct2Interface> testSameStruct2Interface = std::make_unique<SameStruct2Interface>();
     // setup your test

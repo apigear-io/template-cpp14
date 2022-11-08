@@ -5,13 +5,13 @@
 #include "tb_enum/generated/core/enuminterface.data.h"
 #include <memory>
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbEnum {
 
 /**
 * The EnumInterface implementation.
 */
-class TEST_TB_ENUM_EXPORT EnumInterface : public IEnumInterface
+class GOLDENMASTER_TB_ENUM_EXPORT EnumInterface : public IEnumInterface
 {
 public:
     explicit EnumInterface();
@@ -53,4 +53,4 @@ private:
     EnumInterfaceData m_data;
 };
 } // namespace TbEnum
-} // namespace Test
+} // namespace Goldenmaster

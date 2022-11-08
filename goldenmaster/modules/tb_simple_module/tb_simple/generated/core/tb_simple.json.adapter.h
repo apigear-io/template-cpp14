@@ -7,7 +7,7 @@
 #include "tb_simple/generated/api/datastructs.api.h"
 #include "tb_simple/generated/api/common.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSimple {
 } // namespace TbSimple
-} // namespace Test
+} // namespace Goldenmaster

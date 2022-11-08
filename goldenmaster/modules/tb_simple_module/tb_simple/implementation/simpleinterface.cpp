@@ -4,7 +4,7 @@
 #include "tb_simple/generated/core/simpleinterface.publisher.h"
 #include "tb_simple/generated/core/simpleinterface.data.h"
 
-using namespace Test::TbSimple;
+using namespace Goldenmaster::TbSimple;
 
 SimpleInterface::SimpleInterface()
     : m_publisher(std::make_unique<SimpleInterfacePublisher>())

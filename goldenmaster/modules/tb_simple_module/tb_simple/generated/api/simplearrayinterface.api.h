@@ -4,7 +4,7 @@
 #include "tb_simple/generated/api/common.h"
 #include "tb_simple/generated/api/datastructs.api.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSimple {
 
 class ISimpleArrayInterfaceSubscriber;
@@ -21,7 +21,7 @@ class ISimpleArrayInterfacePublisher;
  * See also ISimpleArrayInterfaceSubscriber, ISimpleArrayInterfacePublisher
  * and the example implementation SimpleArrayInterface  or the
  */
-class TEST_TB_SIMPLE_EXPORT ISimpleArrayInterface
+class GOLDENMASTER_TB_SIMPLE_EXPORT ISimpleArrayInterface
 {
 public:
     virtual ~ISimpleArrayInterface() = default;
@@ -111,7 +111,7 @@ public:
  * The implementation for ISimpleArrayInterface should call the ISimpleArrayInterfaceSubscriber interface functions on either signal emit or property change.
  * You can use ISimpleArrayInterfaceSubscriber class to implement clients of the ISimpleArrayInterface or the network adapter - see Olink Server and Client example.
  */
-class TEST_TB_SIMPLE_EXPORT ISimpleArrayInterfaceSubscriber
+class GOLDENMASTER_TB_SIMPLE_EXPORT ISimpleArrayInterfaceSubscriber
 {
 public:
     virtual ~ISimpleArrayInterfaceSubscriber() = default;
@@ -197,7 +197,7 @@ using SimpleArrayInterfaceSigStringSignalCb = std::function<void(const std::list
  * The publish functions needs to be called by implementation of the IISimpleArrayInterface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class TEST_TB_SIMPLE_EXPORT ISimpleArrayInterfacePublisher
+class GOLDENMASTER_TB_SIMPLE_EXPORT ISimpleArrayInterfacePublisher
 {
 public:
     virtual ~ISimpleArrayInterfacePublisher() = default;
@@ -402,4 +402,4 @@ public:
 
 
 } // namespace TbSimple
-} // namespace Test
+} // namespace Goldenmaster

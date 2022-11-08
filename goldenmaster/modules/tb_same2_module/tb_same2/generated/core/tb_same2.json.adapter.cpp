@@ -1,6 +1,6 @@
 #include "tb_same2/generated/core/tb_same2.json.adapter.h"
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSame2 {
 void from_json(const nlohmann::json& j, Struct1& p) {
     p = Struct1(
@@ -31,4 +31,4 @@ void to_json(nlohmann::json& j, const Struct2& p) {
         };
 }
 } // namespace TbSame2
-} // namespace Test
+} // namespace Goldenmaster

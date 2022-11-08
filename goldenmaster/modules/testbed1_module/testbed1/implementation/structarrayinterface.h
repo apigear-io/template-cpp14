@@ -5,13 +5,13 @@
 #include "testbed1/generated/core/structarrayinterface.data.h"
 #include <memory>
 
-namespace Test {
+namespace Goldenmaster {
 namespace Testbed1 {
 
 /**
 * The StructArrayInterface implementation.
 */
-class TEST_TESTBED1_EXPORT StructArrayInterface : public IStructArrayInterface
+class GOLDENMASTER_TESTBED1_EXPORT StructArrayInterface : public IStructArrayInterface
 {
 public:
     explicit StructArrayInterface();
@@ -53,4 +53,4 @@ private:
     StructArrayInterfaceData m_data;
 };
 } // namespace Testbed1
-} // namespace Test
+} // namespace Goldenmaster

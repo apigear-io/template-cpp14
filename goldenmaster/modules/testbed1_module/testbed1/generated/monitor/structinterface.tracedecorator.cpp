@@ -3,7 +3,7 @@
 #include "testbed1/generated/monitor/structinterface.tracedecorator.h"
 #include "testbed1/generated/monitor/structinterface.tracer.h"
 
-using namespace Test::Testbed1;
+using namespace Goldenmaster::Testbed1;
 StructInterfaceTraceDecorator::StructInterfaceTraceDecorator(IStructInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(std::make_unique<StructInterfaceTracer>(tracer))
     , m_impl(impl)

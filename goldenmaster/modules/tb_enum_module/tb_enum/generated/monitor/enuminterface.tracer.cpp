@@ -2,7 +2,7 @@
 #include "tb_enum/generated/core/tb_enum.json.adapter.h"
 #include "tb_enum/generated/monitor/enuminterface.tracer.h"
 
-using namespace Test::TbEnum;
+using namespace Goldenmaster::TbEnum;
 
 EnumInterfaceTracer::EnumInterfaceTracer(ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(tracer)

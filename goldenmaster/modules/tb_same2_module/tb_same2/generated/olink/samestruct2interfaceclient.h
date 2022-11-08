@@ -18,7 +18,7 @@ class IClientNode;
 }
 }
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSame2 {
 namespace olink {
 /**
@@ -32,7 +32,7 @@ namespace olink {
 * Use on client side to request changes of the SameStruct2Interface on the server side 
 * and to subscribe for the SameStruct2Interface changes.
 */
-class TEST_TB_SAME2_EXPORT SameStruct2InterfaceClient : public ISameStruct2Interface,
+class GOLDENMASTER_TB_SAME2_EXPORT SameStruct2InterfaceClient : public ISameStruct2Interface,
     public ApiGear::ObjectLink::IObjectSink,
     public ApiGear::Logger::Logger
 {
@@ -148,4 +148,4 @@ private:
 };
 } // namespace olink
 } // namespace TbSame2
-} // namespace Test
+} // namespace Goldenmaster

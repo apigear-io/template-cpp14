@@ -3,7 +3,7 @@
 #include "tb_simple/generated/monitor/simpleinterface.tracedecorator.h"
 #include "tb_simple/generated/monitor/simpleinterface.tracer.h"
 
-using namespace Test::TbSimple;
+using namespace Goldenmaster::TbSimple;
 SimpleInterfaceTraceDecorator::SimpleInterfaceTraceDecorator(ISimpleInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(std::make_unique<SimpleInterfaceTracer>(tracer))
     , m_impl(impl)

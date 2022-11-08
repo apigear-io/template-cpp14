@@ -3,7 +3,7 @@
 #include "tb_enum/generated/monitor/enuminterface.tracedecorator.h"
 #include "tb_enum/generated/monitor/enuminterface.tracer.h"
 
-using namespace Test::TbEnum;
+using namespace Goldenmaster::TbEnum;
 EnumInterfaceTraceDecorator::EnumInterfaceTraceDecorator(IEnumInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(std::make_unique<EnumInterfaceTracer>(tracer))
     , m_impl(impl)

@@ -3,7 +3,7 @@
 #include "tb_simple/generated/api/tb_simple.h"
 
 
-namespace Test
+namespace Goldenmaster
 {
 namespace TbSimple
 {

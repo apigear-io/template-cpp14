@@ -10,7 +10,7 @@ import (
 
 const (
 	goldenDir = "goldenmaster"
-	tmpDir    = "tmp"
+	generatedTestDir    = "test"
 	apisDir   = "testbed-apis"
 )
 
@@ -44,31 +44,25 @@ func Install() {
 	goInstall("github.com/apigear-io/cli/cmd/apigear@latest")
 }
 
-// Master generates the golden master.
-func Master() {
-	rmDir(goldenDir)
-	genSol("./apigear/goldenmaster.solution.yaml")
-}
-
 // Diff runs the generator and compares the output with the golden master.
 func Diff() {
-	genSol("./apigear/test.solution.yaml")
-	runDiff(goldenDir, tmpDir)
+	genSol("./apigear/goldenmaster.solution.yaml")
+	runDiff(goldenDir, generatedTestDir)
 }
 
 // Clean removes all generated files.
 func Clean() {
-	rmDir(tmpDir)
+	rmDir(generatedTestDir)
 	rmDir(apisDir)
 }
 
 func DiffOnly() {
-	runDiff(goldenDir, tmpDir)
+	runDiff(goldenDir, generatedTestDir)
 }
 
 func GenTest() {
-	rmDir(tmpDir)
-	genSol("./apigear/test.solution.yaml")
+	rmDir(generatedTestDir)
+	genSol("./apigear/goldenmaster.solution.yaml")
 }
 
 // automatically format all goldenmaster files according to the clang-format

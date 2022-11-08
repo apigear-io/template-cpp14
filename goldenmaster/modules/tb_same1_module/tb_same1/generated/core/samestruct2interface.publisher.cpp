@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Test::TbSame1;
+using namespace Goldenmaster::TbSame1;
 
 void SameStruct2InterfacePublisher::subscribeToAllChanges(ISameStruct2InterfaceSubscriber& subscriber)
 {

@@ -4,7 +4,7 @@
 #include "testbed2/implementation/nestedstruct2interface.h"
 #include "testbed2/implementation/nestedstruct3interface.h"
 
-using namespace Test::Testbed2;
+using namespace Goldenmaster::Testbed2;
 
 int main(){
     std::unique_ptr<IManyParamInterface> testManyParamInterface = std::make_unique<ManyParamInterface>();

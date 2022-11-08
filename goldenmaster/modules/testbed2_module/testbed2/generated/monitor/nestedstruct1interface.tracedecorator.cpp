@@ -3,7 +3,7 @@
 #include "testbed2/generated/monitor/nestedstruct1interface.tracedecorator.h"
 #include "testbed2/generated/monitor/nestedstruct1interface.tracer.h"
 
-using namespace Test::Testbed2;
+using namespace Goldenmaster::Testbed2;
 NestedStruct1InterfaceTraceDecorator::NestedStruct1InterfaceTraceDecorator(INestedStruct1Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(std::make_unique<NestedStruct1InterfaceTracer>(tracer))
     , m_impl(impl)

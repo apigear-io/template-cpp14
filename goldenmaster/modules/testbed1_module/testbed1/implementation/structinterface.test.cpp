@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "testbed1/implementation/structinterface.h"
 
-using namespace Test::Testbed1;
+using namespace Goldenmaster::Testbed1;
 TEST_CASE("Testing StructInterface", "[StructInterface]"){
     std::unique_ptr<IStructInterface> testStructInterface = std::make_unique<StructInterface>();
     // setup your test

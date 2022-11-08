@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "tb_simple/implementation/simplearrayinterface.h"
 
-using namespace Test::TbSimple;
+using namespace Goldenmaster::TbSimple;
 TEST_CASE("Testing SimpleArrayInterface", "[SimpleArrayInterface]"){
     std::unique_ptr<ISimpleArrayInterface> testSimpleArrayInterface = std::make_unique<SimpleArrayInterface>();
     // setup your test

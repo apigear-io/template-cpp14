@@ -5,13 +5,13 @@
 #include "tb_simple/generated/core/simplearrayinterface.data.h"
 #include <memory>
 
-namespace Test {
+namespace Goldenmaster {
 namespace TbSimple {
 
 /**
 * The SimpleArrayInterface implementation.
 */
-class TEST_TB_SIMPLE_EXPORT SimpleArrayInterface : public ISimpleArrayInterface
+class GOLDENMASTER_TB_SIMPLE_EXPORT SimpleArrayInterface : public ISimpleArrayInterface
 {
 public:
     explicit SimpleArrayInterface();
@@ -53,4 +53,4 @@ private:
     SimpleArrayInterfaceData m_data;
 };
 } // namespace TbSimple
-} // namespace Test
+} // namespace Goldenmaster

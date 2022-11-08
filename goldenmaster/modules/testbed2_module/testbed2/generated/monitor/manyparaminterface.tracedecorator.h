@@ -6,12 +6,12 @@
 
 namespace ApiGear { namespace PocoImpl { class Tracer; } }
 
-namespace Test {
+namespace Goldenmaster {
 namespace Testbed2 {
 
 class ManyParamInterfaceTracer;
 
-class TEST_TESTBED2_EXPORT ManyParamInterfaceTraceDecorator : public IManyParamInterface, public IManyParamInterfaceSubscriber
+class GOLDENMASTER_TESTBED2_EXPORT ManyParamInterfaceTraceDecorator : public IManyParamInterface, public IManyParamInterfaceSubscriber
 {
 protected:
     /** 
@@ -119,4 +119,4 @@ private:
     IManyParamInterface& m_impl;
 };
 } // namespace Testbed2
-} // namespace Test
+} // namespace Goldenmaster

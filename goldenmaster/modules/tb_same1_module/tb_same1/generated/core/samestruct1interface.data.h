@@ -3,7 +3,7 @@
 #include "tb_same1/generated/api/tb_same1.h"
 
 
-namespace Test
+namespace Goldenmaster
 {
 namespace TbSame1
 {

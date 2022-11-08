@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "testbed1/implementation/structarrayinterface.h"
 
-using namespace Test::Testbed1;
+using namespace Goldenmaster::Testbed1;
 TEST_CASE("Testing StructArrayInterface", "[StructArrayInterface]"){
     std::unique_ptr<IStructArrayInterface> testStructArrayInterface = std::make_unique<StructArrayInterface>();
     // setup your test
