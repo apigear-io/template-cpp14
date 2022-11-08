@@ -44,16 +44,16 @@ public:
 {{- range .Interface.Operations}}
 {{- $operation := . }}
     /** Traces {{$operation.Name}} and forwards call to {{$interfaceNameOriginal}} implementation. */
-    {{cppType "" $operation.Return}} {{lower1 $operation.Name}}({{cppParams "" $operation.Params}}) override;
+    {{cppReturn "" $operation.Return}} {{lower1 $operation.Name}}({{cppParams "" $operation.Params}}) override;
     /** Traces {{$operation.Name}} and forwards call to {{$interfaceNameOriginal}} implementation. */
-    std::future<{{cppType "" $operation.Return}}> {{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}}) override;
+    std::future<{{cppReturn "" $operation.Return}}> {{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}}) override;
     {{ end -}}
 {{- range .Interface.Properties}}
 {{- $property := . }}
     /** Forwards call to {{$interfaceNameOriginal}} implementation. */
     void set{{Camel $property.Name}}({{cppParam  "" $property }}) override;
     /** Forwards call to {{$interfaceNameOriginal}} implementation. */
-    {{cppReturn "" $property}} get{{Camel $property.Name}}() const override;
+    {{cppTypeRef "" $property}} get{{Camel $property.Name}}() const override;
     {{ end -}}
 
 {{- range .Interface.Signals}}

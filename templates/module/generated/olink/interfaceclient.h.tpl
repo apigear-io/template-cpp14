@@ -55,7 +55,7 @@ public:
     * Property getter
     * @return Locally stored locally value for {{Camel $property.Name}}.
     */
-    {{cppReturn "" $property}} get{{Camel $property.Name}}() const override;
+    {{cppTypeRef "" $property}} get{{Camel $property.Name}}() const override;
     /**
     * Request setting a property on the {{$interfaceNameOriginal}} service.
     * @param The value to which set request is send for the {{Camel $property.Name}}.
@@ -68,11 +68,11 @@ public:
     * Remote call of {{$interfaceClass}}::{{$operation.Name}} on the {{$interfaceNameOriginal}} service.
     * Uses {{$operation.Name}}Async
     */
-    {{cppType "" $operation.Return}} {{lower1 $operation.Name}}({{cppParams "" $operation.Params}}) override;
+    {{cppReturn "" $operation.Return}} {{lower1 $operation.Name}}({{cppParams "" $operation.Params}}) override;
     /**
     * Remote call of {{$interfaceClass}}::{{$operation.Name}} on the {{$interfaceNameOriginal}} service.
     */
-    std::future<{{cppType "" $operation.Return}}> {{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}}) override;
+    std::future<{{cppReturn "" $operation.Return}}> {{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}}) override;
 {{- end }}
 
     /** The publisher to subscribe to. */

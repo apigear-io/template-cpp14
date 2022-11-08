@@ -91,7 +91,7 @@ void SimpleInterfaceTraceDecorator::setPropString(const std::string& propString)
     m_impl.setPropString(propString);
 }
 
-std::string SimpleInterfaceTraceDecorator::getPropString() const
+const std::string& SimpleInterfaceTraceDecorator::getPropString() const
 {
     return m_impl.getPropString();
 }

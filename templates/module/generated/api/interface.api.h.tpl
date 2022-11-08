@@ -49,7 +49,7 @@ public:
 {{- end }}   {{- /* end range operation param*/}}  
     */
 {{- end }}   {{- /* end if operations description */}}
-    virtual {{ cppType "" $operation.Return}} {{lower1 $operation.Name }}({{cppParams "" $operation.Params}}) = 0;
+    virtual {{ cppReturn "" $operation.Return}} {{lower1 $operation.Name }}({{cppParams "" $operation.Params}}) = 0;
     /**
     * Asynchronous version of {{ $operation.Name}}({{ cppParams "" $operation.Params}})
 {{- if $operation.Description }}
@@ -61,9 +61,9 @@ public:
     * @param {{$param}} {{$param.Description}}
 {{- end }}   {{- /* end if description */}}
 {{- end }}   {{- /* end range operation params */}}
-    * @return Promise of type {{cppType "" $operation.Return}} which is set once the function has completed
+    * @return Promise of type {{cppReturn "" $operation.Return}} which is set once the function has completed
     */
-    virtual std::future<{{cppType "" $operation.Return}}> {{lower1 $operation.Name }}Async({{cppParams "" $operation.Params}}) = 0;
+    virtual std::future<{{cppReturn "" $operation.Return}}> {{lower1 $operation.Name }}Async({{cppParams "" $operation.Params}}) = 0;
 {{ end }}   {{- /* end range operations */}}
 
 {{- range .Interface.Properties }}
@@ -81,7 +81,7 @@ public:
     * @return {{$property.Description}}
     {{- end }}    {{- /* end if property.Description */}}
     */
-    virtual {{cppReturn "" $property}} get{{Camel $property.Name }}() const = 0;
+    virtual {{cppTypeRef "" $property}} get{{Camel $property.Name }}() const = 0;
 {{ end }}    {{- /* end range properties */}}
     /**
     * Access to a publisher, use it to subscribe for {{.Interface.Name}} changes and signal emission.

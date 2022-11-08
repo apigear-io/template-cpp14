@@ -33,7 +33,7 @@ public:
     */
 {{- end }}
     void set{{Camel $property.Name}}({{ cppParam "" $property}}) override;
-    {{cppReturn "" $property}} get{{Camel $property.Name}}() const override;
+    {{cppTypeRef "" $property}} get{{Camel $property.Name}}() const override;
     {{/*  */ -}}    
 {{- end }}
 
@@ -44,8 +44,8 @@ public:
     * {{$operation.Description}}
     */
 {{- end }}
-    {{cppType "" $operation.Return}} {{lower1 $operation.Name}}({{cppParams "" $operation.Params}}) override;
-    std::future<{{cppType "" $operation.Return}}> {{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}}) override;
+    {{cppReturn "" $operation.Return}} {{lower1 $operation.Name}}({{cppParams "" $operation.Params}}) override;
+    std::future<{{cppReturn "" $operation.Return}}> {{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}}) override;
         {{/*  */ -}} 
 {{- end }}
     /**

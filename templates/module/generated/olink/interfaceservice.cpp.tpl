@@ -46,11 +46,11 @@ nlohmann::json {{$class}}::olinkInvoke(const std::string& methodId, const nlohma
 {{- $param := . }}
         const {{cppType "" $param}}& {{$param}} = fcnArgs.at({{ $idx}});      
 {{- end }}
-    {{- if ( eq (cppType "" $operation.Return) "void") }}
+    {{- if ( eq (cppReturn "" $operation.Return) "void") }}
         m_{{$interface}}->{{lower1 $operation.Name}}({{ cppVars $operation.Params }});
         return nlohmann::json{};
     {{- else }}
-        {{cppType "" $operation.Return}} result = m_{{$interface}}->{{lower1 $operation.Name}}({{ cppVars $operation.Params }});
+        {{cppReturn "" $operation.Return}} result = m_{{$interface}}->{{lower1 $operation.Name}}({{ cppVars $operation.Params }});
         return result;
     {{- end}}
     }

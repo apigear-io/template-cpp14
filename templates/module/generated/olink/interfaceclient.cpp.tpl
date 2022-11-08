@@ -62,7 +62,7 @@ void {{$class}}::set{{Camel $name}}Local({{cppParam "" $property }})
     }
 }
 
-{{cppReturn "" $property}} {{$class}}::get{{Camel $name}}() const
+{{cppTypeRef "" $property}} {{$class}}::get{{Camel $name}}() const
 {
     return m_data.m_{{$name}};
 }
@@ -72,7 +72,7 @@ void {{$class}}::set{{Camel $name}}Local({{cppParam "" $property }})
 
 {{- range .Interface.Operations}}
 {{- $operation := . }}
-{{- $returnType := cppType "" $operation.Return }}
+{{- $returnType := cppReturn "" $operation.Return }}
 
 {{$returnType}} {{$class}}::{{lower1 $operation.Name}}({{cppParams "" $operation.Params}})
 {
@@ -80,7 +80,7 @@ void {{$class}}::set{{Camel $name}}Local({{cppParam "" $property }})
         emitLog(ApiGear::Logger::LogLevel::Warning, "Attempt to invoke method but" + olinkObjectName() +" is not linked to source . Make sure your object is linked. Check your connection to service");
         return {{cppDefault "" $operation.Return}};
     }
-    {{- if ( eq (cppType "" $operation.Return) "void") }}
+    {{- if ( eq (cppReturn "" $operation.Return) "void") }}
     ApiGear::ObjectLink::InvokeReplyFunc func = [this](ApiGear::ObjectLink::InvokeReplyArg arg)
         {
             (void) this;
@@ -109,7 +109,7 @@ std::future<{{$returnType}}> {{$class}}::{{$operation.Name| lower1}}Async({{cppP
             const auto& operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{$operation.Name}}");
             m_node->invokeRemote(operationId,
                 nlohmann::json::array({ {{- cppVars $operation.Params -}} }), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {        
-                    {{- if ( eq (cppType "" $operation.Return) "void") }}
+                    {{- if ( eq (cppReturn "" $operation.Return) "void") }}
                     (void) arg;
                     resultPromise.set_value();
                     {{- else }}

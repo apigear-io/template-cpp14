@@ -28,12 +28,12 @@ std::unique_ptr<{{$class}}> {{$class}}::connect({{$interfaceClass}}& impl, ApiGe
 
 {{- range .Interface.Operations}}
 {{- $operation := . }}
-{{cppType "" $operation.Return}} {{$class}}::{{lower1 $operation.Name}}({{cppParams "" $operation.Params}})
+{{cppReturn "" $operation.Return}} {{$class}}::{{lower1 $operation.Name}}({{cppParams "" $operation.Params}})
 {
     m_tracer->trace_{{$operation.Name}}({{cppVars $operation.Params }});
     return m_impl.{{lower1 $operation.Name}}({{cppVars $operation.Params }});
 }
-std::future<{{cppType "" $operation.Return}}> {{$class}}::{{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}})
+std::future<{{cppReturn "" $operation.Return}}> {{$class}}::{{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}})
 {
     m_tracer->trace_{{$operation.Name}}({{cppVars $operation.Params }});
     return m_impl.{{$operation.Name| lower1}}Async({{cppVars $operation.Params }});
@@ -48,7 +48,7 @@ void {{$class}}::set{{Camel $property.Name}}({{cppParam "" $property}})
     m_impl.set{{Camel $property.Name}}({{$property.Name}});
 }
 
-{{cppReturn "" $property}} {{$class}}::get{{Camel $property.Name}}() const
+{{cppTypeRef "" $property}} {{$class}}::get{{Camel $property.Name}}() const
 {
     return m_impl.get{{Camel $property.Name}}();
 }

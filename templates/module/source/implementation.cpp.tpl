@@ -28,7 +28,7 @@ void {{$class}}::set{{Camel $property.Name}}({{cppParam "" $property }})
     }
 }
 
-{{cppReturn "" $property}} {{$class}}::get{{Camel $property.Name}}() const
+{{cppTypeRef "" $property}} {{$class}}::get{{Camel $property.Name}}() const
 {
     return m_data.m_{{$property.Name}};
 }
@@ -37,7 +37,7 @@ void {{$class}}::set{{Camel $property.Name}}({{cppParam "" $property }})
 {{- range .Interface.Operations}}
 {{- $operation := . }}
 
-{{cppType "" $operation.Return}} {{$class}}::{{lower1 $operation.Name}}({{cppParams "" $operation.Params}})
+{{cppReturn "" $operation.Return}} {{$class}}::{{lower1 $operation.Name}}({{cppParams "" $operation.Params}})
 {
     {{- range $operation.Params}}
     {{- $parameter := . }}
@@ -46,7 +46,7 @@ void {{$class}}::set{{Camel $property.Name}}({{cppParam "" $property }})
     // do business logic here
     return {};
 }
-{{ $returnType := cppType "" $operation.Return }}
+{{ $returnType := cppReturn "" $operation.Return }}
 std::future<{{$returnType}}> {{$class}}::{{lower1 $operation.Name}}Async({{cppParams "" $operation.Params}})
 {
     return std::async(std::launch::async, [this{{- range $operation.Params -}},
