@@ -8,7 +8,7 @@ features:
             target: "CMakeLists.txt"
             force: true
           - source: "module/ModuleConfig.cmake.in.tpl"
-            target: "{{Snake .Module.Name}}Config.cmake.in"
+            target: "{{upper1 (snake .Module.Name)}}Config.cmake.in"
             force: true
           - source: "module/generated/api/CMakeLists.txt.tpl"
             target: "generated/api/CMakeLists.txt"
