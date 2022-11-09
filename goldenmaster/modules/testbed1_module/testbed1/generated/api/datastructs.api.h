@@ -6,7 +6,7 @@
 
 #include "testbed1/generated/api/common.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed1 {
 struct StructBool;
 struct StructInt;
@@ -16,7 +16,7 @@ struct StructString;
 /**
  * Struct StructBool
  */
-struct GOLDENMASTER_TESTBED1_EXPORT StructBool
+struct TEST_TESTBED1_EXPORT StructBool
 {
     StructBool();
     StructBool(bool fieldBool);
@@ -24,13 +24,13 @@ struct GOLDENMASTER_TESTBED1_EXPORT StructBool
     bool fieldBool{};
 
 };
-bool GOLDENMASTER_TESTBED1_EXPORT operator==(const StructBool &, const StructBool &) noexcept;
-bool GOLDENMASTER_TESTBED1_EXPORT operator!=(const StructBool &, const StructBool &) noexcept;
+bool TEST_TESTBED1_EXPORT operator==(const StructBool &, const StructBool &) noexcept;
+bool TEST_TESTBED1_EXPORT operator!=(const StructBool &, const StructBool &) noexcept;
 
 /**
  * Struct StructInt
  */
-struct GOLDENMASTER_TESTBED1_EXPORT StructInt
+struct TEST_TESTBED1_EXPORT StructInt
 {
     StructInt();
     StructInt(int fieldInt);
@@ -38,13 +38,13 @@ struct GOLDENMASTER_TESTBED1_EXPORT StructInt
     int fieldInt{};
 
 };
-bool GOLDENMASTER_TESTBED1_EXPORT operator==(const StructInt &, const StructInt &) noexcept;
-bool GOLDENMASTER_TESTBED1_EXPORT operator!=(const StructInt &, const StructInt &) noexcept;
+bool TEST_TESTBED1_EXPORT operator==(const StructInt &, const StructInt &) noexcept;
+bool TEST_TESTBED1_EXPORT operator!=(const StructInt &, const StructInt &) noexcept;
 
 /**
  * Struct StructFloat
  */
-struct GOLDENMASTER_TESTBED1_EXPORT StructFloat
+struct TEST_TESTBED1_EXPORT StructFloat
 {
     StructFloat();
     StructFloat(float fieldFloat);
@@ -52,13 +52,13 @@ struct GOLDENMASTER_TESTBED1_EXPORT StructFloat
     float fieldFloat{};
 
 };
-bool GOLDENMASTER_TESTBED1_EXPORT operator==(const StructFloat &, const StructFloat &) noexcept;
-bool GOLDENMASTER_TESTBED1_EXPORT operator!=(const StructFloat &, const StructFloat &) noexcept;
+bool TEST_TESTBED1_EXPORT operator==(const StructFloat &, const StructFloat &) noexcept;
+bool TEST_TESTBED1_EXPORT operator!=(const StructFloat &, const StructFloat &) noexcept;
 
 /**
  * Struct StructString
  */
-struct GOLDENMASTER_TESTBED1_EXPORT StructString
+struct TEST_TESTBED1_EXPORT StructString
 {
     StructString();
     StructString(const std::string& fieldString);
@@ -66,7 +66,7 @@ struct GOLDENMASTER_TESTBED1_EXPORT StructString
     std::string fieldString{};
 
 };
-bool GOLDENMASTER_TESTBED1_EXPORT operator==(const StructString &, const StructString &) noexcept;
-bool GOLDENMASTER_TESTBED1_EXPORT operator!=(const StructString &, const StructString &) noexcept;
+bool TEST_TESTBED1_EXPORT operator==(const StructString &, const StructString &) noexcept;
+bool TEST_TESTBED1_EXPORT operator!=(const StructString &, const StructString &) noexcept;
 } // namespace Testbed1
-} // namespace Goldenmaster
+} // namespace Test

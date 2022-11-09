@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "tb_simple/implementation/simpleinterface.h"
 
-using namespace Goldenmaster::TbSimple;
+using namespace Test::TbSimple;
 TEST_CASE("Testing SimpleInterface", "[SimpleInterface]"){
     std::unique_ptr<ISimpleInterface> testSimpleInterface = std::make_unique<SimpleInterface>();
     // setup your test

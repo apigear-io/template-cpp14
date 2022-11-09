@@ -4,7 +4,7 @@
 #include "testbed2/generated/core/nestedstruct3interface.publisher.h"
 #include "testbed2/generated/core/nestedstruct3interface.data.h"
 
-using namespace Goldenmaster::Testbed2;
+using namespace Test::Testbed2;
 
 NestedStruct3Interface::NestedStruct3Interface()
     : m_publisher(std::make_unique<NestedStruct3InterfacePublisher>())

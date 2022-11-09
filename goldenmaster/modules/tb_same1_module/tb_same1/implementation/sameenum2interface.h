@@ -5,13 +5,13 @@
 #include "tb_same1/generated/core/sameenum2interface.data.h"
 #include <memory>
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSame1 {
 
 /**
 * The SameEnum2Interface implementation.
 */
-class GOLDENMASTER_TB_SAME1_EXPORT SameEnum2Interface : public ISameEnum2Interface
+class TEST_TB_SAME1_EXPORT SameEnum2Interface : public ISameEnum2Interface
 {
 public:
     explicit SameEnum2Interface();
@@ -41,4 +41,4 @@ private:
     SameEnum2InterfaceData m_data;
 };
 } // namespace TbSame1
-} // namespace Goldenmaster
+} // namespace Test

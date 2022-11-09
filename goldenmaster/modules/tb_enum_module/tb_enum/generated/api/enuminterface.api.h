@@ -4,7 +4,7 @@
 #include "tb_enum/generated/api/common.h"
 #include "tb_enum/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbEnum {
 
 class IEnumInterfaceSubscriber;
@@ -21,7 +21,7 @@ class IEnumInterfacePublisher;
  * See also IEnumInterfaceSubscriber, IEnumInterfacePublisher
  * and the example implementation EnumInterface  or the
  */
-class GOLDENMASTER_TB_ENUM_EXPORT IEnumInterface
+class TEST_TB_ENUM_EXPORT IEnumInterface
 {
 public:
     virtual ~IEnumInterface() = default;
@@ -111,7 +111,7 @@ public:
  * The implementation for IEnumInterface should call the IEnumInterfaceSubscriber interface functions on either signal emit or property change.
  * You can use IEnumInterfaceSubscriber class to implement clients of the IEnumInterface or the network adapter - see Olink Server and Client example.
  */
-class GOLDENMASTER_TB_ENUM_EXPORT IEnumInterfaceSubscriber
+class TEST_TB_ENUM_EXPORT IEnumInterfaceSubscriber
 {
 public:
     virtual ~IEnumInterfaceSubscriber() = default;
@@ -197,7 +197,7 @@ using EnumInterfaceSig3SignalCb = std::function<void(Enum3Enum param3)> ;
  * The publish functions needs to be called by implementation of the IIEnumInterface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class GOLDENMASTER_TB_ENUM_EXPORT IEnumInterfacePublisher
+class TEST_TB_ENUM_EXPORT IEnumInterfacePublisher
 {
 public:
     virtual ~IEnumInterfacePublisher() = default;
@@ -402,4 +402,4 @@ public:
 
 
 } // namespace TbEnum
-} // namespace Goldenmaster
+} // namespace Test

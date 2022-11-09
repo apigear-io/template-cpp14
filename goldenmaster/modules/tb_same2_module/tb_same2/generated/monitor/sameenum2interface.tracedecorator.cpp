@@ -3,7 +3,7 @@
 #include "tb_same2/generated/monitor/sameenum2interface.tracedecorator.h"
 #include "tb_same2/generated/monitor/sameenum2interface.tracer.h"
 
-using namespace Goldenmaster::TbSame2;
+using namespace Test::TbSame2;
 SameEnum2InterfaceTraceDecorator::SameEnum2InterfaceTraceDecorator(ISameEnum2Interface& impl, ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(std::make_unique<SameEnum2InterfaceTracer>(tracer))
     , m_impl(impl)

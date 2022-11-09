@@ -5,13 +5,13 @@
 #include "tb_same2/generated/core/samestruct2interface.data.h"
 #include <memory>
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSame2 {
 
 /**
 * The SameStruct2Interface implementation.
 */
-class GOLDENMASTER_TB_SAME2_EXPORT SameStruct2Interface : public ISameStruct2Interface
+class TEST_TB_SAME2_EXPORT SameStruct2Interface : public ISameStruct2Interface
 {
 public:
     explicit SameStruct2Interface();
@@ -41,4 +41,4 @@ private:
     SameStruct2InterfaceData m_data;
 };
 } // namespace TbSame2
-} // namespace Goldenmaster
+} // namespace Test

@@ -4,7 +4,7 @@
 #include "tb_same1/generated/core/sameenum1interface.publisher.h"
 #include "tb_same1/generated/core/sameenum1interface.data.h"
 
-using namespace Goldenmaster::TbSame1;
+using namespace Test::TbSame1;
 
 SameEnum1Interface::SameEnum1Interface()
     : m_publisher(std::make_unique<SameEnum1InterfacePublisher>())

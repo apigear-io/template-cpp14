@@ -4,7 +4,7 @@
 #include "testbed2/generated/api/common.h"
 #include "testbed2/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 class INestedStruct1InterfaceSubscriber;
@@ -21,7 +21,7 @@ class INestedStruct1InterfacePublisher;
  * See also INestedStruct1InterfaceSubscriber, INestedStruct1InterfacePublisher
  * and the example implementation NestedStruct1Interface  or the
  */
-class GOLDENMASTER_TESTBED2_EXPORT INestedStruct1Interface
+class TEST_TESTBED2_EXPORT INestedStruct1Interface
 {
 public:
     virtual ~INestedStruct1Interface() = default;
@@ -60,7 +60,7 @@ public:
  * The implementation for INestedStruct1Interface should call the INestedStruct1InterfaceSubscriber interface functions on either signal emit or property change.
  * You can use INestedStruct1InterfaceSubscriber class to implement clients of the INestedStruct1Interface or the network adapter - see Olink Server and Client example.
  */
-class GOLDENMASTER_TESTBED2_EXPORT INestedStruct1InterfaceSubscriber
+class TEST_TESTBED2_EXPORT INestedStruct1InterfaceSubscriber
 {
 public:
     virtual ~INestedStruct1InterfaceSubscriber() = default;
@@ -95,7 +95,7 @@ using NestedStruct1InterfaceSig1SignalCb = std::function<void(const NestedStruct
  * The publish functions needs to be called by implementation of the IINestedStruct1Interface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class GOLDENMASTER_TESTBED2_EXPORT INestedStruct1InterfacePublisher
+class TEST_TESTBED2_EXPORT INestedStruct1InterfacePublisher
 {
 public:
     virtual ~INestedStruct1InterfacePublisher() = default;
@@ -165,4 +165,4 @@ public:
 
 
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

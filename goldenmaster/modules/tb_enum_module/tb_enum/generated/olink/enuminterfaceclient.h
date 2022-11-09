@@ -18,7 +18,7 @@ class IClientNode;
 }
 }
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbEnum {
 namespace olink {
 /**
@@ -32,7 +32,7 @@ namespace olink {
 * Use on client side to request changes of the EnumInterface on the server side 
 * and to subscribe for the EnumInterface changes.
 */
-class GOLDENMASTER_TB_ENUM_EXPORT EnumInterfaceClient : public IEnumInterface,
+class TEST_TB_ENUM_EXPORT EnumInterfaceClient : public IEnumInterface,
     public ApiGear::ObjectLink::IObjectSink,
     public ApiGear::Logger::Logger
 {
@@ -190,4 +190,4 @@ private:
 };
 } // namespace olink
 } // namespace TbEnum
-} // namespace Goldenmaster
+} // namespace Test

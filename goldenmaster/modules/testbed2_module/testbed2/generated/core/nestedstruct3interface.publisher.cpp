@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Goldenmaster::Testbed2;
+using namespace Test::Testbed2;
 
 void NestedStruct3InterfacePublisher::subscribeToAllChanges(INestedStruct3InterfaceSubscriber& subscriber)
 {

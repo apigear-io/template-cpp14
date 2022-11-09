@@ -14,7 +14,7 @@ class IRemoteNode;
 
 }} //namespace ApiGear::ObjectLink
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed1 {
 namespace olink {
 /**
@@ -23,7 +23,7 @@ namespace olink {
 * Sends and receives data over the network with ObjectLink protocol. 
 * see https://objectlinkprotocol.net for Object Link Details
 */
-class GOLDENMASTER_TESTBED1_EXPORT StructInterfaceService : public ApiGear::ObjectLink::IObjectSource, public IStructInterfaceSubscriber
+class TEST_TESTBED1_EXPORT StructInterfaceService : public ApiGear::ObjectLink::IObjectSource, public IStructInterfaceSubscriber
 {
 public:
     /**
@@ -114,4 +114,4 @@ private:
 };
 } // namespace olink
 } // namespace Testbed1
-} // namespace Goldenmaster
+} // namespace Test

@@ -4,7 +4,7 @@
 #include "tb_enum/generated/core/enuminterface.publisher.h"
 #include "tb_enum/generated/core/enuminterface.data.h"
 
-using namespace Goldenmaster::TbEnum;
+using namespace Test::TbEnum;
 
 EnumInterface::EnumInterface()
     : m_publisher(std::make_unique<EnumInterfacePublisher>())

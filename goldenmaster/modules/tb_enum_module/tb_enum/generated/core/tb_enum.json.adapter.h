@@ -7,7 +7,7 @@
 #include "tb_enum/generated/api/datastructs.api.h"
 #include "tb_enum/generated/api/common.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbEnum {
 } // namespace TbEnum
-} // namespace Goldenmaster
+} // namespace Test

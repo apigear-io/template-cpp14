@@ -1,6 +1,6 @@
 #include "testbed2/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 // ********************************************************************
@@ -231,4 +231,4 @@ bool operator!=(const NestedStruct3& lhs, const NestedStruct3& rhs) noexcept
     return !(lhs == rhs);
 }
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

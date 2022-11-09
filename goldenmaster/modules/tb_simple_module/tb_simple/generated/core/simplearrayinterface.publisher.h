@@ -8,7 +8,7 @@
 #include <map>
 #include <functional>
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSimple {
 
 /**
@@ -16,7 +16,7 @@ namespace TbSimple {
  * Use this class to store clients of the SimpleArrayInterface and inform them about the change
  * on call of the appropriate publish function.
  */
-class GOLDENMASTER_TB_SIMPLE_EXPORT SimpleArrayInterfacePublisher : public ISimpleArrayInterfacePublisher
+class TEST_TB_SIMPLE_EXPORT SimpleArrayInterfacePublisher : public ISimpleArrayInterfacePublisher
 {
 public:
     /**
@@ -170,4 +170,4 @@ private:
 };
 
 } // namespace TbSimple
-} // namespace Goldenmaster
+} // namespace Test

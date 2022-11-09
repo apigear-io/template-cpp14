@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Goldenmaster::TbSimple;
+using namespace Test::TbSimple;
 
 void SimpleInterfacePublisher::subscribeToAllChanges(ISimpleInterfaceSubscriber& subscriber)
 {

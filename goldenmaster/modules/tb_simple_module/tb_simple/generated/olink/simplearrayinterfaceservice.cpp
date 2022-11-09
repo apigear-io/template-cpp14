@@ -10,8 +10,8 @@
 #include <iostream>
 
 
-using namespace Goldenmaster::TbSimple;
-using namespace Goldenmaster::TbSimple::olink;
+using namespace Test::TbSimple;
+using namespace Test::TbSimple::olink;
 
 namespace 
 {

@@ -4,7 +4,7 @@
 #include "tb_simple/generated/api/common.h"
 #include "tb_simple/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSimple {
 
 class ISimpleInterfaceSubscriber;
@@ -21,7 +21,7 @@ class ISimpleInterfacePublisher;
  * See also ISimpleInterfaceSubscriber, ISimpleInterfacePublisher
  * and the example implementation SimpleInterface  or the
  */
-class GOLDENMASTER_TB_SIMPLE_EXPORT ISimpleInterface
+class TEST_TB_SIMPLE_EXPORT ISimpleInterface
 {
 public:
     virtual ~ISimpleInterface() = default;
@@ -111,7 +111,7 @@ public:
  * The implementation for ISimpleInterface should call the ISimpleInterfaceSubscriber interface functions on either signal emit or property change.
  * You can use ISimpleInterfaceSubscriber class to implement clients of the ISimpleInterface or the network adapter - see Olink Server and Client example.
  */
-class GOLDENMASTER_TB_SIMPLE_EXPORT ISimpleInterfaceSubscriber
+class TEST_TB_SIMPLE_EXPORT ISimpleInterfaceSubscriber
 {
 public:
     virtual ~ISimpleInterfaceSubscriber() = default;
@@ -197,7 +197,7 @@ using SimpleInterfaceSigStringSignalCb = std::function<void(const std::string& p
  * The publish functions needs to be called by implementation of the IISimpleInterface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class GOLDENMASTER_TB_SIMPLE_EXPORT ISimpleInterfacePublisher
+class TEST_TB_SIMPLE_EXPORT ISimpleInterfacePublisher
 {
 public:
     virtual ~ISimpleInterfacePublisher() = default;
@@ -402,4 +402,4 @@ public:
 
 
 } // namespace TbSimple
-} // namespace Goldenmaster
+} // namespace Test

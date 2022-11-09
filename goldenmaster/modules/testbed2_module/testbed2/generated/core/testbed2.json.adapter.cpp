@@ -1,6 +1,6 @@
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 void from_json(const nlohmann::json& j, Struct1& p) {
     p = Struct1(
@@ -91,4 +91,4 @@ void to_json(nlohmann::json& j, const NestedStruct3& p) {
         };
 }
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

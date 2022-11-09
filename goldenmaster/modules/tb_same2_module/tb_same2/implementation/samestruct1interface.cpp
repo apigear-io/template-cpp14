@@ -4,7 +4,7 @@
 #include "tb_same2/generated/core/samestruct1interface.publisher.h"
 #include "tb_same2/generated/core/samestruct1interface.data.h"
 
-using namespace Goldenmaster::TbSame2;
+using namespace Test::TbSame2;
 
 SameStruct1Interface::SameStruct1Interface()
     : m_publisher(std::make_unique<SameStruct1InterfacePublisher>())

@@ -4,7 +4,7 @@
 #include "testbed2/generated/core/manyparaminterface.publisher.h"
 #include "testbed2/generated/core/manyparaminterface.data.h"
 
-using namespace Goldenmaster::Testbed2;
+using namespace Test::Testbed2;
 
 ManyParamInterface::ManyParamInterface()
     : m_publisher(std::make_unique<ManyParamInterfacePublisher>())

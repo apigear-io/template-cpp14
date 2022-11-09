@@ -5,13 +5,13 @@
 #include "testbed2/generated/core/manyparaminterface.data.h"
 #include <memory>
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 /**
 * The ManyParamInterface implementation.
 */
-class GOLDENMASTER_TESTBED2_EXPORT ManyParamInterface : public IManyParamInterface
+class TEST_TESTBED2_EXPORT ManyParamInterface : public IManyParamInterface
 {
 public:
     explicit ManyParamInterface();
@@ -53,4 +53,4 @@ private:
     ManyParamInterfaceData m_data;
 };
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

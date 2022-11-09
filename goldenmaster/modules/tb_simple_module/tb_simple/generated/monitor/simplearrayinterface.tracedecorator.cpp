@@ -3,7 +3,7 @@
 #include "tb_simple/generated/monitor/simplearrayinterface.tracedecorator.h"
 #include "tb_simple/generated/monitor/simplearrayinterface.tracer.h"
 
-using namespace Goldenmaster::TbSimple;
+using namespace Test::TbSimple;
 SimpleArrayInterfaceTraceDecorator::SimpleArrayInterfaceTraceDecorator(ISimpleArrayInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(std::make_unique<SimpleArrayInterfaceTracer>(tracer))
     , m_impl(impl)

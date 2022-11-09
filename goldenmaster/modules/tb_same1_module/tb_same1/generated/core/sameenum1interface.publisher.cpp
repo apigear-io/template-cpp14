@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Goldenmaster::TbSame1;
+using namespace Test::TbSame1;
 
 void SameEnum1InterfacePublisher::subscribeToAllChanges(ISameEnum1InterfaceSubscriber& subscriber)
 {

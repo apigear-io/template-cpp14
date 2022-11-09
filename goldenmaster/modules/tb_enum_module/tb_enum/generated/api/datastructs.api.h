@@ -6,7 +6,7 @@
 
 #include "tb_enum/generated/api/common.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbEnum {
 
 /**
@@ -17,7 +17,7 @@ enum class Enum0Enum {
     value1 = 1,
     value2 = 2
 };
-GOLDENMASTER_TB_ENUM_EXPORT Enum0Enum toEnum0Enum(std::uint8_t v, bool *ok);
+TEST_TB_ENUM_EXPORT Enum0Enum toEnum0Enum(std::uint8_t v, bool *ok);
 
 /**
  * Enumeration Enum1
@@ -27,7 +27,7 @@ enum class Enum1Enum {
     value2 = 2,
     value3 = 3
 };
-GOLDENMASTER_TB_ENUM_EXPORT Enum1Enum toEnum1Enum(std::uint8_t v, bool *ok);
+TEST_TB_ENUM_EXPORT Enum1Enum toEnum1Enum(std::uint8_t v, bool *ok);
 
 /**
  * Enumeration Enum2
@@ -37,7 +37,7 @@ enum class Enum2Enum {
     value1 = 1,
     value0 = 0
 };
-GOLDENMASTER_TB_ENUM_EXPORT Enum2Enum toEnum2Enum(std::uint8_t v, bool *ok);
+TEST_TB_ENUM_EXPORT Enum2Enum toEnum2Enum(std::uint8_t v, bool *ok);
 
 /**
  * Enumeration Enum3
@@ -47,6 +47,6 @@ enum class Enum3Enum {
     value2 = 2,
     value1 = 1
 };
-GOLDENMASTER_TB_ENUM_EXPORT Enum3Enum toEnum3Enum(std::uint8_t v, bool *ok);
+TEST_TB_ENUM_EXPORT Enum3Enum toEnum3Enum(std::uint8_t v, bool *ok);
 } // namespace TbEnum
-} // namespace Goldenmaster
+} // namespace Test

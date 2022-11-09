@@ -1,6 +1,6 @@
 #include "testbed1/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed1 {
 // ********************************************************************
 // Struct StructBool
@@ -87,4 +87,4 @@ bool operator!=(const StructString& lhs, const StructString& rhs) noexcept
     return !(lhs == rhs);
 }
 } // namespace Testbed1
-} // namespace Goldenmaster
+} // namespace Test

@@ -2,7 +2,7 @@
 #include "tb_same1/generated/core/tb_same1.json.adapter.h"
 #include "tb_same1/generated/monitor/samestruct2interface.tracer.h"
 
-using namespace Goldenmaster::TbSame1;
+using namespace Test::TbSame1;
 
 SameStruct2InterfaceTracer::SameStruct2InterfaceTracer(ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(tracer)

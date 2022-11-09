@@ -4,7 +4,7 @@
 #include "testbed2/generated/api/common.h"
 #include "testbed2/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 class IManyParamInterfaceSubscriber;
@@ -21,7 +21,7 @@ class IManyParamInterfacePublisher;
  * See also IManyParamInterfaceSubscriber, IManyParamInterfacePublisher
  * and the example implementation ManyParamInterface  or the
  */
-class GOLDENMASTER_TESTBED2_EXPORT IManyParamInterface
+class TEST_TESTBED2_EXPORT IManyParamInterface
 {
 public:
     virtual ~IManyParamInterface() = default;
@@ -111,7 +111,7 @@ public:
  * The implementation for IManyParamInterface should call the IManyParamInterfaceSubscriber interface functions on either signal emit or property change.
  * You can use IManyParamInterfaceSubscriber class to implement clients of the IManyParamInterface or the network adapter - see Olink Server and Client example.
  */
-class GOLDENMASTER_TESTBED2_EXPORT IManyParamInterfaceSubscriber
+class TEST_TESTBED2_EXPORT IManyParamInterfaceSubscriber
 {
 public:
     virtual ~IManyParamInterfaceSubscriber() = default;
@@ -203,7 +203,7 @@ using ManyParamInterfaceSig4SignalCb = std::function<void(int param1, int param2
  * The publish functions needs to be called by implementation of the IIManyParamInterface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class GOLDENMASTER_TESTBED2_EXPORT IManyParamInterfacePublisher
+class TEST_TESTBED2_EXPORT IManyParamInterfacePublisher
 {
 public:
     virtual ~IManyParamInterfacePublisher() = default;
@@ -414,4 +414,4 @@ public:
 
 
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

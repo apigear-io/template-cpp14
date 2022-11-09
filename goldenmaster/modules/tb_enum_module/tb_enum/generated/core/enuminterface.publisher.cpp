@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Goldenmaster::TbEnum;
+using namespace Test::TbEnum;
 
 void EnumInterfacePublisher::subscribeToAllChanges(IEnumInterfaceSubscriber& subscriber)
 {

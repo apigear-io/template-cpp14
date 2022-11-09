@@ -8,7 +8,7 @@
 #include <map>
 #include <functional>
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed1 {
 
 /**
@@ -16,7 +16,7 @@ namespace Testbed1 {
  * Use this class to store clients of the StructInterface and inform them about the change
  * on call of the appropriate publish function.
  */
-class GOLDENMASTER_TESTBED1_EXPORT StructInterfacePublisher : public IStructInterfacePublisher
+class TEST_TESTBED1_EXPORT StructInterfacePublisher : public IStructInterfacePublisher
 {
 public:
     /**
@@ -170,4 +170,4 @@ private:
 };
 
 } // namespace Testbed1
-} // namespace Goldenmaster
+} // namespace Test

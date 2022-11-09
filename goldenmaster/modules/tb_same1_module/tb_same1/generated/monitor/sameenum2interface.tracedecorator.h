@@ -6,12 +6,12 @@
 
 namespace ApiGear { namespace PocoImpl { class Tracer; } }
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSame1 {
 
 class SameEnum2InterfaceTracer;
 
-class GOLDENMASTER_TB_SAME1_EXPORT SameEnum2InterfaceTraceDecorator : public ISameEnum2Interface, public ISameEnum2InterfaceSubscriber
+class TEST_TB_SAME1_EXPORT SameEnum2InterfaceTraceDecorator : public ISameEnum2Interface, public ISameEnum2InterfaceSubscriber
 {
 protected:
     /** 
@@ -83,4 +83,4 @@ private:
     ISameEnum2Interface& m_impl;
 };
 } // namespace TbSame1
-} // namespace Goldenmaster
+} // namespace Test

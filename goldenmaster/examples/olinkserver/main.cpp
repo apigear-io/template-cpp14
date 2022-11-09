@@ -40,7 +40,7 @@
 
 #include <iostream>
 
-using namespace Goldenmaster;
+using namespace Test;
 
 int main(){
     ApiGear::ObjectLink::RemoteRegistry registry;

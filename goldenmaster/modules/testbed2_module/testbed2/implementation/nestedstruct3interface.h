@@ -5,13 +5,13 @@
 #include "testbed2/generated/core/nestedstruct3interface.data.h"
 #include <memory>
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 /**
 * The NestedStruct3Interface implementation.
 */
-class GOLDENMASTER_TESTBED2_EXPORT NestedStruct3Interface : public INestedStruct3Interface
+class TEST_TESTBED2_EXPORT NestedStruct3Interface : public INestedStruct3Interface
 {
 public:
     explicit NestedStruct3Interface();
@@ -47,4 +47,4 @@ private:
     NestedStruct3InterfaceData m_data;
 };
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

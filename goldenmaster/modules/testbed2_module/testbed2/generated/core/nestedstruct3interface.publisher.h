@@ -8,7 +8,7 @@
 #include <map>
 #include <functional>
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 /**
@@ -16,7 +16,7 @@ namespace Testbed2 {
  * Use this class to store clients of the NestedStruct3Interface and inform them about the change
  * on call of the appropriate publish function.
  */
-class GOLDENMASTER_TESTBED2_EXPORT NestedStruct3InterfacePublisher : public INestedStruct3InterfacePublisher
+class TEST_TESTBED2_EXPORT NestedStruct3InterfacePublisher : public INestedStruct3InterfacePublisher
 {
 public:
     /**
@@ -136,4 +136,4 @@ private:
 };
 
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

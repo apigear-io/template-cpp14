@@ -4,7 +4,7 @@
 
 namespace ApiGear { namespace PocoImpl { class Tracer; } }
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 /**
@@ -54,4 +54,4 @@ private:
 };
 
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

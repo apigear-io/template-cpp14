@@ -35,7 +35,7 @@
 #include "testbed1/generated/monitor/structarrayinterface.tracedecorator.h"
 #include "apigear/tracer/tracer.h"
 
-using namespace Goldenmaster;
+using namespace Test;
 
 int main(){
     ApiGear::PocoImpl::Tracer tracer;

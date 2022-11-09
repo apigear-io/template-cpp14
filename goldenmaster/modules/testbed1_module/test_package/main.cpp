@@ -2,7 +2,7 @@
 #include "testbed1/implementation/structinterface.h"
 #include "testbed1/implementation/structarrayinterface.h"
 
-using namespace Goldenmaster::Testbed1;
+using namespace Test::Testbed1;
 
 int main(){
     std::unique_ptr<IStructInterface> testStructInterface = std::make_unique<StructInterface>();

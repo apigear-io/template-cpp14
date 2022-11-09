@@ -4,7 +4,7 @@
 #include "testbed1/generated/api/common.h"
 #include "testbed1/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed1 {
 
 class IStructInterfaceSubscriber;
@@ -21,7 +21,7 @@ class IStructInterfacePublisher;
  * See also IStructInterfaceSubscriber, IStructInterfacePublisher
  * and the example implementation StructInterface  or the
  */
-class GOLDENMASTER_TESTBED1_EXPORT IStructInterface
+class TEST_TESTBED1_EXPORT IStructInterface
 {
 public:
     virtual ~IStructInterface() = default;
@@ -111,7 +111,7 @@ public:
  * The implementation for IStructInterface should call the IStructInterfaceSubscriber interface functions on either signal emit or property change.
  * You can use IStructInterfaceSubscriber class to implement clients of the IStructInterface or the network adapter - see Olink Server and Client example.
  */
-class GOLDENMASTER_TESTBED1_EXPORT IStructInterfaceSubscriber
+class TEST_TESTBED1_EXPORT IStructInterfaceSubscriber
 {
 public:
     virtual ~IStructInterfaceSubscriber() = default;
@@ -197,7 +197,7 @@ using StructInterfaceSigStringSignalCb = std::function<void(const StructString& 
  * The publish functions needs to be called by implementation of the IIStructInterface on each state changed or signal emitted
  * to notify all the subscribers about this change.
  */
-class GOLDENMASTER_TESTBED1_EXPORT IStructInterfacePublisher
+class TEST_TESTBED1_EXPORT IStructInterfacePublisher
 {
 public:
     virtual ~IStructInterfacePublisher() = default;
@@ -402,4 +402,4 @@ public:
 
 
 } // namespace Testbed1
-} // namespace Goldenmaster
+} // namespace Test

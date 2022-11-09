@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "tb_enum/implementation/enuminterface.h"
 
-using namespace Goldenmaster::TbEnum;
+using namespace Test::TbEnum;
 TEST_CASE("Testing EnumInterface", "[EnumInterface]"){
     std::unique_ptr<IEnumInterface> testEnumInterface = std::make_unique<EnumInterface>();
     // setup your test

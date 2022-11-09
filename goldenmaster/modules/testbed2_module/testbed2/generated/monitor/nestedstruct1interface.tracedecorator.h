@@ -6,12 +6,12 @@
 
 namespace ApiGear { namespace PocoImpl { class Tracer; } }
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 class NestedStruct1InterfaceTracer;
 
-class GOLDENMASTER_TESTBED2_EXPORT NestedStruct1InterfaceTraceDecorator : public INestedStruct1Interface, public INestedStruct1InterfaceSubscriber
+class TEST_TESTBED2_EXPORT NestedStruct1InterfaceTraceDecorator : public INestedStruct1Interface, public INestedStruct1InterfaceSubscriber
 {
 protected:
     /** 
@@ -65,4 +65,4 @@ private:
     INestedStruct1Interface& m_impl;
 };
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

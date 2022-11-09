@@ -14,7 +14,7 @@ class IRemoteNode;
 
 }} //namespace ApiGear::ObjectLink
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbEnum {
 namespace olink {
 /**
@@ -23,7 +23,7 @@ namespace olink {
 * Sends and receives data over the network with ObjectLink protocol. 
 * see https://objectlinkprotocol.net for Object Link Details
 */
-class GOLDENMASTER_TB_ENUM_EXPORT EnumInterfaceService : public ApiGear::ObjectLink::IObjectSource, public IEnumInterfaceSubscriber
+class TEST_TB_ENUM_EXPORT EnumInterfaceService : public ApiGear::ObjectLink::IObjectSource, public IEnumInterfaceSubscriber
 {
 public:
     /**
@@ -114,4 +114,4 @@ private:
 };
 } // namespace olink
 } // namespace TbEnum
-} // namespace Goldenmaster
+} // namespace Test

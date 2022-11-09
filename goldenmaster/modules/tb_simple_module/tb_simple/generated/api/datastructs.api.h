@@ -6,7 +6,7 @@
 
 #include "tb_simple/generated/api/common.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSimple {
 } // namespace TbSimple
-} // namespace Goldenmaster
+} // namespace Test

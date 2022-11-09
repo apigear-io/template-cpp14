@@ -8,7 +8,7 @@
 #include <map>
 #include <functional>
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 /**
@@ -16,7 +16,7 @@ namespace Testbed2 {
  * Use this class to store clients of the ManyParamInterface and inform them about the change
  * on call of the appropriate publish function.
  */
-class GOLDENMASTER_TESTBED2_EXPORT ManyParamInterfacePublisher : public IManyParamInterfacePublisher
+class TEST_TESTBED2_EXPORT ManyParamInterfacePublisher : public IManyParamInterfacePublisher
 {
 public:
     /**
@@ -170,4 +170,4 @@ private:
 };
 
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

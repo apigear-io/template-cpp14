@@ -7,8 +7,8 @@
 #include "olink/iclientnode.h"
 #include "apigear/olink/olinkconnection.h"
 
-using namespace Goldenmaster::TbEnum;
-using namespace Goldenmaster::TbEnum::olink;
+using namespace Test::TbEnum;
+using namespace Test::TbEnum::olink;
 
 namespace 
 {

@@ -18,7 +18,7 @@ class IClientNode;
 }
 }
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSame1 {
 namespace olink {
 /**
@@ -32,7 +32,7 @@ namespace olink {
 * Use on client side to request changes of the SameEnum1Interface on the server side 
 * and to subscribe for the SameEnum1Interface changes.
 */
-class GOLDENMASTER_TB_SAME1_EXPORT SameEnum1InterfaceClient : public ISameEnum1Interface,
+class TEST_TB_SAME1_EXPORT SameEnum1InterfaceClient : public ISameEnum1Interface,
     public ApiGear::ObjectLink::IObjectSink,
     public ApiGear::Logger::Logger
 {
@@ -127,4 +127,4 @@ private:
 };
 } // namespace olink
 } // namespace TbSame1
-} // namespace Goldenmaster
+} // namespace Test

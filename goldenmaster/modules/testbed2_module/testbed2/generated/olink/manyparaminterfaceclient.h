@@ -18,7 +18,7 @@ class IClientNode;
 }
 }
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 namespace olink {
 /**
@@ -32,7 +32,7 @@ namespace olink {
 * Use on client side to request changes of the ManyParamInterface on the server side 
 * and to subscribe for the ManyParamInterface changes.
 */
-class GOLDENMASTER_TESTBED2_EXPORT ManyParamInterfaceClient : public IManyParamInterface,
+class TEST_TESTBED2_EXPORT ManyParamInterfaceClient : public IManyParamInterface,
     public ApiGear::ObjectLink::IObjectSink,
     public ApiGear::Logger::Logger
 {
@@ -190,4 +190,4 @@ private:
 };
 } // namespace olink
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

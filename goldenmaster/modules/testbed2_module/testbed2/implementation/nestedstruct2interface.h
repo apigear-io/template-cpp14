@@ -5,13 +5,13 @@
 #include "testbed2/generated/core/nestedstruct2interface.data.h"
 #include <memory>
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed2 {
 
 /**
 * The NestedStruct2Interface implementation.
 */
-class GOLDENMASTER_TESTBED2_EXPORT NestedStruct2Interface : public INestedStruct2Interface
+class TEST_TESTBED2_EXPORT NestedStruct2Interface : public INestedStruct2Interface
 {
 public:
     explicit NestedStruct2Interface();
@@ -41,4 +41,4 @@ private:
     NestedStruct2InterfaceData m_data;
 };
 } // namespace Testbed2
-} // namespace Goldenmaster
+} // namespace Test

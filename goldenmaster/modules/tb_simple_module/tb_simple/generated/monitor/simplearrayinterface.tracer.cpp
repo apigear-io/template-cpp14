@@ -2,7 +2,7 @@
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 #include "tb_simple/generated/monitor/simplearrayinterface.tracer.h"
 
-using namespace Goldenmaster::TbSimple;
+using namespace Test::TbSimple;
 
 SimpleArrayInterfaceTracer::SimpleArrayInterfaceTracer(ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(tracer)

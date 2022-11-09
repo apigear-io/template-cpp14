@@ -6,12 +6,12 @@
 
 namespace ApiGear { namespace PocoImpl { class Tracer; } }
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSimple {
 
 class SimpleArrayInterfaceTracer;
 
-class GOLDENMASTER_TB_SIMPLE_EXPORT SimpleArrayInterfaceTraceDecorator : public ISimpleArrayInterface, public ISimpleArrayInterfaceSubscriber
+class TEST_TB_SIMPLE_EXPORT SimpleArrayInterfaceTraceDecorator : public ISimpleArrayInterface, public ISimpleArrayInterfaceSubscriber
 {
 protected:
     /** 
@@ -119,4 +119,4 @@ private:
     ISimpleArrayInterface& m_impl;
 };
 } // namespace TbSimple
-} // namespace Goldenmaster
+} // namespace Test

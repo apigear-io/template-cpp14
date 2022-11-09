@@ -2,7 +2,7 @@
 #include "catch2/catch.hpp"
 #include "testbed2/implementation/manyparaminterface.h"
 
-using namespace Goldenmaster::Testbed2;
+using namespace Test::Testbed2;
 TEST_CASE("Testing ManyParamInterface", "[ManyParamInterface]"){
     std::unique_ptr<IManyParamInterface> testManyParamInterface = std::make_unique<ManyParamInterface>();
     // setup your test

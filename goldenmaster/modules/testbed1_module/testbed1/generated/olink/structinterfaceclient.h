@@ -18,7 +18,7 @@ class IClientNode;
 }
 }
 
-namespace Goldenmaster {
+namespace Test {
 namespace Testbed1 {
 namespace olink {
 /**
@@ -32,7 +32,7 @@ namespace olink {
 * Use on client side to request changes of the StructInterface on the server side 
 * and to subscribe for the StructInterface changes.
 */
-class GOLDENMASTER_TESTBED1_EXPORT StructInterfaceClient : public IStructInterface,
+class TEST_TESTBED1_EXPORT StructInterfaceClient : public IStructInterface,
     public ApiGear::ObjectLink::IObjectSink,
     public ApiGear::Logger::Logger
 {
@@ -190,4 +190,4 @@ private:
 };
 } // namespace olink
 } // namespace Testbed1
-} // namespace Goldenmaster
+} // namespace Test

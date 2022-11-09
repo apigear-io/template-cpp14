@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-using namespace Goldenmaster::Testbed1;
+using namespace Test::Testbed1;
 
 void StructInterfacePublisher::subscribeToAllChanges(IStructInterfaceSubscriber& subscriber)
 {

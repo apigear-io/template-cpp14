@@ -10,8 +10,8 @@
 #include <iostream>
 
 
-using namespace Goldenmaster::TbEnum;
-using namespace Goldenmaster::TbEnum::olink;
+using namespace Test::TbEnum;
+using namespace Test::TbEnum::olink;
 
 namespace 
 {

@@ -3,7 +3,7 @@
 #include "testbed2/generated/monitor/manyparaminterface.tracedecorator.h"
 #include "testbed2/generated/monitor/manyparaminterface.tracer.h"
 
-using namespace Goldenmaster::Testbed2;
+using namespace Test::Testbed2;
 ManyParamInterfaceTraceDecorator::ManyParamInterfaceTraceDecorator(IManyParamInterface& impl, ApiGear::PocoImpl::Tracer& tracer)
     : m_tracer(std::make_unique<ManyParamInterfaceTracer>(tracer))
     , m_impl(impl)

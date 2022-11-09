@@ -1,6 +1,6 @@
 #include "tb_same2/generated/api/datastructs.api.h"
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbSame2 {
 
 // ********************************************************************
@@ -91,4 +91,4 @@ bool operator!=(const Struct2& lhs, const Struct2& rhs) noexcept
     return !(lhs == rhs);
 }
 } // namespace TbSame2
-} // namespace Goldenmaster
+} // namespace Test

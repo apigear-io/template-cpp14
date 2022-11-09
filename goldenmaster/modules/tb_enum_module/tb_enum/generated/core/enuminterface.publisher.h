@@ -8,7 +8,7 @@
 #include <map>
 #include <functional>
 
-namespace Goldenmaster {
+namespace Test {
 namespace TbEnum {
 
 /**
@@ -16,7 +16,7 @@ namespace TbEnum {
  * Use this class to store clients of the EnumInterface and inform them about the change
  * on call of the appropriate publish function.
  */
-class GOLDENMASTER_TB_ENUM_EXPORT EnumInterfacePublisher : public IEnumInterfacePublisher
+class TEST_TB_ENUM_EXPORT EnumInterfacePublisher : public IEnumInterfacePublisher
 {
 public:
     /**
@@ -170,4 +170,4 @@ private:
 };
 
 } // namespace TbEnum
-} // namespace Goldenmaster
+} // namespace Test

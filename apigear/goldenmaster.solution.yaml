@@ -3,7 +3,7 @@ name: demo
 version: "0.1"
 
 layers:
-  - name: goldenmaster
+  - name: Test
     inputs:
       - testbed.advanced.module.yaml
       - testbed.enum.module.yaml
