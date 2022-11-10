@@ -57,6 +57,7 @@ void OlinkConnection::receiveInLoop()
     auto serverClosedConnection = false;
     do{
         try {
+            // receiveFrame requires pocobuffer with initial size 0, as it always extends it with adding frame content.
             Poco::Buffer<char> pocobuffer(0);
             int flags;
             auto canSocketRead = m_socket ? m_socket->poll(Poco::Timespan(10000), Poco::Net::WebSocket::SELECT_READ) : false;
@@ -143,6 +144,10 @@ void OlinkConnection::connectToHost(Poco::URI url)
             Poco::Net::HTTPResponse response;
 
             m_socket = std::make_unique<Poco::Net::WebSocket>(session, request, response);
+            if (m_socket){
+                // Common default maximum frame size is 1Mb
+                m_socket->setMaxPayloadSize(1048576);
+            }
             m_receivingDone = std::async(std::launch::async, [this](){receiveInLoop(); });
         } catch (std::exception &e) {
             m_socket.reset();

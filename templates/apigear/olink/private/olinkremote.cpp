@@ -26,6 +26,10 @@ OLinkRemote::OLinkRemote(std::unique_ptr<Poco::Net::WebSocket> socket, IConnecti
      m_node(ApiGear::ObjectLink::RemoteNode::createRemoteNode(registry)),
      m_registry(registry)
 {
+    if (m_socket){
+        // Common default maximum frame size is 1Mb
+        m_socket->setMaxPayloadSize(1048576);
+    }
     m_node->onLog(m_log.logFunc());
     m_node->onWrite([this](std::string msg) {
         writeMessage(msg, Poco::Net::WebSocket::FRAME_TEXT);
