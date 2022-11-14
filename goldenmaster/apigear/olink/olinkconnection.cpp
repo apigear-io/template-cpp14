@@ -69,7 +69,7 @@ void OlinkConnection::receiveInLoop()
                 auto frameOpCode = flags & Poco::Net::WebSocket::FRAME_OP_BITMASK;
                 if (frameOpCode == Poco::Net::WebSocket::FRAME_OP_PING){
                     writeMessage(messagePayload, Poco::Net::WebSocket::FRAME_OP_PONG);
-                }  else if (frameOpCode == Poco::Net::WebSocket::FRAME_OP_PONG) {
+                } else if (frameOpCode == Poco::Net::WebSocket::FRAME_OP_PONG) {
                     // handle pong
                 } else if (frameSize == 0 || frameOpCode == Poco::Net::WebSocket::FRAME_OP_CLOSE){
                     std::cout << "close connection" << std::endl;
