@@ -7,6 +7,12 @@
 
 #include <iostream>
 
+namespace
+{
+    const std::string closeFramePayload = "bye";
+}
+
+
 namespace ApiGear {
 namespace PocoImpl {
 
@@ -77,7 +83,7 @@ bool SocketWrapper::writeMessage(std::string message, int frameOpCode)
 
 bool SocketWrapper::isClosed() const
 {
-    return m_socket == nullptr;
+    return m_socket == nullptr || m_disconnectRequested;
 }
 
 void SocketWrapper::close()
@@ -86,6 +92,7 @@ void SocketWrapper::close()
     if (m_receivingDone.valid()){
         m_receivingDone.wait();
     }
+    writeMessage(closeFramePayload, Poco::Net::WebSocket::FRAME_OP_CLOSE);
     onClosed();
 }
 

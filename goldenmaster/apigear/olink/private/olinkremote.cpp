@@ -10,12 +10,6 @@
 
 #include <iostream>
 
-
-namespace 
-{
-    const std::string closeFramePayload = "bye";
-}
-
 namespace ApiGear {
 namespace PocoImpl {
 
@@ -37,7 +31,6 @@ OLinkRemote::~OLinkRemote()
     removeNodeFromRegistryIfNotUnlikend();
     if(!m_socket.isClosed())
     {
-        m_socket.writeMessage(closeFramePayload, Poco::Net::WebSocket::FRAME_OP_CLOSE);
         m_socket.close();
     }
 }

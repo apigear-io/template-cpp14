@@ -16,7 +16,6 @@ using namespace ApiGear::PocoImpl;
 namespace{
     const std::string jsonContentType = "application/json";
     const std::string defaultGatewayUrl = "ws://localhost:8000/ws";
-    const std::string closeFramePayload = "bye";
     const std::string pingFramePayload = "ping";
     long retryInterval = 500; //Milliseconds
     long smallDelay = 10; //Milliseconds
@@ -142,9 +141,6 @@ void OlinkConnection::closeQueue()
         m_processMessagesTask->cancel();
     }
     flushMessages();
-    if (!m_socket.isClosed()){
-        m_socket.writeMessage(closeFramePayload, Poco::Net::WebSocket::FRAME_OP_CLOSE);
-    }
 }
 
 
