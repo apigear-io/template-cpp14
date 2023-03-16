@@ -3,6 +3,7 @@ version: 3
 vars:
   ASSET: apigear_{{OS}}_{{ARCH}}.zip
   EXE: apigear{{exeExt}}
+  RELEASE: https://github.com/apigear-io/cli/releases/latest/downloadx
 tasks:
   default:
     desc: Default task
@@ -13,7 +14,7 @@ tasks:
     cmds:
       - rm -rf tmp bin
       - mkdir tmp bin
-      - gh release download -R apigear-io/cli -p '{{.ASSET}}' -D tmp
+      - curl -sLf {{.RELEASE}}/{{.ASSET}} -o tmp/{{.ASSET}}
       - unzip tmp/{{.ASSET}} -d tmp      
       - mv tmp/{{.EXE}} bin/{{.EXE}}
       - rm -rf tmp
