@@ -1,0 +1,40 @@
+version: 3
+
+vars:
+  ASSET: apigear_{{OS}}_{{ARCH}}.zip
+  EXE: apigear{{exeExt}}
+tasks:
+  default:
+    desc: Default task
+    cmds:
+      - task --list
+  install:
+    desc: Install dependencies
+    cmds:
+      - rm -rf tmp bin
+      - mkdir tmp bin
+      - gh release download -R apigear-io/cli -p '{{.ASSET}}' -D tmp
+      - unzip tmp/{{.ASSET}} -d tmp      
+      - mv tmp/{{.EXE}} bin/{{.EXE}}
+      - rm -rf tmp
+  clean:
+    desc: Clean up
+    cmds:
+      - rm -rf tmp bin test
+  test:
+    desc: Run tests
+    cmds:
+      - bin/{{.EXE}} g s ./apigear/goldenmaster.solution.yaml
+  diff:
+    desc: Diff generated files
+    deps: [test]
+    cmds:
+      - git --no-pager diff --no-index ./test ./goldenmaster
+  format_style:
+    desc: Format code
+    cmds:
+      - find goldenmaster -type f -iname '*.h' -o -type f -iname '*.cpp' | xargs clang-format -i
+  test_style:
+    desc: Test code style
+    cmds:
+      - clang-format --version && find goldenmaster -type f -iname '*.h' -o -type f -iname '*.cpp' | xargs clang-format --dry-run --Werror
