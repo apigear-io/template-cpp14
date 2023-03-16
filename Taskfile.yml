@@ -3,7 +3,7 @@ version: 3
 vars:
   ASSET: apigear_{{OS}}_{{ARCH}}.zip
   EXE: apigear{{exeExt}}
-  RELEASE: https://github.com/apigear-io/cli/releases/latest/downloadx
+  RELEASE: https://github.com/apigear-io/cli/releases/latest/download
 tasks:
   default:
     desc: Default task
