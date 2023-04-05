@@ -21,6 +21,7 @@ target_include_directories(testbed2-olink
     $<INSTALL_INTERFACE:include/testbed2>
 )
 target_link_libraries(testbed2-olink 
+    PUBLIC
     testbed2::testbed2-core
     apigear::poco-olink
 )

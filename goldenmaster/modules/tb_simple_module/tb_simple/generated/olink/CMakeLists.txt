@@ -25,6 +25,7 @@ target_include_directories(tb_simple-olink
     $<INSTALL_INTERFACE:include/tb_simple>
 )
 target_link_libraries(tb_simple-olink 
+    PUBLIC
     tb_simple::tb_simple-core
     apigear::poco-olink
 )

@@ -17,6 +17,7 @@ target_include_directories(testbed1-olink
     $<INSTALL_INTERFACE:include/testbed1>
 )
 target_link_libraries(testbed1-olink 
+    PUBLIC
     testbed1::testbed1-core
     apigear::poco-olink
 )

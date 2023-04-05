@@ -10,7 +10,6 @@ if(NOT nlohmann_json_FOUND)
   FetchContent_MakeAvailable(json)
 endif()
 
-find_package(Poco REQUIRED Foundation Net Util)
 
 set (SOURCES
     tracer.cpp

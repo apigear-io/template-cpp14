@@ -22,6 +22,7 @@ target_include_directories({{$module_id}}-olink
     $<INSTALL_INTERFACE:include/{{$module_id}}>
 )
 target_link_libraries({{$module_id}}-olink 
+    PUBLIC
     {{$module_id}}::{{$module_id}}-core
     apigear::poco-olink
 )

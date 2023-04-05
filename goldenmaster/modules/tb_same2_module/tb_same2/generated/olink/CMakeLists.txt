@@ -21,6 +21,7 @@ target_include_directories(tb_same2-olink
     $<INSTALL_INTERFACE:include/tb_same2>
 )
 target_link_libraries(tb_same2-olink 
+    PUBLIC
     tb_same2::tb_same2-core
     apigear::poco-olink
 )
