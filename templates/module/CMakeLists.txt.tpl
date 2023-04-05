@@ -1,7 +1,7 @@
 {{- $module_id := snake .Module.Name -}}
 {{- $module_idFirstUpper := upper1 $module_id -}}
 {{- $features := .Features -}}
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.23.2)
 project({{$module_id}})
 
 include(CTest)

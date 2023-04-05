@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.23.2)
 project(tb_same1)
 
 include(CTest)

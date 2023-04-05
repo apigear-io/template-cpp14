@@ -1,5 +1,5 @@
 project(Testtestbed2)
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.23.2)
 include(CTest)
 find_package(testbed2 REQUIRED)
 
