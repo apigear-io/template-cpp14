@@ -14,12 +14,16 @@ endif()
 
 add_subdirectory(testApi)
 
-add_executable(server_for_tests "tests_single_object/server_for_tests.cpp")
-add_executable(test_client_set_int_property "tests_single_object/test_client_set_int_property.cpp" )
-add_executable(test_client_set_string_property "tests_single_object/test_client_set_string_property.cpp" )
+add_executable(single_server_for_tests "tests_single_object/server_for_tests.cpp")
+add_executable(test_single_client_set_int_property "tests_single_object/test_client_set_int_property.cpp" )
+add_executable(test_single_client_set_string_property "tests_single_object/test_client_set_string_property.cpp" )
+add_executable(test_clients_set_int "tests_many_objects/test_client_set_int.cpp" )
+add_executable(servers_for_tests "tests_many_objects/server_for_tests.cpp" "tests_many_objects/prepare_test_services.cpp" )
 
 
-target_link_libraries(server_for_tests  api::api-olink api::api-implementation)
-target_link_libraries(test_client_set_int_property api::api-olink)
-target_link_libraries(test_client_set_string_property api::api-olink)
+target_link_libraries(single_server_for_tests  api::api-olink api::api-implementation)
+target_link_libraries(test_single_client_set_int_property api::api-olink)
+target_link_libraries(test_single_client_set_string_property api::api-olink)
+target_link_libraries(test_clients_set_int api::api-olink)
+target_link_libraries(servers_for_tests api::api-olink  api::api-implementation)
 

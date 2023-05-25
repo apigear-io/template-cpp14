@@ -5,7 +5,7 @@ version: "0.1"
 layers:
   - name: test
     inputs:
-      - performance_interface.module.yaml
+      - performance_interface100.module.yaml
     output: ../testApi
     template: ../..
     force: true

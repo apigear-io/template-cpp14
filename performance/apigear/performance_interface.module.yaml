@@ -2,15 +2,6 @@ schema: apigear.module/1.0
 name: api
 version: "1.0"
 
-# test properties with simple types
-# test properties with arrays of simple types
-# test functions with simple types
-# test functions with arrays of simple types
-# test signals with simple types
-# test signals with arrays of simple types
-# test return with simple types
-# test return with arrays of simple types
-
 interfaces:
   - name: TestApi
     properties:

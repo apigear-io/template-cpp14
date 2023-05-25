@@ -11,6 +11,7 @@ set(LIB_INSTALL_DIR lib/ CACHE FILEPATH "")
 set(InstallDir ${LIB_INSTALL_DIR}/cmake/api)
 
 add_subdirectory(generated/api)
+
 add_subdirectory(generated/core)
 add_subdirectory(implementation)
 add_subdirectory(generated/olink)
