@@ -13,6 +13,10 @@
 #include "api/generated/olink/testapi1client.h"
 #include "prepare_test_data.h"
 
+
+#include <iostream>
+
+
 struct PropertyIntTestData
 {
 public:
@@ -20,13 +24,27 @@ public:
     std::function<void(int)> testFunction;
 };
 
-class IntPropertySetter {
+class StringPropertySetter {
 public:
-    template<class Interface>
-    void testFunction(std::shared_ptr<Interface> object, int value)
+    StringPropertySetter(int numberOfMessages)
     {
-        object->setPropInt(value);
+        for (int messageNo = 0u; messageNo < numberOfMessages; messageNo++)
+        {
+            messagesToSend.push_back("Some longer property to be set, prepared before test for each message number to reduce allocating time in tests"
+                    + std::to_string(messageNo));
+        }
     }
+
+    template<class Interface>
+    void testFunction(std::shared_ptr<Interface> object, int number)
+    {
+        object->setPropString(messagesToSend[number]);
+    }
+
+    // Prepare messages to send before test starts not to slow down it with allocation of this many messages:
+    std::vector<std::string> messagesToSend;
+
+
 };
 
 int main(int argc, char* argv[])
@@ -45,8 +63,8 @@ int main(int argc, char* argv[])
     ApiGear::PocoImpl::OlinkConnection client(registry);
     client.connectToHost(Poco::URI(localHostAddress));
     std::vector<std::shared_future<void>> tasks;
-    IntPropertySetter setter;
-    auto testData = getTestData<PropertyIntTestData, IntPropertySetter>(setter);
+    StringPropertySetter setter(messages_number);
+    auto testData = getTestData<PropertyIntTestData, StringPropertySetter>(setter);
 
     for (auto& element : testData)
     {
@@ -56,14 +74,14 @@ int main(int argc, char* argv[])
     for (auto& element : testData)
     {
         auto sendMessagesTask = std::async(std::launch::async,
-            [&element, messages_number](){
+            [&element, messages_number]() {
                 while (element.sink->initReceived != true)
                 {
                     // wait until ready to use.
                 }
                 for (auto i = 0; i < messages_number; i++)
                 {
-                    element.testFunction(i + 1);
+                    element.testFunction(i);
                 }
             });
         tasks.push_back(sendMessagesTask.share());
@@ -92,7 +110,7 @@ int main(int argc, char* argv[])
     }
     auto end = std::chrono::high_resolution_clock::now();
     client.disconnect();
-  
+
     auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 
 

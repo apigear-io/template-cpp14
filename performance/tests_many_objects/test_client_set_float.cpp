@@ -13,19 +13,19 @@
 #include "api/generated/olink/testapi1client.h"
 #include "prepare_test_data.h"
 
-struct PropertyIntTestData
+struct PropertyFloatTestData
 {
 public:
     std::shared_ptr<InspectedSink> sink;
     std::function<void(int)> testFunction;
 };
 
-class IntPropertySetter {
+class FloatPropertySetter {
 public:
     template<class Interface>
-    void testFunction(std::shared_ptr<Interface> object, int value)
+    void testFunction(std::shared_ptr<Interface> object, float value)
     {
-        object->setPropInt(value);
+        object->setPropFloat(value);
     }
 };
 
@@ -45,8 +45,8 @@ int main(int argc, char* argv[])
     ApiGear::PocoImpl::OlinkConnection client(registry);
     client.connectToHost(Poco::URI(localHostAddress));
     std::vector<std::shared_future<void>> tasks;
-    IntPropertySetter setter;
-    auto testData = getTestData<PropertyIntTestData, IntPropertySetter>(setter);
+    FloatPropertySetter setter;
+    auto testData = getTestData<PropertyFloatTestData, FloatPropertySetter>(setter);
 
     for (auto& element : testData)
     {
@@ -56,14 +56,14 @@ int main(int argc, char* argv[])
     for (auto& element : testData)
     {
         auto sendMessagesTask = std::async(std::launch::async,
-            [&element, messages_number](){
+            [&element, messages_number]() {
                 while (element.sink->initReceived != true)
                 {
                     // wait until ready to use.
                 }
                 for (auto i = 0; i < messages_number; i++)
                 {
-                    element.testFunction(i + 1);
+                    element.testFunction(i + float(i)/1000 + 1);
                 }
             });
         tasks.push_back(sendMessagesTask.share());
@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
     }
     auto end = std::chrono::high_resolution_clock::now();
     client.disconnect();
-  
+
     auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 
 
