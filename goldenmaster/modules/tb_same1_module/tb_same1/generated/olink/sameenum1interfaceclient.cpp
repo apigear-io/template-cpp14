@@ -5,6 +5,7 @@
 #include "tb_same1/generated/core/tb_same1.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::TbSame1;
@@ -19,17 +20,12 @@ SameEnum1InterfaceClient::SameEnum1InterfaceClient()
     : m_publisher(std::make_unique<SameEnum1InterfacePublisher>())
 {}
 
-void SameEnum1InterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("prop1")) {
-        setProp1Local(fields["prop1"].get<Enum1Enum>());
-    }
-}
-
-void SameEnum1InterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void SameEnum1InterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "prop1") {
-        setProp1Local(value.get<Enum1Enum>());
+        Enum1Enum value_prop1 {};
+        readValue(value, value_prop1);
+        setProp1Local(value_prop1);
     }
 }
 
@@ -40,7 +36,7 @@ void SameEnum1InterfaceClient::setProp1(Enum1Enum prop1)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-    m_node->setRemoteProperty(propertyId, prop1);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop1));
 }
 
 void SameEnum1InterfaceClient::setProp1Local(Enum1Enum prop1)
@@ -77,10 +73,12 @@ std::future<Enum1Enum> SameEnum1InterfaceClient::func1Async(Enum1Enum param1)
         {
             std::promise<Enum1Enum> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const Enum1Enum& value = arg.value.get<Enum1Enum>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    Enum1Enum result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -92,23 +90,31 @@ std::string SameEnum1InterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void SameEnum1InterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void SameEnum1InterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sig1") {
-        m_publisher->publishSig1(args[0].get<Enum1Enum>());   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sig1") {Enum1Enum arg_param1 {};
+        argumentsReader.read(arg_param1);m_publisher->publishSig1(arg_param1);   
         return;
     }
 }
 
-void SameEnum1InterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void SameEnum1InterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void SameEnum1InterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void SameEnum1InterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void SameEnum1InterfaceClient::olinkOnRelease()

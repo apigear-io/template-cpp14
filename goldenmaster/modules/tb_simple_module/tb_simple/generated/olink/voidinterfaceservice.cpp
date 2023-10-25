@@ -6,6 +6,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -35,18 +36,19 @@ std::string VoidInterfaceService::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json VoidInterfaceService::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent VoidInterfaceService::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
     (void) fcnArgs;
     AG_LOG_DEBUG("VoidInterfaceService invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
     if(memberMethod == "funcVoid") {
         m_VoidInterface->funcVoid();
-        return nlohmann::json{};
+        return {};
     }
-    return nlohmann::json();
+    return {};
 }
 
-void VoidInterfaceService::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void VoidInterfaceService::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("VoidInterfaceService set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     // no properties to set
@@ -62,14 +64,13 @@ void VoidInterfaceService::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("VoidInterfaceService unlinked " + objectId);
 }
 
-nlohmann::json VoidInterfaceService::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent VoidInterfaceService::olinkCollectProperties()
 {
-    return nlohmann::json::object({
-    });
+    return ApiGear::ObjectLink::argumentsToContent( );
 }
 void VoidInterfaceService::onSigVoid()
 {
-    const nlohmann::json args = {  };
+    auto args = ApiGear::ObjectLink::argumentsToContent();
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigVoid");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {

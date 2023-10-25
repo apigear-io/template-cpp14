@@ -53,8 +53,22 @@ namespace {
         Poco::Net::HTTPRequest request(Poco::Net::HTTPRequest::HTTP_GET, "/ws", Poco::Net::HTTPRequest::HTTP_1_1);
         Poco::Net::HTTPResponse response;
 
-        nlohmann::json initProperties1 = { {"property1", "some_string1" }, { "property2",  92 }, { "property3", true } };
-        nlohmann::json initProperties2 = { {"property1", "some_string2" }, { "property2",  29 }, { "property3", false } };
+        std::string propert1Name = "property1";
+        std::string propert2Name = "property2";
+        std::string propert3Name = "property3";
+        std::string stringValue1 = "someString1";
+        std::string stringValue2 = "someString2";
+        int someIntValue1 = 91;
+        int someIntValue2 = 19;
+        bool boolFalse = false;
+        bool boolTrue = true;
+
+        auto initProperties1 = ApiGear::ObjectLink::argumentsToContent(ApiGear::ObjectLink::toInitialProperty(propert1Name, stringValue1),
+            ApiGear::ObjectLink::toInitialProperty( propert2Name,  someIntValue1),
+            ApiGear::ObjectLink::toInitialProperty( propert3Name, boolTrue ));
+        auto initProperties2 = ApiGear::ObjectLink::argumentsToContent(ApiGear::ObjectLink::toInitialProperty(propert1Name, stringValue2),
+            ApiGear::ObjectLink::toInitialProperty( propert2Name,  someIntValue2),
+            ApiGear::ObjectLink::toInitialProperty( propert3Name, boolFalse));
 
         std::string any_payload = "any";
 

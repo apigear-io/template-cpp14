@@ -5,6 +5,7 @@
 #include "testbed1/generated/core/testbed1.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::Testbed1;
@@ -19,35 +20,27 @@ StructArrayInterfaceClient::StructArrayInterfaceClient()
     : m_publisher(std::make_unique<StructArrayInterfacePublisher>())
 {}
 
-void StructArrayInterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("propBool")) {
-        setPropBoolLocal(fields["propBool"].get<std::list<StructBool>>());
-    }
-    if(fields.contains("propInt")) {
-        setPropIntLocal(fields["propInt"].get<std::list<StructInt>>());
-    }
-    if(fields.contains("propFloat")) {
-        setPropFloatLocal(fields["propFloat"].get<std::list<StructFloat>>());
-    }
-    if(fields.contains("propString")) {
-        setPropStringLocal(fields["propString"].get<std::list<StructString>>());
-    }
-}
-
-void StructArrayInterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void StructArrayInterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "propBool") {
-        setPropBoolLocal(value.get<std::list<StructBool>>());
+        std::list<StructBool> value_propBool {};
+        readValue(value, value_propBool);
+        setPropBoolLocal(value_propBool);
     }
     else if ( propertyName == "propInt") {
-        setPropIntLocal(value.get<std::list<StructInt>>());
+        std::list<StructInt> value_propInt {};
+        readValue(value, value_propInt);
+        setPropIntLocal(value_propInt);
     }
     else if ( propertyName == "propFloat") {
-        setPropFloatLocal(value.get<std::list<StructFloat>>());
+        std::list<StructFloat> value_propFloat {};
+        readValue(value, value_propFloat);
+        setPropFloatLocal(value_propFloat);
     }
     else if ( propertyName == "propString") {
-        setPropStringLocal(value.get<std::list<StructString>>());
+        std::list<StructString> value_propString {};
+        readValue(value, value_propString);
+        setPropStringLocal(value_propString);
     }
 }
 
@@ -58,7 +51,7 @@ void StructArrayInterfaceClient::setPropBool(const std::list<StructBool>& propBo
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
-    m_node->setRemoteProperty(propertyId, propBool);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propBool));
 }
 
 void StructArrayInterfaceClient::setPropBoolLocal(const std::list<StructBool>& propBool)
@@ -81,7 +74,7 @@ void StructArrayInterfaceClient::setPropInt(const std::list<StructInt>& propInt)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
-    m_node->setRemoteProperty(propertyId, propInt);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt));
 }
 
 void StructArrayInterfaceClient::setPropIntLocal(const std::list<StructInt>& propInt)
@@ -104,7 +97,7 @@ void StructArrayInterfaceClient::setPropFloat(const std::list<StructFloat>& prop
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
-    m_node->setRemoteProperty(propertyId, propFloat);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat));
 }
 
 void StructArrayInterfaceClient::setPropFloatLocal(const std::list<StructFloat>& propFloat)
@@ -127,7 +120,7 @@ void StructArrayInterfaceClient::setPropString(const std::list<StructString>& pr
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
-    m_node->setRemoteProperty(propertyId, propString);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propString));
 }
 
 void StructArrayInterfaceClient::setPropStringLocal(const std::list<StructString>& propString)
@@ -164,10 +157,12 @@ std::future<StructBool> StructArrayInterfaceClient::funcBoolAsync(const std::lis
         {
             std::promise<StructBool> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcBool");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const StructBool& value = arg.value.get<StructBool>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramBool );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    StructBool result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -195,10 +190,12 @@ std::future<StructBool> StructArrayInterfaceClient::funcIntAsync(const std::list
         {
             std::promise<StructBool> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramInt}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const StructBool& value = arg.value.get<StructBool>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramInt );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    StructBool result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -226,10 +223,12 @@ std::future<StructBool> StructArrayInterfaceClient::funcFloatAsync(const std::li
         {
             std::promise<StructBool> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const StructBool& value = arg.value.get<StructBool>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramFloat );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    StructBool result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -257,10 +256,12 @@ std::future<StructBool> StructArrayInterfaceClient::funcStringAsync(const std::l
         {
             std::promise<StructBool> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcString");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramString}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const StructBool& value = arg.value.get<StructBool>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramString );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    StructBool result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -272,35 +273,43 @@ std::string StructArrayInterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void StructArrayInterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void StructArrayInterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sigBool") {
-        m_publisher->publishSigBool(args[0].get<std::list<StructBool>>());   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sigBool") {std::list<StructBool> arg_paramBool {};
+        argumentsReader.read(arg_paramBool);m_publisher->publishSigBool(arg_paramBool);   
         return;
     }
-    if(signalName == "sigInt") {
-        m_publisher->publishSigInt(args[0].get<std::list<StructInt>>());   
+    if(signalName == "sigInt") {std::list<StructInt> arg_paramInt {};
+        argumentsReader.read(arg_paramInt);m_publisher->publishSigInt(arg_paramInt);   
         return;
     }
-    if(signalName == "sigFloat") {
-        m_publisher->publishSigFloat(args[0].get<std::list<StructFloat>>());   
+    if(signalName == "sigFloat") {std::list<StructFloat> arg_paramFloat {};
+        argumentsReader.read(arg_paramFloat);m_publisher->publishSigFloat(arg_paramFloat);   
         return;
     }
-    if(signalName == "sigString") {
-        m_publisher->publishSigString(args[0].get<std::list<StructString>>());   
+    if(signalName == "sigString") {std::list<StructString> arg_paramString {};
+        argumentsReader.read(arg_paramString);m_publisher->publishSigString(arg_paramString);   
         return;
     }
 }
 
-void StructArrayInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void StructArrayInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void StructArrayInterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void StructArrayInterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void StructArrayInterfaceClient::olinkOnRelease()

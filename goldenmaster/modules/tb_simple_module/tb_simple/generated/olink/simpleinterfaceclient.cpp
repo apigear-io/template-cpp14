@@ -5,6 +5,7 @@
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::TbSimple;
@@ -19,59 +20,47 @@ SimpleInterfaceClient::SimpleInterfaceClient()
     : m_publisher(std::make_unique<SimpleInterfacePublisher>())
 {}
 
-void SimpleInterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("propBool")) {
-        setPropBoolLocal(fields["propBool"].get<bool>());
-    }
-    if(fields.contains("propInt")) {
-        setPropIntLocal(fields["propInt"].get<int>());
-    }
-    if(fields.contains("propInt32")) {
-        setPropInt32Local(fields["propInt32"].get<int32_t>());
-    }
-    if(fields.contains("propInt64")) {
-        setPropInt64Local(fields["propInt64"].get<int64_t>());
-    }
-    if(fields.contains("propFloat")) {
-        setPropFloatLocal(fields["propFloat"].get<float>());
-    }
-    if(fields.contains("propFloat32")) {
-        setPropFloat32Local(fields["propFloat32"].get<float>());
-    }
-    if(fields.contains("propFloat64")) {
-        setPropFloat64Local(fields["propFloat64"].get<double>());
-    }
-    if(fields.contains("propString")) {
-        setPropStringLocal(fields["propString"].get<std::string>());
-    }
-}
-
-void SimpleInterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void SimpleInterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "propBool") {
-        setPropBoolLocal(value.get<bool>());
+        bool value_propBool {};
+        readValue(value, value_propBool);
+        setPropBoolLocal(value_propBool);
     }
     else if ( propertyName == "propInt") {
-        setPropIntLocal(value.get<int>());
+        int value_propInt {};
+        readValue(value, value_propInt);
+        setPropIntLocal(value_propInt);
     }
     else if ( propertyName == "propInt32") {
-        setPropInt32Local(value.get<int32_t>());
+        int32_t value_propInt32 {};
+        readValue(value, value_propInt32);
+        setPropInt32Local(value_propInt32);
     }
     else if ( propertyName == "propInt64") {
-        setPropInt64Local(value.get<int64_t>());
+        int64_t value_propInt64 {};
+        readValue(value, value_propInt64);
+        setPropInt64Local(value_propInt64);
     }
     else if ( propertyName == "propFloat") {
-        setPropFloatLocal(value.get<float>());
+        float value_propFloat {};
+        readValue(value, value_propFloat);
+        setPropFloatLocal(value_propFloat);
     }
     else if ( propertyName == "propFloat32") {
-        setPropFloat32Local(value.get<float>());
+        float value_propFloat32 {};
+        readValue(value, value_propFloat32);
+        setPropFloat32Local(value_propFloat32);
     }
     else if ( propertyName == "propFloat64") {
-        setPropFloat64Local(value.get<double>());
+        double value_propFloat64 {};
+        readValue(value, value_propFloat64);
+        setPropFloat64Local(value_propFloat64);
     }
     else if ( propertyName == "propString") {
-        setPropStringLocal(value.get<std::string>());
+        std::string value_propString {};
+        readValue(value, value_propString);
+        setPropStringLocal(value_propString);
     }
 }
 
@@ -82,7 +71,7 @@ void SimpleInterfaceClient::setPropBool(bool propBool)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
-    m_node->setRemoteProperty(propertyId, propBool);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propBool));
 }
 
 void SimpleInterfaceClient::setPropBoolLocal(bool propBool)
@@ -105,7 +94,7 @@ void SimpleInterfaceClient::setPropInt(int propInt)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
-    m_node->setRemoteProperty(propertyId, propInt);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt));
 }
 
 void SimpleInterfaceClient::setPropIntLocal(int propInt)
@@ -128,7 +117,7 @@ void SimpleInterfaceClient::setPropInt32(int32_t propInt32)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt32");
-    m_node->setRemoteProperty(propertyId, propInt32);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt32));
 }
 
 void SimpleInterfaceClient::setPropInt32Local(int32_t propInt32)
@@ -151,7 +140,7 @@ void SimpleInterfaceClient::setPropInt64(int64_t propInt64)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt64");
-    m_node->setRemoteProperty(propertyId, propInt64);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt64));
 }
 
 void SimpleInterfaceClient::setPropInt64Local(int64_t propInt64)
@@ -174,7 +163,7 @@ void SimpleInterfaceClient::setPropFloat(float propFloat)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
-    m_node->setRemoteProperty(propertyId, propFloat);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat));
 }
 
 void SimpleInterfaceClient::setPropFloatLocal(float propFloat)
@@ -197,7 +186,7 @@ void SimpleInterfaceClient::setPropFloat32(float propFloat32)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat32");
-    m_node->setRemoteProperty(propertyId, propFloat32);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat32));
 }
 
 void SimpleInterfaceClient::setPropFloat32Local(float propFloat32)
@@ -220,7 +209,7 @@ void SimpleInterfaceClient::setPropFloat64(double propFloat64)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat64");
-    m_node->setRemoteProperty(propertyId, propFloat64);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat64));
 }
 
 void SimpleInterfaceClient::setPropFloat64Local(double propFloat64)
@@ -243,7 +232,7 @@ void SimpleInterfaceClient::setPropString(const std::string& propString)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
-    m_node->setRemoteProperty(propertyId, propString);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propString));
 }
 
 void SimpleInterfaceClient::setPropStringLocal(const std::string& propString)
@@ -270,7 +259,7 @@ void SimpleInterfaceClient::funcNoReturnValue(bool paramBool)
             (void) this;
             (void) arg;
         };
-    const nlohmann::json &args = nlohmann::json::array({ paramBool });
+    auto args = ApiGear::ObjectLink::argumentsToContent( paramBool );
     static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcNoReturnValue");
     m_node->invokeRemote(operationId, args, func);
 }
@@ -286,8 +275,9 @@ std::future<void> SimpleInterfaceClient::funcNoReturnValueAsync(bool paramBool)
         {
             std::promise<void> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcNoReturnValue");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramBool );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     (void) arg;
                     resultPromise.set_value();
                 });
@@ -317,10 +307,12 @@ std::future<bool> SimpleInterfaceClient::funcBoolAsync(bool paramBool)
         {
             std::promise<bool> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcBool");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const bool& value = arg.value.get<bool>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramBool );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    bool result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -348,10 +340,12 @@ std::future<int> SimpleInterfaceClient::funcIntAsync(int paramInt)
         {
             std::promise<int> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramInt}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const int& value = arg.value.get<int>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramInt );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    int result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -379,10 +373,12 @@ std::future<int32_t> SimpleInterfaceClient::funcInt32Async(int32_t paramInt32)
         {
             std::promise<int32_t> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt32");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramInt32}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const int32_t& value = arg.value.get<int32_t>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramInt32 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    int32_t result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -410,10 +406,12 @@ std::future<int64_t> SimpleInterfaceClient::funcInt64Async(int64_t paramInt64)
         {
             std::promise<int64_t> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt64");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramInt64}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const int64_t& value = arg.value.get<int64_t>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramInt64 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    int64_t result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -441,10 +439,12 @@ std::future<float> SimpleInterfaceClient::funcFloatAsync(float paramFloat)
         {
             std::promise<float> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const float& value = arg.value.get<float>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramFloat );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    float result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -472,10 +472,12 @@ std::future<float> SimpleInterfaceClient::funcFloat32Async(float paramFloat32)
         {
             std::promise<float> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat32");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramFloat32}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const float& value = arg.value.get<float>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramFloat32 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    float result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -503,10 +505,12 @@ std::future<double> SimpleInterfaceClient::funcFloat64Async(double paramFloat)
         {
             std::promise<double> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat64");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const double& value = arg.value.get<double>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramFloat );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    double result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -534,10 +538,12 @@ std::future<std::string> SimpleInterfaceClient::funcStringAsync(const std::strin
         {
             std::promise<std::string> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcString");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramString}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::string& value = arg.value.get<std::string>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramString );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::string result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -549,51 +555,59 @@ std::string SimpleInterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void SimpleInterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void SimpleInterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sigBool") {
-        m_publisher->publishSigBool(args[0].get<bool>());   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sigBool") {bool arg_paramBool {};
+        argumentsReader.read(arg_paramBool);m_publisher->publishSigBool(arg_paramBool);   
         return;
     }
-    if(signalName == "sigInt") {
-        m_publisher->publishSigInt(args[0].get<int>());   
+    if(signalName == "sigInt") {int arg_paramInt {};
+        argumentsReader.read(arg_paramInt);m_publisher->publishSigInt(arg_paramInt);   
         return;
     }
-    if(signalName == "sigInt32") {
-        m_publisher->publishSigInt32(args[0].get<int32_t>());   
+    if(signalName == "sigInt32") {int32_t arg_paramInt32 {};
+        argumentsReader.read(arg_paramInt32);m_publisher->publishSigInt32(arg_paramInt32);   
         return;
     }
-    if(signalName == "sigInt64") {
-        m_publisher->publishSigInt64(args[0].get<int64_t>());   
+    if(signalName == "sigInt64") {int64_t arg_paramInt64 {};
+        argumentsReader.read(arg_paramInt64);m_publisher->publishSigInt64(arg_paramInt64);   
         return;
     }
-    if(signalName == "sigFloat") {
-        m_publisher->publishSigFloat(args[0].get<float>());   
+    if(signalName == "sigFloat") {float arg_paramFloat {};
+        argumentsReader.read(arg_paramFloat);m_publisher->publishSigFloat(arg_paramFloat);   
         return;
     }
-    if(signalName == "sigFloat32") {
-        m_publisher->publishSigFloat32(args[0].get<float>());   
+    if(signalName == "sigFloat32") {float arg_paramFloa32 {};
+        argumentsReader.read(arg_paramFloa32);m_publisher->publishSigFloat32(arg_paramFloa32);   
         return;
     }
-    if(signalName == "sigFloat64") {
-        m_publisher->publishSigFloat64(args[0].get<double>());   
+    if(signalName == "sigFloat64") {double arg_paramFloat64 {};
+        argumentsReader.read(arg_paramFloat64);m_publisher->publishSigFloat64(arg_paramFloat64);   
         return;
     }
-    if(signalName == "sigString") {
-        m_publisher->publishSigString(args[0].get<std::string>());   
+    if(signalName == "sigString") {std::string arg_paramString {};
+        argumentsReader.read(arg_paramString);m_publisher->publishSigString(arg_paramString);   
         return;
     }
 }
 
-void SimpleInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void SimpleInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void SimpleInterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void SimpleInterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void SimpleInterfaceClient::olinkOnRelease()

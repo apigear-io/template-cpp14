@@ -6,6 +6,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -35,31 +36,34 @@ std::string NoSignalsInterfaceService::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json NoSignalsInterfaceService::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent NoSignalsInterfaceService::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
     AG_LOG_DEBUG("NoSignalsInterfaceService invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
     if(memberMethod == "funcVoid") {
         m_NoSignalsInterface->funcVoid();
-        return nlohmann::json{};
+        return {};
     }
     if(memberMethod == "funcBool") {
-        const bool& paramBool = fcnArgs.at(0);
-        bool result = m_NoSignalsInterface->funcBool(paramBool);
-        return result;
+        bool paramBool{};
+        argumentsReader.read(paramBool);
+        return ApiGear::ObjectLink::invokeReturnValue(m_NoSignalsInterface->funcBool(paramBool));
     }
-    return nlohmann::json();
+    return {};
 }
 
-void NoSignalsInterfaceService::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void NoSignalsInterfaceService::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("NoSignalsInterfaceService set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "propBool") {
-        bool propBool = value.get<bool>();
-        m_NoSignalsInterface->setPropBool(propBool);
+        bool value_propBool{};
+        ApiGear::ObjectLink::readValue(value, value_propBool);
+        m_NoSignalsInterface->setPropBool(value_propBool);
     }
     if(memberProperty == "propInt") {
-        int propInt = value.get<int>();
-        m_NoSignalsInterface->setPropInt(propInt);
+        int value_propInt{};
+        ApiGear::ObjectLink::readValue(value, value_propInt);
+        m_NoSignalsInterface->setPropInt(value_propInt);
     } 
 }
 
@@ -71,12 +75,11 @@ void NoSignalsInterfaceService::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("NoSignalsInterfaceService unlinked " + objectId);
 }
 
-nlohmann::json NoSignalsInterfaceService::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent NoSignalsInterfaceService::olinkCollectProperties()
 {
-    return nlohmann::json::object({
-        { "propBool", m_NoSignalsInterface->getPropBool() },
-        { "propInt", m_NoSignalsInterface->getPropInt() }
-    });
+    return ApiGear::ObjectLink::argumentsToContent(
+        ApiGear::ObjectLink::toInitialProperty(std::string("propBool"), m_NoSignalsInterface->getPropBool()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propInt"), m_NoSignalsInterface->getPropInt()) );
 }
 void NoSignalsInterfaceService::onPropBoolChanged(bool propBool)
 {
@@ -85,7 +88,7 @@ void NoSignalsInterfaceService::onPropBoolChanged(bool propBool)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propBool);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propBool));
         }
     }
 }
@@ -96,7 +99,7 @@ void NoSignalsInterfaceService::onPropIntChanged(int propInt)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propInt);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propInt));
         }
     }
 }

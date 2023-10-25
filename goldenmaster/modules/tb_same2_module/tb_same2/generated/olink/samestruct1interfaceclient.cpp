@@ -5,6 +5,7 @@
 #include "tb_same2/generated/core/tb_same2.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::TbSame2;
@@ -19,17 +20,12 @@ SameStruct1InterfaceClient::SameStruct1InterfaceClient()
     : m_publisher(std::make_unique<SameStruct1InterfacePublisher>())
 {}
 
-void SameStruct1InterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("prop1")) {
-        setProp1Local(fields["prop1"].get<Struct1>());
-    }
-}
-
-void SameStruct1InterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void SameStruct1InterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "prop1") {
-        setProp1Local(value.get<Struct1>());
+        Struct1 value_prop1 {};
+        readValue(value, value_prop1);
+        setProp1Local(value_prop1);
     }
 }
 
@@ -40,7 +36,7 @@ void SameStruct1InterfaceClient::setProp1(const Struct1& prop1)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-    m_node->setRemoteProperty(propertyId, prop1);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop1));
 }
 
 void SameStruct1InterfaceClient::setProp1Local(const Struct1& prop1)
@@ -77,10 +73,12 @@ std::future<Struct1> SameStruct1InterfaceClient::func1Async(const Struct1& param
         {
             std::promise<Struct1> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const Struct1& value = arg.value.get<Struct1>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    Struct1 result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -92,23 +90,31 @@ std::string SameStruct1InterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void SameStruct1InterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void SameStruct1InterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sig1") {
-        m_publisher->publishSig1(args[0].get<Struct1>());   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sig1") {Struct1 arg_param1 {};
+        argumentsReader.read(arg_param1);m_publisher->publishSig1(arg_param1);   
         return;
     }
 }
 
-void SameStruct1InterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void SameStruct1InterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void SameStruct1InterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void SameStruct1InterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void SameStruct1InterfaceClient::olinkOnRelease()

@@ -6,6 +6,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -35,50 +36,55 @@ std::string EnumInterfaceService::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json EnumInterfaceService::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent EnumInterfaceService::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
     AG_LOG_DEBUG("EnumInterfaceService invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
     if(memberMethod == "func0") {
-        const Enum0Enum& param0 = fcnArgs.at(0);
-        Enum0Enum result = m_EnumInterface->func0(param0);
-        return result;
+        Enum0Enum param0{};
+        argumentsReader.read(param0);
+        return ApiGear::ObjectLink::invokeReturnValue(m_EnumInterface->func0(param0));
     }
     if(memberMethod == "func1") {
-        const Enum1Enum& param1 = fcnArgs.at(0);
-        Enum1Enum result = m_EnumInterface->func1(param1);
-        return result;
+        Enum1Enum param1{};
+        argumentsReader.read(param1);
+        return ApiGear::ObjectLink::invokeReturnValue(m_EnumInterface->func1(param1));
     }
     if(memberMethod == "func2") {
-        const Enum2Enum& param2 = fcnArgs.at(0);
-        Enum2Enum result = m_EnumInterface->func2(param2);
-        return result;
+        Enum2Enum param2{};
+        argumentsReader.read(param2);
+        return ApiGear::ObjectLink::invokeReturnValue(m_EnumInterface->func2(param2));
     }
     if(memberMethod == "func3") {
-        const Enum3Enum& param3 = fcnArgs.at(0);
-        Enum3Enum result = m_EnumInterface->func3(param3);
-        return result;
+        Enum3Enum param3{};
+        argumentsReader.read(param3);
+        return ApiGear::ObjectLink::invokeReturnValue(m_EnumInterface->func3(param3));
     }
-    return nlohmann::json();
+    return {};
 }
 
-void EnumInterfaceService::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void EnumInterfaceService::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("EnumInterfaceService set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop0") {
-        Enum0Enum prop0 = value.get<Enum0Enum>();
-        m_EnumInterface->setProp0(prop0);
+        Enum0Enum value_prop0{};
+        ApiGear::ObjectLink::readValue(value, value_prop0);
+        m_EnumInterface->setProp0(value_prop0);
     }
     if(memberProperty == "prop1") {
-        Enum1Enum prop1 = value.get<Enum1Enum>();
-        m_EnumInterface->setProp1(prop1);
+        Enum1Enum value_prop1{};
+        ApiGear::ObjectLink::readValue(value, value_prop1);
+        m_EnumInterface->setProp1(value_prop1);
     }
     if(memberProperty == "prop2") {
-        Enum2Enum prop2 = value.get<Enum2Enum>();
-        m_EnumInterface->setProp2(prop2);
+        Enum2Enum value_prop2{};
+        ApiGear::ObjectLink::readValue(value, value_prop2);
+        m_EnumInterface->setProp2(value_prop2);
     }
     if(memberProperty == "prop3") {
-        Enum3Enum prop3 = value.get<Enum3Enum>();
-        m_EnumInterface->setProp3(prop3);
+        Enum3Enum value_prop3{};
+        ApiGear::ObjectLink::readValue(value, value_prop3);
+        m_EnumInterface->setProp3(value_prop3);
     } 
 }
 
@@ -90,18 +96,17 @@ void EnumInterfaceService::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("EnumInterfaceService unlinked " + objectId);
 }
 
-nlohmann::json EnumInterfaceService::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent EnumInterfaceService::olinkCollectProperties()
 {
-    return nlohmann::json::object({
-        { "prop0", m_EnumInterface->getProp0() },
-        { "prop1", m_EnumInterface->getProp1() },
-        { "prop2", m_EnumInterface->getProp2() },
-        { "prop3", m_EnumInterface->getProp3() }
-    });
+    return ApiGear::ObjectLink::argumentsToContent(
+        ApiGear::ObjectLink::toInitialProperty(std::string("prop0"), m_EnumInterface->getProp0()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("prop1"), m_EnumInterface->getProp1()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("prop2"), m_EnumInterface->getProp2()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("prop3"), m_EnumInterface->getProp3()) );
 }
 void EnumInterfaceService::onSig0(Enum0Enum param0)
 {
-    const nlohmann::json args = { param0 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(param0);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig0");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -113,7 +118,7 @@ void EnumInterfaceService::onSig0(Enum0Enum param0)
 }
 void EnumInterfaceService::onSig1(Enum1Enum param1)
 {
-    const nlohmann::json args = { param1 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(param1);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -125,7 +130,7 @@ void EnumInterfaceService::onSig1(Enum1Enum param1)
 }
 void EnumInterfaceService::onSig2(Enum2Enum param2)
 {
-    const nlohmann::json args = { param2 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(param2);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -137,7 +142,7 @@ void EnumInterfaceService::onSig2(Enum2Enum param2)
 }
 void EnumInterfaceService::onSig3(Enum3Enum param3)
 {
-    const nlohmann::json args = { param3 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(param3);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig3");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -154,7 +159,7 @@ void EnumInterfaceService::onProp0Changed(Enum0Enum prop0)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, prop0);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(prop0));
         }
     }
 }
@@ -165,7 +170,7 @@ void EnumInterfaceService::onProp1Changed(Enum1Enum prop1)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, prop1);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(prop1));
         }
     }
 }
@@ -176,7 +181,7 @@ void EnumInterfaceService::onProp2Changed(Enum2Enum prop2)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, prop2);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(prop2));
         }
     }
 }
@@ -187,7 +192,7 @@ void EnumInterfaceService::onProp3Changed(Enum3Enum prop3)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, prop3);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(prop3));
         }
     }
 }

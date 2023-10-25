@@ -64,6 +64,16 @@ namespace {
            != container.end();
     }
 
+    std::string propert1Name = "property1";
+    std::string propert2Name = "property2";
+    std::string propert3Name = "property3";
+    std::string stringValue1 = "someString1";
+    int someIntValue1 = 91;
+    bool boolFalse = false;
+
+    auto initProperties = ApiGear::ObjectLink::argumentsToContent(ApiGear::ObjectLink::toInitialProperty(propert1Name, stringValue1),
+        ApiGear::ObjectLink::toInitialProperty(propert2Name, someIntValue1),
+        ApiGear::ObjectLink::toInitialProperty(propert3Name, boolFalse));
 }
 
 TEST_CASE("OlinkConnection tests")
@@ -96,7 +106,6 @@ TEST_CASE("OlinkConnection tests")
         REQUIRE(msgs[0].flags == Poco::Net::WebSocket::FRAME_TEXT);
         
         // Send init message from server and check it is delivered and decoded
-        nlohmann::json initProperties = { {"property1", "some_string" }, { "property2",  9 }, { "property3", false } };
         REQUIRE_CALL(*sink1, olinkOnInit(sink1Id, initProperties, testOlinkConnection->node().get()));
         
         auto preparedInitMessage = converter.toString(ApiGear::ObjectLink::Protocol::initMessage(sink1Id, initProperties));
@@ -143,7 +152,6 @@ TEST_CASE("OlinkConnection tests")
         REQUIRE(registry.getNode(sink1Id).lock() == testOlinkConnection->node());
 
         // Send from server init message
-        nlohmann::json initProperties = { {"property1", "some_string" }, { "property2",  9 }, { "property3", false } };
         REQUIRE_CALL(*sink1, olinkOnInit(sink1Id, initProperties, testOlinkConnection->node().get()));
         auto preparedInitMessage = converter.toString(ApiGear::ObjectLink::Protocol::initMessage(sink1Id, initProperties));
         server.sendFrame(preparedInitMessage);
@@ -274,7 +282,6 @@ TEST_CASE("OlinkConnection tests")
         REQUIRE(msgs[0].flags == Poco::Net::WebSocket::FRAME_TEXT);
 
         // Send init message from server and check it is delivered and decoded
-        nlohmann::json initProperties = { {"property1", "some_string" }, { "property2",  9 }, { "property3", false } };
         REQUIRE_CALL(*sink1, olinkOnInit(sink1Id, initProperties, testOlinkConnection->node().get()));
 
         auto preparedInitMessage = converter.toString(ApiGear::ObjectLink::Protocol::initMessage(sink1Id, initProperties));

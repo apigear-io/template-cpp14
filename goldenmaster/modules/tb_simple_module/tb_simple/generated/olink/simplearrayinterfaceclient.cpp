@@ -5,6 +5,7 @@
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::TbSimple;
@@ -19,59 +20,47 @@ SimpleArrayInterfaceClient::SimpleArrayInterfaceClient()
     : m_publisher(std::make_unique<SimpleArrayInterfacePublisher>())
 {}
 
-void SimpleArrayInterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("propBool")) {
-        setPropBoolLocal(fields["propBool"].get<std::list<bool>>());
-    }
-    if(fields.contains("propInt")) {
-        setPropIntLocal(fields["propInt"].get<std::list<int>>());
-    }
-    if(fields.contains("propInt32")) {
-        setPropInt32Local(fields["propInt32"].get<std::list<int32_t>>());
-    }
-    if(fields.contains("propInt64")) {
-        setPropInt64Local(fields["propInt64"].get<std::list<int64_t>>());
-    }
-    if(fields.contains("propFloat")) {
-        setPropFloatLocal(fields["propFloat"].get<std::list<float>>());
-    }
-    if(fields.contains("propFloat32")) {
-        setPropFloat32Local(fields["propFloat32"].get<std::list<float>>());
-    }
-    if(fields.contains("propFloat64")) {
-        setPropFloat64Local(fields["propFloat64"].get<std::list<double>>());
-    }
-    if(fields.contains("propString")) {
-        setPropStringLocal(fields["propString"].get<std::list<std::string>>());
-    }
-}
-
-void SimpleArrayInterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void SimpleArrayInterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "propBool") {
-        setPropBoolLocal(value.get<std::list<bool>>());
+        std::list<bool> value_propBool {};
+        readValue(value, value_propBool);
+        setPropBoolLocal(value_propBool);
     }
     else if ( propertyName == "propInt") {
-        setPropIntLocal(value.get<std::list<int>>());
+        std::list<int> value_propInt {};
+        readValue(value, value_propInt);
+        setPropIntLocal(value_propInt);
     }
     else if ( propertyName == "propInt32") {
-        setPropInt32Local(value.get<std::list<int32_t>>());
+        std::list<int32_t> value_propInt32 {};
+        readValue(value, value_propInt32);
+        setPropInt32Local(value_propInt32);
     }
     else if ( propertyName == "propInt64") {
-        setPropInt64Local(value.get<std::list<int64_t>>());
+        std::list<int64_t> value_propInt64 {};
+        readValue(value, value_propInt64);
+        setPropInt64Local(value_propInt64);
     }
     else if ( propertyName == "propFloat") {
-        setPropFloatLocal(value.get<std::list<float>>());
+        std::list<float> value_propFloat {};
+        readValue(value, value_propFloat);
+        setPropFloatLocal(value_propFloat);
     }
     else if ( propertyName == "propFloat32") {
-        setPropFloat32Local(value.get<std::list<float>>());
+        std::list<float> value_propFloat32 {};
+        readValue(value, value_propFloat32);
+        setPropFloat32Local(value_propFloat32);
     }
     else if ( propertyName == "propFloat64") {
-        setPropFloat64Local(value.get<std::list<double>>());
+        std::list<double> value_propFloat64 {};
+        readValue(value, value_propFloat64);
+        setPropFloat64Local(value_propFloat64);
     }
     else if ( propertyName == "propString") {
-        setPropStringLocal(value.get<std::list<std::string>>());
+        std::list<std::string> value_propString {};
+        readValue(value, value_propString);
+        setPropStringLocal(value_propString);
     }
 }
 
@@ -82,7 +71,7 @@ void SimpleArrayInterfaceClient::setPropBool(const std::list<bool>& propBool)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
-    m_node->setRemoteProperty(propertyId, propBool);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propBool));
 }
 
 void SimpleArrayInterfaceClient::setPropBoolLocal(const std::list<bool>& propBool)
@@ -105,7 +94,7 @@ void SimpleArrayInterfaceClient::setPropInt(const std::list<int>& propInt)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
-    m_node->setRemoteProperty(propertyId, propInt);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt));
 }
 
 void SimpleArrayInterfaceClient::setPropIntLocal(const std::list<int>& propInt)
@@ -128,7 +117,7 @@ void SimpleArrayInterfaceClient::setPropInt32(const std::list<int32_t>& propInt3
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt32");
-    m_node->setRemoteProperty(propertyId, propInt32);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt32));
 }
 
 void SimpleArrayInterfaceClient::setPropInt32Local(const std::list<int32_t>& propInt32)
@@ -151,7 +140,7 @@ void SimpleArrayInterfaceClient::setPropInt64(const std::list<int64_t>& propInt6
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt64");
-    m_node->setRemoteProperty(propertyId, propInt64);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt64));
 }
 
 void SimpleArrayInterfaceClient::setPropInt64Local(const std::list<int64_t>& propInt64)
@@ -174,7 +163,7 @@ void SimpleArrayInterfaceClient::setPropFloat(const std::list<float>& propFloat)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat");
-    m_node->setRemoteProperty(propertyId, propFloat);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat));
 }
 
 void SimpleArrayInterfaceClient::setPropFloatLocal(const std::list<float>& propFloat)
@@ -197,7 +186,7 @@ void SimpleArrayInterfaceClient::setPropFloat32(const std::list<float>& propFloa
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat32");
-    m_node->setRemoteProperty(propertyId, propFloat32);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat32));
 }
 
 void SimpleArrayInterfaceClient::setPropFloat32Local(const std::list<float>& propFloat32)
@@ -220,7 +209,7 @@ void SimpleArrayInterfaceClient::setPropFloat64(const std::list<double>& propFlo
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propFloat64");
-    m_node->setRemoteProperty(propertyId, propFloat64);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat64));
 }
 
 void SimpleArrayInterfaceClient::setPropFloat64Local(const std::list<double>& propFloat64)
@@ -243,7 +232,7 @@ void SimpleArrayInterfaceClient::setPropString(const std::list<std::string>& pro
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propString");
-    m_node->setRemoteProperty(propertyId, propString);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propString));
 }
 
 void SimpleArrayInterfaceClient::setPropStringLocal(const std::list<std::string>& propString)
@@ -280,10 +269,12 @@ std::future<std::list<bool>> SimpleArrayInterfaceClient::funcBoolAsync(const std
         {
             std::promise<std::list<bool>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcBool");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<bool>& value = arg.value.get<std::list<bool>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramBool );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<bool> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -311,10 +302,12 @@ std::future<std::list<int>> SimpleArrayInterfaceClient::funcIntAsync(const std::
         {
             std::promise<std::list<int>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramInt}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<int>& value = arg.value.get<std::list<int>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramInt );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<int> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -342,10 +335,12 @@ std::future<std::list<int32_t>> SimpleArrayInterfaceClient::funcInt32Async(const
         {
             std::promise<std::list<int32_t>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt32");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramInt32}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<int32_t>& value = arg.value.get<std::list<int32_t>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramInt32 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<int32_t> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -373,10 +368,12 @@ std::future<std::list<int64_t>> SimpleArrayInterfaceClient::funcInt64Async(const
         {
             std::promise<std::list<int64_t>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcInt64");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramInt64}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<int64_t>& value = arg.value.get<std::list<int64_t>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramInt64 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<int64_t> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -404,10 +401,12 @@ std::future<std::list<float>> SimpleArrayInterfaceClient::funcFloatAsync(const s
         {
             std::promise<std::list<float>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<float>& value = arg.value.get<std::list<float>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramFloat );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<float> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -435,10 +434,12 @@ std::future<std::list<float>> SimpleArrayInterfaceClient::funcFloat32Async(const
         {
             std::promise<std::list<float>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat32");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramFloat32}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<float>& value = arg.value.get<std::list<float>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramFloat32 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<float> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -466,10 +467,12 @@ std::future<std::list<double>> SimpleArrayInterfaceClient::funcFloat64Async(cons
         {
             std::promise<std::list<double>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcFloat64");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramFloat}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<double>& value = arg.value.get<std::list<double>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramFloat );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<double> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -497,10 +500,12 @@ std::future<std::list<std::string>> SimpleArrayInterfaceClient::funcStringAsync(
         {
             std::promise<std::list<std::string>> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcString");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramString}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const std::list<std::string>& value = arg.value.get<std::list<std::string>>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramString );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    std::list<std::string> result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -512,51 +517,59 @@ std::string SimpleArrayInterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void SimpleArrayInterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void SimpleArrayInterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sigBool") {
-        m_publisher->publishSigBool(args[0].get<std::list<bool>>());   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sigBool") {std::list<bool> arg_paramBool {};
+        argumentsReader.read(arg_paramBool);m_publisher->publishSigBool(arg_paramBool);   
         return;
     }
-    if(signalName == "sigInt") {
-        m_publisher->publishSigInt(args[0].get<std::list<int>>());   
+    if(signalName == "sigInt") {std::list<int> arg_paramInt {};
+        argumentsReader.read(arg_paramInt);m_publisher->publishSigInt(arg_paramInt);   
         return;
     }
-    if(signalName == "sigInt32") {
-        m_publisher->publishSigInt32(args[0].get<std::list<int32_t>>());   
+    if(signalName == "sigInt32") {std::list<int32_t> arg_paramInt32 {};
+        argumentsReader.read(arg_paramInt32);m_publisher->publishSigInt32(arg_paramInt32);   
         return;
     }
-    if(signalName == "sigInt64") {
-        m_publisher->publishSigInt64(args[0].get<std::list<int64_t>>());   
+    if(signalName == "sigInt64") {std::list<int64_t> arg_paramInt64 {};
+        argumentsReader.read(arg_paramInt64);m_publisher->publishSigInt64(arg_paramInt64);   
         return;
     }
-    if(signalName == "sigFloat") {
-        m_publisher->publishSigFloat(args[0].get<std::list<float>>());   
+    if(signalName == "sigFloat") {std::list<float> arg_paramFloat {};
+        argumentsReader.read(arg_paramFloat);m_publisher->publishSigFloat(arg_paramFloat);   
         return;
     }
-    if(signalName == "sigFloat32") {
-        m_publisher->publishSigFloat32(args[0].get<std::list<float>>());   
+    if(signalName == "sigFloat32") {std::list<float> arg_paramFloa32 {};
+        argumentsReader.read(arg_paramFloa32);m_publisher->publishSigFloat32(arg_paramFloa32);   
         return;
     }
-    if(signalName == "sigFloat64") {
-        m_publisher->publishSigFloat64(args[0].get<std::list<double>>());   
+    if(signalName == "sigFloat64") {std::list<double> arg_paramFloat64 {};
+        argumentsReader.read(arg_paramFloat64);m_publisher->publishSigFloat64(arg_paramFloat64);   
         return;
     }
-    if(signalName == "sigString") {
-        m_publisher->publishSigString(args[0].get<std::list<std::string>>());   
+    if(signalName == "sigString") {std::list<std::string> arg_paramString {};
+        argumentsReader.read(arg_paramString);m_publisher->publishSigString(arg_paramString);   
         return;
     }
 }
 
-void SimpleArrayInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void SimpleArrayInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void SimpleArrayInterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void SimpleArrayInterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void SimpleArrayInterfaceClient::olinkOnRelease()

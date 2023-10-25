@@ -6,6 +6,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -35,25 +36,28 @@ std::string NoOperationsInterfaceService::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json NoOperationsInterfaceService::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent NoOperationsInterfaceService::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
     AG_LOG_DEBUG("NoOperationsInterfaceService invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
     // no operations to invoke
     (void) fcnArgs;
     (void) memberMethod;
-    return nlohmann::json();
+    return {};
 }
 
-void NoOperationsInterfaceService::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void NoOperationsInterfaceService::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("NoOperationsInterfaceService set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "propBool") {
-        bool propBool = value.get<bool>();
-        m_NoOperationsInterface->setPropBool(propBool);
+        bool value_propBool{};
+        ApiGear::ObjectLink::readValue(value, value_propBool);
+        m_NoOperationsInterface->setPropBool(value_propBool);
     }
     if(memberProperty == "propInt") {
-        int propInt = value.get<int>();
-        m_NoOperationsInterface->setPropInt(propInt);
+        int value_propInt{};
+        ApiGear::ObjectLink::readValue(value, value_propInt);
+        m_NoOperationsInterface->setPropInt(value_propInt);
     } 
 }
 
@@ -65,16 +69,15 @@ void NoOperationsInterfaceService::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("NoOperationsInterfaceService unlinked " + objectId);
 }
 
-nlohmann::json NoOperationsInterfaceService::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent NoOperationsInterfaceService::olinkCollectProperties()
 {
-    return nlohmann::json::object({
-        { "propBool", m_NoOperationsInterface->getPropBool() },
-        { "propInt", m_NoOperationsInterface->getPropInt() }
-    });
+    return ApiGear::ObjectLink::argumentsToContent(
+        ApiGear::ObjectLink::toInitialProperty(std::string("propBool"), m_NoOperationsInterface->getPropBool()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propInt"), m_NoOperationsInterface->getPropInt()) );
 }
 void NoOperationsInterfaceService::onSigVoid()
 {
-    const nlohmann::json args = {  };
+    auto args = ApiGear::ObjectLink::argumentsToContent();
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigVoid");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -86,7 +89,7 @@ void NoOperationsInterfaceService::onSigVoid()
 }
 void NoOperationsInterfaceService::onSigBool(bool paramBool)
 {
-    const nlohmann::json args = { paramBool };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramBool);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -103,7 +106,7 @@ void NoOperationsInterfaceService::onPropBoolChanged(bool propBool)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propBool);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propBool));
         }
     }
 }
@@ -114,7 +117,7 @@ void NoOperationsInterfaceService::onPropIntChanged(int propInt)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propInt);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propInt));
         }
     }
 }
