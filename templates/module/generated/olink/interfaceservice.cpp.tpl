@@ -11,6 +11,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -40,7 +41,7 @@ std::string {{$class}}::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json {{$class}}::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent {{$class}}::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
 {{- if len .Interface.Operations }}
 {{- $paramsUsed := false}}
 {{- range .Interface.Operations }}
@@ -53,19 +54,20 @@ nlohmann::json {{$class}}::olinkInvoke(const std::string& methodId, const nlohma
 {{- end }}
     AG_LOG_DEBUG("{{$class}} invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
 {{- range .Interface.Operations}}
 {{- $operation := . }}
     if(memberMethod == "{{$operation.Name}}") {
 {{- range $idx, $elem := $operation.Params }}
 {{- $param := . }}
-        const {{cppType "" $param}}& {{$param}} = fcnArgs.at({{ $idx}});      
+        {{cppType "" $param}} {{$param}}{};
+        argumentsReader.read({{$param}});
 {{- end }}
     {{- if .Return.IsVoid }}
         m_{{$interfaceNameOriginal}}->{{lower1 $operation.Name}}({{ cppVars $operation.Params }});
-        return nlohmann::json{};
+        return {};
     {{- else }}
-        {{cppReturn "" $operation.Return}} result = m_{{$interfaceNameOriginal}}->{{lower1 $operation.Name}}({{ cppVars $operation.Params }});
-        return result;
+        return ApiGear::ObjectLink::invokeReturnValue(m_{{$interfaceNameOriginal}}->{{lower1 $operation.Name}}({{ cppVars $operation.Params }}));
     {{- end}}
     }
 {{- else }}
@@ -73,17 +75,18 @@ nlohmann::json {{$class}}::olinkInvoke(const std::string& methodId, const nlohma
     (void) fcnArgs;
     (void) memberMethod;
 {{- end }}
-    return nlohmann::json();
+    return {};
 }
 
-void {{$class}}::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void {{$class}}::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("{{$class}} set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
 {{- range .Interface.Properties}}
 {{- $property := . }}
     if(memberProperty == "{{$property}}") {
-        {{cppType "" $property}} {{$property}} = value.get<{{cppType "" $property}}>();
-        m_{{$interfaceNameOriginal}}->set{{Camel $property.Name}}({{$property}});
+        {{cppType "" $property}} value_{{$property}}{};
+        ApiGear::ObjectLink::readValue(value, value_{{$property}});
+        m_{{$interfaceNameOriginal}}->set{{Camel $property.Name}}(value_{{$property}});
     }
 {{- else }}
     // no properties to set {{- /* we generate anyway for consistency */}}
@@ -100,22 +103,21 @@ void {{$class}}::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("{{$class}} unlinked " + objectId);
 }
 
-nlohmann::json {{$class}}::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent {{$class}}::olinkCollectProperties()
 {
-    return nlohmann::json::object({
+    return ApiGear::ObjectLink::argumentsToContent(
 {{- range $idx, $elem := .Interface.Properties}}
 {{- $property := . }}
 {{- if $idx }},{{- end }}
-        { "{{$property.Name}}", m_{{$interfaceNameOriginal}}->get{{Camel $property.Name}}() }
-{{- end }}
-    });
+        ApiGear::ObjectLink::toInitialProperty(std::string("{{$property.Name}}"), m_{{$interfaceNameOriginal}}->get{{Camel $property.Name}}())
+{{- end }} );
 }
 
 {{- range .Interface.Signals}}
 {{- $signal := . }}
 void {{$class}}::on{{Camel $signal.Name}}({{cppParams "" $signal.Params}})
 {
-    const nlohmann::json args = { {{ cppVars $signal.Params}} };
+    auto args = ApiGear::ObjectLink::argumentsToContent({{ cppVars $signal.Params}});
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{$signal.Name}}");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -136,7 +138,7 @@ void {{$class}}::on{{Camel $property.Name}}Changed({{cppParam "" $property}})
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, {{$property}});
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent({{$property}}));
         }
     }
 }

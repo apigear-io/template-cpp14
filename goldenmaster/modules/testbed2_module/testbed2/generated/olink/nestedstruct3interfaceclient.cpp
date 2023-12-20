@@ -5,6 +5,7 @@
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::Testbed2;
@@ -19,29 +20,22 @@ NestedStruct3InterfaceClient::NestedStruct3InterfaceClient()
     : m_publisher(std::make_unique<NestedStruct3InterfacePublisher>())
 {}
 
-void NestedStruct3InterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("prop1")) {
-        setProp1Local(fields["prop1"].get<NestedStruct1>());
-    }
-    if(fields.contains("prop2")) {
-        setProp2Local(fields["prop2"].get<NestedStruct2>());
-    }
-    if(fields.contains("prop3")) {
-        setProp3Local(fields["prop3"].get<NestedStruct3>());
-    }
-}
-
-void NestedStruct3InterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void NestedStruct3InterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "prop1") {
-        setProp1Local(value.get<NestedStruct1>());
+        NestedStruct1 value_prop1 {};
+        readValue(value, value_prop1);
+        setProp1Local(value_prop1);
     }
     else if ( propertyName == "prop2") {
-        setProp2Local(value.get<NestedStruct2>());
+        NestedStruct2 value_prop2 {};
+        readValue(value, value_prop2);
+        setProp2Local(value_prop2);
     }
     else if ( propertyName == "prop3") {
-        setProp3Local(value.get<NestedStruct3>());
+        NestedStruct3 value_prop3 {};
+        readValue(value, value_prop3);
+        setProp3Local(value_prop3);
     }
 }
 
@@ -52,7 +46,7 @@ void NestedStruct3InterfaceClient::setProp1(const NestedStruct1& prop1)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-    m_node->setRemoteProperty(propertyId, prop1);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop1));
 }
 
 void NestedStruct3InterfaceClient::setProp1Local(const NestedStruct1& prop1)
@@ -75,7 +69,7 @@ void NestedStruct3InterfaceClient::setProp2(const NestedStruct2& prop2)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
-    m_node->setRemoteProperty(propertyId, prop2);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop2));
 }
 
 void NestedStruct3InterfaceClient::setProp2Local(const NestedStruct2& prop2)
@@ -98,7 +92,7 @@ void NestedStruct3InterfaceClient::setProp3(const NestedStruct3& prop3)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
-    m_node->setRemoteProperty(propertyId, prop3);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop3));
 }
 
 void NestedStruct3InterfaceClient::setProp3Local(const NestedStruct3& prop3)
@@ -135,10 +129,12 @@ std::future<NestedStruct1> NestedStruct3InterfaceClient::func1Async(const Nested
         {
             std::promise<NestedStruct1> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const NestedStruct1& value = arg.value.get<NestedStruct1>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    NestedStruct1 result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -167,10 +163,12 @@ std::future<NestedStruct1> NestedStruct3InterfaceClient::func2Async(const Nested
         {
             std::promise<NestedStruct1> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1, param2}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const NestedStruct1& value = arg.value.get<NestedStruct1>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1, param2 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    NestedStruct1 result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -200,10 +198,12 @@ std::future<NestedStruct1> NestedStruct3InterfaceClient::func3Async(const Nested
         {
             std::promise<NestedStruct1> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func3");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1, param2, param3}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const NestedStruct1& value = arg.value.get<NestedStruct1>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1, param2, param3 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    NestedStruct1 result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -215,31 +215,42 @@ std::string NestedStruct3InterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void NestedStruct3InterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void NestedStruct3InterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sig1") {
-        m_publisher->publishSig1(args[0].get<NestedStruct1>());   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sig1") {NestedStruct1 arg_param1 {};
+        argumentsReader.read(arg_param1);m_publisher->publishSig1(arg_param1);   
         return;
     }
-    if(signalName == "sig2") {
-        m_publisher->publishSig2(args[0].get<NestedStruct1>(),args[1].get<NestedStruct2>());   
+    if(signalName == "sig2") {NestedStruct1 arg_param1 {};
+        argumentsReader.read(arg_param1);NestedStruct2 arg_param2 {};
+        argumentsReader.read(arg_param2);m_publisher->publishSig2(arg_param1,arg_param2);   
         return;
     }
-    if(signalName == "sig3") {
-        m_publisher->publishSig3(args[0].get<NestedStruct1>(),args[1].get<NestedStruct2>(),args[2].get<NestedStruct3>());   
+    if(signalName == "sig3") {NestedStruct1 arg_param1 {};
+        argumentsReader.read(arg_param1);NestedStruct2 arg_param2 {};
+        argumentsReader.read(arg_param2);NestedStruct3 arg_param3 {};
+        argumentsReader.read(arg_param3);m_publisher->publishSig3(arg_param1,arg_param2,arg_param3);   
         return;
     }
 }
 
-void NestedStruct3InterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void NestedStruct3InterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void NestedStruct3InterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void NestedStruct3InterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void NestedStruct3InterfaceClient::olinkOnRelease()

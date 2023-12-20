@@ -6,6 +6,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -35,91 +36,101 @@ std::string SimpleInterfaceService::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json SimpleInterfaceService::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent SimpleInterfaceService::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
     AG_LOG_DEBUG("SimpleInterfaceService invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
     if(memberMethod == "funcNoReturnValue") {
-        const bool& paramBool = fcnArgs.at(0);
+        bool paramBool{};
+        argumentsReader.read(paramBool);
         m_SimpleInterface->funcNoReturnValue(paramBool);
-        return nlohmann::json{};
+        return {};
     }
     if(memberMethod == "funcBool") {
-        const bool& paramBool = fcnArgs.at(0);
-        bool result = m_SimpleInterface->funcBool(paramBool);
-        return result;
+        bool paramBool{};
+        argumentsReader.read(paramBool);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcBool(paramBool));
     }
     if(memberMethod == "funcInt") {
-        const int& paramInt = fcnArgs.at(0);
-        int result = m_SimpleInterface->funcInt(paramInt);
-        return result;
+        int paramInt{};
+        argumentsReader.read(paramInt);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcInt(paramInt));
     }
     if(memberMethod == "funcInt32") {
-        const int32_t& paramInt32 = fcnArgs.at(0);
-        int32_t result = m_SimpleInterface->funcInt32(paramInt32);
-        return result;
+        int32_t paramInt32{};
+        argumentsReader.read(paramInt32);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcInt32(paramInt32));
     }
     if(memberMethod == "funcInt64") {
-        const int64_t& paramInt64 = fcnArgs.at(0);
-        int64_t result = m_SimpleInterface->funcInt64(paramInt64);
-        return result;
+        int64_t paramInt64{};
+        argumentsReader.read(paramInt64);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcInt64(paramInt64));
     }
     if(memberMethod == "funcFloat") {
-        const float& paramFloat = fcnArgs.at(0);
-        float result = m_SimpleInterface->funcFloat(paramFloat);
-        return result;
+        float paramFloat{};
+        argumentsReader.read(paramFloat);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcFloat(paramFloat));
     }
     if(memberMethod == "funcFloat32") {
-        const float& paramFloat32 = fcnArgs.at(0);
-        float result = m_SimpleInterface->funcFloat32(paramFloat32);
-        return result;
+        float paramFloat32{};
+        argumentsReader.read(paramFloat32);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcFloat32(paramFloat32));
     }
     if(memberMethod == "funcFloat64") {
-        const double& paramFloat = fcnArgs.at(0);
-        double result = m_SimpleInterface->funcFloat64(paramFloat);
-        return result;
+        double paramFloat{};
+        argumentsReader.read(paramFloat);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcFloat64(paramFloat));
     }
     if(memberMethod == "funcString") {
-        const std::string& paramString = fcnArgs.at(0);
-        std::string result = m_SimpleInterface->funcString(paramString);
-        return result;
+        std::string paramString{};
+        argumentsReader.read(paramString);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SimpleInterface->funcString(paramString));
     }
-    return nlohmann::json();
+    return {};
 }
 
-void SimpleInterfaceService::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void SimpleInterfaceService::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("SimpleInterfaceService set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "propBool") {
-        bool propBool = value.get<bool>();
-        m_SimpleInterface->setPropBool(propBool);
+        bool value_propBool{};
+        ApiGear::ObjectLink::readValue(value, value_propBool);
+        m_SimpleInterface->setPropBool(value_propBool);
     }
     if(memberProperty == "propInt") {
-        int propInt = value.get<int>();
-        m_SimpleInterface->setPropInt(propInt);
+        int value_propInt{};
+        ApiGear::ObjectLink::readValue(value, value_propInt);
+        m_SimpleInterface->setPropInt(value_propInt);
     }
     if(memberProperty == "propInt32") {
-        int32_t propInt32 = value.get<int32_t>();
-        m_SimpleInterface->setPropInt32(propInt32);
+        int32_t value_propInt32{};
+        ApiGear::ObjectLink::readValue(value, value_propInt32);
+        m_SimpleInterface->setPropInt32(value_propInt32);
     }
     if(memberProperty == "propInt64") {
-        int64_t propInt64 = value.get<int64_t>();
-        m_SimpleInterface->setPropInt64(propInt64);
+        int64_t value_propInt64{};
+        ApiGear::ObjectLink::readValue(value, value_propInt64);
+        m_SimpleInterface->setPropInt64(value_propInt64);
     }
     if(memberProperty == "propFloat") {
-        float propFloat = value.get<float>();
-        m_SimpleInterface->setPropFloat(propFloat);
+        float value_propFloat{};
+        ApiGear::ObjectLink::readValue(value, value_propFloat);
+        m_SimpleInterface->setPropFloat(value_propFloat);
     }
     if(memberProperty == "propFloat32") {
-        float propFloat32 = value.get<float>();
-        m_SimpleInterface->setPropFloat32(propFloat32);
+        float value_propFloat32{};
+        ApiGear::ObjectLink::readValue(value, value_propFloat32);
+        m_SimpleInterface->setPropFloat32(value_propFloat32);
     }
     if(memberProperty == "propFloat64") {
-        double propFloat64 = value.get<double>();
-        m_SimpleInterface->setPropFloat64(propFloat64);
+        double value_propFloat64{};
+        ApiGear::ObjectLink::readValue(value, value_propFloat64);
+        m_SimpleInterface->setPropFloat64(value_propFloat64);
     }
     if(memberProperty == "propString") {
-        std::string propString = value.get<std::string>();
-        m_SimpleInterface->setPropString(propString);
+        std::string value_propString{};
+        ApiGear::ObjectLink::readValue(value, value_propString);
+        m_SimpleInterface->setPropString(value_propString);
     } 
 }
 
@@ -131,22 +142,21 @@ void SimpleInterfaceService::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("SimpleInterfaceService unlinked " + objectId);
 }
 
-nlohmann::json SimpleInterfaceService::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent SimpleInterfaceService::olinkCollectProperties()
 {
-    return nlohmann::json::object({
-        { "propBool", m_SimpleInterface->getPropBool() },
-        { "propInt", m_SimpleInterface->getPropInt() },
-        { "propInt32", m_SimpleInterface->getPropInt32() },
-        { "propInt64", m_SimpleInterface->getPropInt64() },
-        { "propFloat", m_SimpleInterface->getPropFloat() },
-        { "propFloat32", m_SimpleInterface->getPropFloat32() },
-        { "propFloat64", m_SimpleInterface->getPropFloat64() },
-        { "propString", m_SimpleInterface->getPropString() }
-    });
+    return ApiGear::ObjectLink::argumentsToContent(
+        ApiGear::ObjectLink::toInitialProperty(std::string("propBool"), m_SimpleInterface->getPropBool()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propInt"), m_SimpleInterface->getPropInt()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propInt32"), m_SimpleInterface->getPropInt32()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propInt64"), m_SimpleInterface->getPropInt64()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propFloat"), m_SimpleInterface->getPropFloat()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propFloat32"), m_SimpleInterface->getPropFloat32()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propFloat64"), m_SimpleInterface->getPropFloat64()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("propString"), m_SimpleInterface->getPropString()) );
 }
 void SimpleInterfaceService::onSigBool(bool paramBool)
 {
-    const nlohmann::json args = { paramBool };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramBool);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -158,7 +168,7 @@ void SimpleInterfaceService::onSigBool(bool paramBool)
 }
 void SimpleInterfaceService::onSigInt(int paramInt)
 {
-    const nlohmann::json args = { paramInt };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramInt);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -170,7 +180,7 @@ void SimpleInterfaceService::onSigInt(int paramInt)
 }
 void SimpleInterfaceService::onSigInt32(int32_t paramInt32)
 {
-    const nlohmann::json args = { paramInt32 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramInt32);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt32");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -182,7 +192,7 @@ void SimpleInterfaceService::onSigInt32(int32_t paramInt32)
 }
 void SimpleInterfaceService::onSigInt64(int64_t paramInt64)
 {
-    const nlohmann::json args = { paramInt64 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramInt64);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigInt64");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -194,7 +204,7 @@ void SimpleInterfaceService::onSigInt64(int64_t paramInt64)
 }
 void SimpleInterfaceService::onSigFloat(float paramFloat)
 {
-    const nlohmann::json args = { paramFloat };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramFloat);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -206,7 +216,7 @@ void SimpleInterfaceService::onSigFloat(float paramFloat)
 }
 void SimpleInterfaceService::onSigFloat32(float paramFloa32)
 {
-    const nlohmann::json args = { paramFloa32 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramFloa32);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat32");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -218,7 +228,7 @@ void SimpleInterfaceService::onSigFloat32(float paramFloa32)
 }
 void SimpleInterfaceService::onSigFloat64(double paramFloat64)
 {
-    const nlohmann::json args = { paramFloat64 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramFloat64);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigFloat64");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -230,7 +240,7 @@ void SimpleInterfaceService::onSigFloat64(double paramFloat64)
 }
 void SimpleInterfaceService::onSigString(const std::string& paramString)
 {
-    const nlohmann::json args = { paramString };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramString);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigString");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -247,7 +257,7 @@ void SimpleInterfaceService::onPropBoolChanged(bool propBool)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propBool);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propBool));
         }
     }
 }
@@ -258,7 +268,7 @@ void SimpleInterfaceService::onPropIntChanged(int propInt)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propInt);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propInt));
         }
     }
 }
@@ -269,7 +279,7 @@ void SimpleInterfaceService::onPropInt32Changed(int32_t propInt32)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propInt32);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propInt32));
         }
     }
 }
@@ -280,7 +290,7 @@ void SimpleInterfaceService::onPropInt64Changed(int64_t propInt64)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propInt64);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propInt64));
         }
     }
 }
@@ -291,7 +301,7 @@ void SimpleInterfaceService::onPropFloatChanged(float propFloat)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propFloat);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat));
         }
     }
 }
@@ -302,7 +312,7 @@ void SimpleInterfaceService::onPropFloat32Changed(float propFloat32)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propFloat32);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat32));
         }
     }
 }
@@ -313,7 +323,7 @@ void SimpleInterfaceService::onPropFloat64Changed(double propFloat64)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propFloat64);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propFloat64));
         }
     }
 }
@@ -324,7 +334,7 @@ void SimpleInterfaceService::onPropStringChanged(const std::string& propString)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, propString);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(propString));
         }
     }
 }

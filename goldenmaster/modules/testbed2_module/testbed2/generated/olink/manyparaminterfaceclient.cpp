@@ -5,6 +5,7 @@
 #include "testbed2/generated/core/testbed2.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::Testbed2;
@@ -19,35 +20,27 @@ ManyParamInterfaceClient::ManyParamInterfaceClient()
     : m_publisher(std::make_unique<ManyParamInterfacePublisher>())
 {}
 
-void ManyParamInterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("prop1")) {
-        setProp1Local(fields["prop1"].get<int>());
-    }
-    if(fields.contains("prop2")) {
-        setProp2Local(fields["prop2"].get<int>());
-    }
-    if(fields.contains("prop3")) {
-        setProp3Local(fields["prop3"].get<int>());
-    }
-    if(fields.contains("prop4")) {
-        setProp4Local(fields["prop4"].get<int>());
-    }
-}
-
-void ManyParamInterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void ManyParamInterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "prop1") {
-        setProp1Local(value.get<int>());
+        int value_prop1 {};
+        readValue(value, value_prop1);
+        setProp1Local(value_prop1);
     }
     else if ( propertyName == "prop2") {
-        setProp2Local(value.get<int>());
+        int value_prop2 {};
+        readValue(value, value_prop2);
+        setProp2Local(value_prop2);
     }
     else if ( propertyName == "prop3") {
-        setProp3Local(value.get<int>());
+        int value_prop3 {};
+        readValue(value, value_prop3);
+        setProp3Local(value_prop3);
     }
     else if ( propertyName == "prop4") {
-        setProp4Local(value.get<int>());
+        int value_prop4 {};
+        readValue(value, value_prop4);
+        setProp4Local(value_prop4);
     }
 }
 
@@ -58,7 +51,7 @@ void ManyParamInterfaceClient::setProp1(int prop1)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop1");
-    m_node->setRemoteProperty(propertyId, prop1);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop1));
 }
 
 void ManyParamInterfaceClient::setProp1Local(int prop1)
@@ -81,7 +74,7 @@ void ManyParamInterfaceClient::setProp2(int prop2)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop2");
-    m_node->setRemoteProperty(propertyId, prop2);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop2));
 }
 
 void ManyParamInterfaceClient::setProp2Local(int prop2)
@@ -104,7 +97,7 @@ void ManyParamInterfaceClient::setProp3(int prop3)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop3");
-    m_node->setRemoteProperty(propertyId, prop3);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop3));
 }
 
 void ManyParamInterfaceClient::setProp3Local(int prop3)
@@ -127,7 +120,7 @@ void ManyParamInterfaceClient::setProp4(int prop4)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "prop4");
-    m_node->setRemoteProperty(propertyId, prop4);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(prop4));
 }
 
 void ManyParamInterfaceClient::setProp4Local(int prop4)
@@ -164,10 +157,12 @@ std::future<int> ManyParamInterfaceClient::func1Async(int param1)
         {
             std::promise<int> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func1");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const int& value = arg.value.get<int>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    int result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -196,10 +191,12 @@ std::future<int> ManyParamInterfaceClient::func2Async(int param1, int param2)
         {
             std::promise<int> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func2");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1, param2}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const int& value = arg.value.get<int>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1, param2 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    int result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -229,10 +226,12 @@ std::future<int> ManyParamInterfaceClient::func3Async(int param1, int param2, in
         {
             std::promise<int> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func3");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1, param2, param3}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const int& value = arg.value.get<int>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1, param2, param3 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    int result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -263,10 +262,12 @@ std::future<int> ManyParamInterfaceClient::func4Async(int param1, int param2, in
         {
             std::promise<int> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "func4");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({param1, param2, param3, param4}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const int& value = arg.value.get<int>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( param1, param2, param3, param4 );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    int result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -278,35 +279,49 @@ std::string ManyParamInterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void ManyParamInterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void ManyParamInterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sig1") {
-        m_publisher->publishSig1(args[0].get<int>());   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sig1") {int arg_param1 {};
+        argumentsReader.read(arg_param1);m_publisher->publishSig1(arg_param1);   
         return;
     }
-    if(signalName == "sig2") {
-        m_publisher->publishSig2(args[0].get<int>(),args[1].get<int>());   
+    if(signalName == "sig2") {int arg_param1 {};
+        argumentsReader.read(arg_param1);int arg_param2 {};
+        argumentsReader.read(arg_param2);m_publisher->publishSig2(arg_param1,arg_param2);   
         return;
     }
-    if(signalName == "sig3") {
-        m_publisher->publishSig3(args[0].get<int>(),args[1].get<int>(),args[2].get<int>());   
+    if(signalName == "sig3") {int arg_param1 {};
+        argumentsReader.read(arg_param1);int arg_param2 {};
+        argumentsReader.read(arg_param2);int arg_param3 {};
+        argumentsReader.read(arg_param3);m_publisher->publishSig3(arg_param1,arg_param2,arg_param3);   
         return;
     }
-    if(signalName == "sig4") {
-        m_publisher->publishSig4(args[0].get<int>(),args[1].get<int>(),args[2].get<int>(),args[3].get<int>());   
+    if(signalName == "sig4") {int arg_param1 {};
+        argumentsReader.read(arg_param1);int arg_param2 {};
+        argumentsReader.read(arg_param2);int arg_param3 {};
+        argumentsReader.read(arg_param3);int arg_param4 {};
+        argumentsReader.read(arg_param4);m_publisher->publishSig4(arg_param1,arg_param2,arg_param3,arg_param4);   
         return;
     }
 }
 
-void ManyParamInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void ManyParamInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void ManyParamInterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void ManyParamInterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void ManyParamInterfaceClient::olinkOnRelease()

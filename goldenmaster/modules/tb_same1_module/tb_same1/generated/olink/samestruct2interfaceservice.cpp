@@ -6,6 +6,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -35,33 +36,37 @@ std::string SameStruct2InterfaceService::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json SameStruct2InterfaceService::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent SameStruct2InterfaceService::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
     AG_LOG_DEBUG("SameStruct2InterfaceService invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
     if(memberMethod == "func1") {
-        const Struct1& param1 = fcnArgs.at(0);
-        Struct1 result = m_SameStruct2Interface->func1(param1);
-        return result;
+        Struct1 param1{};
+        argumentsReader.read(param1);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SameStruct2Interface->func1(param1));
     }
     if(memberMethod == "func2") {
-        const Struct1& param1 = fcnArgs.at(0);
-        const Struct2& param2 = fcnArgs.at(1);
-        Struct1 result = m_SameStruct2Interface->func2(param1, param2);
-        return result;
+        Struct1 param1{};
+        argumentsReader.read(param1);
+        Struct2 param2{};
+        argumentsReader.read(param2);
+        return ApiGear::ObjectLink::invokeReturnValue(m_SameStruct2Interface->func2(param1, param2));
     }
-    return nlohmann::json();
+    return {};
 }
 
-void SameStruct2InterfaceService::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void SameStruct2InterfaceService::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("SameStruct2InterfaceService set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     if(memberProperty == "prop1") {
-        Struct2 prop1 = value.get<Struct2>();
-        m_SameStruct2Interface->setProp1(prop1);
+        Struct2 value_prop1{};
+        ApiGear::ObjectLink::readValue(value, value_prop1);
+        m_SameStruct2Interface->setProp1(value_prop1);
     }
     if(memberProperty == "prop2") {
-        Struct2 prop2 = value.get<Struct2>();
-        m_SameStruct2Interface->setProp2(prop2);
+        Struct2 value_prop2{};
+        ApiGear::ObjectLink::readValue(value, value_prop2);
+        m_SameStruct2Interface->setProp2(value_prop2);
     } 
 }
 
@@ -73,16 +78,15 @@ void SameStruct2InterfaceService::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("SameStruct2InterfaceService unlinked " + objectId);
 }
 
-nlohmann::json SameStruct2InterfaceService::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent SameStruct2InterfaceService::olinkCollectProperties()
 {
-    return nlohmann::json::object({
-        { "prop1", m_SameStruct2Interface->getProp1() },
-        { "prop2", m_SameStruct2Interface->getProp2() }
-    });
+    return ApiGear::ObjectLink::argumentsToContent(
+        ApiGear::ObjectLink::toInitialProperty(std::string("prop1"), m_SameStruct2Interface->getProp1()),
+        ApiGear::ObjectLink::toInitialProperty(std::string("prop2"), m_SameStruct2Interface->getProp2()) );
 }
 void SameStruct2InterfaceService::onSig1(const Struct1& param1)
 {
-    const nlohmann::json args = { param1 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(param1);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig1");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -94,7 +98,7 @@ void SameStruct2InterfaceService::onSig1(const Struct1& param1)
 }
 void SameStruct2InterfaceService::onSig2(const Struct1& param1, const Struct2& param2)
 {
-    const nlohmann::json args = { param1, param2 };
+    auto args = ApiGear::ObjectLink::argumentsToContent(param1, param2);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sig2");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -111,7 +115,7 @@ void SameStruct2InterfaceService::onProp1Changed(const Struct2& prop1)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, prop1);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(prop1));
         }
     }
 }
@@ -122,7 +126,7 @@ void SameStruct2InterfaceService::onProp2Changed(const Struct2& prop2)
     for(auto node: m_registry.getNodes(objectId)) {
         auto lockedNode = node.lock();
         if(lockedNode) {
-            lockedNode->notifyPropertyChange(propertyId, prop2);
+            lockedNode->notifyPropertyChange(propertyId, ApiGear::ObjectLink::propertyToContent(prop2));
         }
     }
 }

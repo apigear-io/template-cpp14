@@ -81,21 +81,21 @@ public:
     * @param signalId Unique identifier for the signal emitted from object.
     * @param args The arguments for the signal.
     */
-    void olinkOnSignal(const std::string& signalId, const nlohmann::json& args) override;
+    void olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args) override;
     
     /**
     * Applies the information about the property changed on server side.
     * @param propertyId Unique identifier of a changed property in object .
     * @param value The value of the property.
     */
-    void olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value) override;
+    void olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) override;
     
     /** Informs this object sink that connection was is established.
     * @param interfaceId The name of the object for which link was established.
     * @param props Initial values obtained from the NoOperationsInterface service
     * @param the initialized link endpoint for this sink.
     */
-    void olinkOnInit(const std::string& interfaceId, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node) override;
+    void olinkOnInit(const std::string& interfaceId, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node) override;
     /**
     * Informs this object source that the link was disconnected and cannot be used anymore.
     */
@@ -103,16 +103,11 @@ public:
 
 private:
     /**
-    * Applies received data to local state and publishes changes to subscribers.
-    * @param the data received from NoOperationsInterface service.
-    */
-    void applyState(const nlohmann::json& fields);
-    /**
     * Applies received property value to local state and publishes changes to subscribers.
     * @param propertyName the name of property to be changed.
     * @param value The value for property.
     */
-    void applyProperty(const std::string& propertyName, const nlohmann::json& value);
+    void applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value);
     /**  Updates local value for PropBool and informs subscriber about the change*/
     void setPropBoolLocal(bool propBool);
     /**  Updates local value for PropInt and informs subscriber about the change*/

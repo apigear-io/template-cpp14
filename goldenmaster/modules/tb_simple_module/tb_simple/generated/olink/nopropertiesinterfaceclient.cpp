@@ -5,6 +5,7 @@
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::TbSimple;
@@ -19,13 +20,7 @@ NoPropertiesInterfaceClient::NoPropertiesInterfaceClient()
     : m_publisher(std::make_unique<NoPropertiesInterfacePublisher>())
 {}
 
-void NoPropertiesInterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    // no properties to apply state
-    (void) fields;
-}
-
-void NoPropertiesInterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void NoPropertiesInterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {// no properties to apply state
     (void) propertyName;
     (void) value;
@@ -42,7 +37,7 @@ void NoPropertiesInterfaceClient::funcVoid()
             (void) this;
             (void) arg;
         };
-    const nlohmann::json &args = nlohmann::json::array({  });
+    auto args = ApiGear::ObjectLink::argumentsToContent(  );
     static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcVoid");
     m_node->invokeRemote(operationId, args, func);
 }
@@ -57,8 +52,9 @@ std::future<void> NoPropertiesInterfaceClient::funcVoidAsync()
         {
             std::promise<void> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcVoid");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+            auto args = ApiGear::ObjectLink::argumentsToContent(  );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
                     (void) arg;
                     resultPromise.set_value();
                 });
@@ -88,10 +84,12 @@ std::future<bool> NoPropertiesInterfaceClient::funcBoolAsync(bool paramBool)
         {
             std::promise<bool> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "funcBool");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({paramBool}), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
-                    const bool& value = arg.value.get<bool>();
-                    resultPromise.set_value(value);
+            auto args = ApiGear::ObjectLink::argumentsToContent( paramBool );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {
+                    bool result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                 });
             return resultPromise.get_future().get();
         }
@@ -103,27 +101,34 @@ std::string NoPropertiesInterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void NoPropertiesInterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void NoPropertiesInterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sigVoid") {
-        m_publisher->publishSigVoid();   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sigVoid") {m_publisher->publishSigVoid();   
         return;
     }
-    if(signalName == "sigBool") {
-        m_publisher->publishSigBool(args[0].get<bool>());   
+    if(signalName == "sigBool") {bool arg_paramBool {};
+        argumentsReader.read(arg_paramBool);m_publisher->publishSigBool(arg_paramBool);   
         return;
     }
 }
 
-void NoPropertiesInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void NoPropertiesInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void NoPropertiesInterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void NoPropertiesInterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void NoPropertiesInterfaceClient::olinkOnRelease()

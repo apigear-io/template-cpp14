@@ -13,6 +13,7 @@
 #include "{{snake .Module.Name}}/generated/core/{{snake .Module.Name}}.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace {{ Camel .System.Name }}::{{ Camel .Module.Name }};
@@ -27,24 +28,13 @@ const std::string interfaceId = "{{$identifiername}}";
     : m_publisher(std::make_unique<{{$pub_class}}>())
 {}
 
-void {{$class}}::applyState(const nlohmann::json& fields) 
-{
-{{- range .Interface.Properties}}
-{{- $property := . }}
-    if(fields.contains("{{$property.Name}}")) {
-        set{{Camel $property.Name}}Local(fields["{{$property.Name}}"].get<{{cppType "" $property}}>());
-    }
-{{- else }}
-    // no properties to apply state {{- /* we generate anyway for consistency */}}
-    (void) fields;
-{{- end }}
-}
-
-void {{$class}}::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void {{$class}}::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
 {{- range $idx, $property := .Interface.Properties }}
     {{ if $idx }}else {{ end -}}if ( propertyName == "{{$property.Name}}") {
-        set{{Camel $property.Name}}Local(value.get<{{cppType "" $property}}>());
+        {{cppType "" $property}} value_{{$property.Name}} {};
+        readValue(value, value_{{$property.Name}});
+        set{{Camel $property.Name}}Local(value_{{$property.Name}});
     }
 {{- else -}}
     // no properties to apply state {{- /* we generate anyway for consistency */}}
@@ -64,7 +54,7 @@ void {{$class}}::set{{Camel $name}}({{cppParam "" $property}})
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{$property.Name}}");
-    m_node->setRemoteProperty(propertyId, {{$property.Name}});
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent({{$property.Name}}));
 }
 
 void {{$class}}::set{{Camel $name}}Local({{cppParam "" $property }})
@@ -103,7 +93,7 @@ void {{$class}}::set{{Camel $name}}Local({{cppParam "" $property }})
             (void) this;
             (void) arg;
         };
-    const nlohmann::json &args = nlohmann::json::array({ {{ cppVars $operation.Params}} });
+    auto args = ApiGear::ObjectLink::argumentsToContent( {{ cppVars $operation.Params}} );
     static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{$operation.Name}}");
     m_node->invokeRemote(operationId, args, func);
     {{- else }}
@@ -124,14 +114,16 @@ std::future<{{$returnType}}> {{$class}}::{{$operation.Name| lower1}}Async({{cppP
         {
             std::promise<{{$returnType}}> resultPromise;
             static const auto operationId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "{{$operation.Name}}");
-            m_node->invokeRemote(operationId,
-                nlohmann::json::array({ {{- cppVars $operation.Params -}} }), [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {        
+            auto args = ApiGear::ObjectLink::argumentsToContent( {{ cppVars $operation.Params}} );
+            m_node->invokeRemote(operationId, args,
+                   [&resultPromise](ApiGear::ObjectLink::InvokeReplyArg arg) {        
                     {{- if .Return.IsVoid }}
                     (void) arg;
                     resultPromise.set_value();
                     {{- else }}
-                    const {{$returnType}}& value = arg.value.get<{{$returnType}}>();
-                    resultPromise.set_value(value);
+                    {{$returnType}} result{};
+                    readValue(arg.value, result);
+                    resultPromise.set_value(result);
                     {{- end }}
                 });
             return resultPromise.get_future().get();
@@ -146,7 +138,7 @@ std::string {{$class}}::olinkObjectName()
     return interfaceId;
 }
 
-void {{$class}}::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void {{$class}}::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
 {{- if len .Interface.Signals }}
 {{- $paramsUsed := false}}
@@ -159,14 +151,20 @@ void {{$class}}::olinkOnSignal(const std::string& signalId, const nlohmann::json
 {{- end }}
 {{- end }}
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
 {{- range .Interface.Signals}}
 {{- $signal := . }}
     if(signalName == "{{$signal}}") {
+        {{- range $idx, $elem := $signal.Params }}
+{{- $param := . }}
+        {{cppType "" $param}} arg_{{$param.Name}} {};
+        argumentsReader.read(arg_{{$param.Name}});
+{{- end }}
         m_publisher->publish{{Camel $signal.Name -}}(
-{{- range $idx, $elem := $signal.Params }}
+{{- range $idx, $elem := $signal.Params -}}
 {{- $param := . -}}
         {{- if $idx }},{{- end -}}
-        args[{{$idx}}].get<{{cppType "" $param}}>()
+        arg_{{$param.Name}}
 {{- end -}}
         );   
         return;
@@ -177,14 +175,21 @@ void {{$class}}::olinkOnSignal(const std::string& signalId, const nlohmann::json
 {{- end }}
 }
 
-void {{$class}}::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void {{$class}}::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void {{$class}}::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void {{$class}}::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void {{$class}}::olinkOnRelease()

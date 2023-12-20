@@ -6,6 +6,7 @@
 
 #include "olink/iremotenode.h"
 #include "olink/remoteregistry.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 #include <iostream>
@@ -35,22 +36,23 @@ std::string NoPropertiesInterfaceService::olinkObjectName() {
     return interfaceId;
 }
 
-nlohmann::json NoPropertiesInterfaceService::olinkInvoke(const std::string& methodId, const nlohmann::json& fcnArgs) {
+ApiGear::ObjectLink::OLinkContent NoPropertiesInterfaceService::olinkInvoke(const std::string& methodId, const ApiGear::ObjectLink::OLinkContent& fcnArgs) {
     AG_LOG_DEBUG("NoPropertiesInterfaceService invoke " + methodId);
     const auto& memberMethod = ApiGear::ObjectLink::Name::getMemberName(methodId);
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(fcnArgs);
     if(memberMethod == "funcVoid") {
         m_NoPropertiesInterface->funcVoid();
-        return nlohmann::json{};
+        return {};
     }
     if(memberMethod == "funcBool") {
-        const bool& paramBool = fcnArgs.at(0);
-        bool result = m_NoPropertiesInterface->funcBool(paramBool);
-        return result;
+        bool paramBool{};
+        argumentsReader.read(paramBool);
+        return ApiGear::ObjectLink::invokeReturnValue(m_NoPropertiesInterface->funcBool(paramBool));
     }
-    return nlohmann::json();
+    return {};
 }
 
-void NoPropertiesInterfaceService::olinkSetProperty(const std::string& propertyId, const nlohmann::json& value) {
+void NoPropertiesInterfaceService::olinkSetProperty(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value) {
     AG_LOG_DEBUG("NoPropertiesInterfaceService set property " + propertyId);
     const auto& memberProperty = ApiGear::ObjectLink::Name::getMemberName(propertyId);
     // no properties to set
@@ -66,14 +68,13 @@ void NoPropertiesInterfaceService::olinkUnlinked(const std::string& objectId){
     AG_LOG_DEBUG("NoPropertiesInterfaceService unlinked " + objectId);
 }
 
-nlohmann::json NoPropertiesInterfaceService::olinkCollectProperties()
+ApiGear::ObjectLink::OLinkContent NoPropertiesInterfaceService::olinkCollectProperties()
 {
-    return nlohmann::json::object({
-    });
+    return ApiGear::ObjectLink::argumentsToContent( );
 }
 void NoPropertiesInterfaceService::onSigVoid()
 {
-    const nlohmann::json args = {  };
+    auto args = ApiGear::ObjectLink::argumentsToContent();
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigVoid");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {
@@ -85,7 +86,7 @@ void NoPropertiesInterfaceService::onSigVoid()
 }
 void NoPropertiesInterfaceService::onSigBool(bool paramBool)
 {
-    const nlohmann::json args = { paramBool };
+    auto args = ApiGear::ObjectLink::argumentsToContent(paramBool);
     static const auto signalId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "sigBool");
     static const auto objectId = olinkObjectName();
     for(auto node: m_registry.getNodes(objectId)) {

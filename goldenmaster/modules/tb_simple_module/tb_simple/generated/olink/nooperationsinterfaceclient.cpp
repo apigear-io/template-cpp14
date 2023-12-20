@@ -5,6 +5,7 @@
 #include "tb_simple/generated/core/tb_simple.json.adapter.h"
 
 #include "olink/iclientnode.h"
+#include "olink/core/olinkcontent.h"
 #include "apigear/utilities/logger.h"
 
 using namespace Test::TbSimple;
@@ -19,23 +20,17 @@ NoOperationsInterfaceClient::NoOperationsInterfaceClient()
     : m_publisher(std::make_unique<NoOperationsInterfacePublisher>())
 {}
 
-void NoOperationsInterfaceClient::applyState(const nlohmann::json& fields) 
-{
-    if(fields.contains("propBool")) {
-        setPropBoolLocal(fields["propBool"].get<bool>());
-    }
-    if(fields.contains("propInt")) {
-        setPropIntLocal(fields["propInt"].get<int>());
-    }
-}
-
-void NoOperationsInterfaceClient::applyProperty(const std::string& propertyName, const nlohmann::json& value)
+void NoOperationsInterfaceClient::applyProperty(const std::string& propertyName, const ApiGear::ObjectLink::OLinkContent& value)
 {
     if ( propertyName == "propBool") {
-        setPropBoolLocal(value.get<bool>());
+        bool value_propBool {};
+        readValue(value, value_propBool);
+        setPropBoolLocal(value_propBool);
     }
     else if ( propertyName == "propInt") {
-        setPropIntLocal(value.get<int>());
+        int value_propInt {};
+        readValue(value, value_propInt);
+        setPropIntLocal(value_propInt);
     }
 }
 
@@ -46,7 +41,7 @@ void NoOperationsInterfaceClient::setPropBool(bool propBool)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propBool");
-    m_node->setRemoteProperty(propertyId, propBool);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propBool));
 }
 
 void NoOperationsInterfaceClient::setPropBoolLocal(bool propBool)
@@ -69,7 +64,7 @@ void NoOperationsInterfaceClient::setPropInt(int propInt)
         return;
     }
     static const auto propertyId = ApiGear::ObjectLink::Name::createMemberId(olinkObjectName(), "propInt");
-    m_node->setRemoteProperty(propertyId, propInt);
+    m_node->setRemoteProperty(propertyId, ApiGear::ObjectLink::propertyToContent(propInt));
 }
 
 void NoOperationsInterfaceClient::setPropIntLocal(int propInt)
@@ -90,27 +85,34 @@ std::string NoOperationsInterfaceClient::olinkObjectName()
     return interfaceId;
 }
 
-void NoOperationsInterfaceClient::olinkOnSignal(const std::string& signalId, const nlohmann::json& args)
+void NoOperationsInterfaceClient::olinkOnSignal(const std::string& signalId, const ApiGear::ObjectLink::OLinkContent& args)
 {
     const auto& signalName = ApiGear::ObjectLink::Name::getMemberName(signalId);
-    if(signalName == "sigVoid") {
-        m_publisher->publishSigVoid();   
+    ApiGear::ObjectLink::OLinContentStreamReader argumentsReader(args);
+    if(signalName == "sigVoid") {m_publisher->publishSigVoid();   
         return;
     }
-    if(signalName == "sigBool") {
-        m_publisher->publishSigBool(args[0].get<bool>());   
+    if(signalName == "sigBool") {bool arg_paramBool {};
+        argumentsReader.read(arg_paramBool);m_publisher->publishSigBool(arg_paramBool);   
         return;
     }
 }
 
-void NoOperationsInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const nlohmann::json& value)
+void NoOperationsInterfaceClient::olinkOnPropertyChanged(const std::string& propertyId, const ApiGear::ObjectLink::OLinkContent& value)
 {
     applyProperty(ApiGear::ObjectLink::Name::getMemberName(propertyId), value);
 }
-void NoOperationsInterfaceClient::olinkOnInit(const std::string& /*name*/, const nlohmann::json& props, ApiGear::ObjectLink::IClientNode *node)
+void NoOperationsInterfaceClient::olinkOnInit(const std::string& /*name*/, const ApiGear::ObjectLink::OLinkContent& props, ApiGear::ObjectLink::IClientNode *node)
 {
     m_node = node;
-    applyState(props);
+    ApiGear::ObjectLink::OLinContentStreamReader reader(props);
+    size_t propertyCount = reader.argumentsCount();
+    ApiGear::ObjectLink::InitialProperty currentProperty;
+    for (size_t i = 0; i < propertyCount; i++)
+    {
+        reader.read(currentProperty);
+        applyProperty(currentProperty.propertyName, currentProperty.propertyValue);
+    }
 }
 
 void NoOperationsInterfaceClient::olinkOnRelease()
