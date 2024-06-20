@@ -12,15 +12,26 @@ find_dependency(Threads REQUIRED)
 {{- if $features.core }}
 find_dependency(nlohmann_json REQUIRED)
 {{- end}}
-{{- if $features.monitor }}
+{{- if and $features.monitor ( len .Module.Interfaces ) }}
 find_dependency(apigear COMPONENTS poco-tracer REQUIRED)
 {{- end}}
-{{- if $features.olink }}
+{{- if and $features.olink ( len .Module.Interfaces ) }}
 find_dependency(apigear COMPONENTS poco-olink REQUIRED)
 {{- end}}
-{{- if $features.mqtt }}
+{{- if and $features.mqtt ( len .Module.Interfaces ) }}
 find_dependency(apigear COMPONENTS paho-mqtt REQUIRED)
 {{- end}}
+{{- range .Module.Imports }}
+find_dependency({{snake .Name}} COMPONENTS api core REQUIRED)
+{{- end }}
+{{- range .Module.Externs }}
+{{- $extern := cppExtern . }}
+{{- if (not (eq $extern.Package "")) }}
+find_dependency({{$extern.Package}} REQUIRED 
+{{- if (not ( eq $extern.Component "")) }} COMPONENTS{{ if (not ( eq $extern.Component "" ) ) }} {{ (cppExtern .).Component }} {{- end }}{{- end -}}
+)
+{{- end }}
+{{- end }}
 
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/{{$module_idFirstUpper}}ApiTargets.cmake")
 {{- if $features.core }}
