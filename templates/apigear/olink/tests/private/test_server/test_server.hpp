@@ -26,8 +26,9 @@ class TestServer : public IFrameStorage
 {
 public:
 	// The POCO server takes ownership of request handler factory.
-	TestServer(int port)
-		: server(new TestServerRequestHandlerFactory(*this), port)
+	TestServer(int port, bool skipPingMessages)
+		: m_skipPingMessages(skipPingMessages),
+		server(new TestServerRequestHandlerFactory(*this), port)
 	{}
 
 	void start()
@@ -80,11 +81,10 @@ public:
 	// used by socket owner.
 	void storeFrame(const Frame& frame) override
 	{
-		std::unique_lock<std::timed_mutex> lock(receivedFramesMutex, std::defer_lock);
-		if (lock.try_lock_for(std::chrono::milliseconds(100)))
+		std::unique_lock<std::timed_mutex> lock(receivedFramesMutex);
+		if (frame.flags != Poco::Net::WebSocket::FRAME_OP_PING || !m_skipPingMessages)
 		{
 			receivedFrames.push_back(frame);
-			lock.unlock();
 		}
 	}
 	// Implementation of IFrameStorage::setRequestSendFunction, 
@@ -94,6 +94,8 @@ public:
 		m_requestSend = requestSend;
 	}
 
+	// If set to true, all received ping messages are not stored.
+	bool m_skipPingMessages;
 	// Function to send a frame from server. Provided by socket owner. 
 	std::function <void(Frame)> m_requestSend;
 	// Mutex for managing receivedFrames.
