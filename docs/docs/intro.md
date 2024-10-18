@@ -2,9 +2,10 @@
 sidebar_position: 1
 ---
 
-# Template C++ 14
+# Template C++ 14 (Maintenance)
 
 This is the documentation for the _cpp14_ template for the [ApiGear](/docs/guide/intro) code generator.
+This template is in maintenance mode. The development moved to template for _cpp17_ template and it is recommended to use it for new project.
 
 It is split in several parts:
 
