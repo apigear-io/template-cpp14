@@ -41,8 +41,6 @@ public:
     }
 
     void connect(std::string address);
-    uint32_t addOnConnectedCallback(OnConnectionStatusChangedCallBackFunction);
-    void removeOnConnectedCallback(uint32_t id);
 
     void subscribe(std::string topic);
     void unsubscribe(std::string topic);
@@ -52,12 +50,6 @@ public:
 private:
     natsConnection* m_connection = NULL;
     natsSubscription* m_subscription = NULL;
-
-    std::condition_variable m_synchConnectionStatus;
-    std::mutex m_synchConnectionStatusMutex;
-    std::atomic<bool> m_connected{ false };
-    std::mutex m_onConnectionStatusChangedCallbacksMutex;
-    std::map<int, OnConnectionStatusChangedCallBackFunction> m_onConnectionStatusChangedCallbacks;
 
     explicit CWrapper();
 };
