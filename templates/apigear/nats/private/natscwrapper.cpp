@@ -40,14 +40,12 @@ static void onMsg(natsConnection* /*connection*/, natsSubscription* /*subscripti
     // Make sure msg will be properly destroyed.
     std::shared_ptr<natsMsg> message(msg, NatsMsgDeleter());
     CWrapper::SimpleCallbackWrapper* callbackWrapper = static_cast<CWrapper::SimpleCallbackWrapper*>(context);
-    std::cout<<"Received msg: "<<  natsMsg_GetSubject(message.get()) << " : "<<natsMsg_GetData(message.get()) << std::endl;
     if (callbackWrapper && callbackWrapper->callback)
     {
         callbackWrapper->callback(natsMsg_GetData(msg));
     }
     else
     {
-        std::cout << "no callback" << std::endl;
         //TODO HANDLE / LOG 
     }
 }
