@@ -202,6 +202,12 @@ void CWrapper::connect(const std::string& address, std::function<void(void)> con
     }
 }
 
+void CWrapper::disconnect()
+{
+    natsConnection_Close(m_connection.get());
+}
+
+
 ConnectionStatus CWrapper::getStatus()
 {
     auto status = natsConnection_Status(m_connection.get());
@@ -382,7 +388,7 @@ void CWrapper::publish(const std::string& topic, const std::string& payload)
 }
 
 
-std::string CWrapper::publishRequest(const std::string& topic, const std::string& payload)
+std::string CWrapper::request(const std::string& topic, const std::string& payload)
 {
     natsMsg* reply = NULL;
     std::string result;
