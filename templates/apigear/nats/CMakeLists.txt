@@ -24,7 +24,7 @@ else()
   target_compile_options(nats PRIVATE /W4 /WX /wd4251)
 endif()
 
- add test cases
+ #add test cases
 if(BUILD_TESTING)
 enable_testing()
 find_package(Catch2 REQUIRED)
