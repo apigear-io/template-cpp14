@@ -29,3 +29,7 @@ The following list presents a set of features which can be individually enabled 
 * **conan**<br/>
     Create files for conan package manager
 
+
+## License
+
+Licensed under the [MIT License](./LICENSE). See [LICENSE](./LICENSE) for details.
