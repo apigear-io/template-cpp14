@@ -1,4 +1,8 @@
 ﻿---
+sidebar_label: "Conan package manager"
+title: "C++14 Template Conan Packaging - ApiGear"
+description: "Package the generated ApiGear C++14 SDK with the Conan C++ package manager for clean dependency management and reuse."
+keywords: [c++14, cpp14, apigear, objectapi, conan, package manager, dependency management]
 sidebar_position: 5
 ---
 import CodeBlock from '@theme/CodeBlock';

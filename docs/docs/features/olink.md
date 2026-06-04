@@ -1,4 +1,8 @@
 ﻿---
+sidebar_label: "OLink"
+title: "C++14 Template OLink Networking - ApiGear"
+description: "OLink (ObjectLink) networking in the ApiGear C++14 template: connect C++14 interface clients and services over the ObjectLink protocol with built-in monitoring."
+keywords: [c++14, cpp14, apigear, objectapi, olink, objectlink, networking]
 sidebar_position: 3
 ---
 
@@ -11,7 +15,7 @@ import simulationExampleCMake from '!!raw-loader!./data/example/CMakeLists.txt';
 import simulationExampleTestScenario from '!!raw-loader!./data/example/helloworldtest.scenario.yaml';
 import Figure from '../figure'
 
-# Olink
+# OLink
 
 This feature provides a _client_ and a _server_ adapter for your interfaces for the [ObjectLink](/docs/protocols/objectlink/intro) protocol. It allows you to connect different applications using the same or different technologies (check all of our [templates](/docs/sdk/intro)).
 

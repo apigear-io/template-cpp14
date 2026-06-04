@@ -1,4 +1,8 @@
 ---
+sidebar_label: "API"
+title: "C++14 Template API Generation - ApiGear"
+description: "How the ApiGear C++14 template generates API code from ObjectAPI definitions — interfaces, structs, and enums for your C++14 SDK."
+keywords: [c++14, cpp14, apigear, objectapi, api generation, interfaces, structs, enums]
 sidebar_position: 1
 ---
 

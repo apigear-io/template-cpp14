@@ -1,4 +1,8 @@
 ---
+sidebar_label: "Introduction"
+title: "C++14 SDK Generator (Maintenance) - ApiGear Template"
+description: "Maintenance-mode C++14 template for the ApiGear code generator. Generate C++14-compatible SDKs with OLink and MQTT networking; new projects should use the C++17 template."
+keywords: [c++14, cpp14, api code generator, sdk generator, apigear, objectapi, olink, legacy c++]
 sidebar_position: 1
 ---
 

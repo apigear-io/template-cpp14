@@ -1,4 +1,8 @@
 ﻿---
+sidebar_label: "Monitor"
+title: "C++14 Template Monitoring - ApiGear"
+description: "Traffic monitoring in the ApiGear C++14 template: trace interface properties, methods, and signals from your C++14 SDK in ApiGear Studio."
+keywords: [c++14, cpp14, apigear, objectapi, monitoring, tracing, apigear studio]
 sidebar_position: 4
 ---
 
